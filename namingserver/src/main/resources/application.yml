@@ -15,7 +15,15 @@
 # limitations under the License.
 #
 
+# application.yml
 server:
+  tomcat:
+    connection-timeout: 60000
+    threads:
+      max: 200
+      min-spare: 10
+    accept-count: 200
+    max-http-form-post-size: 104857600
   port: 8081
 
 spring:
@@ -28,6 +36,10 @@ logging:
 heartbeat:
   threshold: 90000
   period: 60000
+console:
+  user:
+    password: seata
+    username: seata
 seata:
   security:
     secretKey: SeataSecretKey0c382ef121d778043159209298fd40bf3850a017
@@ -35,3 +47,56 @@ seata:
     csrf-ignore-urls: /naming/v1/**,/api/v1/naming/**
     ignore:
       urls: /,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.jpeg,/**/*.ico,/api/v1/auth/login,/version.json,/naming/v1/health,/error
+
+  # MCP Server Configuration
+  mcp:
+    # Server name (do not set the default to seata-mcp-server)
+    serverName: seata-mcp-server
+    serverVersion: 2.0.0
+    # MCP service transmission types, available in sse and streamable
+    mcpType: streamable
+
+    # sse type properties
+#    sse:
+#      # SSE endpoint (no default/SSE set)
+#      sseEndpoint: /sse
+#      # message endpoint (no default /message set)
+#      messageEndpoint: /message
+
+    # streamable type properties
+    streamable:
+      mcpEndpoint: /mcp
+      heartBeatSecondDuration: 30
+
+    # Query limits the maximum time interval, The unit is milliseconds, Default seven days
+    query:
+      max_query_duration: 604800000
+    # Whether to enable permission authentication
+    auth:
+      enabled: true
+
+  # Business data source configuration
+  businessDataSources:
+    dataSource1:
+      # Whether this data source is enabled
+      enabled: true
+      dbType: mysql
+      driverClassName: com.mysql.cj.jdbc.Driver # Currently, only mysql is supported
+      url:
+      username: root
+      password: root
+      datasource: druid # Optional connection pool type (druid/hikari/dbcp)
+      minConn: 5
+      maxConn: 50
+      maxWait: 5000
+    dataSource2:
+      enabled: true
+      dbType: mysql
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url:
+      username: root
+      password: root
+      datasource: dbcp
+      minConn: 5
+      maxConn: 50
+      maxWait: 5000
