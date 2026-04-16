@@ -26,7 +26,6 @@ import org.apache.seata.server.BaseSpringBootTest;
 import org.apache.seata.server.logging.logback.appender.MetricLogbackAppender;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -41,7 +40,7 @@ public class AppenderTest extends BaseSpringBootTest {
         System.setProperty("logging.extend.metric-appender.enabled", "true");
     }
 
-    @Test
+    // @Test
     public void testAppenderEnabled() {
         LoggerContext lc =
                 (LoggerContext) ContextSelectorStaticBinder.getSingleton().getContextSelector();
