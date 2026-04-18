@@ -16,14 +16,13 @@
  */
 package org.apache.seata.mcp.tools;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.seata.common.result.SingleResult;
 import org.apache.seata.mcp.core.constant.RPCConstant;
 import org.apache.seata.mcp.service.ConsoleApiService;
 import org.springaicommunity.mcp.annotation.McpTool;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,14 +43,10 @@ public class NameSpaceTools {
     public SingleResult<?> getTCNameSpaces() {
         String result = mcpRPCService.getCallNameSpace(RPCConstant.GET_NAMESPACE_PATH);
         Map<String, Object> nameSpacesVo = new HashMap<>();
-        try {
-            JsonNode root = objectMapper.readTree(result);
-            JsonNode dataNode = root.get("data");
-            if (dataNode != null && !dataNode.isNull()) {
-                nameSpacesVo.put("namespaces", dataNode.toString());
-            }
-        } catch (JsonProcessingException e) {
-            return SingleResult.failure("Get namespace failed:" + e.getMessage());
+        JsonNode root = objectMapper.readTree(result);
+        JsonNode dataNode = root.get("data");
+        if (dataNode != null && !dataNode.isNull()) {
+            nameSpacesVo.put("namespaces", dataNode.toString());
         }
         return SingleResult.success(nameSpacesVo);
     }
