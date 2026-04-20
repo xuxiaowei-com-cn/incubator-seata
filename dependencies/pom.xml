@@ -50,7 +50,7 @@
         <commons-io.version>2.8.0</commons-io.version>
         <aopalliance.version>1.0</aopalliance.version>
         <zkclient.version>0.11</zkclient.version>
-        <apache-zookeeper.version>3.7.2</apache-zookeeper.version>
+        <apache-zookeeper.version>3.8.6</apache-zookeeper.version>
         <curator.version>5.1.0</curator.version>
         <spring-context-support.version>1.0.2</spring-context-support.version>
         <apollo-client.version>2.0.1</apollo-client.version>
