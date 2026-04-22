@@ -117,8 +117,6 @@ public class DefaultStatusDecisionStrategy implements StatusDecisionStrategy {
                             hasSuccessUpdateService = true;
                         }
                     }
-                } else if (ExecutionStatus.SK.equals(stateInstance.getStatus())) {
-                    // ignore
                 } else {
                     hasUnsuccessService = true;
                 }

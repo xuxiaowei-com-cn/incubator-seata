@@ -224,6 +224,7 @@ public class SessionHolder {
                                 throw new RuntimeException(e);
                             }
                         }
+                        break;
                     case StopCommitOrCommitRetry:
                     case StopRollbackOrRollbackRetry:
                     case Deleting:

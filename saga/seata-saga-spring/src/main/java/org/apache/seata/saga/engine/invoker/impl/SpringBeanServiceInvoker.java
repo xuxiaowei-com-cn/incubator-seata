@@ -54,8 +54,8 @@ public class SpringBeanServiceInvoker implements ServiceInvoker, ApplicationCont
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringBeanServiceInvoker.class);
 
-    private final ResourceLock METHOD_LOCK = new ResourceLock();
-    private final ResourceLock RETRY_LOCK = new ResourceLock();
+    private static final ResourceLock METHOD_LOCK = new ResourceLock();
+    private static final ResourceLock RETRY_LOCK = new ResourceLock();
 
     private ApplicationContext applicationContext;
     private ThreadPoolExecutor threadPoolExecutor;

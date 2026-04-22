@@ -95,8 +95,6 @@ public class FileLocker extends AbstractLocker {
                 Set<String> keysInHolder = CollectionUtils.computeIfAbsent(
                         bucketHolder, bucketLockMap, key -> ConcurrentHashMap.newKeySet());
                 keysInHolder.add(pk);
-            } else if (previousLockBranchSession.getTransactionId() == transactionId) {
-                // Locked by me before
             } else {
                 LOGGER.info(
                         "Global lock on [{}:{}] is holding by xid {} branchId {}",
