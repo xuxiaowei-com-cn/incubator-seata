@@ -39,4 +39,4 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Spotless Check
-        run: ./mvnw spotless:check
+        run: ./mvnw -B spotless:check
