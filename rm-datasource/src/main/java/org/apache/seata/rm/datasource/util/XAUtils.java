@@ -170,6 +170,7 @@ public class XAUtils {
                         result.add(dmConnectionClass.cast(params[0]));
                         return (List<T>) result;
                     }
+                    // fall through
                 default:
                     throw new SQLException("xa reflect not support dbType: " + dbType);
             }

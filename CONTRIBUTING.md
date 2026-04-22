@@ -210,11 +210,4 @@ Seata code style complies with Alibaba Java Coding Guidelines.
 *It is not necessary to install it, although you can, if you want to find a problem when you are coding.*
 
 
-#### idea IDE
-[p3c-idea-plugin-install](https://github.com/alibaba/p3c/blob/master/idea-plugin/README.md)
-
-#### eclipse IDE
-[p3c-eclipse-plugin-install](https://github.com/alibaba/p3c/blob/master/eclipse-plugin/README.md)
-
-
 To summarize, **ANY HELP IS CONTRIBUTION AND APPRECIATED.**

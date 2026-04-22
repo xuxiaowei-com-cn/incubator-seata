@@ -2,7 +2,36 @@
 <!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.2//EN"
         "https://checkstyle.org/dtds/configuration_1_2.dtd">
 <module name="Checker">
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="ConstantName"/>
+        <property name="files" value="MySqlParser\.java$"/>
+    </module>
     <module name="TreeWalker">
-        <module name="ConstantName"/>
+        <!-- Naming -->
+        <module name="TypeName"/>
+        <module name="AbstractClassName">
+            <property name="format" value="^(Abstract(?!LockStoreSql$|IdentifyResponseCodecV2$).+|Base(?!Param$|DistributedLockSqlServer$|DistributedLockSql$).+)$"/>
+        </module>
+        <module name="ConstantName">
+
+        </module>
+        <module name="MemberName"/>
+        <module name="LocalVariableName"/>
+        <module name="ParameterName"/>
+        <module name="MethodName"/>
+        <module name="PackageName"/>
+        <module name="ArrayTypeStyle"/>
+
+        <!-- OOP -->
+        <module name="EqualsAvoidNull"/>
+
+        <!-- Flow Control -->
+        <module name="FallThrough"/>
+        <module name="MissingSwitchDefault"/>
+        <module name="NeedBraces"/>
+        <module name="EmptyBlock"/>
+
+        <!-- Constant -->
+        <module name="UpperEll"/>
     </module>
 </module>
