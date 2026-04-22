@@ -78,7 +78,7 @@ jobs:
            ${{ runner.os }}-maven-
       # step 6.1
       - name: Checkstyle
-        run: mvn clean checkstyle:check -Dcheckstyle.skip=false
+        run: mvn -T 4C -e -B clean checkstyle:check -Dcheckstyle.skip=false
       # step 6.2
       - name: "Test, Check license with Maven and Java8"
         if: matrix.java == '8'
