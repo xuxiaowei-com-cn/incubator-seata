@@ -399,6 +399,26 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
+                <configuration>
+                    <configLocation>style/checkstyle.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <detail>true</detail>
+                    <skip>${checkstyle.skip}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>verify-style</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- PMD-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
