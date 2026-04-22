@@ -1,12 +1,68 @@
-| com.alibaba.p3c:p3c-pmd                        | org.apache.maven.plugins:maven-checkstyle-plugin         | 作用                                                                                              |
-|------------------------------------------------|----------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| ClassNamingShouldBeCamelRule                   | TypeName                                                 | Validates that class names follow UpperCamelCase.                                               |
-| AbstractClassShouldStartWithAbstractNamingRule | AbstractClassName                                        | Validates that abstract classes start with Abstract or Base (ignoreModifier="true").            |
-| ConstantFieldShouldBeUpperCaseRule             | ConstantName                                             | Validates that constants are in UPPER_SNAKE_CASE.                                               |
-| LowerCamelCaseVariableNamingRule               | MemberName, LocalVariableName, ParameterName, MethodName | Validates that variables and methods use lowerCamelCase.                                        |
-| PackageNamingRule                              | PackageName                                              | Validates package naming conventions (all lowercase).                                           |
-| ArrayNamingShouldHaveBracketRule               | ArrayTypeStyle                                           | Validates array declarations to use Java style (String[] args).                                 |
-| SwitchStatementRule                            | FallThrough                                              | Checks for switch statement fall-through and missing default blocks.                            |
-| NeedBracesRule                                 | NeedBraces, EmptyBlock                                   | Enforces the use of braces for if, else, for, while, and do blocks, and validates empty blocks. |
-| EqualsAvoidNullRule                            | EqualsAvoidNull                                          | Checks that equals() is called on known non-null objects to avoid NullPointerException.         |
-| UpperEllRule                                   | UpperEll                                                 | Enforces the use of an uppercase L for long literals (e.g., 1L instead of 1l).                  |
+| com.alibaba.p3c:p3c-pmd                           | org.apache.maven.plugins:maven-checkstyle-plugin         | 作用     | 说明 |
+|---------------------------------------------------|----------------------------------------------------------|--------|----|
+| CommentsMustBeJavadocFormatRule                   |                                                          |        |    |
+| AbstractMethodOrInterfaceMethodMustUseJavadocRule |                                                          |        |    |
+| ClassMustHaveAuthorRule                           |                                                          |        |    |
+| EnumConstantsMustHaveCommentRule                  |                                                          |        |    |
+| AvoidCommentBehindStatementRule                   |                                                          |        |    |
+| RemoveCommentedCodeRule                           |                                                          |        |    |
+|                                                   |                                                          |        |    |
+| ThreadPoolCreationRule                            |                                                          |        |    |
+| AvoidUseTimerRule                                 |                                                          |        |    |
+| AvoidManuallyCreateThreadRule                     |                                                          |        |    |
+| ThreadShouldSetNameRule                           |                                                          |        |    |
+| AvoidCallStaticSimpleDateFormatRule               |                                                          |        |    |
+| ThreadLocalShouldRemoveRule                       |                                                          |        |    |
+| AvoidConcurrentCompetitionRandomRule              |                                                          |        |    |
+| CountDownShouldInFinallyRule                      |                                                          |        |    |
+| LockShouldWithTryFinallyRule                      |                                                          |        |    |
+|                                                   |                                                          |        |    |
+| UpperEllRule                                      | UpperEll                                                 |        |    |
+| UndefineMagicConstantRule                         |                                                          |        |    |
+|                                                   |                                                          |        |    |
+| MethodReturnWrapperTypeRule                       |                                                          |        |    |
+| AvoidReturnInFinallyRule                          |                                                          |        |    |
+| TransactionMustHaveRollbackRule                   |                                                          |        |    |
+|                                                   |                                                          |        |    |
+| SwitchStatementRule                               | FallThrough                                              |        |    |
+| NeedBraceRule                                     |                                                          |        |    |
+| AvoidComplexConditionRule                         |                                                          |        |    |
+| AvoidNegationOperatorRule                         |                                                          |        |    |
+|                                                   |                                                          |        |    |
+| ClassNamingShouldBeCamelRule                      | TypeName                                                 |        |    |
+| AbstractClassShouldStartWithAbstractNamingRule    | AbstractClassName                                        |        |    |
+| ExceptionClassShouldEndWithExceptionRule          |                                                          |        |    |
+| TestClassShouldEndWithTestNamingRule              |                                                          |        |    |
+| LowerCamelCaseVariableNamingRule                  | MemberName, LocalVariableName, ParameterName, MethodName |        |    |
+| AvoidStartWithDollarAndUnderLineNamingRule        |                                                          |        |    |
+| ConstantFieldShouldBeUpperCaseRule                | ConstantName                                             | 常量命名规则 |    |
+| ServiceOrDaoClassShouldEndWithImplRule            |                                                          |        |    |
+| PackageNamingRule                                 | PackageName                                              |        |    |
+| BooleanPropertyShouldNotStartWithIsRule           |                                                          |        |    |
+| ArrayNamingShouldHaveBracketRule                  | ArrayTypeStyle                                           |        |    |
+|                                                   |                                                          |        |    |
+| EqualsAvoidNullRule                               | EqualsAvoidNull                                          |        |    |
+| WrapperTypeEqualityRule                           |                                                          |        |    |
+| PojoMustUsePrimitiveFieldRule                     |                                                          |        |    |
+| PojoNoDefaultValueRule                            |                                                          |        |    |
+| PojoMustOverrideToStringRule                      |                                                          |        |    |
+| StringConcatRule                                  |                                                          |        |    |
+| BigDecimalAvoidDoubleConstructorRule              |                                                          |        |    |
+|                                                   |                                                          |        |    |
+| IbatisMethodQueryForListRule                      |                                                          |        |    |
+|                                                   |                                                          |        |    |
+| AvoidPatternCompileInMethodRule                   |                                                          |        |    |
+| AvoidApacheBeanUtilsCopyRule                      |                                                          |        |    |
+| AvoidNewDateGetTimeRule                           |                                                          |        |    |
+| AvoidMissUseOfMathRandomRule                      |                                                          |        |    |
+| MethodTooLongRule                                 |                                                          |        |    |
+| UseRightCaseForDateFormatRule                     |                                                          |        |    |
+| AvoidDoubleOrFloatEqualCompareRule                |                                                          |        |    |
+|                                                   |                                                          |        |    |
+| ClassCastExceptionWithToArrayRule                 |                                                          |        |    |
+| UnsupportedExceptionWithModifyAsListRule          |                                                          |        |    |
+| ClassCastExceptionWithSubListToArrayListRule      |                                                          |        |    |
+| ConcurrentExceptionWithModifyOriginSubListRule    |                                                          |        |    |
+| DontModifyInForeachCircleRule                     |                                                          |        |    |
+| CollectionInitShouldAssignCapacityRule            |                                                          |        |    |
+| NeedBracesRule                                    | NeedBraces, EmptyBlock                                   |
