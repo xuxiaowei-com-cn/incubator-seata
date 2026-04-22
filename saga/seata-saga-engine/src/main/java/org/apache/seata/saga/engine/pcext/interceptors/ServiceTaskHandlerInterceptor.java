@@ -62,7 +62,7 @@ public class ServiceTaskHandlerInterceptor implements StateHandlerInterceptor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceTaskHandlerInterceptor.class);
 
-    private final ResourceLock STATUS_LOCK = new ResourceLock();
+    private static final ResourceLock STATUS_LOCK = new ResourceLock();
 
     @Override
     public boolean match(Class<? extends InterceptableStateHandler> clazz) {
