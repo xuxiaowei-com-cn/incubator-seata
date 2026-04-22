@@ -6,11 +6,35 @@
         <property name="checks" value="ConstantName"/>
         <property name="files" value="MySqlParser\.java$"/>
     </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MissingSwitchDefault"/>
+        <property name="files" value="MySqlParser\.java$"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MethodName"/>
+        <property name="files" value="MySqlParser\.java$"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="ParameterName"/>
+        <property name="files" value="MySqlParser\.java$"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="NeedBraces"/>
+        <property name="files" value="MySqlParser\.java$"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="LocalVariableName"/>
+        <property name="files" value="MySqlParser\.java$"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="ConstantName"/>
+        <property name="files" value="MySqlLexer\.java$"/>
+    </module>
     <module name="TreeWalker">
         <!-- Naming -->
         <module name="TypeName"/>
         <module name="AbstractClassName">
-            <property name="format" value="^(Abstract(?!LockStoreSql$|IdentifyResponseCodecV2$).+|Base(?!Param$|DistributedLockSqlServer$|DistributedLockSql$).+)$"/>
+            <property name="format" value="^(Abstract(?!LockStoreSql$|IdentifyResponseCodecV2$|Store$).+|Base(?!Param$|DistributedLockSqlServer$|DistributedLockSql$).+)$"/>
         </module>
         <module name="ConstantName">
 
