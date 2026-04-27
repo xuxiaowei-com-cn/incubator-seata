@@ -85,7 +85,7 @@ jobs:
           echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
           export CHANGED_FILES=$(git diff --name-only --diff-filter=AM origin/$GITHUB_BASE_REF...${{ github.event.pull_request.head.sha }})
           echo "CHANGED_FILES: $CHANGED_FILES"
-          export CHECKSTYLE_INCLUDES=$($CHANGED_FILES | grep '\.java$' | sed -e 's#.*src/main/java/##g' -e 's#.*src/test/java/##g' | tr '\n' ',')
+          export CHECKSTYLE_INCLUDES=$(echo "$CHANGED_FILES" | grep '\.java$' | sed -e 's#.*src/main/java/##g' -e 's#.*src/test/java/##g' | tr '\n' ',')
           echo "CHECKSTYLE_INCLUDES: $CHECKSTYLE_INCLUDES"
 
   #      # step 6.2
