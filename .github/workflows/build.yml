@@ -78,7 +78,11 @@ jobs:
            ${{ runner.os }}-maven-
       # step 6.1
       - name: Checkstyle
-        run: mvn -T 4C -e -B clean checkstyle:check -Dcheckstyle.skip=false
+        run:
+          echo 'GITHUB_BASE_REF=$GITHUB_BASE_REF'
+          export CHANGED_FILES=$(git diff --name-only --diff-filter=AM $GITHUB_BASE_REF...HEAD | grep '\.java$' | sed -e 's#.*src/main/java/##g' -e 's#.*src/test/java/##g' | tr '\n' ',')
+          echo 'CHANGED_FILES=$CHANGED_FILES'
+          mvn -T 4C -e -B clean checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$CHANGED_FILES"
       # step 6.2
       - name: "Test, Check license with Maven and Java8"
         if: matrix.java == '8'
