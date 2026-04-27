@@ -25,6 +25,10 @@ import java.io.Serializable;
  */
 public class GlobalLockParam extends BaseParam implements Serializable {
 
+    public static class Abc {
+
+    }
+
     private static final long serialVersionUID = 615412528070131284L;
 
     /**
