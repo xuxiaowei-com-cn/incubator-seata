@@ -52,6 +52,8 @@ jobs:
       # step 1
       - name: "Checkout"
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       # step 2
       - name: "Use Python 3.x"
         uses: actions/setup-python@v2
