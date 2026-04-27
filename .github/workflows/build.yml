@@ -80,12 +80,11 @@ jobs:
            ${{ runner.os }}-maven-
       # step 6.1
       - name: Checkstyle
-        if: github.event_name == 'pull_request'
-        run:
-          echo "${{ github.event.pull_request.head.sha }}"
-          echo "GITHUB_BASE_REF=$GITHUB_BASE_REF"
-          export CHANGED_FILES=$(git diff --name-only --diff-filter=AM origin/$GITHUB_BASE_REF...${{ github.event.pull_request.head.sha }} | tr '\n' ',') 
-          echo "CHANGED_FILES=$CHANGED_FILES"
+        run: |
+          echo "Pull Request Head SHA: ${{ github.event.pull_request.head.sha }}"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          export CHANGED_FILES=$(git diff --name-only --diff-filter=AM origin/$GITHUB_BASE_REF...${{ github.event.pull_request.head.sha }} | tr '\n' ',' | sed 's/,$//')
+          echo "CHANGED_FILES: $CHANGED_FILES"
 #      # step 6.2
 #      - name: "Test, Check license with Maven and Java8"
 #        if: matrix.java == '8'
