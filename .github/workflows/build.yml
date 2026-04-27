@@ -81,10 +81,8 @@ jobs:
       # step 6.1
       - name: Checkstyle
         run:
-          echo 'GITHUB_BASE_REF=$GITHUB_BASE_REF'
-          echo 'GITHUB_HEAD_REF=$GITHUB_HEAD_REF'
-          export CHANGED_FILES=$(git diff --name-only --diff-filter=AM $GITHUB_BASE_REF...$GITHUB_HEAD_REF | grep '\.java$' | sed -e 's#.*src/main/java/##g' -e 's#.*src/test/java/##g' | tr '\n' ',')
-          echo 'CHANGED_FILES=$CHANGED_FILES'
+          export CHANGED_FILES=$(git diff --name-only --diff-filter=AM HEAD^ HEAD | grep '\.java$' | sed -e 's#.*src/main/java/##g' -e 's#.*src/test/java/##g' | tr '\n' ',')
+          echo "CHANGED_FILES=$CHANGED_FILES"
           mvn -T 4C -e -B clean checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$CHANGED_FILES"
       # step 6.2
       - name: "Test, Check license with Maven and Java8"
