@@ -46,7 +46,13 @@
         <property name="checks" value="ConstantName"/>
         <property name="files" value="MySqlLexer\.java$"/>
     </module>
+
+    <!-- Allow using @SuppressWarnings("checkstyle:...") in code -->
+    <module name="SuppressWarningsFilter"/>
+
     <module name="TreeWalker">
+        <module name="SuppressWarningsHolder"/>
+
         <!-- Naming -->
         <module name="TypeName"/>
         <module name="AbstractClassName">

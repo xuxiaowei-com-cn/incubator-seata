@@ -67,6 +67,7 @@ public class FileLocker extends AbstractLocker {
     }
 
     @Override
+    @SuppressWarnings("checkstyle:EmptyBlock")
     public boolean acquireLock(List<RowLock> rowLocks, boolean autoCommit, boolean skipCheckLock) {
         if (CollectionUtils.isEmpty(rowLocks)) {
             // no lock
@@ -95,6 +96,8 @@ public class FileLocker extends AbstractLocker {
                 Set<String> keysInHolder = CollectionUtils.computeIfAbsent(
                         bucketHolder, bucketLockMap, key -> ConcurrentHashMap.newKeySet());
                 keysInHolder.add(pk);
+            } else if (previousLockBranchSession.getTransactionId() == transactionId) {
+                // Locked by me before
             } else {
                 LOGGER.info(
                         "Global lock on [{}:{}] is holding by xid {} branchId {}",
