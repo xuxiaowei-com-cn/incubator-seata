@@ -211,4 +211,11 @@ Seata 代码风格 符合阿里巴巴 Java 编码指南。
 *没有必要安装，如果你想在编码的时候发现问题。*
 
 
+#### idea IDE
+[p3c-idea-plugin-install](https://github.com/alibaba/p3c/blob/master/idea-plugin/README.md)
+
+#### eclipse IDE
+[p3c-eclipse-plugin-install](https://github.com/alibaba/p3c/blob/master/eclipse-plugin/README.md)
+
+
 总之，**任何帮助都是贡献。**

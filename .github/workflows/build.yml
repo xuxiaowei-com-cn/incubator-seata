@@ -52,6 +52,8 @@ jobs:
       # step 1
       - name: "Checkout"
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       # step 2
       - name: "Use Python 3.x"
         uses: actions/setup-python@v2
@@ -76,9 +78,23 @@ jobs:
          restore-keys: |
            ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
            ${{ runner.os }}-maven-
-      # step 6.1
+      # step 6.1：Support GitHub Actions, local shell
       - name: Checkstyle
-        run: mvn -T 4C -e -B clean checkstyle:check -Dcheckstyle.skip=false
+        run: |
+          GITHUB_BASE_REF=${GITHUB_BASE_REF:-2.x}
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          if [ "$GITHUB_ACTIONS" = "true" ]; then
+            PR_HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            PR_HEAD_SHA=""
+          fi
+          HEAD_SHA=${PR_HEAD_SHA:-HEAD}
+          echo "Pull Request Head SHA: $HEAD_SHA"
+          export CHANGED_FILES=$(git diff --name-only --diff-filter=AM origin/$GITHUB_BASE_REF...$HEAD_SHA)
+          echo "CHANGED_FILES: $CHANGED_FILES"
+          export CHECKSTYLE_INCLUDES=$(echo "$CHANGED_FILES" | grep '\.java$' | sed -e 's#.*src/main/java/##g' -e 's#.*src/test/java/##g' | tr '\n' ',')
+          echo "CHECKSTYLE_INCLUDES: $CHECKSTYLE_INCLUDES"
+          mvn -T 4C -e -B clean checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes=$CHECKSTYLE_INCLUDES
       # step 6.2
       - name: "Test, Check license with Maven and Java8"
         if: matrix.java == '8'

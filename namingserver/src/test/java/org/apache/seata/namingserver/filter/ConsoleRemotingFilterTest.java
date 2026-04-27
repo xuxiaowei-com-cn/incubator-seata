@@ -75,7 +75,8 @@ class ConsoleRemotingFilterTest {
         NamingServerNode node = new NamingServerNode();
         node.setControl(new Node.Endpoint(TARGET_HOST, TARGET_PORT, "http"));
 
-        when(namingManager.getInstances(NAMESPACE, CLUSTER)).thenReturn(Collections.singletonList(node));
+        when(namingManager.getInstances(NAMESPACE, CLUSTER))
+                .thenReturn(Collections.singletonList(node));
     }
 
     /**
@@ -96,7 +97,9 @@ class ConsoleRemotingFilterTest {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
         ResponseEntity<byte[]> upstreamResponse = new ResponseEntity<>(
-                "{\"result\":\"ok\"}".getBytes(StandardCharsets.UTF_8), responseHeaders, HttpStatus.OK);
+                "{\"result\":\"ok\"}".getBytes(StandardCharsets.UTF_8),
+                responseHeaders,
+                HttpStatus.OK);
 
         when(restTemplate.exchange(any(URI.class), eq(HttpMethod.GET), any(HttpEntity.class), eq(byte[].class)))
                 .thenReturn(upstreamResponse);
@@ -112,11 +115,9 @@ class ConsoleRemotingFilterTest {
         // Body must be null (stripped for GET)
         assertNull(capturedEntity.getBody(), "GET request body should be stripped (null)");
         // Content-Length and Transfer-Encoding headers must not be forwarded
-        assertNull(
-                capturedEntity.getHeaders().get(HttpHeaders.CONTENT_LENGTH),
+        assertNull(capturedEntity.getHeaders().get(HttpHeaders.CONTENT_LENGTH),
                 "Content-Length header should be removed for GET");
-        assertNull(
-                capturedEntity.getHeaders().get(HttpHeaders.TRANSFER_ENCODING),
+        assertNull(capturedEntity.getHeaders().get(HttpHeaders.TRANSFER_ENCODING),
                 "Transfer-Encoding header should be removed for GET");
 
         // Verify filterChain was NOT invoked (proxied)
@@ -136,7 +137,8 @@ class ConsoleRemotingFilterTest {
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(HttpHeaders.CONTENT_TYPE, "application/json");
-        ResponseEntity<byte[]> upstreamResponse = new ResponseEntity<>(null, responseHeaders, HttpStatus.OK);
+        ResponseEntity<byte[]> upstreamResponse = new ResponseEntity<>(
+                null, responseHeaders, HttpStatus.OK);
 
         when(restTemplate.exchange(any(URI.class), eq(HttpMethod.HEAD), any(HttpEntity.class), eq(byte[].class)))
                 .thenReturn(upstreamResponse);
@@ -165,7 +167,9 @@ class ConsoleRemotingFilterTest {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
         ResponseEntity<byte[]> upstreamResponse = new ResponseEntity<>(
-                "{\"result\":\"created\"}".getBytes(StandardCharsets.UTF_8), responseHeaders, HttpStatus.OK);
+                "{\"result\":\"created\"}".getBytes(StandardCharsets.UTF_8),
+                responseHeaders,
+                HttpStatus.OK);
 
         when(restTemplate.exchange(any(URI.class), eq(HttpMethod.POST), any(HttpEntity.class), eq(byte[].class)))
                 .thenReturn(upstreamResponse);
@@ -178,8 +182,7 @@ class ConsoleRemotingFilterTest {
 
         byte[] capturedBody = entityCaptor.getValue().getBody();
         assertNotNull(capturedBody, "POST body should not be null");
-        assertEquals(
-                new String(bodyBytes, StandardCharsets.UTF_8),
+        assertEquals(new String(bodyBytes, StandardCharsets.UTF_8),
                 new String(capturedBody, StandardCharsets.UTF_8),
                 "POST request body should be forwarded as-is");
     }
@@ -212,14 +215,16 @@ class ConsoleRemotingFilterTest {
         responseHeaders.set(HttpHeaders.CONTENT_TYPE, "application/json");
         // Upstream sends HTML disguised as JSON
         byte[] htmlBody = "<html><script>alert('xss')</script></html>".getBytes(StandardCharsets.UTF_8);
-        ResponseEntity<byte[]> upstreamResponse = new ResponseEntity<>(htmlBody, responseHeaders, HttpStatus.OK);
+        ResponseEntity<byte[]> upstreamResponse = new ResponseEntity<>(
+                htmlBody, responseHeaders, HttpStatus.OK);
 
         when(restTemplate.exchange(any(URI.class), eq(HttpMethod.GET), any(HttpEntity.class), eq(byte[].class)))
                 .thenReturn(upstreamResponse);
 
         filter.doFilter(request, response, filterChain);
 
-        assertEquals(502, response.getStatus(), "Should return 502 when upstream body is not valid JSON");
+        assertEquals(502, response.getStatus(),
+                "Should return 502 when upstream body is not valid JSON");
         String body = response.getContentAsString();
         assertEquals("{\"error\":\"Upstream returned invalid response body\"}", body);
     }
@@ -235,3 +240,4 @@ class ConsoleRemotingFilterTest {
         return request;
     }
 }
+

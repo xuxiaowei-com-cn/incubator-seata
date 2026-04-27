@@ -45,7 +45,7 @@ import static org.apache.seata.common.DefaultValues.DEFAULT_DB_HIKARI_VALIDATION
 @LoadLevel(name = "hikari")
 public class HikariDataSourceProvider extends AbstractDataSourceProvider {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HikariDataSourceProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(HikariDataSourceProvider.class);
 
     @Override
     public DataSource doGenerate() {
@@ -78,7 +78,7 @@ public class HikariDataSourceProvider extends AbstractDataSourceProvider {
                 Driver driver = (Driver) driverClass.newInstance();
                 DriverManager.registerDriver(new DriverWrapper(driver));
             } catch (Exception e) {
-                LOGGER.warn("Failed to explicitly register driver {}", driverClassName, e);
+                logger.warn("Failed to explicitly register driver {}", driverClassName, e);
             }
 
             // 2. Set configuration

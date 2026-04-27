@@ -358,7 +358,9 @@ public class ConnectionProxyXA extends AbstractConnectionProxyXA implements Hold
             } finally {
                 cleanXABranchContext();
                 rollBacked = false;
-                if (!isHeld() || !shouldBeHeld()) {
+                if (isHeld() && shouldBeHeld()) {
+                    // if kept by a keeper, just hold the connection.
+                } else {
                     originalConnection.close();
                 }
             }

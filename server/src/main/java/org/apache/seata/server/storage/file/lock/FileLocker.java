@@ -67,7 +67,6 @@ public class FileLocker extends AbstractLocker {
     }
 
     @Override
-    @SuppressWarnings("checkstyle:EmptyBlock")
     public boolean acquireLock(List<RowLock> rowLocks, boolean autoCommit, boolean skipCheckLock) {
         if (CollectionUtils.isEmpty(rowLocks)) {
             // no lock

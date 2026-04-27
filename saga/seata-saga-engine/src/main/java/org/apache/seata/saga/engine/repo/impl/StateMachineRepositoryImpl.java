@@ -45,7 +45,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class StateMachineRepositoryImpl implements StateMachineRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StateMachineRepositoryImpl.class);
-    private static final ResourceLock ITEM_LOCK = new ResourceLock();
+    private final ResourceLock ITEM_LOCK = new ResourceLock();
     private Map<
                     String
                     /** Name_Tenant **/

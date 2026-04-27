@@ -95,7 +95,6 @@ public class DefaultStatusDecisionStrategy implements StatusDecisionStrategy {
      * @param stateMachineInstance the state machine instance
      * @param stateList the state instance list
      */
-    @SuppressWarnings("checkstyle:EmptyBlock")
     public static void setMachineStatusBasedOnStateListAndException(
             StateMachineInstance stateMachineInstance, List<StateInstance> stateList, Exception exp) {
         boolean hasSetStatus = false;
