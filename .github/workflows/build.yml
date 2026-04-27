@@ -81,6 +81,7 @@ jobs:
       # step 6.1
       - name: Checkstyle
         run:
+          echo "${{ github.event.pull_request.head.sha }}"
           echo "GITHUB_BASE_REF=$GITHUB_BASE_REF"
           echo "GITHUB_HEAD_REF=$GITHUB_HEAD_REF"
           export CHANGED_FILES=$(git diff --name-only --diff-filter=AM $GITHUB_BASE_REF...$GITHUB_HEAD_REF | grep '\.java$' | sed -e 's#.*src/main/java/##g' -e 's#.*src/test/java/##g' | tr '\n' ',') 
@@ -125,6 +126,8 @@ jobs:
       # step 1
       - name: "Checkout"
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       # step 2
       - name: "Set up Java JDK 25"
         uses: actions/setup-java@v3.12.0
