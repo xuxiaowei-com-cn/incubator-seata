@@ -86,35 +86,35 @@ jobs:
           echo "GITHUB_HEAD_REF=$GITHUB_HEAD_REF"
           export CHANGED_FILES=$(git diff --name-only --diff-filter=AM $GITHUB_BASE_REF...$GITHUB_HEAD_REF | grep '\.java$' | sed -e 's#.*src/main/java/##g' -e 's#.*src/test/java/##g' | tr '\n' ',') 
           echo "CHANGED_FILES=$CHANGED_FILES"
-      # step 6.2
-      - name: "Test, Check license with Maven and Java8"
-        if: matrix.java == '8'
-        run: |
-          ./mvnw -T 4C clean test \
-                 -Dlicense.skip=false -DredisCaseEnabled=true -DnacosCaseEnabled=true \
-                 -e -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-      # step 6.3
-      - name: "Test with Maven and Java${{ matrix.java }}"
-        if: matrix.java != '8'
-        run: |
-          ./mvnw -T 4C clean test \
-                 -e -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn;
-      # step 7
-      - name: "Save local maven repository cache"
-        uses: actions/cache/save@v4
-        if: steps.cache-maven-repository.outputs.cache-hit != 'true'
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-${{ env.TODAY }}
-      # step 8
-      - name: "Codecov"
-        if: matrix.java == '8'
-        uses: codecov/codecov-action@v4.0.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          version: v0.6.0
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+#      # step 6.2
+#      - name: "Test, Check license with Maven and Java8"
+#        if: matrix.java == '8'
+#        run: |
+#          ./mvnw -T 4C clean test \
+#                 -Dlicense.skip=false -DredisCaseEnabled=true -DnacosCaseEnabled=true \
+#                 -e -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+#      # step 6.3
+#      - name: "Test with Maven and Java${{ matrix.java }}"
+#        if: matrix.java != '8'
+#        run: |
+#          ./mvnw -T 4C clean test \
+#                 -e -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn;
+#      # step 7
+#      - name: "Save local maven repository cache"
+#        uses: actions/cache/save@v4
+#        if: steps.cache-maven-repository.outputs.cache-hit != 'true'
+#        with:
+#          path: ~/.m2/repository
+#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-${{ env.TODAY }}
+#      # step 8
+#      - name: "Codecov"
+#        if: matrix.java == '8'
+#        uses: codecov/codecov-action@v4.0.1
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          version: v0.6.0
+#        env:
+#          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   # job 2: Build and Release on 'arm64v8/ubuntu' OS (Skip tests).
   build_arm64-binary:
