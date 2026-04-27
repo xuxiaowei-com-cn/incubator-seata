@@ -83,8 +83,7 @@ jobs:
         run:
           echo "${{ github.event.pull_request.head.sha }}"
           echo "GITHUB_BASE_REF=$GITHUB_BASE_REF"
-          echo "GITHUB_HEAD_REF=$GITHUB_HEAD_REF"
-          export CHANGED_FILES=$(git diff --name-only --diff-filter=AM $GITHUB_BASE_REF...${{ github.event.pull_request.head.sha }} | grep '\.java$' | sed -e 's#.*src/main/java/##g' -e 's#.*src/test/java/##g' | tr '\n' ',') 
+          export CHANGED_FILES=$(git diff --name-only --diff-filter=AM $GITHUB_BASE_REF...${{ github.event.pull_request.head.sha }} | tr '\n' ',') 
           echo "CHANGED_FILES=$CHANGED_FILES"
 #      # step 6.2
 #      - name: "Test, Check license with Maven and Java8"
