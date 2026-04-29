@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springaicommunity.mcp.annotation.McpTool;
 import org.springaicommunity.mcp.annotation.McpToolParam;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
@@ -101,7 +102,11 @@ public class GlobalSessionTools {
         PageResult<McpGlobalSessionVO> pageResult = null;
         String result = mcpRPCService.getCallTC(
                 nameSpaceDetail, RPCConstant.GLOBAL_SESSION_BASE_URL + "/query", param, null, null);
-        pageResult = objectMapper.readValue(result, new TypeReference<PageResult<McpGlobalSessionVO>>() {});
+        try {
+            pageResult = objectMapper.readValue(result, new TypeReference<PageResult<McpGlobalSessionVO>>() {});
+        } catch (JacksonException e) {
+            logger.error(e.getMessage());
+        }
         if (pageResult == null) {
             return PageResult.failure("", "query global session failed");
         } else {

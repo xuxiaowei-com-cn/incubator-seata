@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springaicommunity.mcp.annotation.McpTool;
 import org.springaicommunity.mcp.annotation.McpToolParam;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
@@ -91,7 +92,11 @@ public class GlobalLockTools {
         PageResult<McpGlobalLockVO> result = null;
         String response = mcpRPCService.getCallTC(
                 nameSpaceDetail, RPCConstant.GLOBAL_LOCK_BASE_URL + "/query", param, null, null);
-        result = objectMapper.readValue(response, new TypeReference<PageResult<McpGlobalLockVO>>() {});
+        try {
+            result = objectMapper.readValue(response, new TypeReference<PageResult<McpGlobalLockVO>>() {});
+        } catch (JacksonException e) {
+            logger.error(e.getMessage());
+        }
         if (result == null) {
             return PageResult.failure("", "query global lock failed");
         } else {
