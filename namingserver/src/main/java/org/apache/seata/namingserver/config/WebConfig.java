@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
@@ -35,22 +35,19 @@ import static org.apache.seata.namingserver.contants.NamingConstant.DEFAULT_REQU
 public class WebConfig {
 
     @Bean
-    public RestTemplate restTemplate() {
-        HttpClient client = HttpClient.newBuilder()
+    public RestClient restClient(RestClient.Builder restClientBuilder) {
+        HttpClient httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofMillis(DEFAULT_REQUEST_TIMEOUT))
+                .version(HttpClient.Version.HTTP_1_1)
                 .build();
-
-        JdkClientHttpRequestFactory factory = new JdkClientHttpRequestFactory(client);
-        factory.setReadTimeout(Duration.ofMillis(DEFAULT_REQUEST_TIMEOUT));
-
-        // Create and return a RestTemplate with the custom request factory
-        return new RestTemplate(factory);
+        JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
+        requestFactory.setReadTimeout(Duration.ofMillis(Math.max(DEFAULT_REQUEST_TIMEOUT, DEFAULT_WRITE_TIMEOUT)));
+        return restClientBuilder.requestFactory(requestFactory).build();
     }
 
     @Bean
-    public FilterRegistrationBean<Filter> consoleRemotingFilter(
-            NamingManager namingManager, RestTemplate restTemplate) {
-        ConsoleRemotingFilter consoleRemotingFilter = new ConsoleRemotingFilter(namingManager, restTemplate);
+    public FilterRegistrationBean<Filter> consoleRemotingFilter(NamingManager namingManager, RestClient restClient) {
+        ConsoleRemotingFilter consoleRemotingFilter = new ConsoleRemotingFilter(namingManager, restClient);
         FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
         registration.setFilter(consoleRemotingFilter);
         registration.addUrlPatterns("/*");
