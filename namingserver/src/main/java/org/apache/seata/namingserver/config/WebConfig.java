@@ -30,6 +30,7 @@ import java.net.http.HttpClient;
 import java.time.Duration;
 
 import static org.apache.seata.namingserver.contants.NamingConstant.DEFAULT_REQUEST_TIMEOUT;
+import static org.apache.seata.namingserver.contants.NamingConstant.DEFAULT_WRITE_TIMEOUT;
 
 @Configuration
 public class WebConfig {
