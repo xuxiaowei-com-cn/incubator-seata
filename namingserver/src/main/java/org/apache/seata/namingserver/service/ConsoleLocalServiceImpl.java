@@ -37,6 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -175,6 +176,13 @@ public class ConsoleLocalServiceImpl implements ConsoleApiService {
 
     @Override
     public String getCallNameSpace(String path) {
-        return objectMapper.writeValueAsString(namingManager.namespace());
+        String namespace;
+        try {
+            namespace = objectMapper.writeValueAsString(namingManager.namespace());
+        } catch (JacksonException e) {
+            LOGGER.error("Get NameSpace failed: {}", e.getMessage());
+            return "Failed to get namespace";
+        }
+        return namespace;
     }
 }
