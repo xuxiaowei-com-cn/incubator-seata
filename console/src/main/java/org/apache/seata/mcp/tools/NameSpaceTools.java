@@ -21,6 +21,7 @@ import org.apache.seata.mcp.core.constant.RPCConstant;
 import org.apache.seata.mcp.service.ConsoleApiService;
 import org.springaicommunity.mcp.annotation.McpTool;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -43,10 +44,14 @@ public class NameSpaceTools {
     public SingleResult<?> getTCNameSpaces() {
         String result = mcpRPCService.getCallNameSpace(RPCConstant.GET_NAMESPACE_PATH);
         Map<String, Object> nameSpacesVo = new HashMap<>();
-        JsonNode root = objectMapper.readTree(result);
-        JsonNode dataNode = root.get("data");
-        if (dataNode != null && !dataNode.isNull()) {
-            nameSpacesVo.put("namespaces", dataNode.toString());
+        try {
+            JsonNode root = objectMapper.readTree(result);
+            JsonNode dataNode = root.get("data");
+            if (dataNode != null && !dataNode.isNull()) {
+                nameSpacesVo.put("namespaces", dataNode.toString());
+            }
+        } catch (JacksonException e) {
+            return SingleResult.failure("Get namespace failed:" + e.getMessage());
         }
         return SingleResult.success(nameSpacesVo);
     }
