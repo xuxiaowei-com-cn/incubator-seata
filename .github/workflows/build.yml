@@ -40,7 +40,6 @@ jobs:
         ports:
           - 8848:8848
           - 9848:9848
-          - 9849:9849
         env:
           MODE: standalone
           SPRING_SECURITY_ENABLED: false
