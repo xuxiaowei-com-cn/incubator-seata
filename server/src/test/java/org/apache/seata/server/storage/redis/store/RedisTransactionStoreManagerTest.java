@@ -29,6 +29,7 @@ import redis.clients.jedis.Jedis;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @EnabledIfSystemProperty(named = "redisCaseEnabled", matches = "true")
 public class RedisTransactionStoreManagerTest extends BaseSpringBootTest {
@@ -253,7 +254,7 @@ public class RedisTransactionStoreManagerTest extends BaseSpringBootTest {
             Assertions.assertTrue(statusList.contains("testGlobalXid:111"));
 
             // Verify timeout sorted set
-            List<String> timeoutSet = jedis.zrangeByScore("SEATA_BEGIN_TRANSACTIONS", 0, Double.MAX_VALUE);
+            Set<String> timeoutSet = jedis.zrangeByScore("SEATA_BEGIN_TRANSACTIONS", 0, Double.MAX_VALUE);
             Assertions.assertTrue(timeoutSet.contains(globalKey));
 
             // Cleanup
@@ -291,7 +292,7 @@ public class RedisTransactionStoreManagerTest extends BaseSpringBootTest {
             List<String> statusList = jedis.lrange(statusKey, 0, -1);
             Assertions.assertFalse(statusList.contains("testGlobalXid:222"));
 
-            List<String> timeoutSet = jedis.zrangeByScore("SEATA_BEGIN_TRANSACTIONS", 0, Double.MAX_VALUE);
+            Set<String> timeoutSet = jedis.zrangeByScore("SEATA_BEGIN_TRANSACTIONS", 0, Double.MAX_VALUE);
             Assertions.assertFalse(timeoutSet.contains(globalKey));
         }
     }

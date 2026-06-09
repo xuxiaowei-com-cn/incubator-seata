@@ -16,7 +16,6 @@
  */
 package org.apache.seata.server.console.controller;
 
-import jakarta.annotation.Resource;
 import org.apache.seata.common.result.SingleResult;
 import org.apache.seata.server.console.service.BranchSessionService;
 import org.slf4j.Logger;
@@ -25,6 +24,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * Branch Session Controller

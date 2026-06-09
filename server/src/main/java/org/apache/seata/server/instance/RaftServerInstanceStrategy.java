@@ -17,7 +17,6 @@
 package org.apache.seata.server.instance;
 
 import com.alipay.sofa.jraft.entity.PeerId;
-import jakarta.annotation.Resource;
 import org.apache.seata.common.XID;
 import org.apache.seata.common.holder.ObjectHolder;
 import org.apache.seata.common.metadata.ClusterRole;
@@ -36,6 +35,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.scheduling.annotation.Async;
+
+import javax.annotation.Resource;
 
 import static org.apache.seata.common.ConfigurationKeys.META_PREFIX;
 import static org.apache.seata.common.Constants.OBJECT_KEY_SPRING_CONFIGURABLE_ENVIRONMENT;

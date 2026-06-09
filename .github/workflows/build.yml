@@ -102,7 +102,6 @@ jobs:
         if: matrix.java == '8'
         run: |
           ./mvnw -T 4C clean test \
-                 -pl '!server,!test-suite/test-new-version,!extensions/apm/apm-seata-skywalking-plugin' \
                  -Dlicense.skip=false -DredisCaseEnabled=true -DnacosCaseEnabled=true \
                  -e -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
       # step 6.3
