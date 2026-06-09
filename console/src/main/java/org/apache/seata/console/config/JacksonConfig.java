@@ -16,13 +16,14 @@
  */
 package org.apache.seata.console.config;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tools.jackson.core.JacksonException;
-import tools.jackson.core.JsonGenerator;
-import tools.jackson.databind.SerializationContext;
-import tools.jackson.databind.ValueSerializer;
-import tools.jackson.databind.module.SimpleModule;
+
+import java.io.IOException;
 
 @Configuration(proxyBeanMethods = false)
 public class JacksonConfig {
@@ -31,19 +32,19 @@ public class JacksonConfig {
      * convert long to string for return to the front end
      */
     @Bean
-    public SimpleModule customModule() {
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Long.class, new ValueSerializer<Long>() {
-            @Override
-            public void serialize(Long value, JsonGenerator jsonGenerator, SerializationContext ctxt)
-                    throws JacksonException {
-                if (value == null) {
-                    jsonGenerator.writeString("");
-                } else {
-                    jsonGenerator.writeString(value.toString());
-                }
-            }
-        });
-        return module;
+    public Jackson2ObjectMapperBuilderCustomizer longToStringCustomizer() {
+        return jacksonObjectMapperBuilder ->
+                jacksonObjectMapperBuilder.serializerByType(Long.class, new JsonSerializer<Long>() {
+                    @Override
+                    public void serialize(
+                            Long value, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+                            throws IOException {
+                        if (value == null) {
+                            jsonGenerator.writeString("");
+                        } else {
+                            jsonGenerator.writeString(value.toString());
+                        }
+                    }
+                });
     }
 }

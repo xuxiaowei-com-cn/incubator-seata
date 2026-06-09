@@ -16,6 +16,8 @@
  */
 package org.apache.seata.namingserver.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.seata.common.metadata.ClusterRole;
 import org.apache.seata.common.metadata.Node;
 import org.apache.seata.common.metadata.namingserver.NamingServerNode;
@@ -37,8 +39,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -179,7 +179,7 @@ public class ConsoleLocalServiceImpl implements ConsoleApiService {
         String namespace;
         try {
             namespace = objectMapper.writeValueAsString(namingManager.namespace());
-        } catch (JacksonException e) {
+        } catch (JsonProcessingException e) {
             LOGGER.error("Get NameSpace failed: {}", e.getMessage());
             return "Failed to get namespace";
         }

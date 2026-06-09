@@ -16,6 +16,7 @@
  */
 package org.apache.seata.namingserver.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.seata.common.metadata.ClusterRole;
 import org.apache.seata.common.metadata.Node;
 import org.apache.seata.common.metadata.namingserver.NamingServerNode;
@@ -29,7 +30,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestClient;
-import tools.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
 import java.util.List;
