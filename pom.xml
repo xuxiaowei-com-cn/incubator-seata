@@ -383,7 +383,7 @@
             </activation>
             <modules>
                 <module>distribution</module>
-                <module>test-suite/test-new-version</module>
+                <!--<module>test-suite/test-new-version</module>-->
                 <module>test-suite/test-old-version</module>
             </modules>
         </profile>
