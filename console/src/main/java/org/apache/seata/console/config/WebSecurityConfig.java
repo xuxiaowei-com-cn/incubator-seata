@@ -158,9 +158,8 @@ public class WebSecurityConfig {
                     @Override
                     public boolean matches(@NonNull HttpServletRequest request) {
                         String path = request.getServletPath();
-                        if (request.getPathInfo() != null) {
-                            path += request.getPathInfo();
-                        }
+                        String pathInfo = request.getPathInfo();
+                        path = (path == null ? "" : path) + (pathInfo == null ? "" : pathInfo);
                         if (path == null || path.isEmpty()) {
                             path = "/";
                         }
