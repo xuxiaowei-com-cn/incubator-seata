@@ -19,13 +19,14 @@ SHELL := /usr/bin/env bash
 .DEFAULT_GOAL := help
 
 help: ## Show help information
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-28s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 # Prefer using mvn, fall back to ./mvnw if mvn does not exist
 MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
 MAVEN_ARGS ?= -T 4C -e -B -V
 
-.PHONY: clean checkstyle checkstyle-diff license test package-only package
+.PHONY: clean checkstyle checkstyle-diff license test package-only package \
+	package-server-native-pre package-server-native package-server-native-only
 
 clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean
@@ -66,3 +67,12 @@ package-only: ## Package the project without running tests
 
 package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean package
+
+package-server-native-pre: ## Build and install all modules locally (pre-step for native image)
+	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl server
+
+package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Pnative native:compile
+
+package-server-native-only: ## Build server native image (GraalVM) without pre-step
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Pnative native:compile
