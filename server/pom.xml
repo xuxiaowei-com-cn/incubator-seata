@@ -577,6 +577,7 @@
                                 <buildArgs>
                                     <arg>--initialize-at-build-time=ch.qos.logback</arg>
                                     <arg>--initialize-at-build-time=org.slf4j</arg>
+                                    <arg>--initialize-at-run-time=io.netty.channel.kqueue</arg>
                                 </buildArgs>
                                 <exclusions>
                                     <exclusion>
@@ -634,6 +635,7 @@
                                 <buildArgs>
                                     <arg>--initialize-at-build-time=ch.qos.logback</arg>
                                     <arg>--initialize-at-build-time=org.slf4j</arg>
+                                    <arg>--initialize-at-run-time=io.netty.channel.kqueue</arg>
                                 </buildArgs>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                                 <exclusions>
