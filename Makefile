@@ -25,11 +25,17 @@ help: ## Show help information
 MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
 MAVEN_ARGS ?= -T 4C -e -B -V
 
-.PHONY: clean checkstyle checkstyle-diff license test package-only package \
+.PHONY: clean spotless-check spotless-apply checkstyle checkstyle-diff license test package-only package \
 	package-server-native-pre package-server-native package-server-native-only
 
 clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean -e
+
+spotless-check: ## Run Spotless code format check
+	$(MVN) $(MAVEN_ARGS) spotless:check
+
+spotless-apply: ## Apply Spotless code formatting
+	$(MVN) $(MAVEN_ARGS) spotless:apply
 
 checkstyle: ## Run global Checkstyle code check
 	$(MVN) $(MAVEN_ARGS) clean -e checkstyle:check -Dcheckstyle.skip=false

@@ -304,6 +304,12 @@
                                     <order>,javax|java,\#</order>
                                 </importOrder>
                             </java>
+                            <json>
+                                <includes>
+                                    <include>src/main/resources/META-INF/native-image/${project.groupId}/${project.artifactId}/*.json</include>
+                                </includes>
+                                <jackson/>
+                            </json>
                         </configuration>
                         <executions>
                             <execution>
