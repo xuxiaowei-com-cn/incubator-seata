@@ -69,7 +69,7 @@ package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean -e package
 
 package-server-native-pre: ## Build and install all modules locally (pre-step for native image)
-	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl server
+	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl server -am
 
 package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative native:compile

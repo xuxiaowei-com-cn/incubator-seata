@@ -32,10 +32,11 @@ concurrency:
 jobs:
   build:
     name: build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os: [ ubuntu-latest, ubuntu-latest-arm ]
         java: [ 25 ]
         module: [ server ]
     steps:
@@ -56,9 +57,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: "Install dependencies for ${{ matrix.module }}"
+      - name: "Install dependencies for ${{ matrix.module }}-${{ matrix.os }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
-      - name: "Compile native image for ${{ matrix.module }}"
+      - name: "Compile native image for ${{ matrix.module }}-${{ matrix.os }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative native:compile
       - name: "Delete snapshots from the Maven local repository"
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
