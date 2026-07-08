@@ -29,10 +29,10 @@ MAVEN_ARGS ?= -T 4C -e -B -V
 	package-server-native-pre package-server-native package-server-native-only
 
 clean: ## Clean the project
-	$(MVN) $(MAVEN_ARGS) clean
+	$(MVN) $(MAVEN_ARGS) clean -e
 
 checkstyle: ## Run global Checkstyle code check
-	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false
+	$(MVN) $(MAVEN_ARGS) clean -e checkstyle:check -Dcheckstyle.skip=false
 
 checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 	BASE_REF="$${GITHUB_BASE_REF:-2.x}"; \
@@ -54,25 +54,25 @@ checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 		echo "No changed .java files detected, skip checkstyle."; \
 		exit 0; \
 	fi; \
-	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
+	$(MVN) $(MAVEN_ARGS) clean -e checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
 
 license: ## Run license check
-	$(MVN) $(MAVEN_ARGS) clean -Dlicense.skip=false
+	$(MVN) $(MAVEN_ARGS) clean -e -Dlicense.skip=false
 
 test: ## Run unit tests
-	$(MVN) $(MAVEN_ARGS) clean test
+	$(MVN) $(MAVEN_ARGS) clean -e test
 
 package-only: ## Package the project without running tests
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests
 
 package: ## Package the project
-	$(MVN) $(MAVEN_ARGS) clean package
+	$(MVN) $(MAVEN_ARGS) clean -e package
 
 package-server-native-pre: ## Build and install all modules locally (pre-step for native image)
-	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl server
+	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl server
 
 package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Pnative native:compile
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative native:compile
 
 package-server-native-only: ## Build server native image (GraalVM) without pre-step
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Pnative native:compile
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative native:compile
