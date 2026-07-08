@@ -1,689 +1,693 @@
-[
-  {
-    "glob": ""
-  },
-  {
-    "glob": "META-INF/build-info.properties"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.common.thread.ThreadPoolProvider"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.config.ExtConfigurationProvider"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.config.file.FileConfig"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.core.context.ContextCore"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.core.rpc.RegisterCheckAuthHandler"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.core.rpc.hook.RpcHook"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.discovery.registry.RegistryProvider"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.metrics.exporter.Exporter"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.metrics.registry.Registry"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.server.coordinator.AbstractCore"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.server.lock.LockManager"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.server.session.SessionManager"
-  },
-  {
-    "glob": "META-INF/seata/org.apache.seata.server.store.VGroupMappingStoreManager"
-  },
-  {
-    "glob": "META-INF/services/ch.qos.logback.classic.spi.Configurator"
-  },
-  {
-    "glob": "META-INF/services/com.sun.net.httpserver.spi.HttpServerProvider"
-  },
-  {
-    "glob": "META-INF/services/java.net.spi.URLStreamHandlerProvider"
-  },
-  {
-    "glob": "META-INF/services/java.nio.channels.spi.SelectorProvider"
-  },
-  {
-    "glob": "META-INF/services/java.time.zone.ZoneRulesProvider"
-  },
-  {
-    "glob": "META-INF/services/javax.xml.parsers.SAXParserFactory"
-  },
-  {
-    "glob": "META-INF/services/org.apache.commons.logging.LogFactory"
-  },
-  {
-    "glob": "META-INF/services/org.apache.logging.log4j.util.PropertySource"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.common.thread.ThreadPoolProvider"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.config.ExtConfigurationProvider"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.config.file.FileConfig"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.core.context.ContextCore"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.core.rpc.RegisterCheckAuthHandler"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.core.rpc.hook.RpcHook"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.discovery.registry.RegistryProvider"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.metrics.exporter.Exporter"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.metrics.registry.Registry"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.server.coordinator.AbstractCore"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.server.lock.LockManager"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.server.session.SessionManager"
-  },
-  {
-    "glob": "META-INF/services/org.apache.seata.server.store.VGroupMappingStoreManager"
-  },
-  {
-    "glob": "META-INF/services/org.slf4j.spi.SLF4JServiceProvider"
-  },
-  {
-    "glob": "META-INF/spring-autoconfigure-metadata.properties"
-  },
-  {
-    "glob": "META-INF/spring.components"
-  },
-  {
-    "glob": "META-INF/spring.factories"
-  },
-  {
-    "glob": "META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports"
-  },
-  {
-    "glob": "META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.replacements"
-  },
-  {
-    "glob": "application-default.properties"
-  },
-  {
-    "glob": "application-default.xml"
-  },
-  {
-    "glob": "application-default.yaml"
-  },
-  {
-    "glob": "application-default.yml"
-  },
-  {
-    "glob": "application.conf"
-  },
-  {
-    "glob": "application.json"
-  },
-  {
-    "glob": "application.properties"
-  },
-  {
-    "glob": "application.xml"
-  },
-  {
-    "glob": "application.yaml"
-  },
-  {
-    "glob": "application.yml"
-  },
-  {
-    "glob": "banner.txt"
-  },
-  {
-    "glob": "ch/qos/logback/classic/logback-classic-version.properties"
-  },
-  {
-    "glob": "ch/qos/logback/core/logback-core-version.properties"
-  },
-  {
-    "glob": "commons-logging.properties"
-  },
-  {
-    "glob": "config/application-default.properties"
-  },
-  {
-    "glob": "config/application-default.xml"
-  },
-  {
-    "glob": "config/application-default.yaml"
-  },
-  {
-    "glob": "config/application-default.yml"
-  },
-  {
-    "glob": "config/application.properties"
-  },
-  {
-    "glob": "config/application.xml"
-  },
-  {
-    "glob": "config/application.yaml"
-  },
-  {
-    "glob": "config/application.yml"
-  },
-  {
-    "glob": "file.conf"
-  },
-  {
-    "glob": "file.conf.conf"
-  },
-  {
-    "glob": "file.conf.properties"
-  },
-  {
-    "glob": "file.conf.yml"
-  },
-  {
-    "glob": "git.properties"
-  },
-  {
-    "glob": "log4j2.StatusLogger.properties"
-  },
-  {
-    "glob": "log4j2.component.properties"
-  },
-  {
-    "glob": "log4j2.system.properties"
-  },
-  {
-    "glob": "logback-spring.xml"
-  },
-  {
-    "glob": "logback-test.xml"
-  },
-  {
-    "glob": "logback.xml"
-  },
-  {
-    "glob": "logback/console-appender.xml"
-  },
-  {
-    "glob": "logback/file-appender.xml"
-  },
-  {
-    "glob": "messages.properties"
-  },
-  {
-    "glob": "org/apache/seata"
-  },
-  {
-    "glob": "org/apache/seata/common/loader/LoadLevel.class"
-  },
-  {
-    "glob": "org/apache/seata/core/rpc/netty/http/filter/HttpRequestFilter.class"
-  },
-  {
-    "glob": "org/apache/seata/server/Server.class"
-  },
-  {
-    "glob": "org/apache/seata/server/ServerRunner.class"
-  },
-  {
-    "glob": "org/apache/seata/server/cluster/listener/ClusterChangeListener.class"
-  },
-  {
-    "glob": "org/apache/seata/server/cluster/manager/ClusterWatcherManager.class"
-  },
-  {
-    "glob": "org/apache/seata/server/config/AsyncConfig.class"
-  },
-  {
-    "glob": "org/apache/seata/server/config/ServerConfig.class"
-  },
-  {
-    "glob": "org/apache/seata/server/config/ServerInstanceStrategyConfig.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/aop/GlobalExceptionHandlerAdvice.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/controller/BranchSessionController.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/controller/GlobalLockController.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/controller/GlobalSessionController.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/impl/AbstractBranchService.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/impl/AbstractGlobalService.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/impl/AbstractLockService.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/impl/AbstractService$CheckResult.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/impl/AbstractService.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/impl/file/BranchSessionFileServiceImpl.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/impl/file/GlobalLockFileServiceImpl.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/impl/file/GlobalSessionFileServiceImpl.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/service/BranchSessionService.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/service/GlobalLockService.class"
-  },
-  {
-    "glob": "org/apache/seata/server/console/service/GlobalSessionService.class"
-  },
-  {
-    "glob": "org/apache/seata/server/controller/ClusterController.class"
-  },
-  {
-    "glob": "org/apache/seata/server/controller/HealthController.class"
-  },
-  {
-    "glob": "org/apache/seata/server/controller/VGroupMappingController.class"
-  },
-  {
-    "glob": "org/apache/seata/server/filter/RaftRequestFilter.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/SeataCoreAutoConfiguration.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/http/RestControllerBeanPostProcessor.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/LogProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/ShutdownProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/ThreadFactoryProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/TransportProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigApolloProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigConsulProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigCustomProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigEtcd3Properties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigFileProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigNacosProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigZooKeeperProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryConsulProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryCustomProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryEtcd3Properties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryEurekaProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryMetadataProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryNacosProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryNamingServerProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryRaftProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryRedisProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistrySofaProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryZooKeeperProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/MetricsProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerRateLimitProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerRecoveryProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerUndoProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/filter/ServerHttpFilterXssProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftSSLClientProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftSSLProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftSSLServerProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/session/SessionProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/DbcpProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/DruidProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/HikariProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreDBProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreFileProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties$Lock.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties$Session.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties$Sentinel.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties$Single.class"
-  },
-  {
-    "glob": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties.class"
-  },
-  {
-    "glob": "org/springframework/aot/hint/annotation/Reflective.class"
-  },
-  {
-    "glob": "org/springframework/beans/factory/Aware.class"
-  },
-  {
-    "glob": "org/springframework/beans/factory/DisposableBean.class"
-  },
-  {
-    "glob": "org/springframework/beans/factory/config/BeanPostProcessor.class"
-  },
-  {
-    "glob": "org/springframework/boot/CommandLineRunner.class"
-  },
-  {
-    "glob": "org/springframework/boot/Runner.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/AutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/AutoConfigureAfter.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/AutoConfigureBefore.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/AutoConfigureOrder.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/admin/SpringApplicationAdminJmxAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/aop/AopAutoConfiguration$AspectJAutoProxyingConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/aop/AopAutoConfiguration$ClassProxyingConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/aop/AopAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/availability/ApplicationAvailabilityAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/condition/ConditionalOnBean.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/condition/ConditionalOnBooleanProperty.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/condition/ConditionalOnClass.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/condition/ConditionalOnExpression.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/condition/ConditionalOnMissingBean.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/condition/ConditionalOnMissingClass.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/condition/ConditionalOnProperty.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/context/ConfigurationPropertiesAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/context/LifecycleAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/context/MessageSourceAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/context/PropertyPlaceholderAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/info/ProjectInfoAutoConfiguration$GitResourceAvailableCondition.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/info/ProjectInfoAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/jmx/JmxAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/ssl/SslAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutionAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$AsyncConfigurerConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$AsyncConfigurerWrapperConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$BootstrapExecutorConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$OnExecutorCondition$ExecutorBeanCondition.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$OnExecutorCondition$ModelCondition.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$OnExecutorCondition.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$SimpleAsyncTaskExecutorBuilderConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$TaskExecutorConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$ThreadPoolTaskExecutorBuilderConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskSchedulingAutoConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskSchedulingConfigurations$SimpleAsyncTaskSchedulerBuilderConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskSchedulingConfigurations$TaskSchedulerConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/autoconfigure/task/TaskSchedulingConfigurations$ThreadPoolTaskSchedulerBuilderConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/boot/context/properties/ConfigurationProperties.class"
-  },
-  {
-    "glob": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"
-  },
-  {
-    "glob": "org/springframework/boot/context/properties/EnableConfigurationPropertiesRegistrar.class"
-  },
-  {
-    "glob": "org/springframework/context/ApplicationListener.class"
-  },
-  {
-    "glob": "org/springframework/context/annotation/AdviceModeImportSelector.class"
-  },
-  {
-    "glob": "org/springframework/context/annotation/ComponentScan.class"
-  },
-  {
-    "glob": "org/springframework/context/annotation/Conditional.class"
-  },
-  {
-    "glob": "org/springframework/context/annotation/Configuration.class"
-  },
-  {
-    "glob": "org/springframework/context/annotation/Import.class"
-  },
-  {
-    "glob": "org/springframework/context/annotation/ImportAware.class"
-  },
-  {
-    "glob": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"
-  },
-  {
-    "glob": "org/springframework/context/annotation/Role.class"
-  },
-  {
-    "glob": "org/springframework/core/Ordered.class"
-  },
-  {
-    "glob": "org/springframework/scheduling/annotation/AbstractAsyncConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/scheduling/annotation/AsyncConfigurationSelector.class"
-  },
-  {
-    "glob": "org/springframework/scheduling/annotation/EnableAsync.class"
-  },
-  {
-    "glob": "org/springframework/scheduling/annotation/ProxyAsyncConfiguration.class"
-  },
-  {
-    "glob": "org/springframework/web/bind/annotation/ControllerAdvice.class"
-  },
-  {
-    "glob": "org/springframework/web/bind/annotation/Mapping.class"
-  },
-  {
-    "glob": "org/springframework/web/bind/annotation/RequestMapping.class"
-  },
-  {
-    "glob": "org/springframework/web/bind/annotation/ResponseBody.class"
-  },
-  {
-    "glob": "org/springframework/web/bind/annotation/RestController.class"
-  },
-  {
-    "glob": "reference.conf"
-  },
-  {
-    "glob": "registry"
-  },
-  {
-    "glob": "registry.conf"
-  },
-  {
-    "glob": "registry.properties"
-  },
-  {
-    "glob": "registry.yml"
-  },
-  {
-    "glob": "spring.properties"
+{
+  "resources": {
+    "includes": [
+      {
+        "pattern": ""
+      },
+      {
+        "pattern": "META-INF/build-info.properties"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.common.thread.ThreadPoolProvider"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.config.ExtConfigurationProvider"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.config.file.FileConfig"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.core.context.ContextCore"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.core.rpc.RegisterCheckAuthHandler"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.core.rpc.hook.RpcHook"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.discovery.registry.RegistryProvider"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.metrics.exporter.Exporter"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.metrics.registry.Registry"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.server.coordinator.AbstractCore"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.server.lock.LockManager"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.server.session.SessionManager"
+      },
+      {
+        "pattern": "META-INF/seata/org.apache.seata.server.store.VGroupMappingStoreManager"
+      },
+      {
+        "pattern": "META-INF/services/ch.qos.logback.classic.spi.Configurator"
+      },
+      {
+        "pattern": "META-INF/services/com.sun.net.httpserver.spi.HttpServerProvider"
+      },
+      {
+        "pattern": "META-INF/services/java.net.spi.URLStreamHandlerProvider"
+      },
+      {
+        "pattern": "META-INF/services/java.nio.channels.spi.SelectorProvider"
+      },
+      {
+        "pattern": "META-INF/services/java.time.zone.ZoneRulesProvider"
+      },
+      {
+        "pattern": "META-INF/services/javax.xml.parsers.SAXParserFactory"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.commons.logging.LogFactory"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.logging.log4j.util.PropertySource"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.common.thread.ThreadPoolProvider"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.config.ExtConfigurationProvider"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.config.file.FileConfig"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.core.context.ContextCore"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.core.rpc.RegisterCheckAuthHandler"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.core.rpc.hook.RpcHook"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.discovery.registry.RegistryProvider"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.metrics.exporter.Exporter"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.metrics.registry.Registry"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.server.coordinator.AbstractCore"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.server.lock.LockManager"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.server.session.SessionManager"
+      },
+      {
+        "pattern": "META-INF/services/org.apache.seata.server.store.VGroupMappingStoreManager"
+      },
+      {
+        "pattern": "META-INF/services/org.slf4j.spi.SLF4JServiceProvider"
+      },
+      {
+        "pattern": "META-INF/spring-autoconfigure-metadata.properties"
+      },
+      {
+        "pattern": "META-INF/spring.components"
+      },
+      {
+        "pattern": "META-INF/spring.factories"
+      },
+      {
+        "pattern": "META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports"
+      },
+      {
+        "pattern": "META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.replacements"
+      },
+      {
+        "pattern": "application-default.properties"
+      },
+      {
+        "pattern": "application-default.xml"
+      },
+      {
+        "pattern": "application-default.yaml"
+      },
+      {
+        "pattern": "application-default.yml"
+      },
+      {
+        "pattern": "application.conf"
+      },
+      {
+        "pattern": "application.json"
+      },
+      {
+        "pattern": "application.properties"
+      },
+      {
+        "pattern": "application.xml"
+      },
+      {
+        "pattern": "application.yaml"
+      },
+      {
+        "pattern": "application.yml"
+      },
+      {
+        "pattern": "banner.txt"
+      },
+      {
+        "pattern": "ch/qos/logback/classic/logback-classic-version.properties"
+      },
+      {
+        "pattern": "ch/qos/logback/core/logback-core-version.properties"
+      },
+      {
+        "pattern": "commons-logging.properties"
+      },
+      {
+        "pattern": "config/application-default.properties"
+      },
+      {
+        "pattern": "config/application-default.xml"
+      },
+      {
+        "pattern": "config/application-default.yaml"
+      },
+      {
+        "pattern": "config/application-default.yml"
+      },
+      {
+        "pattern": "config/application.properties"
+      },
+      {
+        "pattern": "config/application.xml"
+      },
+      {
+        "pattern": "config/application.yaml"
+      },
+      {
+        "pattern": "config/application.yml"
+      },
+      {
+        "pattern": "file.conf"
+      },
+      {
+        "pattern": "file.conf.conf"
+      },
+      {
+        "pattern": "file.conf.properties"
+      },
+      {
+        "pattern": "file.conf.yml"
+      },
+      {
+        "pattern": "git.properties"
+      },
+      {
+        "pattern": "log4j2.StatusLogger.properties"
+      },
+      {
+        "pattern": "log4j2.component.properties"
+      },
+      {
+        "pattern": "log4j2.system.properties"
+      },
+      {
+        "pattern": "logback-spring.xml"
+      },
+      {
+        "pattern": "logback-test.xml"
+      },
+      {
+        "pattern": "logback.xml"
+      },
+      {
+        "pattern": "logback/console-appender.xml"
+      },
+      {
+        "pattern": "logback/file-appender.xml"
+      },
+      {
+        "pattern": "messages.properties"
+      },
+      {
+        "pattern": "org/apache/seata"
+      },
+      {
+        "pattern": "org/apache/seata/common/loader/LoadLevel.class"
+      },
+      {
+        "pattern": "org/apache/seata/core/rpc/netty/http/filter/HttpRequestFilter.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/Server.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/ServerRunner.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/cluster/listener/ClusterChangeListener.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/cluster/manager/ClusterWatcherManager.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/config/AsyncConfig.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/config/ServerConfig.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/config/ServerInstanceStrategyConfig.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/aop/GlobalExceptionHandlerAdvice.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/controller/BranchSessionController.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/controller/GlobalLockController.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/controller/GlobalSessionController.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/impl/AbstractBranchService.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/impl/AbstractGlobalService.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/impl/AbstractLockService.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/impl/AbstractService$CheckResult.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/impl/AbstractService.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/impl/file/BranchSessionFileServiceImpl.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/impl/file/GlobalLockFileServiceImpl.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/impl/file/GlobalSessionFileServiceImpl.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/service/BranchSessionService.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/service/GlobalLockService.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/console/service/GlobalSessionService.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/controller/ClusterController.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/controller/HealthController.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/controller/VGroupMappingController.class"
+      },
+      {
+        "pattern": "org/apache/seata/server/filter/RaftRequestFilter.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/SeataCoreAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/http/RestControllerBeanPostProcessor.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/LogProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/ShutdownProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/ThreadFactoryProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/TransportProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigApolloProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigConsulProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigCustomProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigEtcd3Properties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigFileProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigNacosProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigZooKeeperProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryConsulProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryCustomProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryEtcd3Properties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryEurekaProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryMetadataProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryNacosProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryNamingServerProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryRaftProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryRedisProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistrySofaProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryZooKeeperProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/MetricsProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerRateLimitProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerRecoveryProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerUndoProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/filter/ServerHttpFilterXssProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftSSLClientProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftSSLProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftSSLServerProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/session/SessionProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/DbcpProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/DruidProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/HikariProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreDBProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreFileProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties$Lock.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties$Session.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties$Sentinel.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties$Single.class"
+      },
+      {
+        "pattern": "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties.class"
+      },
+      {
+        "pattern": "org/springframework/aot/hint/annotation/Reflective.class"
+      },
+      {
+        "pattern": "org/springframework/beans/factory/Aware.class"
+      },
+      {
+        "pattern": "org/springframework/beans/factory/DisposableBean.class"
+      },
+      {
+        "pattern": "org/springframework/beans/factory/config/BeanPostProcessor.class"
+      },
+      {
+        "pattern": "org/springframework/boot/CommandLineRunner.class"
+      },
+      {
+        "pattern": "org/springframework/boot/Runner.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/AutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/AutoConfigureAfter.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/AutoConfigureBefore.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/AutoConfigureOrder.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/admin/SpringApplicationAdminJmxAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/aop/AopAutoConfiguration$AspectJAutoProxyingConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/aop/AopAutoConfiguration$ClassProxyingConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/aop/AopAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/availability/ApplicationAvailabilityAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/condition/ConditionalOnBean.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/condition/ConditionalOnBooleanProperty.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/condition/ConditionalOnClass.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/condition/ConditionalOnExpression.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/condition/ConditionalOnMissingBean.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/condition/ConditionalOnMissingClass.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/condition/ConditionalOnProperty.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/context/ConfigurationPropertiesAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/context/LifecycleAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/context/MessageSourceAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/context/PropertyPlaceholderAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/info/ProjectInfoAutoConfiguration$GitResourceAvailableCondition.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/info/ProjectInfoAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/jmx/JmxAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/ssl/SslAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutionAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$AsyncConfigurerConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$AsyncConfigurerWrapperConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$BootstrapExecutorConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$OnExecutorCondition$ExecutorBeanCondition.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$OnExecutorCondition$ModelCondition.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$OnExecutorCondition.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$SimpleAsyncTaskExecutorBuilderConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$TaskExecutorConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskExecutorConfigurations$ThreadPoolTaskExecutorBuilderConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskSchedulingAutoConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskSchedulingConfigurations$SimpleAsyncTaskSchedulerBuilderConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskSchedulingConfigurations$TaskSchedulerConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/autoconfigure/task/TaskSchedulingConfigurations$ThreadPoolTaskSchedulerBuilderConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/boot/context/properties/ConfigurationProperties.class"
+      },
+      {
+        "pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"
+      },
+      {
+        "pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesRegistrar.class"
+      },
+      {
+        "pattern": "org/springframework/context/ApplicationListener.class"
+      },
+      {
+        "pattern": "org/springframework/context/annotation/AdviceModeImportSelector.class"
+      },
+      {
+        "pattern": "org/springframework/context/annotation/ComponentScan.class"
+      },
+      {
+        "pattern": "org/springframework/context/annotation/Conditional.class"
+      },
+      {
+        "pattern": "org/springframework/context/annotation/Configuration.class"
+      },
+      {
+        "pattern": "org/springframework/context/annotation/Import.class"
+      },
+      {
+        "pattern": "org/springframework/context/annotation/ImportAware.class"
+      },
+      {
+        "pattern": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"
+      },
+      {
+        "pattern": "org/springframework/context/annotation/Role.class"
+      },
+      {
+        "pattern": "org/springframework/core/Ordered.class"
+      },
+      {
+        "pattern": "org/springframework/scheduling/annotation/AbstractAsyncConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/scheduling/annotation/AsyncConfigurationSelector.class"
+      },
+      {
+        "pattern": "org/springframework/scheduling/annotation/EnableAsync.class"
+      },
+      {
+        "pattern": "org/springframework/scheduling/annotation/ProxyAsyncConfiguration.class"
+      },
+      {
+        "pattern": "org/springframework/web/bind/annotation/ControllerAdvice.class"
+      },
+      {
+        "pattern": "org/springframework/web/bind/annotation/Mapping.class"
+      },
+      {
+        "pattern": "org/springframework/web/bind/annotation/RequestMapping.class"
+      },
+      {
+        "pattern": "org/springframework/web/bind/annotation/ResponseBody.class"
+      },
+      {
+        "pattern": "org/springframework/web/bind/annotation/RestController.class"
+      },
+      {
+        "pattern": "reference.conf"
+      },
+      {
+        "pattern": "registry"
+      },
+      {
+        "pattern": "registry.conf"
+      },
+      {
+        "pattern": "registry.properties"
+      },
+      {
+        "pattern": "registry.yml"
+      },
+      {
+        "pattern": "spring.properties"
+      }
+    ]
   }
-]
+}
