@@ -556,6 +556,9 @@
                         <plugin>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-maven-plugin</artifactId>
+                            <configuration>
+                                <mainClass>org.apache.seata.server.ServerApplication</mainClass>
+                            </configuration>
                             <executions>
                                 <execution>
                                     <id>process-aot</id>
@@ -569,7 +572,12 @@
                             <groupId>org.graalvm.buildtools</groupId>
                             <artifactId>native-maven-plugin</artifactId>
                             <configuration>
+                                <mainClass>org.apache.seata.server.ServerApplication</mainClass>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                                <buildArgs>
+                                    <arg>--initialize-at-build-time=ch.qos.logback</arg>
+                                    <arg>--initialize-at-build-time=org.slf4j</arg>
+                                </buildArgs>
                                 <exclusions>
                                     <exclusion>
                                         <groupId>org.springframework.boot</groupId>
@@ -605,6 +613,9 @@
                         <plugin>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-maven-plugin</artifactId>
+                            <configuration>
+                                <mainClass>org.apache.seata.server.ServerApplication</mainClass>
+                            </configuration>
                             <executions>
                                 <execution>
                                     <id>process-test-aot</id>
@@ -618,6 +629,12 @@
                             <groupId>org.graalvm.buildtools</groupId>
                             <artifactId>native-maven-plugin</artifactId>
                             <configuration>
+                                <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                                <mainClass>org.apache.seata.server.ServerApplication</mainClass>
+                                <buildArgs>
+                                    <arg>--initialize-at-build-time=ch.qos.logback</arg>
+                                    <arg>--initialize-at-build-time=org.slf4j</arg>
+                                </buildArgs>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                                 <exclusions>
                                     <exclusion>
