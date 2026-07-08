@@ -60,6 +60,8 @@ jobs:
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
       - name: "Compile native image for ${{ matrix.module }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} package -Pnative native:compile
+      - name: "Delete snapshots from the Maven local repository"
+        run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
       - name: "Save local maven repository cache"
         uses: actions/cache/save@v4
         if: steps.cache-maven-repository.outputs.cache-hit != 'true'
