@@ -58,8 +58,8 @@ jobs:
             ${{ runner.os }}-maven-
       - name: "Install dependencies for ${{ matrix.module }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
-      - name: "Compile native image for ${{ matrix.module }}"
-        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative native:compile
+      #- name: "Compile native image for ${{ matrix.module }}"
+      #  run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative native:compile
       - name: "Delete snapshots from the Maven local repository"
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
       - name: "Save local maven repository cache"
