@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, ubuntu-latest-arm ]
+        os: [ ubuntu-24.04, ubuntu-24.04-arm ]
         java: [ 25 ]
         module: [ server ]
     steps:
