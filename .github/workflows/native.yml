@@ -57,9 +57,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: "Install dependencies for ${{ matrix.module }}-${{ matrix.os }}"
+      - name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
-      - name: "Compile native image for ${{ matrix.module }}-${{ matrix.os }}"
+      - name: "Compile native image for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative native:compile
       - name: "Delete snapshots from the Maven local repository"
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
