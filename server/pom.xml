@@ -36,6 +36,8 @@
         <spring-framework-for-server.version>7.0.7</spring-framework-for-server.version>
         <snakeyaml-for-server.version>2.0</snakeyaml-for-server.version>
         <junit-jupiter.version>6.0.3</junit-jupiter.version>
+        <!-- Default native platform classifier; overridden by OS/arch-specific profiles -->
+        <native.platform>${os.arch}</native.platform>
     </properties>
 
     <dependencyManagement>
@@ -538,6 +540,66 @@
             </build>
         </profile>
         <profile>
+            <id>native-linux-amd64</id>
+            <activation>
+                <os>
+                    <name>linux</name>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+            <properties>
+                <native.platform>linux-amd64</native.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>native-linux-aarch64</id>
+            <activation>
+                <os>
+                    <name>linux</name>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <properties>
+                <native.platform>linux-arm64</native.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>native-darwin-x86_64</id>
+            <activation>
+                <os>
+                    <name>mac os x</name>
+                    <arch>x86_64</arch>
+                </os>
+            </activation>
+            <properties>
+                <native.platform>darwin-amd64</native.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>native-darwin-aarch64</id>
+            <activation>
+                <os>
+                    <name>mac os x</name>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <properties>
+                <native.platform>darwin-arm64</native.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>native-windows-amd64</id>
+            <activation>
+                <os>
+                    <name>windows</name>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+            <properties>
+                <native.platform>windows-amd64</native.platform>
+            </properties>
+        </profile>
+        <profile>
             <id>native</id>
             <build>
                 <pluginManagement>
@@ -574,6 +636,7 @@
                             <configuration>
                                 <mainClass>org.apache.seata.server.ServerApplication</mainClass>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                                <imageName>${project.artifactId}-${project.version}-${native.platform}</imageName>
                                 <buildArgs>
                                     <arg>--initialize-at-build-time=ch.qos.logback</arg>
                                     <arg>--initialize-at-build-time=org.slf4j</arg>
@@ -632,6 +695,7 @@
                             <configuration>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                                 <mainClass>org.apache.seata.server.ServerApplication</mainClass>
+                                <imageName>${project.artifactId}-${project.version}-${native.platform}</imageName>
                                 <buildArgs>
                                     <arg>--initialize-at-build-time=ch.qos.logback</arg>
                                     <arg>--initialize-at-build-time=org.slf4j</arg>

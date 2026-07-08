@@ -61,6 +61,14 @@ jobs:
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
       - name: "Compile native image for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative native:compile
+      - name: "Upload binaries for ${{ matrix.module }} in ${{ matrix.os }}"
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: ${{ matrix.module }}-native-${{ runner.os }}-${{ runner.arch }}
+          path: |
+            ${{ matrix.module }}/target/seata-server-*
+            !${{ matrix.module }}/target/*.jar
+          if-no-files-found: error
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
