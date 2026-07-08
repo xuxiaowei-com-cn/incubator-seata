@@ -62,6 +62,7 @@ jobs:
       - name: "Compile native image for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative native:compile
       - name: "Delete snapshots from the Maven local repository"
+        shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
       - name: "Save local maven repository cache"
         uses: actions/cache/save@v4
