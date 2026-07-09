@@ -85,10 +85,9 @@
         <appender-ref ref="ASYNC_FILE_ALL"/>
         <appender-ref ref="ASYNC_FILE_WARN"/>
         <appender-ref ref="ASYNC_FILE_ERROR"/>
-
-        <!-- logstash/kafka/metric appender-refs are off by default -->
-        <!-- uncomment and add LOGSTASH/KAFKA/METRIC appender-refs if enabled -->
-
+        <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="KAFKA"/>
+        <appender-ref ref="METRIC"/>
     </root>
     <logger name="org.apache.kafka" level="WARN" additivity="false">
         <appender-ref ref="ASYNC_CONSOLE"/>
