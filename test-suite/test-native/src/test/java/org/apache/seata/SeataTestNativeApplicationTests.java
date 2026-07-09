@@ -17,7 +17,9 @@
 package org.apache.seata;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 class SeataTestNativeApplicationTests {
     @Test
     void contextLoads() {}
