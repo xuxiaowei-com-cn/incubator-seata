@@ -89,7 +89,7 @@ jobs:
           NATIVE_PID=$(cat ./seata-native-${{ matrix.module }}.pid)
           echo "NATIVE_PID=$NATIVE_PID"
           for i in 1 2 3 4 5 6; do
-            if curl -s -o /dev/null -w '%{http_code}' http://localhost:8091 | grep -q '^[23]'; then
+            if curl -sSf http://localhost:8091/health >/dev/null 2>&1; then
               echo "Port 8091 is responding"
               exit 0
             fi
