@@ -52,6 +52,7 @@ seata:
   registry:
     type: file
   tx-service-group: default_tx_group
+  data-source-proxy-mode: AT
   service:
     vgroup-mapping:
       default_tx_group: default
