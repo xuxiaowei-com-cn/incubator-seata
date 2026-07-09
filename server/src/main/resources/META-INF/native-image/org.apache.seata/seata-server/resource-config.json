@@ -458,6 +458,54 @@
       "pattern" : "registry.yml"
     }, {
       "pattern" : "spring.properties"
+    }, {
+      "pattern" : "META-INF/seata/io.seata.config.ConfigurationProvider"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.config.ConfigurationProvider"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.config.processor.Processor"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.api.config.filter.IConfigFilter"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.common.notify.EventPublisher"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.LoadBalancerProvider"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.ManagedChannelProvider"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.NameResolverProvider"
+    }, {
+      "pattern" : "META-INF/services/io.seata.config.ConfigurationProvider"
+    }, {
+      "pattern" : "META-INF/services/java.net.spi.InetAddressResolverProvider"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.config.ConfigurationProvider"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.config.processor.Processor"
+    }, {
+      "pattern" : "com/alibaba/nacos/api/config/remote/request"
+    }, {
+      "pattern" : "com/alibaba/nacos/api/config/remote/response"
+    }, {
+      "pattern" : "com/alibaba/nacos/api/naming/remote/request"
+    }, {
+      "pattern" : "com/alibaba/nacos/api/naming/remote/response"
+    }, {
+      "pattern" : "com/alibaba/nacos/api/remote/request"
+    }, {
+      "pattern" : "com/alibaba/nacos/api/remote/response"
+    }, {
+      "pattern" : "com/alibaba/nacos/naming/cluster/remote/request"
+    }, {
+      "pattern" : "com/alibaba/nacos/naming/cluster/remote/response"
+    }, {
+      "pattern" : "nacos-logback.xml"
+    }, {
+      "pattern" : "nacos-version.txt"
+    }, {
+      "pattern" : "org/apache/seata/server/instance/AbstractSeataInstanceStrategy.class"
+    }, {
+      "pattern" : "spas.properties"
     } ]
   }
 }

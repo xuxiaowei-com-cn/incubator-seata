@@ -432,7 +432,8 @@
   "methods" : [ {
     "name" : "getBoolean",
     "parameterTypes" : [ "java.lang.String" ]
-  } ]
+  } ],
+  "jniAccessible" : true
 }, {
   "name" : "java.lang.Byte"
 }, {
@@ -445,6 +446,9 @@
   "name" : "java.lang.Class",
   "methods" : [ {
     "name" : "getModule",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "isRecord",
     "parameterTypes" : [ ]
   } ]
 }, {
@@ -678,6 +682,9 @@
   "methods" : [ {
     "name" : "getInputArguments",
     "parameterTypes" : [ ]
+  }, {
+    "name" : "getName",
+    "parameterTypes" : [ ]
   } ]
 }, {
   "name" : "java.lang.reflect.ParameterizedType",
@@ -755,7 +762,11 @@
 }, {
   "name" : "jdk.internal.loader.ClassLoaders$PlatformClassLoader"
 }, {
-  "name" : "jdk.internal.misc.Unsafe"
+  "name" : "jdk.internal.misc.Unsafe",
+  "methods" : [ {
+    "name" : "getUnsafe",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "kotlin.Metadata"
 }, {
@@ -901,7 +912,11 @@
 }, {
   "name" : "org.apache.seata.discovery.registry.eureka.EurekaRegistryProvider"
 }, {
-  "name" : "org.apache.seata.discovery.registry.nacos.NacosRegistryProvider"
+  "name" : "org.apache.seata.discovery.registry.nacos.NacosRegistryProvider",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "org.apache.seata.discovery.registry.namingserver.NamingserverRegistryProvider"
 }, {
@@ -1054,6 +1069,9 @@
   "methods" : [ {
     "name" : "seataInstanceStrategy",
     "parameterTypes" : [ ]
+  }, {
+    "name" : "seataInstanceStrategy",
+    "parameterTypes" : [ "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryProperties", "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNamingServerProperties", "org.springframework.boot.web.server.autoconfigure.ServerProperties" ]
   } ]
 }, {
   "name" : "org.apache.seata.server.config.ServerInstanceStrategyConfig$$SpringCGLIB$$0",
@@ -1238,6 +1256,15 @@
   }, {
     "name" : "postConstruct",
     "parameterTypes" : [ ]
+  }, {
+    "name" : "setRegistryNamingServerProperties",
+    "parameterTypes" : [ "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNamingServerProperties" ]
+  }, {
+    "name" : "setRegistryProperties",
+    "parameterTypes" : [ "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryProperties" ]
+  }, {
+    "name" : "setServerProperties",
+    "parameterTypes" : [ "org.springframework.boot.web.server.autoconfigure.ServerProperties" ]
   } ]
 }, {
   "name" : "org.apache.seata.server.instance.GeneralInstanceStrategy"
@@ -1490,6 +1517,27 @@
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
+  }, {
+    "name" : "setDataId",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setGroup",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setNamespace",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setServerAddr",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ],
+  "fields" : [ {
+    "name" : "accessKey"
+  }, {
+    "name" : "contextPath"
+  }, {
+    "name" : "ramRoleName"
+  }, {
+    "name" : "username"
   } ]
 }, {
   "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigProperties",
@@ -1499,6 +1547,9 @@
   }, {
     "name" : "setType",
     "parameterTypes" : [ "java.lang.String" ]
+  } ],
+  "fields" : [ {
+    "name" : "dataType"
   } ]
 }, {
   "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigZooKeeperProperties",
@@ -1541,6 +1592,30 @@
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
+  }, {
+    "name" : "setApplication",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setCluster",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setGroup",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setNamespace",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setServerAddr",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ],
+  "fields" : [ {
+    "name" : "accessKey"
+  }, {
+    "name" : "contextPath"
+  }, {
+    "name" : "slbPattern"
+  }, {
+    "name" : "username"
   } ]
 }, {
   "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNamingServerProperties",
@@ -2767,14 +2842,24 @@
     "name" : "threadAllocatedMemorySupport"
   }, {
     "name" : "threadContentionMonitoringSupport"
-  } ]
+  } ],
+  "jniAccessible" : true
 }, {
   "name" : "sun.misc.Unsafe",
   "fields" : [ {
     "name" : "theUnsafe"
+  } ],
+  "methods" : [ {
+    "name" : "invokeCleaner",
+    "parameterTypes" : [ "java.nio.ByteBuffer" ]
   } ]
 }, {
-  "name" : "sun.nio.ch.SelectorImpl"
+  "name" : "sun.nio.ch.SelectorImpl",
+  "fields" : [ {
+    "name" : "publicSelectedKeys"
+  }, {
+    "name" : "selectedKeys"
+  } ]
 }, {
   "name" : "sun.reflect.ReflectionFactory",
   "methods" : [ {
@@ -2798,4 +2883,611 @@
   "name" : "sun.text.resources.cldr.FormatData_en_US"
 }, {
   "name" : "sun.util.resources.cldr.CalendarData"
+}, {
+  "name" : "android.app.Application"
+}, {
+  "name" : "ch.qos.logback.classic.Logger"
+}, {
+  "name" : "com.alibaba.nacos.api.ability.ClientAbilities",
+  "methods" : [ {
+    "name" : "getConfigAbility",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getNamingAbility",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getRemoteAbility",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.config.ability.ClientConfigAbility",
+  "methods" : [ {
+    "name" : "isSupportRemoteMetrics",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.request.AbstractConfigRequest",
+  "methods" : [ {
+    "name" : "getModule",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.request.ClientConfigMetricRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigBatchListenRequest",
+  "methods" : [ {
+    "name" : "getConfigListenContexts",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "isListen",
+    "parameterTypes" : [ ]
+  } ],
+  "fields" : [ {
+    "name" : "configListenContexts"
+  }, {
+    "name" : "listen"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigBatchListenRequest$ConfigListenContext",
+  "methods" : [ {
+    "name" : "getDataId",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getGroup",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getMd5",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getTenant",
+    "parameterTypes" : [ ]
+  } ],
+  "fields" : [ {
+    "name" : "dataId"
+  }, {
+    "name" : "group"
+  }, {
+    "name" : "md5"
+  }, {
+    "name" : "tenant"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigChangeNotifyRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigPublishRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigQueryRequest",
+  "methods" : [ {
+    "name" : "getDataId",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getGroup",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getTag",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getTenant",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "isNotify",
+    "parameterTypes" : [ ]
+  } ],
+  "fields" : [ {
+    "name" : "dataId"
+  }, {
+    "name" : "group"
+  }, {
+    "name" : "tag"
+  }, {
+    "name" : "tenant"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigRemoveRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.request.cluster.ConfigChangeClusterSyncRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.response.ClientConfigMetricResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigChangeBatchListenResponse",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setChangedConfigs",
+    "parameterTypes" : [ "java.util.List" ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigChangeBatchListenResponse$ConfigContext"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigChangeNotifyResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigPublishResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigQueryResponse",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setBeta",
+    "parameterTypes" : [ "boolean" ]
+  }, {
+    "name" : "setContent",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setContentType",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setEncryptedDataKey",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setLastModified",
+    "parameterTypes" : [ "long" ]
+  }, {
+    "name" : "setMd5",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigRemoveResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.config.remote.response.cluster.ConfigChangeClusterSyncResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.ability.ClientNamingAbility",
+  "methods" : [ {
+    "name" : "isSupportDeltaPush",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "isSupportRemoteMetric",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.naming.pojo.Instance",
+  "methods" : [ {
+    "name" : "getClusterName",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getInstanceHeartBeatInterval",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getInstanceHeartBeatTimeOut",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getInstanceId",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getInstanceIdGenerator",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getIp",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getIpDeleteTimeout",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getMetadata",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getPort",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getServiceName",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getWeight",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "isEnabled",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "isEphemeral",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "isHealthy",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.request.AbstractNamingRequest",
+  "methods" : [ {
+    "name" : "getGroupName",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getModule",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getNamespace",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getServiceName",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.request.InstanceRequest",
+  "methods" : [ {
+    "name" : "getInstance",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getType",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.request.NotifySubscriberRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.request.ServiceListRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.request.ServiceQueryRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.request.SubscribeServiceRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.response.InstanceResponse",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setType",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.response.NotifySubscriberResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.response.QueryServiceResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.response.ServiceListResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.response.SubscribeServiceResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.ability.ClientRemoteAbility",
+  "methods" : [ {
+    "name" : "isSupportRemoteConnection",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.ClientDetectionRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.ConnectResetRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.ConnectionSetupRequest",
+  "methods" : [ {
+    "name" : "getAbilities",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClientVersion",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getLabels",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getTenant",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.HealthCheckRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.InternalRequest",
+  "methods" : [ {
+    "name" : "getModule",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.PushAckRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.Request",
+  "methods" : [ {
+    "name" : "getHeaders",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getRequestId",
+    "parameterTypes" : [ ]
+  } ],
+  "fields" : [ {
+    "name" : "headers"
+  }, {
+    "name" : "requestId"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.ServerCheckRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.ServerLoaderInfoRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.ServerReloadRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.request.ServerRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.response.ClientDetectionResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.response.ConnectResetResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.response.ErrorResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.response.HealthCheckResponse",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.remote.response.Response",
+  "methods" : [ {
+    "name" : "setErrorCode",
+    "parameterTypes" : [ "int" ]
+  }, {
+    "name" : "setMessage",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setResultCode",
+    "parameterTypes" : [ "int" ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.remote.response.ServerCheckResponse",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setConnectionId",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.api.remote.response.ServerLoaderInfoResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.response.ServerReloadResponse"
+}, {
+  "name" : "com.alibaba.nacos.client.config.NacosConfigService",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ "java.util.Properties" ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.client.naming.NacosNamingService",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ "java.util.Properties" ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.common.notify.DefaultPublisher",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.com.google.common.util.concurrent.AbstractFuture",
+  "fields" : [ {
+    "name" : "listeners"
+  }, {
+    "name" : "value"
+  }, {
+    "name" : "waiters"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.com.google.common.util.concurrent.AbstractFuture$Waiter",
+  "fields" : [ {
+    "name" : "next"
+  }, {
+    "name" : "thread"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.com.google.protobuf.ExtensionRegistry",
+  "methods" : [ {
+    "name" : "getEmptyRegistry",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.CensusStatsModule$ClientCallTracer"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.CensusStatsModule$ClientTracer"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.CensusTracingModule$ClientCallTracer"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.CensusTracingModule$ServerTracer"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.DnsNameResolverProvider"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.JndiResourceResolverFactory",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.PickFirstLoadBalancerProvider"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.SerializingExecutor"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.NettyChannelProvider"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.NettyClientHandler"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.ProtocolNegotiators$GrpcNegotiationHandler"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.ProtocolNegotiators$WaitUntilActiveHandler"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.WriteBufferingAndExceptionHandler"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.buffer.AbstractByteBufAllocator"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.buffer.AbstractReferenceCountedByteBuf",
+  "fields" : [ {
+    "name" : "refCnt"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.ChannelOutboundBuffer"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline$HeadContext"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline$TailContext"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.epoll.Epoll",
+  "methods" : [ {
+    "name" : "isAvailable",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "unavailabilityCause",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.socket.nio.NioSocketChannel",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.DefaultAttributeMap"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueueColdProducerFields",
+  "fields" : [ {
+    "name" : "producerLimit"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueueConsumerFields",
+  "fields" : [ {
+    "name" : "consumerIndex"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueueProducerFields",
+  "fields" : [ {
+    "name" : "producerIndex"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueConsumerIndexField",
+  "fields" : [ {
+    "name" : "consumerIndex"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueProducerIndexField",
+  "fields" : [ {
+    "name" : "producerIndex"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueProducerLimitField",
+  "fields" : [ {
+    "name" : "producerLimit"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.override.ContextStorageOverride"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.util.SecretRoundRobinLoadBalancerProvider$Provider"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.opencensus.impl.stats.StatsComponentImpl"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.opencensus.impl.tags.TagsComponentImpl"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.opencensus.impl.trace.TraceComponentImpl"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.opencensus.impllite.stats.StatsComponentImplLite"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.opencensus.impllite.tags.TagsComponentImplLite"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.opencensus.impllite.trace.TraceComponentImplLite"
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.perfmark.impl.SecretPerfMarkImpl$PerfMarkImpl"
+}, {
+  "name" : "com.sun.jndi.dns.DnsContextFactory"
+}, {
+  "name" : "double"
+}, {
+  "name" : "io.prometheus.client.Striped64"
+}, {
+  "name" : "io.seata.config.ConfigurationProvider"
+}, {
+  "name" : "io.seata.config.processor.Processor"
+}, {
+  "name" : "java.lang.invoke.CallSite"
+}, {
+  "name" : "java.lang.reflect.AccessibleObject"
+}, {
+  "name" : "java.net.InetSocketAddress",
+  "methods" : [ {
+    "name" : "getHostString",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "java.nio.Bits"
+}, {
+  "name" : "java.nio.Buffer",
+  "fields" : [ {
+    "name" : "address"
+  } ]
+}, {
+  "name" : "java.nio.DirectByteBuffer"
+}, {
+  "name" : "java.util.List"
+}, {
+  "name" : "java.util.Map"
+}, {
+  "name" : "java.util.concurrent.atomic.LongAdder",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "add",
+    "parameterTypes" : [ "long" ]
+  } ]
+}, {
+  "name" : "java.util.function.Function"
+}, {
+  "name" : "java.util.zip.DeflaterInputStream"
+}, {
+  "name" : "javax.naming.directory.InitialDirContext"
+}, {
+  "name" : "libcore.io.Memory"
+}, {
+  "name" : "org.apache.seata.config.apollo.ApolloConfigurationProvider"
+}, {
+  "name" : "org.apache.seata.config.consul.ConsulConfigurationProvider"
+}, {
+  "name" : "org.apache.seata.config.etcd3.EtcdConfigurationProvider"
+}, {
+  "name" : "org.apache.seata.config.nacos.NacosConfigurationProvider",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.config.processor.ProcessorProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.config.processor.ProcessorYaml"
+}, {
+  "name" : "org.apache.seata.config.springcloud.SpringCloudConfigurationProvider"
+}, {
+  "name" : "org.apache.seata.config.zk.ZookeeperConfigurationProvider"
+}, {
+  "name" : "org.robolectric.Robolectric"
+}, {
+  "name" : "org.slf4j.impl.StaticLoggerBinder"
+}, {
+  "name" : "org.springframework.boot.context.config.ConfigDataLocation",
+  "methods" : [ {
+    "name" : "of",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
+}, {
+  "name" : "org.springframework.boot.context.config.ConfigDataLocationEditor"
+}, {
+  "name" : "org.springframework.boot.origin.OriginProvider[]"
+}, {
+  "name" : "sun.misc.VM"
+}, {
+  "name" : "sun.security.provider.MD5",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "sun.security.provider.SHA",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
 } ]
