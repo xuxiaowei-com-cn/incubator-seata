@@ -74,7 +74,7 @@ jobs:
           rm -rf ./${{ matrix.module }}/target/*.jar
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
           NATIVE_PID=$!
-          echo "$NATIVE_PID" > ${{ runner.temp }}/seata-native.pid
+          echo "$NATIVE_PID" > ./seata-native-${{ matrix.module }}.pid
           echo "Native binary started with PID=$NATIVE_PID"
           sleep 10
           if kill -0 $NATIVE_PID 2>/dev/null; then
@@ -86,25 +86,18 @@ jobs:
       - name: "Check port 8091 for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
         run: |
-          NATIVE_PID=$(cat ${{ runner.temp }}/seata-native.pid)
+          NATIVE_PID=$(cat ./seata-native-${{ matrix.module }}.pid)
           echo "NATIVE_PID=$NATIVE_PID"
-          if command -v ss >/dev/null 2>&1; then
-            if ss -tlnp | grep -q ':8091 '; then
-              echo "Port 8091 is listening"
-            else
-              echo "ERROR: Port 8091 is not listening"
-              exit 1
+          for i in 1 2 3 4 5 6; do
+            if curl -s -o /dev/null -w '%{http_code}' http://localhost:8091 | grep -q '^[23]'; then
+              echo "Port 8091 is responding"
+              exit 0
             fi
-          elif command -v netstat >/dev/null 2>&1; then
-            if netstat -tlnp 2>/dev/null | grep -q ':8091 ' || netstat -tln 2>/dev/null | grep -q ':8091 '; then
-              echo "Port 8091 is listening"
-            else
-              echo "ERROR: Port 8091 is not listening"
-              exit 1
-            fi
-          else
-            echo "WARNING: Neither ss nor netstat found, skipping port 8091 check"
-          fi
+            echo "Waiting for port 8091... ($i/6)"
+            sleep 5
+          done
+          echo "ERROR: Port 8091 is not responding after 30 seconds"
+          exit 1
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
