@@ -50,7 +50,7 @@ jobs:
       - name: "Print maven version"
         run: ./mvnw -version
       - name: "Restore local maven repository cache"
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6.1.0
         id: cache-maven-repository
         with:
           path: ~/.m2/repository
@@ -73,7 +73,7 @@ jobs:
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
       - name: "Save local maven repository cache"
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6.1.0
         if: steps.cache-maven-repository.outputs.cache-hit != 'true'
         with:
           path: ~/.m2/repository
