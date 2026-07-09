@@ -215,21 +215,33 @@
     "parameterTypes" : [ ]
   } ]
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory"
+  "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1590202",
   "fields" : [ {
     "name" : "GUICE$INVOKERS"
   } ]
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper"
+  "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$381400",
   "fields" : [ {
     "name" : "GUICE$INVOKERS"
   } ]
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry"
+  "name" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry$$FastClassByGuice$$3049620",
   "fields" : [ {
@@ -453,7 +465,11 @@
 }, {
   "name" : "java.lang.Double"
 }, {
-  "name" : "java.lang.Enum"
+  "name" : "java.lang.Enum",
+  "methods" : [ {
+    "name" : "ordinal",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "java.lang.Error"
 }, {
@@ -463,7 +479,11 @@
 }, {
   "name" : "java.lang.Integer"
 }, {
-  "name" : "java.lang.Iterable"
+  "name" : "java.lang.Iterable",
+  "methods" : [ {
+    "name" : "iterator",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "java.lang.Long"
 }, {
@@ -500,11 +520,72 @@
   "methods" : [ {
     "name" : "equals",
     "parameterTypes" : [ "java.lang.Object" ]
+  }, {
+    "name" : "concat",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "hashCode",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "int" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "long" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "float" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "double" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "char" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "boolean" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "java.lang.Object" ]
   } ]
 }, {
   "name" : "java.lang.StringBuffer"
 }, {
-  "name" : "java.lang.StringBuilder"
+  "name" : "java.lang.StringBuilder",
+  "methods" : [ {
+    "name" : "append",
+    "parameterTypes" : [ "int" ]
+  }, {
+    "name" : "append",
+    "parameterTypes" : [ "long" ]
+  }, {
+    "name" : "append",
+    "parameterTypes" : [ "float" ]
+  }, {
+    "name" : "append",
+    "parameterTypes" : [ "double" ]
+  }, {
+    "name" : "append",
+    "parameterTypes" : [ "char" ]
+  }, {
+    "name" : "append",
+    "parameterTypes" : [ "boolean" ]
+  }, {
+    "name" : "append",
+    "parameterTypes" : [ "java.lang.Object" ]
+  }, {
+    "name" : "append",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "toString",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "<init>",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
 }, {
   "name" : "java.lang.String[]"
 }, {
@@ -516,7 +597,11 @@
     "parameterTypes" : [ ]
   } ]
 }, {
-  "name" : "java.lang.Throwable"
+  "name" : "java.lang.Throwable",
+  "methods" : [ {
+    "name" : "addSuppressed",
+    "parameterTypes" : [ "java.lang.Throwable" ]
+  } ]
 }, {
   "name" : "java.lang.Void"
 }, {
@@ -637,7 +722,14 @@
 }, {
   "name" : "java.util.EventListener"
 }, {
-  "name" : "java.util.Iterator"
+  "name" : "java.util.Iterator",
+  "methods" : [ {
+    "name" : "hasNext",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "next",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "java.util.concurrent.Executor"
 }, {

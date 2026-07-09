@@ -81,4 +81,4 @@ package-server-native: package-server-native-pre ## Build server native image (G
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative native:compile
 
 package-server-native-only: ## Build server native image (GraalVM) without pre-step
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative native:compile
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile

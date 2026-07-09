@@ -52,6 +52,22 @@ public abstract class AbstractSeataInstanceStrategy implements SeataInstanceStra
     @Resource
     protected RegistryNamingServerProperties registryNamingServerProperties;
 
+    public void setRegistryProperties(RegistryProperties registryProperties) {
+        this.registryProperties = registryProperties;
+    }
+
+    public void setServerProperties(ServerProperties serverProperties) {
+        this.serverProperties = serverProperties;
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    public void setRegistryNamingServerProperties(RegistryNamingServerProperties registryNamingServerProperties) {
+        this.registryNamingServerProperties = registryNamingServerProperties;
+    }
+
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected static volatile ScheduledExecutorService EXECUTOR_SERVICE;
 
