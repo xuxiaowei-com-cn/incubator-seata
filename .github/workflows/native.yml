@@ -80,6 +80,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
 
   test:
+    needs: build
     name: test
     runs-on: ${{ matrix.os }}
     strategy:
@@ -113,8 +114,19 @@ jobs:
         with:
           name: ${{ matrix.module }}-native-${{ runner.os }}-${{ runner.arch }}
           path: .
+      - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }}"
+        shell: sh
+        run: |
+          VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:evaluate -pl ${{ matrix.module }} -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=$VERSION"
+          chmod +x ./${{ matrix.module }}/target/seata-server-*
+          file ./${{ matrix.module }}/target/seata-server-*
+          ./${{ matrix.module }}/target/seata-server-* &
+          NATIVE_PID=$!
+          echo "Native binary started with PID=$NATIVE_PID"
+          sleep 5
       - name: "Test native image for ${{ matrix.module }} in ${{ matrix.os }}"
-        run:
+        run: ./mvnw -T 4C -Ptest-native -pl test-suite/test-native test
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
