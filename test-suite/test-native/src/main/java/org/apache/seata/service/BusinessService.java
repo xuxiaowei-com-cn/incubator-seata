@@ -16,4 +16,17 @@
  */
 package org.apache.seata.service;
 
-public interface BusinessService {}
+/**
+ * Business service for purchase operations
+ */
+public interface BusinessService {
+
+    /**
+     * Purchase commodity with global transaction
+     *
+     * @param userId         user id
+     * @param commodityCode  commodity code
+     * @param orderCount     order count
+     */
+    void purchase(String userId, String commodityCode, int orderCount);
+}

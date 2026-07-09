@@ -16,15 +16,19 @@
  */
 package org.apache.seata.service.impl;
 
+import org.apache.seata.core.context.RootContext;
 import org.apache.seata.service.BusinessService;
 import org.apache.seata.service.OrderService;
 import org.apache.seata.service.StorageService;
 import org.apache.seata.spring.annotation.GlobalTransactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BusinessServiceImpl implements BusinessService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BusinessServiceImpl.class);
 
     private StorageService storageService;
 
@@ -43,8 +47,11 @@ public class BusinessServiceImpl implements BusinessService {
     /**
      * purchase
      */
+    @Override
     @GlobalTransactional
     public void purchase(String userId, String commodityCode, int orderCount) {
+        String xid = RootContext.getXID();
+        LOGGER.info("xid: {}", xid);
 
         storageService.deduct(commodityCode, orderCount);
 

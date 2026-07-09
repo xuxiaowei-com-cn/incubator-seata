@@ -15,16 +15,20 @@
 -- limitations under the License.
 --
 
--- Initialize test data for distributed transaction tests
+-- Clean all test data for test isolation
+DELETE FROM `order_tbl`;
+DELETE FROM `undo_log`;
+DELETE FROM `storage_tbl`;
+DELETE FROM `account_tbl`;
 
 -- Commodity C001: initial stock 100
-INSERT IGNORE INTO `storage_tbl` (`id`, `commodity_code`, `count`) VALUES (1, 'C001', 100);
+INSERT INTO `storage_tbl` (`id`, `commodity_code`, `count`) VALUES (1, 'C001', 100);
 
 -- Commodity C002: initial stock 5 (for testing insufficient stock scenario)
-INSERT IGNORE INTO `storage_tbl` (`id`, `commodity_code`, `count`) VALUES (2, 'C002', 5);
+INSERT INTO `storage_tbl` (`id`, `commodity_code`, `count`) VALUES (2, 'C002', 5);
 
 -- User U001: initial balance 10000
-INSERT IGNORE INTO `account_tbl` (`id`, `user_id`, `money`) VALUES (1, 'U001', 10000);
+INSERT INTO `account_tbl` (`id`, `user_id`, `money`) VALUES (1, 'U001', 10000);
 
 -- User U002: low balance 100 (for testing insufficient balance scenario)
-INSERT IGNORE INTO `account_tbl` (`id`, `user_id`, `money`) VALUES (2, 'U002', 100);
+INSERT INTO `account_tbl` (`id`, `user_id`, `money`) VALUES (2, 'U002', 100);

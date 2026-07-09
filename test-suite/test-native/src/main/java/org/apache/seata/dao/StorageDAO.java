@@ -18,18 +18,10 @@ package org.apache.seata.dao;
 
 import org.apache.seata.entity.Storage;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StorageDAO extends JpaRepository<Storage, Integer> {
 
     Storage findByCommodityCode(String commodityCode);
-
-    @Modifying
-    @Query(
-            "UPDATE Storage s SET s.count = s.count - :count WHERE s.commodityCode = :commodityCode AND s.count >= :count")
-    int deduct(@Param("commodityCode") String commodityCode, @Param("count") int count);
 }

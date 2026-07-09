@@ -16,11 +16,44 @@
  */
 package org.apache.seata.service.impl;
 
+import org.apache.seata.dao.AccountDAO;
+import org.apache.seata.entity.Account;
 import org.apache.seata.service.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
+
+    private AccountDAO accountDAO;
+
+    @Autowired
+    public void setAccountDAO(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
+
     @Override
-    public void debit(String userId, int money) {}
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void debit(String userId, int money) {
+        LOGGER.info("Debiting account: userId={}, money={}", userId, money);
+
+        Account account = accountDAO.findByUserId(userId);
+        if (account == null) {
+            throw new RuntimeException("Account not found for userId: " + userId);
+        }
+        if (account.getMoney() < money) {
+            throw new RuntimeException("Insufficient balance: userId=" + userId + ", required=" + money + ", available="
+                    + account.getMoney());
+        }
+
+        account.setMoney(account.getMoney() - money);
+        accountDAO.saveAndFlush(account);
+
+        LOGGER.info("Account debited successfully: userId={}, money={}", userId, money);
+    }
 }

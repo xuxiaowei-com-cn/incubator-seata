@@ -58,6 +58,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private int calculate(String commodityCode, int orderCount) {
-        return 0;
+        // Simple pricing: each commodity unit costs 100
+        return orderCount * 100;
     }
 }
