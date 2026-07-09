@@ -27,6 +27,11 @@ spring:
     url: ${DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/${DATASOURCE_DB:seata_test_native}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
     username: ${DATASOURCE_USERNAME:root}
     password: ${DATASOURCE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+    show-sql: true
 
 ---
 
