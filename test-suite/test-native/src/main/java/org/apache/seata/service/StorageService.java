@@ -19,7 +19,7 @@ package org.apache.seata.service;
 public interface StorageService {
 
     /**
-     * 扣除存储数量
+     * deduct storage count
      */
     void deduct(String commodityCode, int count);
 }

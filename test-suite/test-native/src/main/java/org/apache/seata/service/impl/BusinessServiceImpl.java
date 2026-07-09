@@ -19,6 +19,7 @@ package org.apache.seata.service.impl;
 import org.apache.seata.service.BusinessService;
 import org.apache.seata.service.OrderService;
 import org.apache.seata.service.StorageService;
+import org.apache.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +41,9 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     /**
-     * 采购
+     * purchase
      */
+    @GlobalTransactional
     public void purchase(String userId, String commodityCode, int orderCount) {
 
         storageService.deduct(commodityCode, orderCount);

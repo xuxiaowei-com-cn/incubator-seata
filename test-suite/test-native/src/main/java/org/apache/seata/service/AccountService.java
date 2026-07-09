@@ -19,7 +19,7 @@ package org.apache.seata.service;
 public interface AccountService {
 
     /**
-     * 从用户账户中借出
+     * debit balance of user's account
      */
     void debit(String userId, int money);
 }

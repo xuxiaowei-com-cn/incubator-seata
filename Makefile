@@ -104,4 +104,5 @@ package-server-native-only: spotless-apply ## Build server native image (GraalVM
 
 package-test-native: ## Build native test suite
 	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native spotless:apply
+	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native install -DskipTests -am
 	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native clean package

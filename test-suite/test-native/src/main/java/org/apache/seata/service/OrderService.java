@@ -21,7 +21,7 @@ import org.apache.seata.entity.Order;
 public interface OrderService {
 
     /**
-     * 创建订单
+     * create order
      *
      */
     Order create(String userId, String commodityCode, int orderCount);
