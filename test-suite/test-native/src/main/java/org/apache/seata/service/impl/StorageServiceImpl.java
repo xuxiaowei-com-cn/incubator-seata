@@ -42,17 +42,16 @@ public class StorageServiceImpl implements StorageService {
     public void deduct(String commodityCode, int count) {
         LOGGER.info("Deducting storage: commodityCode={}, count={}", commodityCode, count);
 
-        Storage storage = storageDAO.findByCommodityCode(commodityCode);
-        if (storage == null) {
-            throw new RuntimeException("Storage not found for commodityCode: " + commodityCode);
-        }
-        if (storage.getCount() < count) {
+        int affected = storageDAO.deduct(commodityCode, count);
+        if (affected == 0) {
+            // Determine whether commodity not found or insufficient stock
+            Storage storage = storageDAO.findByCommodityCode(commodityCode);
+            if (storage == null) {
+                throw new RuntimeException("Storage not found for commodityCode: " + commodityCode);
+            }
             throw new RuntimeException("Insufficient storage: commodityCode=" + commodityCode + ", required=" + count
                     + ", available=" + storage.getCount());
         }
-
-        storage.setCount(storage.getCount() - count);
-        storageDAO.saveAndFlush(storage);
 
         LOGGER.info("Storage deducted successfully: commodityCode={}, count={}", commodityCode, count);
     }

@@ -39,9 +39,10 @@ public interface StorageTccAction {
      * @return true if deduction successful
      */
     @TwoPhaseBusinessAction(name = "storageTccAction", commitMethod = "commit", rollbackMethod = "rollback")
-    boolean prepareDeduct(BusinessActionContext context,
-                          @BusinessActionContextParameter("commodityCode") String commodityCode,
-                          @BusinessActionContextParameter("count") int count);
+    boolean prepareDeduct(
+            BusinessActionContext context,
+            @BusinessActionContextParameter("commodityCode") String commodityCode,
+            @BusinessActionContextParameter("count") int count);
 
     /**
      * Confirm: no-op (the try phase already committed the change).

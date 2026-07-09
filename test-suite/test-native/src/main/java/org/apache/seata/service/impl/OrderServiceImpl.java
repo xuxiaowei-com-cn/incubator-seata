@@ -22,6 +22,7 @@ import org.apache.seata.service.AccountService;
 import org.apache.seata.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -41,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public Order create(String userId, String commodityCode, int orderCount) {
 
         int orderMoney = calculate(commodityCode, orderCount);

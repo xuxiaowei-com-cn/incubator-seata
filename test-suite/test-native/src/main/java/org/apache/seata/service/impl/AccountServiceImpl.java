@@ -42,17 +42,16 @@ public class AccountServiceImpl implements AccountService {
     public void debit(String userId, int money) {
         LOGGER.info("Debiting account: userId={}, money={}", userId, money);
 
-        Account account = accountDAO.findByUserId(userId);
-        if (account == null) {
-            throw new RuntimeException("Account not found for userId: " + userId);
-        }
-        if (account.getMoney() < money) {
+        int affected = accountDAO.debit(userId, money);
+        if (affected == 0) {
+            // Determine whether user not found or insufficient balance
+            Account account = accountDAO.findByUserId(userId);
+            if (account == null) {
+                throw new RuntimeException("Account not found for userId: " + userId);
+            }
             throw new RuntimeException("Insufficient balance: userId=" + userId + ", required=" + money + ", available="
                     + account.getMoney());
         }
-
-        account.setMoney(account.getMoney() - money);
-        accountDAO.saveAndFlush(account);
 
         LOGGER.info("Account debited successfully: userId={}, money={}", userId, money);
     }

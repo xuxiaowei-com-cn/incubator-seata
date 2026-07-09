@@ -89,7 +89,11 @@ public class BusinessTccServiceImpl implements BusinessTccService {
         order.setMoney(orderMoney);
         orderDAO.insert(order);
 
-        LOGGER.info("TCC purchase completed — userId={}, commodityCode={}, orderCount={}, money={}",
-                userId, commodityCode, orderCount, orderMoney);
+        LOGGER.info(
+                "TCC purchase completed — userId={}, commodityCode={}, orderCount={}, money={}",
+                userId,
+                commodityCode,
+                orderCount,
+                orderMoney);
     }
 }

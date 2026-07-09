@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * TCC action implementation for account operations.
@@ -45,20 +46,27 @@ public class AccountTccActionImpl implements AccountTccAction {
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public boolean prepareDebit(BusinessActionContext context, String userId, int money) {
         LOGGER.info("TCC Try: Debiting account — userId={}, money={}", userId, money);
 
-        Account account = accountDAO.findByUserId(userId);
-        if (account == null) {
-            throw new RuntimeException("Account not found for userId: " + userId);
-        }
-        if (account.getMoney() < money) {
-            throw new RuntimeException("Insufficient balance: userId=" + userId
-                    + ", required=" + money + ", available=" + account.getMoney());
+        int affected = accountDAO.debit(userId, money);
+        if (affected == 0) {
+            // Determine whether user not found or insufficient balance
+            Account account = accountDAO.findByUserId(userId);
+            if (account == null) {
+                throw new RuntimeException("Account not found for userId: " + userId);
+            }
+            throw new RuntimeException("Insufficient balance: userId=" + userId + ", required=" + money + ", available="
+                    + account.getMoney());
         }
 
-        account.setMoney(account.getMoney() - money);
-        accountDAO.saveAndFlush(account);
+        // Store parameters in action context ONLY after successful debit,
+        // so that rollback can correctly restore the debited amount.
+        if (context != null) {
+            context.addActionContext("userId", userId);
+            context.addActionContext("money", money);
+        }
 
         LOGGER.info("TCC Try: Account debited successfully — userId={}, money={}", userId, money);
         return true;
@@ -66,23 +74,26 @@ public class AccountTccActionImpl implements AccountTccAction {
 
     @Override
     public boolean commit(BusinessActionContext context) {
-        LOGGER.info("TCC Confirm: Account action confirmed — xid={}, branchId={}",
-                context.getXid(), context.getBranchId());
+        LOGGER.info(
+                "TCC Confirm: Account action confirmed — xid={}, branchId={}", context.getXid(), context.getBranchId());
         return true;
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public boolean rollback(BusinessActionContext context) {
         String userId = (String) context.getActionContext("userId");
-        int money = (int) context.getActionContext("money");
-        LOGGER.info("TCC Cancel: Restoring account balance — userId={}, money={}", userId, money);
+        Integer money = (Integer) context.getActionContext("money");
 
-        Account account = accountDAO.findByUserId(userId);
-        if (account != null) {
-            account.setMoney(account.getMoney() + money);
-            accountDAO.saveAndFlush(account);
+        // If Try phase didn't store context parameters (e.g., because the debit failed),
+        // there's nothing to rollback — return successfully.
+        if (userId == null || money == null) {
+            LOGGER.info("TCC Cancel: No action context parameters found, skip rollback for xid={}", context.getXid());
+            return true;
         }
 
+        LOGGER.info("TCC Cancel: Restoring account balance — userId={}, money={}", userId, money);
+        accountDAO.credit(userId, money);
         LOGGER.info("TCC Cancel: Account balance restored successfully — userId={}, money={}", userId, money);
         return true;
     }

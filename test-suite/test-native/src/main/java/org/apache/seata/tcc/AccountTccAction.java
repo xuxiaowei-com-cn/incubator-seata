@@ -39,9 +39,10 @@ public interface AccountTccAction {
      * @return true if debit successful
      */
     @TwoPhaseBusinessAction(name = "accountTccAction", commitMethod = "commit", rollbackMethod = "rollback")
-    boolean prepareDebit(BusinessActionContext context,
-                         @BusinessActionContextParameter("userId") String userId,
-                         @BusinessActionContextParameter("money") int money);
+    boolean prepareDebit(
+            BusinessActionContext context,
+            @BusinessActionContextParameter("userId") String userId,
+            @BusinessActionContextParameter("money") int money);
 
     /**
      * Confirm: no-op (the try phase already committed the change).

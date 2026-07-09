@@ -18,13 +18,13 @@
 -- Initialize test data for distributed transaction tests
 
 -- Commodity C001: initial stock 100
-INSERT IGNORE INTO `storage_tbl` (`id`, `commodity_code`, `count`) VALUES (1, 'C001', 100);
+INSERT IGNORE INTO `storage_tbl` (`commodity_code`, `count`) VALUES ('C001', 100);
 
 -- Commodity C002: initial stock 5 (for testing insufficient stock scenario)
-INSERT IGNORE INTO `storage_tbl` (`id`, `commodity_code`, `count`) VALUES (2, 'C002', 5);
+INSERT IGNORE INTO `storage_tbl` (`commodity_code`, `count`) VALUES ('C002', 5);
 
 -- User U001: initial balance 10000
-INSERT IGNORE INTO `account_tbl` (`id`, `user_id`, `money`) VALUES (1, 'U001', 10000);
+INSERT IGNORE INTO `account_tbl` (`user_id`, `money`) VALUES ('U001', 10000);
 
 -- User U002: low balance 100 (for testing insufficient balance scenario)
-INSERT IGNORE INTO `account_tbl` (`id`, `user_id`, `money`) VALUES (2, 'U002', 100);
+INSERT IGNORE INTO `account_tbl` (`user_id`, `money`) VALUES ('U002', 100);

@@ -1,3 +1,19 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.seata;
 
 import org.apache.seata.dao.AccountDAO;
@@ -59,6 +75,24 @@ class DataSourceProxyModeXaTests {
 
     @Autowired
     AccountDAO accountDAO;
+
+    /**
+     * Reset all test data to known state before each test method.
+     * This ensures test isolation even when using a real MySQL database.
+     */
+    @BeforeEach
+    void resetTestData() {
+        // Clean all test tables (deleteAllInBatch commits immediately)
+        orderDAO.deleteAllInBatch();
+        storageDAO.deleteAllInBatch();
+        accountDAO.deleteAllInBatch();
+
+        // Re-insert test data (saveAndFlush commits immediately)
+        storageDAO.saveAndFlush(new Storage("C001", 100));
+        storageDAO.saveAndFlush(new Storage("C002", 5));
+        accountDAO.saveAndFlush(new Account("U001", 10000));
+        accountDAO.saveAndFlush(new Account("U002", 100));
+    }
 
     // ==================== Basic Context Tests ====================
 
@@ -194,24 +228,6 @@ class DataSourceProxyModeXaTests {
     @Nested
     @DisplayName("6. Distributed Transaction — Purchase Flow")
     class PurchaseFlowTests {
-
-        /**
-         * Reset all test data to known state before each distributed transaction test.
-         * This ensures test isolation even when using a real MySQL database.
-         */
-        @BeforeEach
-        void resetTestData() {
-            // Clean all test tables (deleteAll is @Transactional, commits immediately)
-            orderDAO.deleteAllInBatch();
-            storageDAO.deleteAllInBatch();
-            accountDAO.deleteAllInBatch();
-
-            // Re-insert test data (saveAndFlush commits immediately)
-            storageDAO.saveAndFlush(new Storage("C001", 100));
-            storageDAO.saveAndFlush(new Storage("C002", 5));
-            accountDAO.saveAndFlush(new Account("U001", 10000));
-            accountDAO.saveAndFlush(new Account("U002", 100));
-        }
 
         @Test
         @DisplayName("6.1 XA mode — Purchase succeeds: storage deducted, account debited, order created")

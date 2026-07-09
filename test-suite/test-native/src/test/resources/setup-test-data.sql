@@ -21,14 +21,19 @@ DELETE FROM `undo_log`;
 DELETE FROM `storage_tbl`;
 DELETE FROM `account_tbl`;
 
+-- Reset auto-increment counters to avoid ID conflicts
+ALTER TABLE `storage_tbl` AUTO_INCREMENT = 1;
+ALTER TABLE `account_tbl` AUTO_INCREMENT = 1;
+ALTER TABLE `order_tbl` AUTO_INCREMENT = 1;
+
 -- Commodity C001: initial stock 100
-INSERT INTO `storage_tbl` (`id`, `commodity_code`, `count`) VALUES (1, 'C001', 100);
+INSERT INTO `storage_tbl` (`commodity_code`, `count`) VALUES ('C001', 100);
 
 -- Commodity C002: initial stock 5 (for testing insufficient stock scenario)
-INSERT INTO `storage_tbl` (`id`, `commodity_code`, `count`) VALUES (2, 'C002', 5);
+INSERT INTO `storage_tbl` (`commodity_code`, `count`) VALUES ('C002', 5);
 
 -- User U001: initial balance 10000
-INSERT INTO `account_tbl` (`id`, `user_id`, `money`) VALUES (1, 'U001', 10000);
+INSERT INTO `account_tbl` (`user_id`, `money`) VALUES ('U001', 10000);
 
 -- User U002: low balance 100 (for testing insufficient balance scenario)
-INSERT INTO `account_tbl` (`id`, `user_id`, `money`) VALUES (2, 'U002', 100);
+INSERT INTO `account_tbl` (`user_id`, `money`) VALUES ('U002', 100);
