@@ -74,7 +74,7 @@ jobs:
           rm -rf ./${{ matrix.module }}/target/*.jar
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
           NATIVE_PID=$!
-          echo "$NATIVE_PID" > ${{ env.RUNNER_TEMP }}/seata-native.pid
+          echo "$NATIVE_PID" > ${{ runner.temp }}/seata-native.pid
           echo "Native binary started with PID=$NATIVE_PID"
           sleep 10
           if kill -0 $NATIVE_PID 2>/dev/null; then
@@ -86,7 +86,7 @@ jobs:
       - name: "Check port 8091 for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
         run: |
-          NATIVE_PID=$(cat ${{ env.RUNNER_TEMP }}/seata-native.pid)
+          NATIVE_PID=$(cat ${{ runner.temp }}/seata-native.pid)
           echo "NATIVE_PID=$NATIVE_PID"
           if command -v ss >/dev/null 2>&1; then
             if ss -tlnp | grep -q ':8091 '; then
