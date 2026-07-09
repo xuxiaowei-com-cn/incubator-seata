@@ -68,57 +68,9 @@ jobs:
             ${{ matrix.module }}/target/seata-*-*
             !${{ matrix.module }}/target/*.jar
           if-no-files-found: error
-      - name: "Delete snapshots from the Maven local repository"
-        shell: sh
-        run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
-      - name: "Save local maven repository cache"
-        uses: actions/cache/save@v6.1.0
-        if: steps.cache-maven-repository.outputs.cache-hit != 'true'
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-
-  test:
-    needs: build
-    name: test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-latest ]
-        module: [ server ]
-        type: [ file ]
-    steps:
-      - name: "Checkout"
-        uses: actions/checkout@v7.0.0
-      - name: "Set up Java JDK"
-        uses: actions/setup-java@v5.5.0
-        with:
-          distribution: 'zulu'
-          java-version: 25
-      - name: "Print maven version"
-        run: ./mvnw -version
-      - name: "Restore local maven repository cache"
-        uses: actions/cache/restore@v6.1.0
-        id: cache-maven-repository
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      #- name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
-      #  run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
-      - name: "Download binaries for ${{ matrix.module }} in ${{ matrix.os }}"
-        uses: actions/download-artifact@v8.0.1
-        with:
-          name: ${{ matrix.module }}-native-${{ runner.os }}-${{ runner.arch }}
-          path: .
-      - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }} (type: ${{ matrix.type }})"
-        if: ${{ matrix.type == 'file' }}
+      - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
         run: |
-          chmod +x ./${{ matrix.module }}/target/seata-${{ matrix.module }}-*
-          file ./${{ matrix.module }}/target/seata-${{ matrix.module }}-*
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
           NATIVE_PID=$!
           echo "$NATIVE_PID" > /tmp/seata-native.pid
@@ -139,7 +91,6 @@ jobs:
               echo "Port 8091 is listening"
             else
               echo "ERROR: Port 8091 is not listening"
-              kill $NATIVE_PID 2>/dev/null
               exit 1
             fi
           elif command -v netstat >/dev/null 2>&1; then
@@ -147,15 +98,11 @@ jobs:
               echo "Port 8091 is listening"
             else
               echo "ERROR: Port 8091 is not listening"
-              kill $NATIVE_PID 2>/dev/null
               exit 1
             fi
           else
             echo "WARNING: Neither ss nor netstat found, skipping port 8091 check"
           fi
-          kill $NATIVE_PID 2>/dev/null
-      #- name: "Test native image for ${{ matrix.module }} in ${{ matrix.os }}"
-      #  run: ./mvnw -T 4C -Ptest-native -pl test-suite/test-native test
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
