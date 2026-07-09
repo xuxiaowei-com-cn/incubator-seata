@@ -71,6 +71,14 @@
     }, {
       "pattern" : "META-INF/services/org.apache.seata.server.coordinator.AbstractCore"
     }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.serializer.Serializer"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.store.DistributedLocker"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.store.db.DataSourceProvider"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.server.limit.ratelimit.RateLimiter"
+    }, {
       "pattern" : "META-INF/services/org.apache.seata.server.lock.LockManager"
     }, {
       "pattern" : "META-INF/services/org.apache.seata.server.session.SessionManager"
@@ -467,7 +475,29 @@
     }, {
       "pattern" : "META-INF/services/com.alibaba.nacos.api.config.filter.IConfigFilter"
     }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.api.remote.Payload"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.client.address.ServerListProvider"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.client.naming.backups.FailoverDataSource"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.common.ability.AbstractAbilityControlManager"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.common.labels.LabelsCollector"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.common.logging.NacosLoggingAdapter"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.common.logging.NacosLoggingAdapterBuilder"
+    }, {
       "pattern" : "META-INF/services/com.alibaba.nacos.common.notify.EventPublisher"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.common.paramcheck.AbstractParamChecker"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.common.pathencoder.PathEncoder"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.plugin.auth.spi.client.AbstractClientAuthService"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.ServerProvider"
     }, {
       "pattern" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.LoadBalancerProvider"
     }, {

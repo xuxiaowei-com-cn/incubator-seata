@@ -704,6 +704,40 @@
     "parameterTypes" : [ ]
   } ]
 }, {
+  "name" : "java.nio.Bits",
+  "fields" : [ {
+    "name" : "UNALIGNED"
+  } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.buffer.AbstractByteBufAllocator",
+  "allDeclaredMethods" : true,
+  "allDeclaredConstructors" : true
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.buffer.UnpooledByteBufAllocator",
+  "allDeclaredMethods" : true,
+  "allDeclaredConstructors" : true
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil",
+  "allDeclaredMethods" : true,
+  "allDeclaredConstructors" : true,
+  "allDeclaredFields" : true
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.ResourceLeakDetector",
+  "allDeclaredMethods" : true,
+  "allDeclaredConstructors" : true
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.AbstractChannel",
+  "allDeclaredMethods" : true,
+  "allDeclaredConstructors" : true
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext",
+  "allDeclaredMethods" : true,
+  "allDeclaredConstructors" : true
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline",
+  "allDeclaredMethods" : true,
+  "allDeclaredConstructors" : true
+}, {
   "name" : "java.nio.ByteBuffer",
   "methods" : [ {
     "name" : "alignedSlice",
@@ -3110,13 +3144,19 @@
     "parameterTypes" : [ ]
   } ]
 }, {
+  "name" : "com.alibaba.nacos.api.naming.remote.request.BatchInstanceRequest"
+}, {
   "name" : "com.alibaba.nacos.api.naming.remote.request.NotifySubscriberRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.request.PersistentInstanceRequest"
 }, {
   "name" : "com.alibaba.nacos.api.naming.remote.request.ServiceListRequest"
 }, {
   "name" : "com.alibaba.nacos.api.naming.remote.request.ServiceQueryRequest"
 }, {
   "name" : "com.alibaba.nacos.api.naming.remote.request.SubscribeServiceRequest"
+}, {
+  "name" : "com.alibaba.nacos.api.naming.remote.response.BatchInstanceResponse"
 }, {
   "name" : "com.alibaba.nacos.api.naming.remote.response.InstanceResponse",
   "methods" : [ {
@@ -3190,6 +3230,8 @@
 }, {
   "name" : "com.alibaba.nacos.api.remote.request.ServerReloadRequest"
 }, {
+  "name" : "com.alibaba.nacos.api.remote.request.SetupAckRequest"
+}, {
   "name" : "com.alibaba.nacos.api.remote.request.ServerRequest"
 }, {
   "name" : "com.alibaba.nacos.api.remote.response.ClientDetectionResponse"
@@ -3228,6 +3270,8 @@
   "name" : "com.alibaba.nacos.api.remote.response.ServerLoaderInfoResponse"
 }, {
   "name" : "com.alibaba.nacos.api.remote.response.ServerReloadResponse"
+}, {
+  "name" : "com.alibaba.nacos.api.remote.response.SetupAckResponse"
 }, {
   "name" : "com.alibaba.nacos.client.config.NacosConfigService",
   "methods" : [ {
@@ -3480,6 +3524,26 @@
   "name" : "sun.misc.VM"
 }, {
   "name" : "sun.security.provider.MD5",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.core.serializer.Serializer"
+}, {
+  "name" : "org.apache.seata.serializer.seata.SeataSerializer",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ "java.lang.Byte" ]
+  } ]
+}, {
+  "name" : "org.apache.seata.serializer.seata.SeataSerializer$SeataSerializerV0",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.serializer.seata.SeataSerializer$SeataSerializerV1",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
