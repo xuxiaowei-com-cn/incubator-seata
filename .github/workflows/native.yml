@@ -37,7 +37,6 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-latest ]
-        java: [ 25 ]
         module: [ server ]
     steps:
       - name: "Checkout"
@@ -46,7 +45,7 @@ jobs:
         uses: actions/setup-java@v5.5.0
         with:
           distribution: 'graalvm'
-          java-version: ${{ matrix.java }}
+          java-version: 25
       - name: "Print maven version"
         run: ./mvnw -version
       - name: "Restore local maven repository cache"
@@ -87,8 +86,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-latest ]
-        java: [ 25 ]
         module: [ server ]
+        type: [ file ]
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
@@ -96,7 +95,7 @@ jobs:
         uses: actions/setup-java@v5.5.0
         with:
           distribution: 'zulu'
-          java-version: ${{ matrix.java }}
+          java-version: 25
       - name: "Print maven version"
         run: ./mvnw -version
       - name: "Restore local maven repository cache"
@@ -114,7 +113,8 @@ jobs:
         with:
           name: ${{ matrix.module }}-native-${{ runner.os }}-${{ runner.arch }}
           path: .
-      - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }}"
+      - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }} (type: ${{ matrix.type }})"
+        if: ${{ matrix.type == 'file' }}
         shell: sh
         run: |
           chmod +x ./${{ matrix.module }}/target/seata-${{ matrix.module }}-*
