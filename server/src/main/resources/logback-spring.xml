@@ -40,15 +40,14 @@
 
     <!-- console-appender -->
     <include resource="logback/console-appender.xml"/>
-
     <!-- file-appender -->
     <include resource="logback/file-appender.xml"/>
-
-    <!-- logstash-appender: off by default, enable with -Dlogging.extend.logstash-appender.enabled=true -->
-    <!-- kafka-appender: off by default, enable with -Dlogging.extend.kafka-appender.enabled=true -->
-    <!-- metric-appender: off by default, enable with -Dlogging.extend.metric-appender.enabled=true -->
-
-
+    <!-- kafka-appender -->
+    <include resource="logback/kafka-appender.xml"/>
+    <!-- logstash-appender -->
+    <include resource="logback/logstash-appender.xml"/>
+    <!-- metric-appender -->
+    <include resource="logback/metric-appender.xml"/>
 
     <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
         <!-- console-appender -->
