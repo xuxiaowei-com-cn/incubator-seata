@@ -1,6 +1,5 @@
 package org.apache.seata;
 
-
 import org.apache.seata.dao.AccountDAO;
 import org.apache.seata.dao.OrderDAO;
 import org.apache.seata.dao.StorageDAO;
@@ -188,8 +187,10 @@ class DataSourceProxyModeAtTests {
         @Test
         @DisplayName("5.2 Order money equals orderCount * 100 for different quantities")
         void testOrderMoneyCalculation() {
-            assertEquals(Integer.valueOf(100), orderService.create("U001", "C001", 1).getMoney());
-            assertEquals(Integer.valueOf(700), orderService.create("U001", "C001", 7).getMoney());
+            assertEquals(
+                    Integer.valueOf(100), orderService.create("U001", "C001", 1).getMoney());
+            assertEquals(
+                    Integer.valueOf(700), orderService.create("U001", "C001", 7).getMoney());
         }
     }
 
@@ -255,15 +256,25 @@ class DataSourceProxyModeAtTests {
             long ordersBefore = orderDAO.count();
 
             // C002 has only 5 items, requesting 100 → fails
-            RuntimeException ex = assertThrows(RuntimeException.class, () -> businessService.purchase("U001", "C002", 100));
+            RuntimeException ex =
+                    assertThrows(RuntimeException.class, () -> businessService.purchase("U001", "C002", 100));
 
-            assertTrue(ex.getMessage().contains("Insufficient storage") || ex.getMessage().contains("Failed to deduct"), "Should fail with storage error, actual: " + ex.getMessage());
+            assertTrue(
+                    ex.getMessage().contains("Insufficient storage")
+                            || ex.getMessage().contains("Failed to deduct"),
+                    "Should fail with storage error, actual: " + ex.getMessage());
 
             // Seata global transaction rollback: storage unchanged
-            assertEquals(storageBefore.getCount(), storageDAO.findByCommodityCode("C002").getCount(), "Storage should be unchanged after rollback");
+            assertEquals(
+                    storageBefore.getCount(),
+                    storageDAO.findByCommodityCode("C002").getCount(),
+                    "Storage should be unchanged after rollback");
 
             // Account unchanged (order creation was never reached)
-            assertEquals(accountBefore.getMoney(), accountDAO.findByUserId("U001").getMoney(), "Account should be unchanged after rollback");
+            assertEquals(
+                    accountBefore.getMoney(),
+                    accountDAO.findByUserId("U001").getMoney(),
+                    "Account should be unchanged after rollback");
 
             // No new order created
             assertEquals(ordersBefore, orderDAO.count(), "No order should be created after rollback");
@@ -278,15 +289,25 @@ class DataSourceProxyModeAtTests {
             long ordersBefore = orderDAO.count();
 
             // U002 has only 100 balance, requesting 10*100=1000 → fails at account debit
-            RuntimeException ex = assertThrows(RuntimeException.class, () -> businessService.purchase("U002", "C001", 10));
+            RuntimeException ex =
+                    assertThrows(RuntimeException.class, () -> businessService.purchase("U002", "C001", 10));
 
-            assertTrue(ex.getMessage().contains("Insufficient balance") || ex.getMessage().contains("Failed to debit"), "Should fail with balance error, actual: " + ex.getMessage());
+            assertTrue(
+                    ex.getMessage().contains("Insufficient balance")
+                            || ex.getMessage().contains("Failed to debit"),
+                    "Should fail with balance error, actual: " + ex.getMessage());
 
             // Seata global transaction rollback: storage should be restored
-            assertEquals(storageBefore.getCount(), storageDAO.findByCommodityCode("C001").getCount(), "Storage should be rolled back to original count");
+            assertEquals(
+                    storageBefore.getCount(),
+                    storageDAO.findByCommodityCode("C001").getCount(),
+                    "Storage should be rolled back to original count");
 
             // Account should be unchanged
-            assertEquals(accountBefore.getMoney(), accountDAO.findByUserId("U002").getMoney(), "Account balance should be unchanged after rollback");
+            assertEquals(
+                    accountBefore.getMoney(),
+                    accountDAO.findByUserId("U002").getMoney(),
+                    "Account balance should be unchanged after rollback");
 
             // No new order created
             assertEquals(ordersBefore, orderDAO.count(), "No order should be created after rollback");
@@ -300,12 +321,15 @@ class DataSourceProxyModeAtTests {
             Storage c001Before = storageDAO.findByCommodityCode("C001");
             Account u001Before = accountDAO.findByUserId("U001");
 
-            RuntimeException ex = assertThrows(RuntimeException.class, () -> businessService.purchase("U001", "NON_EXISTENT", 1));
+            RuntimeException ex =
+                    assertThrows(RuntimeException.class, () -> businessService.purchase("U001", "NON_EXISTENT", 1));
 
             assertTrue(ex.getMessage().contains("Storage not found"), "Actual: " + ex.getMessage());
 
             // No side effects on other resources
-            assertEquals(c001Before.getCount(), storageDAO.findByCommodityCode("C001").getCount());
+            assertEquals(
+                    c001Before.getCount(),
+                    storageDAO.findByCommodityCode("C001").getCount());
             assertEquals(u001Before.getMoney(), accountDAO.findByUserId("U001").getMoney());
             assertEquals(ordersBefore, orderDAO.count());
         }
@@ -317,12 +341,16 @@ class DataSourceProxyModeAtTests {
             long ordersBefore = orderDAO.count();
             Storage c001Before = storageDAO.findByCommodityCode("C001");
 
-            RuntimeException ex = assertThrows(RuntimeException.class, () -> businessService.purchase("UNKNOWN_USER", "C001", 1));
+            RuntimeException ex =
+                    assertThrows(RuntimeException.class, () -> businessService.purchase("UNKNOWN_USER", "C001", 1));
 
             assertTrue(ex.getMessage().contains("Account not found"), "Actual: " + ex.getMessage());
 
             // Seata rollback: storage should be restored
-            assertEquals(c001Before.getCount(), storageDAO.findByCommodityCode("C001").getCount(), "Storage should be rolled back");
+            assertEquals(
+                    c001Before.getCount(),
+                    storageDAO.findByCommodityCode("C001").getCount(),
+                    "Storage should be rolled back");
 
             assertEquals(ordersBefore, orderDAO.count(), "No order should be created");
         }
@@ -342,9 +370,15 @@ class DataSourceProxyModeAtTests {
             int totalCount = 5 + 3 + 2;
             int totalMoney = totalCount * 100;
 
-            assertEquals(storageBefore.getCount() - totalCount, storageDAO.findByCommodityCode("C001").getCount(), "Total storage deduction should be " + totalCount);
+            assertEquals(
+                    storageBefore.getCount() - totalCount,
+                    storageDAO.findByCommodityCode("C001").getCount(),
+                    "Total storage deduction should be " + totalCount);
 
-            assertEquals(accountBefore.getMoney() - totalMoney, accountDAO.findByUserId("U001").getMoney(), "Total account debit should be " + totalMoney);
+            assertEquals(
+                    accountBefore.getMoney() - totalMoney,
+                    accountDAO.findByUserId("U001").getMoney(),
+                    "Total account debit should be " + totalMoney);
 
             assertTrue(orderDAO.count() >= 3, "At least 3 orders should exist");
         }
@@ -358,8 +392,12 @@ class DataSourceProxyModeAtTests {
 
             businessService.purchase("U001", "C001", 1);
 
-            assertEquals(storageBefore.getCount() - 1, storageDAO.findByCommodityCode("C001").getCount());
-            assertEquals(accountBefore.getMoney() - 100, accountDAO.findByUserId("U001").getMoney());
+            assertEquals(
+                    storageBefore.getCount() - 1,
+                    storageDAO.findByCommodityCode("C001").getCount());
+            assertEquals(
+                    accountBefore.getMoney() - 100,
+                    accountDAO.findByUserId("U001").getMoney());
         }
 
         @Test
@@ -374,7 +412,9 @@ class DataSourceProxyModeAtTests {
             // The undo_log count may be >= before (new entries are created in phase 1
             // and deleted after phase 2 commit).
             long undoLogsAfter = undoLogDAO.count();
-            assertTrue(undoLogsAfter >= undoLogsBefore, "Undo log count should be >= before, was: " + undoLogsBefore + ", now: " + undoLogsAfter);
+            assertTrue(
+                    undoLogsAfter >= undoLogsBefore,
+                    "Undo log count should be >= before, was: " + undoLogsBefore + ", now: " + undoLogsAfter);
         }
     }
 }

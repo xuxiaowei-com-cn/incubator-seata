@@ -20,6 +20,5 @@ import org.junit.jupiter.api.Test;
 
 class SeataTestNativeApplicationTests {
     @Test
-    void contextLoads() {
-    }
+    void contextLoads() {}
 }
