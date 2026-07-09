@@ -74,11 +74,11 @@ package-only: ## Package the project without running tests
 package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean -e package
 
-package-server-native-pre: ## Build and install all modules locally (pre-step for native image)
+package-server-native-pre: spotless-apply ## Build and install all modules locally (pre-step for native image)
 	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl server -am
 
 package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
 
-package-server-native-only: ## Build server native image (GraalVM) without pre-step
+package-server-native-only: spotless-apply ## Build server native image (GraalVM) without pre-step
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
