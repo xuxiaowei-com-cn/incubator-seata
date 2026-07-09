@@ -465,7 +465,11 @@
 }, {
   "name" : "java.lang.Double"
 }, {
-  "name" : "java.lang.Enum"
+  "name" : "java.lang.Enum",
+  "methods" : [ {
+    "name" : "ordinal",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "java.lang.Error"
 }, {
@@ -515,6 +519,33 @@
   "name" : "java.lang.String",
   "methods" : [ {
     "name" : "equals",
+    "parameterTypes" : [ "java.lang.Object" ]
+  }, {
+    "name" : "concat",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "hashCode",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "int" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "long" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "float" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "double" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "char" ]
+  }, {
+    "name" : "valueOf",
+    "parameterTypes" : [ "boolean" ]
+  }, {
+    "name" : "valueOf",
     "parameterTypes" : [ "java.lang.Object" ]
   } ]
 }, {
@@ -566,7 +597,11 @@
     "parameterTypes" : [ ]
   } ]
 }, {
-  "name" : "java.lang.Throwable"
+  "name" : "java.lang.Throwable",
+  "methods" : [ {
+    "name" : "addSuppressed",
+    "parameterTypes" : [ "java.lang.Throwable" ]
+  } ]
 }, {
   "name" : "java.lang.Void"
 }, {
@@ -826,20 +861,6 @@
   }, {
     "name" : "getLatestConfig",
     "parameterTypes" : [ "java.lang.String", "java.lang.String", "long" ]
-  } ]
-}, {
-  "name" : "org.apache.seata.config.FileConfiguration$$EnhancerByCGLIB$$9e6bf6fd",
-  "fields" : [ {
-    "name" : "CGLIB$CALLBACK_FILTER"
-  }, {
-    "name" : "CGLIB$FACTORY_DATA"
-  } ],
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "CGLIB$SET_THREAD_CALLBACKS",
-    "parameterTypes" : [ "org.springframework.cglib.proxy.Callback[]" ]
   } ]
 }, {
   "name" : "org.apache.seata.config.file.SimpleFileConfig",
