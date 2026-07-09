@@ -3,14 +3,15 @@ package org.apache.seata;
 import org.apache.seata.dao.AccountDAO;
 import org.apache.seata.dao.OrderDAO;
 import org.apache.seata.dao.StorageDAO;
-import org.apache.seata.dao.UndoLogDAO;
 import org.apache.seata.entity.Account;
 import org.apache.seata.entity.Order;
 import org.apache.seata.entity.Storage;
 import org.apache.seata.service.AccountService;
-import org.apache.seata.service.BusinessService;
+import org.apache.seata.service.BusinessTccService;
 import org.apache.seata.service.OrderService;
 import org.apache.seata.service.StorageService;
+import org.apache.seata.tcc.AccountTccAction;
+import org.apache.seata.tcc.StorageTccAction;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +21,11 @@ import org.springframework.test.context.jdbc.Sql;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Distributed transaction integration tests for Seata AT mode.
+ * Distributed transaction integration tests for Seata TCC mode.
+ *
+ * <p>TCC (Try-Confirm-Cancel) mode uses {@code @LocalTCC} + {@code @TwoPhaseBusinessAction}
+ * annotations on branch participant interfaces instead of DataSource proxying.
+ * Each branch participant must implement Try, Confirm, and Cancel methods.</p>
  *
  * <p><b>Prerequisites:</b></p>
  * <ul>
@@ -31,17 +36,25 @@ import static org.junit.jupiter.api.Assertions.*;
  * </ul>
  *
  * <p>Run with: {@code mvn test -pl test-suite/test-native
- * -Dtest=SeataTestNativeApplicationTests -Dseata.server.addr=127.0.0.1:8091}</p>
+ * -Dtest=DataSourceProxyModeTccTests -Dseata.server.addr=127.0.0.1:8091}</p>
  *
- * @see BusinessService#purchase(String, String, int)
+ * @see BusinessTccService#purchase(String, String, int)
+ * @see StorageTccAction
+ * @see AccountTccAction
  */
 @SpringBootTest
-@TestPropertySource(properties = {"seata.data-source-proxy-mode=AT", "spring.sql.init.mode=always"})
+@TestPropertySource(properties = {"spring.sql.init.mode=always"})
 @Sql(scripts = "/setup-test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
-class DataSourceProxyModeAtTests {
+class DataSourceProxyModeTccTests {
 
     @Autowired
-    BusinessService businessService;
+    BusinessTccService businessTccService;
+
+    @Autowired
+    StorageTccAction storageTccAction;
+
+    @Autowired
+    AccountTccAction accountTccAction;
 
     @Autowired
     StorageService storageService;
@@ -61,22 +74,20 @@ class DataSourceProxyModeAtTests {
     @Autowired
     AccountDAO accountDAO;
 
-    @Autowired
-    UndoLogDAO undoLogDAO;
-
     // ==================== Basic Context Tests ====================
 
     @Test
-    @DisplayName("1. Spring context should load with all Seata beans")
+    @DisplayName("1. Spring context should load with all Seata beans (TCC mode)")
     void contextLoads() {
-        assertNotNull(businessService, "BusinessService should be injected");
+        assertNotNull(businessTccService, "BusinessTccService should be injected");
+        assertNotNull(storageTccAction, "StorageTccAction should be injected");
+        assertNotNull(accountTccAction, "AccountTccAction should be injected");
         assertNotNull(storageService, "StorageService should be injected");
         assertNotNull(orderService, "OrderService should be injected");
         assertNotNull(accountService, "AccountService should be injected");
         assertNotNull(storageDAO, "StorageDAO should be injected");
         assertNotNull(orderDAO, "OrderDAO should be injected");
         assertNotNull(accountDAO, "AccountDAO should be injected");
-        assertNotNull(undoLogDAO, "UndoLogDAO should be injected");
     }
 
     @Test
@@ -187,18 +198,16 @@ class DataSourceProxyModeAtTests {
         @Test
         @DisplayName("5.2 Order money equals orderCount * 100 for different quantities")
         void testOrderMoneyCalculation() {
-            assertEquals(
-                    Integer.valueOf(100), orderService.create("U001", "C001", 1).getMoney());
-            assertEquals(
-                    Integer.valueOf(700), orderService.create("U001", "C001", 7).getMoney());
+            assertEquals(Integer.valueOf(100), orderService.create("U001", "C001", 1).getMoney());
+            assertEquals(Integer.valueOf(700), orderService.create("U001", "C001", 7).getMoney());
         }
     }
 
-    // ==================== Distributed Transaction: Purchase Flow ====================
+    // ==================== Distributed Transaction: TCC Purchase Flow ====================
 
     @Nested
-    @DisplayName("6. Distributed Transaction — Purchase Flow")
-    class PurchaseFlowTests {
+    @DisplayName("6. Distributed Transaction — TCC Purchase Flow")
+    class TccPurchaseFlowTests {
 
         /**
          * Reset all test data to known state before each distributed transaction test.
@@ -208,7 +217,6 @@ class DataSourceProxyModeAtTests {
         void resetTestData() {
             // Clean all test tables (deleteAll is @Transactional, commits immediately)
             orderDAO.deleteAllInBatch();
-            undoLogDAO.deleteAllInBatch();
             storageDAO.deleteAllInBatch();
             accountDAO.deleteAllInBatch();
 
@@ -220,14 +228,14 @@ class DataSourceProxyModeAtTests {
         }
 
         @Test
-        @DisplayName("6.1 AT mode — Purchase succeeds: storage deducted, account debited, order created")
-        @Tag("at-mode")
+        @DisplayName("6.1 TCC mode — Purchase succeeds: storage deducted, account debited, order created")
+        @Tag("tcc-mode")
         void testPurchaseSuccess() {
             Storage storageBefore = storageDAO.findByCommodityCode("C001");
             Account accountBefore = accountDAO.findByUserId("U001");
             long ordersBefore = orderDAO.count();
 
-            businessService.purchase("U001", "C001", 10);
+            businessTccService.purchase("U001", "C001", 10);
 
             // Verify storage: 100 - 10 = 90
             Storage storageAfter = storageDAO.findByCommodityCode("C001");
@@ -248,173 +256,119 @@ class DataSourceProxyModeAtTests {
         }
 
         @Test
-        @DisplayName("6.2 AT mode — Insufficient stock → global transaction rolls back")
-        @Tag("at-mode")
+        @DisplayName("6.2 TCC mode — Insufficient stock → global transaction rolls back, storage restored by TCC Cancel")
+        @Tag("tcc-mode")
         void testPurchaseRollbackOnInsufficientStock() {
             Storage storageBefore = storageDAO.findByCommodityCode("C002");
             Account accountBefore = accountDAO.findByUserId("U001");
             long ordersBefore = orderDAO.count();
 
-            // C002 has only 5 items, requesting 100 → fails
-            RuntimeException ex =
-                    assertThrows(RuntimeException.class, () -> businessService.purchase("U001", "C002", 100));
+            // C002 has only 5 items, requesting 100 → fails in TCC Try phase
+            RuntimeException ex = assertThrows(RuntimeException.class, () -> businessTccService.purchase("U001", "C002", 100));
 
-            assertTrue(
-                    ex.getMessage().contains("Insufficient storage")
-                            || ex.getMessage().contains("Failed to deduct"),
-                    "Should fail with storage error, actual: " + ex.getMessage());
+            assertTrue(ex.getMessage().contains("Insufficient storage") || ex.getMessage().contains("Failed to deduct"), "Should fail with storage error, actual: " + ex.getMessage());
 
-            // Seata global transaction rollback: storage unchanged
-            assertEquals(
-                    storageBefore.getCount(),
-                    storageDAO.findByCommodityCode("C002").getCount(),
-                    "Storage should be unchanged after rollback");
+            // TCC Cancel: storage should be restored (rollback method called by Seata)
+            assertEquals(storageBefore.getCount(), storageDAO.findByCommodityCode("C002").getCount(), "Storage should be restored by TCC Cancel after rollback");
 
-            // Account unchanged (order creation was never reached)
-            assertEquals(
-                    accountBefore.getMoney(),
-                    accountDAO.findByUserId("U001").getMoney(),
-                    "Account should be unchanged after rollback");
+            // Account unchanged (TCC Try for account was never reached)
+            assertEquals(accountBefore.getMoney(), accountDAO.findByUserId("U001").getMoney(), "Account should be unchanged after rollback");
 
             // No new order created
             assertEquals(ordersBefore, orderDAO.count(), "No order should be created after rollback");
         }
 
         @Test
-        @DisplayName("6.3 AT mode — Insufficient balance → global transaction rolls back")
-        @Tag("at-mode")
+        @DisplayName("6.3 TCC mode — Insufficient balance → global transaction rolls back, both branches restored by TCC Cancel")
+        @Tag("tcc-mode")
         void testPurchaseRollbackOnInsufficientBalance() {
             Storage storageBefore = storageDAO.findByCommodityCode("C001");
             Account accountBefore = accountDAO.findByUserId("U002");
             long ordersBefore = orderDAO.count();
 
-            // U002 has only 100 balance, requesting 10*100=1000 → fails at account debit
-            RuntimeException ex =
-                    assertThrows(RuntimeException.class, () -> businessService.purchase("U002", "C001", 10));
+            // U002 has only 100 balance, requesting 10*100=1000 → fails at account TCC Try
+            RuntimeException ex = assertThrows(RuntimeException.class, () -> businessTccService.purchase("U002", "C001", 10));
 
-            assertTrue(
-                    ex.getMessage().contains("Insufficient balance")
-                            || ex.getMessage().contains("Failed to debit"),
-                    "Should fail with balance error, actual: " + ex.getMessage());
+            assertTrue(ex.getMessage().contains("Insufficient balance") || ex.getMessage().contains("Failed to debit"), "Should fail with balance error, actual: " + ex.getMessage());
 
-            // Seata global transaction rollback: storage should be restored
-            assertEquals(
-                    storageBefore.getCount(),
-                    storageDAO.findByCommodityCode("C001").getCount(),
-                    "Storage should be rolled back to original count");
+            // TCC Cancel: storage should be restored (rollback method called by Seata)
+            assertEquals(storageBefore.getCount(), storageDAO.findByCommodityCode("C001").getCount(), "Storage should be restored by TCC Cancel after rollback");
 
-            // Account should be unchanged
-            assertEquals(
-                    accountBefore.getMoney(),
-                    accountDAO.findByUserId("U002").getMoney(),
-                    "Account balance should be unchanged after rollback");
+            // Account should be restored by TCC Cancel
+            assertEquals(accountBefore.getMoney(), accountDAO.findByUserId("U002").getMoney(), "Account balance should be restored by TCC Cancel after rollback");
 
             // No new order created
             assertEquals(ordersBefore, orderDAO.count(), "No order should be created after rollback");
         }
 
         @Test
-        @DisplayName("6.4 AT mode — Non-existent commodity → transaction fails, no side effects")
-        @Tag("at-mode")
+        @DisplayName("6.4 TCC mode — Non-existent commodity → transaction fails, no side effects")
+        @Tag("tcc-mode")
         void testPurchaseNonExistentCommodity() {
             long ordersBefore = orderDAO.count();
             Storage c001Before = storageDAO.findByCommodityCode("C001");
             Account u001Before = accountDAO.findByUserId("U001");
 
-            RuntimeException ex =
-                    assertThrows(RuntimeException.class, () -> businessService.purchase("U001", "NON_EXISTENT", 1));
+            RuntimeException ex = assertThrows(RuntimeException.class, () -> businessTccService.purchase("U001", "NON_EXISTENT", 1));
 
             assertTrue(ex.getMessage().contains("Storage not found"), "Actual: " + ex.getMessage());
 
             // No side effects on other resources
-            assertEquals(
-                    c001Before.getCount(),
-                    storageDAO.findByCommodityCode("C001").getCount());
+            assertEquals(c001Before.getCount(), storageDAO.findByCommodityCode("C001").getCount());
             assertEquals(u001Before.getMoney(), accountDAO.findByUserId("U001").getMoney());
             assertEquals(ordersBefore, orderDAO.count());
         }
 
         @Test
-        @DisplayName("6.5 AT mode — Non-existent user → transaction fails, storage rolled back")
-        @Tag("at-mode")
+        @DisplayName("6.5 TCC mode — Non-existent user → transaction fails, storage restored by TCC Cancel")
+        @Tag("tcc-mode")
         void testPurchaseNonExistentUser() {
             long ordersBefore = orderDAO.count();
             Storage c001Before = storageDAO.findByCommodityCode("C001");
 
-            RuntimeException ex =
-                    assertThrows(RuntimeException.class, () -> businessService.purchase("UNKNOWN_USER", "C001", 1));
+            RuntimeException ex = assertThrows(RuntimeException.class, () -> businessTccService.purchase("UNKNOWN_USER", "C001", 1));
 
             assertTrue(ex.getMessage().contains("Account not found"), "Actual: " + ex.getMessage());
 
-            // Seata rollback: storage should be restored
-            assertEquals(
-                    c001Before.getCount(),
-                    storageDAO.findByCommodityCode("C001").getCount(),
-                    "Storage should be rolled back");
+            // TCC Cancel: storage should be restored
+            assertEquals(c001Before.getCount(), storageDAO.findByCommodityCode("C001").getCount(), "Storage should be restored by TCC Cancel");
 
             assertEquals(ordersBefore, orderDAO.count(), "No order should be created");
         }
 
         @Test
-        @DisplayName("6.6 AT mode — Multiple sequential purchases maintain data consistency")
-        @Tag("at-mode")
+        @DisplayName("6.6 TCC mode — Multiple sequential purchases maintain data consistency")
+        @Tag("tcc-mode")
         void testMultiplePurchasesConsistency() {
             Storage storageBefore = storageDAO.findByCommodityCode("C001");
             Account accountBefore = accountDAO.findByUserId("U001");
 
             // Purchase 5, then 3, then 2 units
-            businessService.purchase("U001", "C001", 5);
-            businessService.purchase("U001", "C001", 3);
-            businessService.purchase("U001", "C001", 2);
+            businessTccService.purchase("U001", "C001", 5);
+            businessTccService.purchase("U001", "C001", 3);
+            businessTccService.purchase("U001", "C001", 2);
 
             int totalCount = 5 + 3 + 2;
             int totalMoney = totalCount * 100;
 
-            assertEquals(
-                    storageBefore.getCount() - totalCount,
-                    storageDAO.findByCommodityCode("C001").getCount(),
-                    "Total storage deduction should be " + totalCount);
+            assertEquals(storageBefore.getCount() - totalCount, storageDAO.findByCommodityCode("C001").getCount(), "Total storage deduction should be " + totalCount);
 
-            assertEquals(
-                    accountBefore.getMoney() - totalMoney,
-                    accountDAO.findByUserId("U001").getMoney(),
-                    "Total account debit should be " + totalMoney);
+            assertEquals(accountBefore.getMoney() - totalMoney, accountDAO.findByUserId("U001").getMoney(), "Total account debit should be " + totalMoney);
 
             assertTrue(orderDAO.count() >= 3, "At least 3 orders should exist");
         }
 
         @Test
-        @DisplayName("6.7 AT mode — Minimum quantity purchase (1 unit)")
-        @Tag("at-mode")
+        @DisplayName("6.7 TCC mode — Minimum quantity purchase (1 unit)")
+        @Tag("tcc-mode")
         void testPurchaseMinimumQuantity() {
             Storage storageBefore = storageDAO.findByCommodityCode("C001");
             Account accountBefore = accountDAO.findByUserId("U001");
 
-            businessService.purchase("U001", "C001", 1);
+            businessTccService.purchase("U001", "C001", 1);
 
-            assertEquals(
-                    storageBefore.getCount() - 1,
-                    storageDAO.findByCommodityCode("C001").getCount());
-            assertEquals(
-                    accountBefore.getMoney() - 100,
-                    accountDAO.findByUserId("U001").getMoney());
-        }
-
-        @Test
-        @DisplayName("6.8 AT mode — Undo log is inserted during phase 1 for AT mode branches")
-        @Tag("at-mode")
-        void testUndoLogCreatedDuringGlobalTransaction() {
-            long undoLogsBefore = undoLogDAO.count();
-
-            businessService.purchase("U001", "C001", 3);
-
-            // After successful commit, Seata cleans up undo_log entries.
-            // The undo_log count may be >= before (new entries are created in phase 1
-            // and deleted after phase 2 commit).
-            long undoLogsAfter = undoLogDAO.count();
-            assertTrue(
-                    undoLogsAfter >= undoLogsBefore,
-                    "Undo log count should be >= before, was: " + undoLogsBefore + ", now: " + undoLogsAfter);
+            assertEquals(storageBefore.getCount() - 1, storageDAO.findByCommodityCode("C001").getCount());
+            assertEquals(accountBefore.getMoney() - 100, accountDAO.findByUserId("U001").getMoney());
         }
     }
 }

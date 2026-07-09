@@ -3,7 +3,6 @@ package org.apache.seata;
 import org.apache.seata.dao.AccountDAO;
 import org.apache.seata.dao.OrderDAO;
 import org.apache.seata.dao.StorageDAO;
-import org.apache.seata.dao.UndoLogDAO;
 import org.apache.seata.entity.Account;
 import org.apache.seata.entity.Order;
 import org.apache.seata.entity.Storage;
@@ -20,7 +19,7 @@ import org.springframework.test.context.jdbc.Sql;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Distributed transaction integration tests for Seata AT mode.
+ * Distributed transaction integration tests for Seata XA mode.
  *
  * <p><b>Prerequisites:</b></p>
  * <ul>
@@ -31,14 +30,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * </ul>
  *
  * <p>Run with: {@code mvn test -pl test-suite/test-native
- * -Dtest=SeataTestNativeApplicationTests -Dseata.server.addr=127.0.0.1:8091}</p>
+ * -Dtest=DataSourceProxyModeXaTests -Dseata.server.addr=127.0.0.1:8091}</p>
  *
  * @see BusinessService#purchase(String, String, int)
  */
 @SpringBootTest
-@TestPropertySource(properties = {"seata.data-source-proxy-mode=AT", "spring.sql.init.mode=always"})
+@TestPropertySource(properties = {"seata.data-source-proxy-mode=XA", "spring.sql.init.mode=always"})
 @Sql(scripts = "/setup-test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
-class DataSourceProxyModeAtTests {
+class DataSourceProxyModeXaTests {
 
     @Autowired
     BusinessService businessService;
@@ -61,9 +60,6 @@ class DataSourceProxyModeAtTests {
     @Autowired
     AccountDAO accountDAO;
 
-    @Autowired
-    UndoLogDAO undoLogDAO;
-
     // ==================== Basic Context Tests ====================
 
     @Test
@@ -76,7 +72,6 @@ class DataSourceProxyModeAtTests {
         assertNotNull(storageDAO, "StorageDAO should be injected");
         assertNotNull(orderDAO, "OrderDAO should be injected");
         assertNotNull(accountDAO, "AccountDAO should be injected");
-        assertNotNull(undoLogDAO, "UndoLogDAO should be injected");
     }
 
     @Test
@@ -208,7 +203,6 @@ class DataSourceProxyModeAtTests {
         void resetTestData() {
             // Clean all test tables (deleteAll is @Transactional, commits immediately)
             orderDAO.deleteAllInBatch();
-            undoLogDAO.deleteAllInBatch();
             storageDAO.deleteAllInBatch();
             accountDAO.deleteAllInBatch();
 
@@ -220,8 +214,8 @@ class DataSourceProxyModeAtTests {
         }
 
         @Test
-        @DisplayName("6.1 AT mode — Purchase succeeds: storage deducted, account debited, order created")
-        @Tag("at-mode")
+        @DisplayName("6.1 XA mode — Purchase succeeds: storage deducted, account debited, order created")
+        @Tag("xa-mode")
         void testPurchaseSuccess() {
             Storage storageBefore = storageDAO.findByCommodityCode("C001");
             Account accountBefore = accountDAO.findByUserId("U001");
@@ -248,8 +242,8 @@ class DataSourceProxyModeAtTests {
         }
 
         @Test
-        @DisplayName("6.2 AT mode — Insufficient stock → global transaction rolls back")
-        @Tag("at-mode")
+        @DisplayName("6.2 XA mode — Insufficient stock → global transaction rolls back")
+        @Tag("xa-mode")
         void testPurchaseRollbackOnInsufficientStock() {
             Storage storageBefore = storageDAO.findByCommodityCode("C002");
             Account accountBefore = accountDAO.findByUserId("U001");
@@ -281,8 +275,8 @@ class DataSourceProxyModeAtTests {
         }
 
         @Test
-        @DisplayName("6.3 AT mode — Insufficient balance → global transaction rolls back")
-        @Tag("at-mode")
+        @DisplayName("6.3 XA mode — Insufficient balance → global transaction rolls back")
+        @Tag("xa-mode")
         void testPurchaseRollbackOnInsufficientBalance() {
             Storage storageBefore = storageDAO.findByCommodityCode("C001");
             Account accountBefore = accountDAO.findByUserId("U002");
@@ -314,8 +308,8 @@ class DataSourceProxyModeAtTests {
         }
 
         @Test
-        @DisplayName("6.4 AT mode — Non-existent commodity → transaction fails, no side effects")
-        @Tag("at-mode")
+        @DisplayName("6.4 XA mode — Non-existent commodity → transaction fails, no side effects")
+        @Tag("xa-mode")
         void testPurchaseNonExistentCommodity() {
             long ordersBefore = orderDAO.count();
             Storage c001Before = storageDAO.findByCommodityCode("C001");
@@ -335,8 +329,8 @@ class DataSourceProxyModeAtTests {
         }
 
         @Test
-        @DisplayName("6.5 AT mode — Non-existent user → transaction fails, storage rolled back")
-        @Tag("at-mode")
+        @DisplayName("6.5 XA mode — Non-existent user → transaction fails, storage rolled back")
+        @Tag("xa-mode")
         void testPurchaseNonExistentUser() {
             long ordersBefore = orderDAO.count();
             Storage c001Before = storageDAO.findByCommodityCode("C001");
@@ -356,8 +350,8 @@ class DataSourceProxyModeAtTests {
         }
 
         @Test
-        @DisplayName("6.6 AT mode — Multiple sequential purchases maintain data consistency")
-        @Tag("at-mode")
+        @DisplayName("6.6 XA mode — Multiple sequential purchases maintain data consistency")
+        @Tag("xa-mode")
         void testMultiplePurchasesConsistency() {
             Storage storageBefore = storageDAO.findByCommodityCode("C001");
             Account accountBefore = accountDAO.findByUserId("U001");
@@ -384,8 +378,8 @@ class DataSourceProxyModeAtTests {
         }
 
         @Test
-        @DisplayName("6.7 AT mode — Minimum quantity purchase (1 unit)")
-        @Tag("at-mode")
+        @DisplayName("6.7 XA mode — Minimum quantity purchase (1 unit)")
+        @Tag("xa-mode")
         void testPurchaseMinimumQuantity() {
             Storage storageBefore = storageDAO.findByCommodityCode("C001");
             Account accountBefore = accountDAO.findByUserId("U001");
@@ -398,23 +392,6 @@ class DataSourceProxyModeAtTests {
             assertEquals(
                     accountBefore.getMoney() - 100,
                     accountDAO.findByUserId("U001").getMoney());
-        }
-
-        @Test
-        @DisplayName("6.8 AT mode — Undo log is inserted during phase 1 for AT mode branches")
-        @Tag("at-mode")
-        void testUndoLogCreatedDuringGlobalTransaction() {
-            long undoLogsBefore = undoLogDAO.count();
-
-            businessService.purchase("U001", "C001", 3);
-
-            // After successful commit, Seata cleans up undo_log entries.
-            // The undo_log count may be >= before (new entries are created in phase 1
-            // and deleted after phase 2 commit).
-            long undoLogsAfter = undoLogDAO.count();
-            assertTrue(
-                    undoLogsAfter >= undoLogsBefore,
-                    "Undo log count should be >= before, was: " + undoLogsBefore + ", now: " + undoLogsAfter);
         }
     }
 }
