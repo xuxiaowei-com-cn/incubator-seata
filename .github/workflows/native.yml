@@ -59,7 +59,7 @@ jobs:
       - name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
       - name: "Compile native image for ${{ matrix.module }} in ${{ matrix.os }}"
-        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative spring-boot:process-aot native:compile
+        run: ./mvnw -T 2C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative spring-boot:process-aot native:compile
       - name: "Upload binaries for ${{ matrix.module }} in ${{ matrix.os }}"
         uses: actions/upload-artifact@v7.0.1
         with:
@@ -74,7 +74,7 @@ jobs:
           rm -rf ./${{ matrix.module }}/target/*.jar
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
           NATIVE_PID=$!
-          echo "$NATIVE_PID" > /tmp/seata-native.pid
+          echo "$NATIVE_PID" > ${{ env.RUNNER_TEMP }}/seata-native.pid
           echo "Native binary started with PID=$NATIVE_PID"
           sleep 10
           if kill -0 $NATIVE_PID 2>/dev/null; then
@@ -86,7 +86,8 @@ jobs:
       - name: "Check port 8091 for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
         run: |
-          NATIVE_PID=$(cat /tmp/seata-native.pid)
+          NATIVE_PID=$(cat ${{ env.RUNNER_TEMP }}/seata-native.pid)
+          echo "NATIVE_PID=$NATIVE_PID"
           if command -v ss >/dev/null 2>&1; then
             if ss -tlnp | grep -q ':8091 '; then
               echo "Port 8091 is listening"
