@@ -23,17 +23,17 @@ spring:
 
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1;MODE=MySQL
-    username: sa
-    password:
+    driver-class-name: ${DATASOURCE_DRIVER:com.mysql.cj.jdbc.Driver}
+    url: ${DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/${DATASOURCE_DB:seata_test_native}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DATASOURCE_USERNAME:root}
+    password: ${DATASOURCE_PASSWORD:}
 
 ---
 
 spring:
   sql:
     init:
-      mode: embedded
+      mode: ${SQL_INIT_MODE:NEVER}
       schema-locations:
         - classpath*:schema.sql
       data-locations:
