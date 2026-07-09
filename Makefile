@@ -13,20 +13,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Use bash as the default shell for consistent behavior across platforms
 SHELL := /usr/bin/env bash
 
+# Declare all phony targets (targets that are not actual files)
 .PHONY: help
+# Set the default goal to 'help' so running `make` without arguments shows usage
 .DEFAULT_GOAL := help
 
 help: ## Show help information
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-28s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-44s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-# Prefer using mvn, fall back to ./mvnw if mvn does not exist
+# Prefer using the system-installed `mvn`, fall back to the Maven Wrapper (`./mvnw`) if unavailable
 MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
+# Common Maven arguments:
+#   -T 4C : use 4 threads per available CPU core for parallel builds
+#   -e    : show error stack traces on failure
+#   -B    : run in batch (non-interactive) mode
+#   -V    : print Maven version information
 MAVEN_ARGS ?= -T 4C -e -B -V
 
+# Declare all GraalVM native-image related phony targets
 .PHONY: clean spotless-check spotless-apply checkstyle checkstyle-diff license test package-only package \
-	package-server-native-pre package-server-native package-server-native-only
+	package-server-native-pre \
+	package-server-native-metadata-file package-server-native-metadata-file-only \
+	package-server-native package-server-native-only
 
 clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean -e
@@ -76,6 +87,13 @@ package: ## Package the project
 
 package-server-native-pre: spotless-apply ## Build and install all modules locally (pre-step for native image)
 	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl server -am
+
+package-server-native-metadata-file: package-server-native-pre ## Generate GraalVM native-image metadata files (requires local install first)
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Prelease-seata-jar
+
+package-server-native-metadata-file-only: ## Generate GraalVM native-image metadata files using the agent (requires GRAALVM_HOME; run the jar manually afterward to collect reflection config)
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Prelease-seata-jar
+    $GRAALVM_HOME/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
 package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
