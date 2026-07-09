@@ -71,6 +71,7 @@ jobs:
       - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
         run: |
+          rm -rf ./${{ matrix.module }}/target/*.jar
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
           NATIVE_PID=$!
           echo "$NATIVE_PID" > /tmp/seata-native.pid
