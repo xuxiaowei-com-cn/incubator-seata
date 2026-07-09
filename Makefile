@@ -37,7 +37,8 @@ MAVEN_ARGS ?= -T 4C -e -B -V
 .PHONY: clean spotless-check spotless-apply checkstyle checkstyle-diff license test package-only package \
 	package-server-native-pre \
 	package-server-native-metadata-file package-server-native-metadata-file-only \
-	package-server-native package-server-native-only
+	package-server-native package-server-native-only \
+	package-test-native
 
 clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean -e
@@ -100,3 +101,7 @@ package-server-native: package-server-native-pre ## Build server native image (G
 
 package-server-native-only: spotless-apply ## Build server native image (GraalVM) without pre-step
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
+
+package-test-native: ## Build native test suite
+	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native spotless:apply
+	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native clean package
