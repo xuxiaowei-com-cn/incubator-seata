@@ -78,7 +78,7 @@ package-server-native-pre: ## Build and install all modules locally (pre-step fo
 	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl server -am
 
 package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative native:compile
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
 
 package-server-native-only: ## Build server native image (GraalVM) without pre-step
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
