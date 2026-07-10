@@ -197,23 +197,35 @@
     "name" : "<init>",
     "parameterTypes" : [ ]
   } ],
-  "name" : "com.ctrip.framework.apollo.spring.boot.ApolloApplicationContextInitializer"
+  "name" : "com.ctrip.framework.apollo.spring.boot.ApolloApplicationContextInitializer",
+  "allDeclaredConstructors" : true,
+  "allDeclaredMethods" : true,
+  "allDeclaredFields" : true
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory"
+  "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory",
+  "allDeclaredConstructors" : true,
+  "allDeclaredMethods" : true,
+  "allDeclaredFields" : true
 }, {
   "fields" : [ {
     "name" : "GUICE$INVOKERS"
   } ],
   "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1590202"
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper"
+  "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper",
+  "allDeclaredConstructors" : true,
+  "allDeclaredMethods" : true,
+  "allDeclaredFields" : true
 }, {
   "fields" : [ {
     "name" : "GUICE$INVOKERS"
   } ],
   "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$381400"
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry"
+  "name" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry",
+  "allDeclaredConstructors" : true,
+  "allDeclaredMethods" : true,
+  "allDeclaredFields" : true
 }, {
   "fields" : [ {
     "name" : "GUICE$INVOKERS"
@@ -2729,4 +2741,9 @@
   "name" : "sun.util.resources.cldr.CalendarData"
 }, {
   "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory"
+}, {
+  "name" : "com.ctrip.framework.apollo.spring.util.SpringInjector",
+  "allDeclaredConstructors" : true,
+  "allDeclaredMethods" : true,
+  "allDeclaredFields" : true
 } ]
