@@ -19,6 +19,8 @@
     }, {
       "pattern" : "META-INF/seata/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
     }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.serializer.Serializer"
+    }, {
       "pattern" : "META-INF/seata/org.apache.seata.discovery.registry.RegistryProvider"
     }, {
       "pattern" : "META-INF/seata/org.apache.seata.metrics.exporter.Exporter"
@@ -26,6 +28,8 @@
       "pattern" : "META-INF/seata/org.apache.seata.metrics.registry.Registry"
     }, {
       "pattern" : "META-INF/seata/org.apache.seata.server.coordinator.AbstractCore"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.server.limit.ratelimit.RateLimiter"
     }, {
       "pattern" : "META-INF/seata/org.apache.seata.server.lock.LockManager"
     }, {
@@ -63,6 +67,8 @@
     }, {
       "pattern" : "META-INF/services/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
     }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.serializer.Serializer"
+    }, {
       "pattern" : "META-INF/services/org.apache.seata.discovery.registry.RegistryProvider"
     }, {
       "pattern" : "META-INF/services/org.apache.seata.metrics.exporter.Exporter"
@@ -70,12 +76,6 @@
       "pattern" : "META-INF/services/org.apache.seata.metrics.registry.Registry"
     }, {
       "pattern" : "META-INF/services/org.apache.seata.server.coordinator.AbstractCore"
-    }, {
-      "pattern" : "META-INF/services/org.apache.seata.core.serializer.Serializer"
-    }, {
-      "pattern" : "META-INF/services/org.apache.seata.core.store.DistributedLocker"
-    }, {
-      "pattern" : "META-INF/services/org.apache.seata.core.store.db.DataSourceProvider"
     }, {
       "pattern" : "META-INF/services/org.apache.seata.server.limit.ratelimit.RateLimiter"
     }, {
@@ -226,6 +226,8 @@
       "pattern" : "org/apache/seata/server/controller/VGroupMappingController.class"
     }, {
       "pattern" : "org/apache/seata/server/filter/RaftRequestFilter.class"
+    }, {
+      "pattern" : "org/apache/seata/server/instance/AbstractSeataInstanceStrategy.class"
     }, {
       "pattern" : "org/apache/seata/spring/boot/autoconfigure/SeataCoreAutoConfiguration.class"
     }, {
@@ -467,75 +469,7 @@
     }, {
       "pattern" : "spring.properties"
     }, {
-      "pattern" : "META-INF/seata/io.seata.config.ConfigurationProvider"
-    }, {
-      "pattern" : "META-INF/seata/org.apache.seata.config.ConfigurationProvider"
-    }, {
-      "pattern" : "META-INF/seata/org.apache.seata.config.processor.Processor"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.api.config.filter.IConfigFilter"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.api.remote.Payload"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.client.address.ServerListProvider"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.client.naming.backups.FailoverDataSource"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.common.ability.AbstractAbilityControlManager"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.common.labels.LabelsCollector"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.common.logging.NacosLoggingAdapter"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.common.logging.NacosLoggingAdapterBuilder"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.common.notify.EventPublisher"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.common.paramcheck.AbstractParamChecker"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.common.pathencoder.PathEncoder"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.plugin.auth.spi.client.AbstractClientAuthService"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.ServerProvider"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.LoadBalancerProvider"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.ManagedChannelProvider"
-    }, {
-      "pattern" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.NameResolverProvider"
-    }, {
-      "pattern" : "META-INF/services/io.seata.config.ConfigurationProvider"
-    }, {
-      "pattern" : "META-INF/services/java.net.spi.InetAddressResolverProvider"
-    }, {
-      "pattern" : "META-INF/services/org.apache.seata.config.ConfigurationProvider"
-    }, {
-      "pattern" : "META-INF/services/org.apache.seata.config.processor.Processor"
-    }, {
-      "pattern" : "com/alibaba/nacos/api/config/remote/request"
-    }, {
-      "pattern" : "com/alibaba/nacos/api/config/remote/response"
-    }, {
-      "pattern" : "com/alibaba/nacos/api/naming/remote/request"
-    }, {
-      "pattern" : "com/alibaba/nacos/api/naming/remote/response"
-    }, {
-      "pattern" : "com/alibaba/nacos/api/remote/request"
-    }, {
-      "pattern" : "com/alibaba/nacos/api/remote/response"
-    }, {
-      "pattern" : "com/alibaba/nacos/naming/cluster/remote/request"
-    }, {
-      "pattern" : "com/alibaba/nacos/naming/cluster/remote/response"
-    }, {
-      "pattern" : "nacos-logback.xml"
-    }, {
-      "pattern" : "nacos-version.txt"
-    }, {
-      "pattern" : "org/apache/seata/server/instance/AbstractSeataInstanceStrategy.class"
-    }, {
-      "pattern" : "spas.properties"
+      "pattern" : "jdk/jfr/internal/types/metadata.bin"
     } ]
   }
 }

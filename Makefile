@@ -33,12 +33,19 @@ MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
 #   -V    : print Maven version information
 MAVEN_ARGS ?= -T 4C -e -B -V
 
+NACOS_SERVER_ADDR ?= 127.0.0.1:8848
+
+# Dynamically resolve the server version from the Maven project (e.g. 2.8.0-SNAPSHOT)
+SERVER_VERSION ?= $(shell $(MVN) help:evaluate -Dexpression=project.version -q -DforceStdout)
+NATIVE_PLATFORM=$(shell $(MVN) help:evaluate -Dexpression=native.platform -q -DforceStdout)
+SERVER_NATIVE_NAME ?= seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+
 # Declare all GraalVM native-image related phony targets
 .PHONY: clean spotless-check spotless-apply checkstyle checkstyle-diff license test package-only package \
-	package-server-native-pre \
-	package-server-native-metadata-file package-server-native-metadata-file-only \
-	package-server-native package-server-native-only \
-	package-test-native
+	package-server-native-metadata run-server-native-metadata \
+	run-test-native-spring-boot run-test-native \
+	run-merge-native-server \
+	package-server-native run-server-native-mode-file package-run-server-native-mode-file
 
 clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean -e
@@ -86,28 +93,33 @@ package-only: ## Package the project without running tests
 package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean -e package
 
-package-server-native-pre: spotless-apply ## Build and install all modules locally (pre-step for native image)
-	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl server -am
-
-package-server-native-metadata-file: package-server-native-pre ## Generate GraalVM native-image metadata files (requires local install first)
+package-server-native-metadata: ##
+	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl server,spring/seata-spring-boot-starter -am
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Prelease-seata-jar
-    $GRAALVM_HOME/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
-package-server-native-metadata-file-only: ## Generate GraalVM native-image metadata files using the agent (requires GRAALVM_HOME; run the jar manually afterward to collect reflection config)
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Prelease-seata-jar
-    $GRAALVM_HOME/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
+run-server-native-metadata: ##
+	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
-package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
+run-test-native-spring-boot: ##
+	$(MVN) $(MAVEN_ARGS) clean -Ptest-native -pl test-suite/test-native spring-boot:run
 
-package-server-native-only: spotless-apply ## Build server native image (GraalVM) without pre-step
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
+run-test-native: ##
+	$(MVN) $(MAVEN_ARGS) clean -Ptest-native -pl test-suite/test-native test
 
-package-test-native: ## Build native test suite
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native spotless:apply
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native install -DskipTests -am
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native clean package
+run-merge-native-server: ##
+	python3 script/native/merge_native_image_config.py
 
-package-test-native-only: ##
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native spotless:apply
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native clean package
+package-server-native: spotless-apply ##
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative native:compile
+
+run-server-native-mode-file: ##
+	SEATA_REGISTRY_TYPE=file \
+	SEATA_CONFIG_TYPE=file \
+	SEATA_STORE_MODE=file \
+	./server/target/$(SERVER_NATIVE_NAME)
+
+package-run-server-native-mode-file: package-server-native ##
+	SEATA_REGISTRY_TYPE=file \
+	SEATA_CONFIG_TYPE=file \
+	SEATA_STORE_MODE=file \
+	./server/target/$(SERVER_NATIVE_NAME)

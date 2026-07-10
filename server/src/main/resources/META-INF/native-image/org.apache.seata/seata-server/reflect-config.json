@@ -1,70 +1,63 @@
 [ {
-  "name" : "SC",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
   "name" : "boolean"
 }, {
   "name" : "boolean[]"
 }, {
-  "name" : "ch.qos.logback.classic.AsyncAppender",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "setIncludeCallerData",
     "parameterTypes" : [ "boolean" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.classic.AsyncAppender"
 }, {
-  "name" : "ch.qos.logback.classic.BasicConfigurator",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.classic.BasicConfigurator"
 }, {
-  "name" : "ch.qos.logback.classic.Level",
   "methods" : [ {
     "name" : "valueOf",
     "parameterTypes" : [ "java.lang.String" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.classic.Level"
 }, {
   "name" : "ch.qos.logback.classic.LoggerContext"
 }, {
-  "name" : "ch.qos.logback.classic.boolex.StubEventEvaluator",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "setExpression",
     "parameterTypes" : [ "java.lang.String" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.classic.boolex.StubEventEvaluator"
 }, {
-  "name" : "ch.qos.logback.classic.encoder.PatternLayoutEncoder",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.classic.encoder.PatternLayoutEncoder"
 }, {
-  "name" : "ch.qos.logback.classic.filter.LevelFilter",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "setLevel",
     "parameterTypes" : [ "ch.qos.logback.classic.Level" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.classic.filter.LevelFilter"
 }, {
   "name" : "ch.qos.logback.classic.spi.LogbackServiceProvider"
 }, {
-  "name" : "ch.qos.logback.classic.util.DefaultJoranConfigurator",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.classic.util.DefaultJoranConfigurator"
 }, {
-  "name" : "ch.qos.logback.core.AsyncAppenderBase",
   "methods" : [ {
     "name" : "setDiscardingThreshold",
     "parameterTypes" : [ "int" ]
@@ -74,80 +67,72 @@
   }, {
     "name" : "setQueueSize",
     "parameterTypes" : [ "int" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.AsyncAppenderBase"
 }, {
-  "name" : "ch.qos.logback.core.ConsoleAppender",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.ConsoleAppender"
 }, {
-  "name" : "ch.qos.logback.core.FileAppender",
   "methods" : [ {
     "name" : "setAppend",
     "parameterTypes" : [ "boolean" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.FileAppender"
 }, {
-  "name" : "ch.qos.logback.core.OutputStreamAppender",
   "methods" : [ {
     "name" : "setEncoder",
     "parameterTypes" : [ "ch.qos.logback.core.encoder.Encoder" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.OutputStreamAppender"
 }, {
-  "name" : "ch.qos.logback.core.UnsynchronizedAppenderBase",
   "methods" : [ {
     "name" : "addFilter",
     "parameterTypes" : [ "ch.qos.logback.core.filter.Filter" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.UnsynchronizedAppenderBase"
 }, {
   "name" : "ch.qos.logback.core.boolex.EventEvaluator"
 }, {
   "name" : "ch.qos.logback.core.encoder.Encoder"
 }, {
-  "name" : "ch.qos.logback.core.encoder.LayoutWrappingEncoder",
   "methods" : [ {
     "name" : "setCharset",
     "parameterTypes" : [ "java.nio.charset.Charset" ]
   }, {
     "name" : "setParent",
     "parameterTypes" : [ "ch.qos.logback.core.spi.ContextAware" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.encoder.LayoutWrappingEncoder"
 }, {
-  "name" : "ch.qos.logback.core.filter.AbstractMatcherFilter",
   "methods" : [ {
     "name" : "setOnMatch",
     "parameterTypes" : [ "ch.qos.logback.core.spi.FilterReply" ]
   }, {
     "name" : "setOnMismatch",
     "parameterTypes" : [ "ch.qos.logback.core.spi.FilterReply" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.filter.AbstractMatcherFilter"
 }, {
-  "name" : "ch.qos.logback.core.filter.EvaluatorFilter",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "setEvaluator",
     "parameterTypes" : [ "ch.qos.logback.core.boolex.EventEvaluator" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.filter.EvaluatorFilter"
 }, {
   "name" : "ch.qos.logback.core.filter.Filter"
 }, {
-  "name" : "ch.qos.logback.core.joran.conditional.Condition"
-}, {
-  "name" : "ch.qos.logback.core.joran.conditional.PropertyWrapperForScripts",
-  "methods" : [ {
-    "name" : "setPropertyContainers",
-    "parameterTypes" : [ "ch.qos.logback.core.spi.PropertyContainer", "ch.qos.logback.core.spi.PropertyContainer" ]
-  } ]
-}, {
-  "name" : "ch.qos.logback.core.pattern.PatternLayoutEncoderBase",
   "methods" : [ {
     "name" : "setPattern",
     "parameterTypes" : [ "java.lang.String" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.pattern.PatternLayoutEncoderBase"
 }, {
-  "name" : "ch.qos.logback.core.rolling.RollingFileAppender",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
@@ -157,29 +142,29 @@
   }, {
     "name" : "setRollingPolicy",
     "parameterTypes" : [ "ch.qos.logback.core.rolling.RollingPolicy" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.rolling.RollingFileAppender"
 }, {
   "name" : "ch.qos.logback.core.rolling.RollingPolicy"
 }, {
-  "name" : "ch.qos.logback.core.rolling.RollingPolicyBase",
   "methods" : [ {
     "name" : "setFileNamePattern",
     "parameterTypes" : [ "java.lang.String" ]
   }, {
     "name" : "setParent",
     "parameterTypes" : [ "ch.qos.logback.core.FileAppender" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.rolling.RollingPolicyBase"
 }, {
-  "name" : "ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "setMaxFileSize",
     "parameterTypes" : [ "ch.qos.logback.core.util.FileSize" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"
 }, {
-  "name" : "ch.qos.logback.core.rolling.TimeBasedRollingPolicy",
   "methods" : [ {
     "name" : "setCleanHistoryOnStart",
     "parameterTypes" : [ "boolean" ]
@@ -189,92 +174,81 @@
   }, {
     "name" : "setTotalSizeCap",
     "parameterTypes" : [ "ch.qos.logback.core.util.FileSize" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.rolling.TimeBasedRollingPolicy"
 }, {
   "name" : "ch.qos.logback.core.spi.ContextAware"
 }, {
   "name" : "ch.qos.logback.core.spi.FilterReply"
 }, {
-  "name" : "ch.qos.logback.core.spi.PropertyContainer"
-}, {
-  "name" : "ch.qos.logback.core.util.FileSize",
   "methods" : [ {
     "name" : "valueOf",
     "parameterTypes" : [ "java.lang.String" ]
-  } ]
+  } ],
+  "name" : "ch.qos.logback.core.util.FileSize"
 }, {
-  "name" : "com.beust.jcommander.validators.NoValueValidator",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "com.beust.jcommander.validators.NoValueValidator"
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.boot.ApolloApplicationContextInitializer",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "com.ctrip.framework.apollo.spring.boot.ApolloApplicationContextInitializer"
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
+  "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory"
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1590202",
   "fields" : [ {
     "name" : "GUICE$INVOKERS"
-  } ]
+  } ],
+  "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1590202"
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
+  "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper"
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$381400",
   "fields" : [ {
     "name" : "GUICE$INVOKERS"
-  } ]
+  } ],
+  "name" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$381400"
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
+  "name" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry"
 }, {
-  "name" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry$$FastClassByGuice$$3049620",
   "fields" : [ {
     "name" : "GUICE$INVOKERS"
-  } ]
+  } ],
+  "name" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry$$FastClassByGuice$$3049620"
 }, {
   "name" : "com.ctrip.framework.apollo.spring.util.SpringInjector$SpringModule"
 }, {
-  "name" : "com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+  "name" : "com.fasterxml.jackson.databind.deser.Deserializers[]"
+}, {
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "com.fasterxml.jackson.databind.ext.Java7SupportImpl"
 }, {
   "name" : "com.google.common.eventbus.ElementTypesAreNonnullByDefault"
 }, {
   "name" : "com.google.common.eventbus.Subscribe"
 }, {
-  "name" : "com.google.common.util.concurrent.AbstractFuture",
   "fields" : [ {
     "name" : "listeners"
   }, {
     "name" : "value"
   }, {
     "name" : "waiters"
-  } ]
+  } ],
+  "name" : "com.google.common.util.concurrent.AbstractFuture"
 }, {
-  "name" : "com.google.common.util.concurrent.AbstractFuture$Waiter",
   "fields" : [ {
     "name" : "next"
   }, {
     "name" : "thread"
-  } ]
+  } ],
+  "name" : "com.google.common.util.concurrent.AbstractFuture$Waiter"
 }, {
   "name" : "com.google.inject.AbstractModule"
 }, {
@@ -286,11 +260,11 @@
 }, {
   "name" : "com.google.inject.util.Modules$EmptyModule"
 }, {
-  "name" : "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl"
 }, {
   "name" : "groovy.lang.MetaClass"
 }, {
@@ -303,6 +277,8 @@
   "name" : "io.netty.buffer.AbstractByteBufAllocator"
 }, {
   "name" : "io.netty.buffer.AdaptivePoolingAllocator$Magazine"
+}, {
+  "name" : "io.netty.buffer.AdaptivePoolingAllocator$SizeClassedChunk"
 }, {
   "name" : "io.netty.channel.AbstractChannelHandlerContext"
 }, {
@@ -318,13 +294,21 @@
 }, {
   "name" : "io.netty.channel.DefaultChannelPipeline$TailContext"
 }, {
-  "name" : "io.netty.channel.socket.nio.NioServerSocketChannel",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "io.netty.channel.socket.nio.NioServerSocketChannel"
+}, {
+  "name" : "io.netty.handler.timeout.IdleStateHandler"
 }, {
   "name" : "io.netty.util.DefaultAttributeMap"
+}, {
+  "name" : "io.netty.util.Recycler$DefaultHandle"
+}, {
+  "name" : "io.netty.util.ReferenceCountUtil"
+}, {
+  "name" : "io.netty.util.ResourceLeakDetector$DefaultResourceLeak"
 }, {
   "name" : "io.netty.util.concurrent.ConcurrentSkipListIntObjMultimap"
 }, {
@@ -334,13 +318,15 @@
 }, {
   "name" : "io.netty.util.concurrent.DefaultPromise"
 }, {
+  "name" : "io.netty.util.concurrent.MpscIntQueue$MpscAtomicIntegerArrayQueue"
+}, {
   "name" : "io.netty.util.concurrent.SingleThreadEventExecutor"
 }, {
-  "name" : "io.netty.util.internal.CleanerJava25$CleanableDirectBufferImpl",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "java.lang.AutoCloseable", "java.nio.ByteBuffer", "long" ]
-  } ]
+  } ],
+  "name" : "io.netty.util.internal.CleanerJava25$CleanableDirectBufferImpl"
 }, {
   "name" : "io.netty.util.internal.shaded.org.jctools.queues.atomic.BaseMpscLinkedAtomicArrayQueueColdProducerFields"
 }, {
@@ -366,6 +352,8 @@
 }, {
   "name" : "io.seata.core.rpc.netty.http.filter.HttpRequestFilter"
 }, {
+  "name" : "io.seata.core.serializer.Serializer"
+}, {
   "name" : "io.seata.discovery.registry.RegistryProvider"
 }, {
   "name" : "io.seata.metrics.exporter.Exporter"
@@ -373,6 +361,8 @@
   "name" : "io.seata.metrics.registry.Registry"
 }, {
   "name" : "io.seata.server.coordinator.AbstractCore"
+}, {
+  "name" : "io.seata.server.limit.ratelimit.RateLimiter"
 }, {
   "name" : "io.seata.server.lock.LockManager"
 }, {
@@ -410,204 +400,101 @@
 }, {
   "name" : "java.io.Closeable"
 }, {
-  "name" : "java.io.Console",
   "methods" : [ {
     "name" : "isTerminal",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.io.Console"
 }, {
   "name" : "java.io.Serializable"
 }, {
   "name" : "java.io.Serializable[]"
 }, {
-  "name" : "java.lang.AbstractStringBuilder"
-}, {
-  "name" : "java.lang.Appendable"
-}, {
-  "name" : "java.lang.AssertionError"
-}, {
   "name" : "java.lang.AutoCloseable"
 }, {
-  "name" : "java.lang.Boolean",
+  "jniAccessible" : true,
   "methods" : [ {
     "name" : "getBoolean",
     "parameterTypes" : [ "java.lang.String" ]
   } ],
-  "jniAccessible" : true
+  "name" : "java.lang.Boolean"
 }, {
   "name" : "java.lang.Byte"
 }, {
-  "name" : "java.lang.CharSequence"
-}, {
   "name" : "java.lang.CharSequence[]"
 }, {
-  "name" : "java.lang.Character"
-}, {
-  "name" : "java.lang.Class",
   "methods" : [ {
     "name" : "getModule",
     "parameterTypes" : [ ]
   }, {
     "name" : "isRecord",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.Class"
 }, {
-  "name" : "java.lang.ClassLoader",
   "fields" : [ {
     "name" : "classLoaderValueMap"
-  } ]
+  } ],
+  "name" : "java.lang.ClassLoader"
 }, {
   "name" : "java.lang.Class[]"
 }, {
   "name" : "java.lang.CloneNotSupportedException"
 }, {
-  "name" : "java.lang.Cloneable"
-}, {
-  "name" : "java.lang.Comparable"
-}, {
   "name" : "java.lang.Comparable[]"
 }, {
   "name" : "java.lang.Double"
 }, {
-  "name" : "java.lang.Enum",
-  "methods" : [ {
-    "name" : "ordinal",
-    "parameterTypes" : [ ]
-  } ]
-}, {
   "name" : "java.lang.Error"
-}, {
-  "name" : "java.lang.Exception"
 }, {
   "name" : "java.lang.Float"
 }, {
   "name" : "java.lang.Integer"
 }, {
-  "name" : "java.lang.Iterable",
-  "methods" : [ {
-    "name" : "iterator",
-    "parameterTypes" : [ ]
-  } ]
-}, {
   "name" : "java.lang.Long"
 }, {
-  "name" : "java.lang.Module",
   "methods" : [ {
     "name" : "isNativeAccessEnabled",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.Module"
 }, {
-  "name" : "java.lang.Object",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.Object"
 }, {
   "name" : "java.lang.Object[]"
 }, {
-  "name" : "java.lang.Override"
-}, {
-  "name" : "java.lang.ProcessHandle",
   "methods" : [ {
     "name" : "current",
     "parameterTypes" : [ ]
   }, {
     "name" : "pid",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.ProcessHandle"
 }, {
   "name" : "java.lang.RuntimeException"
 }, {
   "name" : "java.lang.Short"
 }, {
-  "name" : "java.lang.String",
   "methods" : [ {
     "name" : "equals",
     "parameterTypes" : [ "java.lang.Object" ]
-  }, {
-    "name" : "concat",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "hashCode",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "valueOf",
-    "parameterTypes" : [ "int" ]
-  }, {
-    "name" : "valueOf",
-    "parameterTypes" : [ "long" ]
-  }, {
-    "name" : "valueOf",
-    "parameterTypes" : [ "float" ]
-  }, {
-    "name" : "valueOf",
-    "parameterTypes" : [ "double" ]
-  }, {
-    "name" : "valueOf",
-    "parameterTypes" : [ "char" ]
-  }, {
-    "name" : "valueOf",
-    "parameterTypes" : [ "boolean" ]
-  }, {
-    "name" : "valueOf",
-    "parameterTypes" : [ "java.lang.Object" ]
-  } ]
-}, {
-  "name" : "java.lang.StringBuffer"
-}, {
-  "name" : "java.lang.StringBuilder",
-  "methods" : [ {
-    "name" : "append",
-    "parameterTypes" : [ "int" ]
-  }, {
-    "name" : "append",
-    "parameterTypes" : [ "long" ]
-  }, {
-    "name" : "append",
-    "parameterTypes" : [ "float" ]
-  }, {
-    "name" : "append",
-    "parameterTypes" : [ "double" ]
-  }, {
-    "name" : "append",
-    "parameterTypes" : [ "char" ]
-  }, {
-    "name" : "append",
-    "parameterTypes" : [ "boolean" ]
-  }, {
-    "name" : "append",
-    "parameterTypes" : [ "java.lang.Object" ]
-  }, {
-    "name" : "append",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "toString",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "<init>",
-    "parameterTypes" : [ "java.lang.String" ]
-  } ]
+  } ],
+  "name" : "java.lang.String"
 }, {
   "name" : "java.lang.String[]"
 }, {
-  "name" : "java.lang.System"
-}, {
-  "name" : "java.lang.Thread",
   "methods" : [ {
     "name" : "isVirtual",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.Thread"
 }, {
-  "name" : "java.lang.Throwable",
-  "methods" : [ {
-    "name" : "addSuppressed",
-    "parameterTypes" : [ "java.lang.Throwable" ]
-  } ]
-}, {
-  "name" : "java.lang.Void"
+  "name" : "java.lang.Throwable"
 }, {
   "name" : "java.lang.annotation.Documented"
 }, {
@@ -619,24 +506,19 @@
 }, {
   "name" : "java.lang.annotation.Target"
 }, {
-  "name" : "java.lang.constant.Constable"
-}, {
   "name" : "java.lang.constant.Constable[]"
-}, {
-  "name" : "java.lang.constant.ConstantDesc"
 }, {
   "name" : "java.lang.constant.ConstantDesc[]"
 }, {
-  "name" : "java.lang.foreign.Arena",
   "methods" : [ {
     "name" : "allocate",
     "parameterTypes" : [ "long" ]
   }, {
     "name" : "ofShared",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.foreign.Arena"
 }, {
-  "name" : "java.lang.foreign.MemorySegment",
   "methods" : [ {
     "name" : "address",
     "parameterTypes" : [ ]
@@ -646,9 +528,9 @@
   }, {
     "name" : "ofBuffer",
     "parameterTypes" : [ "java.nio.Buffer" ]
-  } ]
+  } ],
+  "name" : "java.lang.foreign.MemorySegment"
 }, {
-  "name" : "java.lang.invoke.MethodHandles",
   "methods" : [ {
     "name" : "byteArrayViewVarHandle",
     "parameterTypes" : [ "java.lang.Class", "java.nio.ByteOrder" ]
@@ -658,87 +540,50 @@
   }, {
     "name" : "privateLookupIn",
     "parameterTypes" : [ "java.lang.Class", "java.lang.invoke.MethodHandles$Lookup" ]
-  } ]
+  } ],
+  "name" : "java.lang.invoke.MethodHandles"
 }, {
-  "name" : "java.lang.invoke.MethodHandles$Lookup",
   "methods" : [ {
     "name" : "findVarHandle",
     "parameterTypes" : [ "java.lang.Class", "java.lang.String", "java.lang.Class" ]
-  } ]
+  } ],
+  "name" : "java.lang.invoke.MethodHandles$Lookup"
 }, {
-  "name" : "java.lang.invoke.VarHandle",
   "methods" : [ {
     "name" : "acquireFence",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.invoke.VarHandle"
 }, {
-  "name" : "java.lang.management.ManagementFactory",
   "methods" : [ {
     "name" : "getRuntimeMXBean",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.management.ManagementFactory"
 }, {
-  "name" : "java.lang.management.RuntimeMXBean",
   "methods" : [ {
     "name" : "getInputArguments",
     "parameterTypes" : [ ]
-  }, {
-    "name" : "getName",
-    "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.management.RuntimeMXBean"
 }, {
-  "name" : "java.lang.reflect.ParameterizedType",
   "methods" : [ {
     "name" : "getActualTypeArguments",
     "parameterTypes" : [ ]
   }, {
     "name" : "getRawType",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.reflect.ParameterizedType"
 }, {
   "name" : "java.lang.reflect.UndeclaredThrowableException"
 }, {
-  "name" : "java.lang.reflect.WildcardType",
   "methods" : [ {
     "name" : "getUpperBounds",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "java.lang.reflect.WildcardType"
 }, {
-  "name" : "java.nio.Bits",
-  "fields" : [ {
-    "name" : "UNALIGNED"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.buffer.AbstractByteBufAllocator",
-  "allDeclaredMethods" : true,
-  "allDeclaredConstructors" : true
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.buffer.UnpooledByteBufAllocator",
-  "allDeclaredMethods" : true,
-  "allDeclaredConstructors" : true
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil",
-  "allDeclaredMethods" : true,
-  "allDeclaredConstructors" : true,
-  "allDeclaredFields" : true
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.ResourceLeakDetector",
-  "allDeclaredMethods" : true,
-  "allDeclaredConstructors" : true
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.AbstractChannel",
-  "allDeclaredMethods" : true,
-  "allDeclaredConstructors" : true
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext",
-  "allDeclaredMethods" : true,
-  "allDeclaredConstructors" : true
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline",
-  "allDeclaredMethods" : true,
-  "allDeclaredConstructors" : true
-}, {
-  "name" : "java.nio.ByteBuffer",
   "methods" : [ {
     "name" : "alignedSlice",
     "parameterTypes" : [ "int" ]
@@ -751,7 +596,8 @@
   }, {
     "name" : "slice",
     "parameterTypes" : [ "int", "int" ]
-  } ]
+  } ],
+  "name" : "java.nio.ByteBuffer"
 }, {
   "name" : "java.nio.channels.spi.SelectorProvider"
 }, {
@@ -762,15 +608,6 @@
   "name" : "java.sql.Timestamp"
 }, {
   "name" : "java.util.EventListener"
-}, {
-  "name" : "java.util.Iterator",
-  "methods" : [ {
-    "name" : "hasNext",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "next",
-    "parameterTypes" : [ ]
-  } ]
 }, {
   "name" : "java.util.concurrent.Executor"
 }, {
@@ -796,11 +633,7 @@
 }, {
   "name" : "jdk.internal.loader.ClassLoaders$PlatformClassLoader"
 }, {
-  "name" : "jdk.internal.misc.Unsafe",
-  "methods" : [ {
-    "name" : "getUnsafe",
-    "parameterTypes" : [ ]
-  } ]
+  "name" : "jdk.internal.misc.Unsafe"
 }, {
   "name" : "kotlin.Metadata"
 }, {
@@ -818,17 +651,17 @@
 }, {
   "name" : "org.apache.commons.logging.LogFactory"
 }, {
-  "name" : "org.apache.commons.logging.impl.Slf4jLogFactory",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.commons.logging.impl.Slf4jLogFactory"
 }, {
-  "name" : "org.apache.commons.logging.impl.WeakHashtable",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.commons.logging.impl.WeakHashtable"
 }, {
   "name" : "org.apache.logging.log4j.core.impl.Log4jContextFactory"
 }, {
@@ -842,41 +675,34 @@
 }, {
   "name" : "org.apache.seata.common.loader.Scope"
 }, {
-  "name" : "org.apache.seata.common.store.LockMode",
   "methods" : [ {
     "name" : "getName",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.common.store.LockMode"
 }, {
-  "name" : "org.apache.seata.common.store.SessionMode",
   "methods" : [ {
     "name" : "getName",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.common.store.SessionMode"
 }, {
-  "name" : "org.apache.seata.common.thread.PlatformThreadPoolProvider",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.common.thread.PlatformThreadPoolProvider"
 }, {
-  "name" : "org.apache.seata.common.thread.VirtualThreadPoolProvider",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.common.thread.VirtualThreadPoolProvider"
 }, {
-  "name" : "org.apache.seata.config.AbstractConfiguration",
   "methods" : [ {
-    "name" : "getConfig",
-    "parameterTypes" : [ "java.lang.String" ]
+    "name" : "addConfigListener",
+    "parameterTypes" : [ "java.lang.String", "org.apache.seata.config.ConfigurationChangeListener" ]
   }, {
-    "name" : "getConfig",
-    "parameterTypes" : [ "java.lang.String", "java.lang.String" ]
-  } ]
-}, {
-  "name" : "org.apache.seata.config.Configuration",
-  "methods" : [ {
     "name" : "getBoolean",
     "parameterTypes" : [ "java.lang.String" ]
   }, {
@@ -897,46 +723,53 @@
   }, {
     "name" : "getLong",
     "parameterTypes" : [ "java.lang.String", "long" ]
-  } ]
-}, {
-  "name" : "org.apache.seata.config.FileConfiguration",
-  "methods" : [ {
-    "name" : "addConfigListener",
-    "parameterTypes" : [ "java.lang.String", "org.apache.seata.config.ConfigurationChangeListener" ]
   }, {
-    "name" : "getLatestConfig",
-    "parameterTypes" : [ "java.lang.String", "java.lang.String", "long" ]
-  } ]
+    "name" : "getShort",
+    "parameterTypes" : [ "java.lang.String", "short" ]
+  } ],
+  "name" : "org.apache.seata.config.Configuration"
 }, {
-  "name" : "org.apache.seata.config.file.SimpleFileConfig",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.config.file.SimpleFileConfig"
 }, {
   "name" : "org.apache.seata.config.file.YamlFileConfig"
 }, {
-  "name" : "org.apache.seata.core.context.FastThreadLocalContextCore",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.core.context.FastThreadLocalContextCore"
 }, {
   "name" : "org.apache.seata.core.context.ThreadLocalContextCore"
 }, {
-  "name" : "org.apache.seata.core.rpc.hook.StatusRpcHook",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.core.rpc.hook.StatusRpcHook"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.AbstractNettyRemotingServer$ServerHandler"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.MultiProtocolDecoder"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.NettyServerBootstrap$1"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.ProtocolDetectHandler"
 }, {
   "name" : "org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
 }, {
-  "name" : "org.apache.seata.discovery.registry.FileRegistryProvider",
+  "name" : "org.apache.seata.core.rpc.netty.v2.ProtocolDecoderV2"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.v2.ProtocolEncoderV2"
+}, {
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.discovery.registry.FileRegistryProvider"
 }, {
   "name" : "org.apache.seata.discovery.registry.consul.ConsulRegistryProvider"
 }, {
@@ -946,11 +779,7 @@
 }, {
   "name" : "org.apache.seata.discovery.registry.eureka.EurekaRegistryProvider"
 }, {
-  "name" : "org.apache.seata.discovery.registry.nacos.NacosRegistryProvider",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
+  "name" : "org.apache.seata.discovery.registry.nacos.NacosRegistryProvider"
 }, {
   "name" : "org.apache.seata.discovery.registry.namingserver.NamingserverRegistryProvider"
 }, {
@@ -960,19 +789,36 @@
 }, {
   "name" : "org.apache.seata.discovery.registry.zk.ZookeeperRegistryProvider"
 }, {
-  "name" : "org.apache.seata.metrics.exporter.prometheus.PrometheusExporter",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.metrics.exporter.prometheus.PrometheusExporter"
 }, {
-  "name" : "org.apache.seata.metrics.registry.compact.CompactRegistry",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.metrics.registry.compact.CompactRegistry"
 }, {
-  "name" : "org.apache.seata.server.ParameterParser",
+  "name" : "org.apache.seata.serializer.fastjson2.Fastjson2Serializer"
+}, {
+  "name" : "org.apache.seata.serializer.fory.ForySerializer"
+}, {
+  "name" : "org.apache.seata.serializer.hessian.HessianSerializer"
+}, {
+  "name" : "org.apache.seata.serializer.kryo.KryoSerializer"
+}, {
+  "name" : "org.apache.seata.serializer.protobuf.GrpcSerializer"
+}, {
+  "name" : "org.apache.seata.serializer.protobuf.ProtobufSerializer"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ "java.lang.Byte" ]
+  } ],
+  "name" : "org.apache.seata.serializer.seata.SeataSerializer"
+}, {
   "fields" : [ {
     "name" : "help"
   }, {
@@ -989,27 +835,27 @@
     "name" : "sessionStoreMode"
   }, {
     "name" : "storeMode"
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.ParameterParser"
 }, {
-  "name" : "org.apache.seata.server.Server",
   "fields" : [ {
     "name" : "seataInstanceStrategy"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.Server"
 }, {
-  "name" : "org.apache.seata.server.ServerApplication",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "main",
     "parameterTypes" : [ "java.lang.String[]" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.ServerApplication"
 }, {
-  "name" : "org.apache.seata.server.ServerRunner",
   "fields" : [ {
     "name" : "logPath"
   }, {
@@ -1018,35 +864,37 @@
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.ServerRunner"
 }, {
-  "name" : "org.apache.seata.server.auth.DefaultCheckAuthHandler",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.auth.DefaultCheckAuthHandler"
 }, {
   "name" : "org.apache.seata.server.cluster.listener.ClusterChangeListener"
 }, {
-  "name" : "org.apache.seata.server.cluster.manager.ClusterWatcherManager",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "init",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.cluster.manager.ClusterWatcherManager"
 }, {
-  "name" : "org.apache.seata.server.cluster.manager.ClusterWatcherManager$$SpringCGLIB$$0",
   "fields" : [ {
     "name" : "CGLIB$CALLBACK_FILTER"
   }, {
     "name" : "CGLIB$FACTORY_DATA"
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.cluster.manager.ClusterWatcherManager$$SpringCGLIB$$0"
+}, {
+  "name" : "org.apache.seata.server.cluster.raft.serializer.JacksonSerializer"
 }, {
   "name" : "org.apache.seata.server.config.AsyncConfig"
 }, {
-  "name" : "org.apache.seata.server.config.AsyncConfig$$SpringCGLIB$$0",
   "fields" : [ {
     "name" : "$$beanFactory"
   }, {
@@ -1060,15 +908,15 @@
   }, {
     "name" : "CGLIB$SET_STATIC_CALLBACKS",
     "parameterTypes" : [ "org.springframework.cglib.proxy.Callback[]" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.config.AsyncConfig$$SpringCGLIB$$0"
 }, {
-  "name" : "org.apache.seata.server.config.ServerConfig",
   "methods" : [ {
     "name" : "emptyServerProperties",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.config.ServerConfig"
 }, {
-  "name" : "org.apache.seata.server.config.ServerConfig$$SpringCGLIB$$0",
   "fields" : [ {
     "name" : "$$beanFactory"
   }, {
@@ -1082,33 +930,30 @@
   }, {
     "name" : "CGLIB$SET_STATIC_CALLBACKS",
     "parameterTypes" : [ "org.springframework.cglib.proxy.Callback[]" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.config.ServerConfig$$SpringCGLIB$$0"
 }, {
-  "name" : "org.apache.seata.server.config.ServerConfig$$SpringCGLIB$$FastClass$$0",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "java.lang.Class" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.config.ServerConfig$$SpringCGLIB$$FastClass$$0"
 }, {
-  "name" : "org.apache.seata.server.config.ServerConfig$$SpringCGLIB$$FastClass$$1",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "java.lang.Class" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.config.ServerConfig$$SpringCGLIB$$FastClass$$1"
 }, {
-  "name" : "org.apache.seata.server.config.ServerInstanceStrategyConfig",
   "fields" : [ {
     "name" : "sessionMode"
   } ],
   "methods" : [ {
     "name" : "seataInstanceStrategy",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "seataInstanceStrategy",
     "parameterTypes" : [ "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryProperties", "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNamingServerProperties", "org.springframework.boot.web.server.autoconfigure.ServerProperties" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.config.ServerInstanceStrategyConfig"
 }, {
-  "name" : "org.apache.seata.server.config.ServerInstanceStrategyConfig$$SpringCGLIB$$0",
   "fields" : [ {
     "name" : "$$beanFactory"
   }, {
@@ -1122,52 +967,53 @@
   }, {
     "name" : "CGLIB$SET_STATIC_CALLBACKS",
     "parameterTypes" : [ "org.springframework.cglib.proxy.Callback[]" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.config.ServerInstanceStrategyConfig$$SpringCGLIB$$0"
 }, {
-  "name" : "org.apache.seata.server.config.ServerInstanceStrategyConfig$$SpringCGLIB$$FastClass$$0",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "java.lang.Class" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.config.ServerInstanceStrategyConfig$$SpringCGLIB$$FastClass$$0"
 }, {
-  "name" : "org.apache.seata.server.config.ServerInstanceStrategyConfig$$SpringCGLIB$$FastClass$$1",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "java.lang.Class" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.config.ServerInstanceStrategyConfig$$SpringCGLIB$$FastClass$$1"
 }, {
-  "name" : "org.apache.seata.server.console.aop.GlobalExceptionHandlerAdvice",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.console.aop.GlobalExceptionHandlerAdvice"
 }, {
-  "name" : "org.apache.seata.server.console.controller.BranchSessionController",
   "fields" : [ {
     "name" : "branchSessionService"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.console.controller.BranchSessionController"
 }, {
-  "name" : "org.apache.seata.server.console.controller.GlobalLockController",
   "fields" : [ {
     "name" : "globalLockService"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.console.controller.GlobalLockController"
 }, {
-  "name" : "org.apache.seata.server.console.controller.GlobalSessionController",
   "fields" : [ {
     "name" : "globalSessionService"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.console.controller.GlobalSessionController"
 }, {
   "name" : "org.apache.seata.server.console.impl.AbstractBranchService"
 }, {
@@ -1179,7 +1025,6 @@
 }, {
   "name" : "org.apache.seata.server.console.impl.file.BranchSessionFileServiceImpl"
 }, {
-  "name" : "org.apache.seata.server.console.impl.file.BranchSessionFileServiceImpl$$SpringCGLIB$$0",
   "fields" : [ {
     "name" : "$$beanFactory"
   }, {
@@ -1193,11 +1038,11 @@
   }, {
     "name" : "CGLIB$SET_STATIC_CALLBACKS",
     "parameterTypes" : [ "org.springframework.cglib.proxy.Callback[]" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.console.impl.file.BranchSessionFileServiceImpl$$SpringCGLIB$$0"
 }, {
   "name" : "org.apache.seata.server.console.impl.file.GlobalLockFileServiceImpl"
 }, {
-  "name" : "org.apache.seata.server.console.impl.file.GlobalLockFileServiceImpl$$SpringCGLIB$$0",
   "fields" : [ {
     "name" : "$$beanFactory"
   }, {
@@ -1211,11 +1056,11 @@
   }, {
     "name" : "CGLIB$SET_STATIC_CALLBACKS",
     "parameterTypes" : [ "org.springframework.cglib.proxy.Callback[]" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.console.impl.file.GlobalLockFileServiceImpl$$SpringCGLIB$$0"
 }, {
   "name" : "org.apache.seata.server.console.impl.file.GlobalSessionFileServiceImpl"
 }, {
-  "name" : "org.apache.seata.server.console.impl.file.GlobalSessionFileServiceImpl$$SpringCGLIB$$0",
   "fields" : [ {
     "name" : "$$beanFactory"
   }, {
@@ -1229,7 +1074,8 @@
   }, {
     "name" : "CGLIB$SET_STATIC_CALLBACKS",
     "parameterTypes" : [ "org.springframework.cglib.proxy.Callback[]" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.console.impl.file.GlobalSessionFileServiceImpl$$SpringCGLIB$$0"
 }, {
   "name" : "org.apache.seata.server.console.service.BranchSessionService"
 }, {
@@ -1237,58 +1083,47 @@
 }, {
   "name" : "org.apache.seata.server.console.service.GlobalSessionService"
 }, {
-  "name" : "org.apache.seata.server.controller.ClusterController",
   "fields" : [ {
     "name" : "clusterWatcherManager"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.controller.ClusterController"
 }, {
-  "name" : "org.apache.seata.server.controller.HealthController",
   "fields" : [ {
     "name" : "serverRunner"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.controller.HealthController"
 }, {
-  "name" : "org.apache.seata.server.controller.VGroupMappingController",
   "fields" : [ {
     "name" : "sessionMode"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.server.filter.RaftRequestFilter",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.server.filter.XSSHttpRequestFilter",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.server.instance.AbstractSeataInstanceStrategy",
-  "fields" : [ {
-    "name" : "applicationContext"
-  }, {
-    "name" : "registryNamingServerProperties"
-  }, {
-    "name" : "registryProperties"
   } ],
+  "name" : "org.apache.seata.server.controller.VGroupMappingController"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.server.filter.RaftRequestFilter"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.server.filter.XSSHttpRequestFilter"
+}, {
   "methods" : [ {
     "name" : "destroy",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "postConstruct",
     "parameterTypes" : [ ]
   }, {
     "name" : "setRegistryNamingServerProperties",
@@ -1299,37 +1134,48 @@
   }, {
     "name" : "setServerProperties",
     "parameterTypes" : [ "org.springframework.boot.web.server.autoconfigure.ServerProperties" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.instance.AbstractSeataInstanceStrategy"
 }, {
   "name" : "org.apache.seata.server.instance.GeneralInstanceStrategy"
 }, {
   "name" : "org.apache.seata.server.instance.SeataInstanceStrategy"
 }, {
-  "name" : "org.apache.seata.server.logging.listener.SystemPropertyLoggerContextListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.limit.ratelimit.TokenBucketLimiter"
 }, {
-  "name" : "org.apache.seata.server.logging.logback.ExtendedArrowThrowableProxyConverter",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.logging.listener.SystemPropertyLoggerContextListener"
 }, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.server.logging.logback.ExtendedArrowThrowableProxyConverter"
+}, {
+  "methods" : [ {
+    "name" : "recordGlobalTransactionEventForMetrics",
+    "parameterTypes" : [ "org.apache.seata.core.event.GlobalTransactionEvent" ]
+  } ],
   "name" : "org.apache.seata.server.metrics.MetricsSubscriber"
 }, {
-  "name" : "org.apache.seata.server.spring.listener.HttpFilterInitListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.spring.listener.HttpFilterInitListener"
 }, {
-  "name" : "org.apache.seata.server.spring.listener.ServerApplicationListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.spring.listener.ServerApplicationListener"
 }, {
   "name" : "org.apache.seata.server.storage.db.lock.DataBaseLockManager"
 }, {
@@ -1337,23 +1183,23 @@
 }, {
   "name" : "org.apache.seata.server.storage.db.store.DataBaseVGroupMappingStoreManager"
 }, {
-  "name" : "org.apache.seata.server.storage.file.lock.FileLockManager",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.storage.file.lock.FileLockManager"
 }, {
-  "name" : "org.apache.seata.server.storage.file.session.FileSessionManager",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "java.lang.String", "java.lang.String" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.storage.file.session.FileSessionManager"
 }, {
-  "name" : "org.apache.seata.server.storage.file.store.FileVGroupMappingStoreManager",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "java.lang.String" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.storage.file.store.FileVGroupMappingStoreManager"
 }, {
   "name" : "org.apache.seata.server.storage.raft.lock.RaftLockManager"
 }, {
@@ -1367,94 +1213,93 @@
 }, {
   "name" : "org.apache.seata.server.storage.redis.store.RedisVGroupMappingStoreManager"
 }, {
-  "name" : "org.apache.seata.server.store.StoreConfig",
   "methods" : [ {
     "name" : "getLockMode",
     "parameterTypes" : [ ]
   }, {
     "name" : "getSessionMode",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.store.StoreConfig"
 }, {
-  "name" : "org.apache.seata.server.transaction.at.ATCore",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.apache.seata.core.rpc.RemotingServer" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.transaction.at.ATCore"
 }, {
-  "name" : "org.apache.seata.server.transaction.saga.SagaAnnotationCore",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.apache.seata.core.rpc.RemotingServer" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.transaction.saga.SagaAnnotationCore"
 }, {
-  "name" : "org.apache.seata.server.transaction.saga.SagaCore",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.apache.seata.core.rpc.RemotingServer" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.transaction.saga.SagaCore"
 }, {
-  "name" : "org.apache.seata.server.transaction.tcc.TccCore",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.apache.seata.core.rpc.RemotingServer" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.transaction.tcc.TccCore"
 }, {
-  "name" : "org.apache.seata.server.transaction.xa.XACore",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.apache.seata.core.rpc.RemotingServer" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.server.transaction.xa.XACore"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.SeataCoreAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "springApplicationContextProvider",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.SeataCoreAutoConfiguration"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.SeataCoreEnvironmentPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.SeataCoreEnvironmentPostProcessor"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.SeataServerEnvironmentPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.SeataServerEnvironmentPostProcessor"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.http.RestControllerBeanPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.http.RestControllerBeanPostProcessor"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.loader.SeataPropertiesLoader",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.loader.SeataPropertiesLoader"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.LogProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.LogProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.ShutdownProperties",
   "fields" : [ {
     "name" : "wait"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.ShutdownProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.ThreadFactoryProperties",
   "fields" : [ {
     "name" : "bossThreadPrefix"
   }, {
@@ -1469,10 +1314,12 @@
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.ThreadFactoryProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.TransportProperties",
   "fields" : [ {
+    "name" : "compressor"
+  }, {
     "name" : "enableTcServerBatchSendResponse"
   }, {
     "name" : "heartbeat"
@@ -1495,6 +1342,8 @@
   }, {
     "name" : "rpcTcRequestTimeout"
   }, {
+    "name" : "serialization"
+  }, {
     "name" : "serverChannelMaxIdleTimeSeconds"
   }, {
     "name" : "serverSocketResvBufSize"
@@ -1512,69 +1361,48 @@
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.TransportProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigApolloProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigApolloProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigConsulProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigConsulProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigCustomProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigCustomProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigEtcd3Properties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigEtcd3Properties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigFileProperties",
   "fields" : [ {
     "name" : "name"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigFileProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigNacosProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  }, {
-    "name" : "setDataId",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setGroup",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setNamespace",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setServerAddr",
-    "parameterTypes" : [ "java.lang.String" ]
   } ],
-  "fields" : [ {
-    "name" : "accessKey"
-  }, {
-    "name" : "contextPath"
-  }, {
-    "name" : "ramRoleName"
-  }, {
-    "name" : "username"
-  } ]
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigNacosProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
@@ -1582,83 +1410,56 @@
     "name" : "setType",
     "parameterTypes" : [ "java.lang.String" ]
   } ],
-  "fields" : [ {
-    "name" : "dataType"
-  } ]
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigZooKeeperProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryConsulProperties",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryCustomProperties",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryEtcd3Properties",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryEurekaProperties",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryMetadataProperties",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNacosProperties",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "setApplication",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setCluster",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setGroup",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setNamespace",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setServerAddr",
-    "parameterTypes" : [ "java.lang.String" ]
   } ],
-  "fields" : [ {
-    "name" : "accessKey"
-  }, {
-    "name" : "contextPath"
-  }, {
-    "name" : "slbPattern"
-  }, {
-    "name" : "username"
-  } ]
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigZooKeeperProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNamingServerProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryConsulProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryCustomProperties"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryEtcd3Properties"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryEurekaProperties"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryMetadataProperties"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNacosProperties"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNamingServerProperties"
+}, {
   "fields" : [ {
     "name" : "preferredNetworks"
   } ],
@@ -1668,33 +1469,33 @@
   }, {
     "name" : "setType",
     "parameterTypes" : [ "java.lang.String" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryRaftProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryRaftProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryRedisProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryRedisProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistrySofaProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistrySofaProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryZooKeeperProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryZooKeeperProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.MetricsProperties",
   "fields" : [ {
     "name" : "enabled"
   }, {
@@ -1707,9 +1508,9 @@
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.MetricsProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerProperties",
   "fields" : [ {
     "name" : "applicationDataLimit"
   }, {
@@ -1737,15 +1538,22 @@
   }, {
     "name" : "setServicePort",
     "parameterTypes" : [ "java.lang.Integer" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerRateLimitProperties",
+  "fields" : [ {
+    "name" : "bucketTokenMaxNum"
+  }, {
+    "name" : "bucketTokenNumPerSecond"
+  }, {
+    "name" : "enable"
+  } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerRateLimitProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerRecoveryProperties",
   "fields" : [ {
     "name" : "asyncCommittingRetryPeriod"
   }, {
@@ -1758,87 +1566,89 @@
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerRecoveryProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerUndoProperties",
   "fields" : [ {
     "name" : "logDeletePeriod"
+  }, {
+    "name" : "logSaveDays"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerUndoProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.filter.ServerHttpFilterXssProperties",
   "fields" : [ {
     "name" : "keywords"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.filter.ServerHttpFilterXssProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftProperties",
   "fields" : [ {
     "name" : "group"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLClientProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLClientProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLServerProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLServerProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.session.SessionProperties",
   "fields" : [ {
     "name" : "enableBranchAsyncRemove"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.session.SessionProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.DbcpProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.DbcpProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.DruidProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.DruidProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.HikariProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.HikariProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreDBProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreDBProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreFileProperties",
   "fields" : [ {
     "name" : "dir"
   }, {
@@ -1846,69 +1656,72 @@
   }, {
     "name" : "flushDiskMode"
   }, {
+    "name" : "maxBranchSessionSize"
+  }, {
+    "name" : "maxGlobalSessionSize"
+  }, {
     "name" : "sessionReloadReadSize"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreFileProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "setMode",
     "parameterTypes" : [ "java.lang.String" ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties$Lock",
   "fields" : [ {
     "name" : "mode"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties$Lock"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties$Session",
   "fields" : [ {
     "name" : "mode"
   } ],
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties$Session"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties$Sentinel",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties$Sentinel"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties$Single",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties$Single"
 }, {
   "name" : "org.apache.seata.spring.boot.autoconfigure.provider.SpringApplicationContextProvider"
 }, {
-  "name" : "org.apache.seata.spring.boot.autoconfigure.provider.SpringBootConfigurationProvider",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.apache.seata.spring.boot.autoconfigure.provider.SpringBootConfigurationProvider"
 }, {
   "name" : "org.aspectj.weaver.Advice"
-}, {
-  "name" : "org.codehaus.janino.ScriptEvaluator"
 }, {
   "name" : "org.crac.Core"
 }, {
@@ -1936,20 +1749,20 @@
 }, {
   "name" : "org.springframework.aop.framework.AopInfrastructureBean"
 }, {
-  "name" : "org.springframework.aop.framework.ProxyConfig",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "setProxyTargetClass",
     "parameterTypes" : [ "boolean" ]
-  } ]
+  } ],
+  "name" : "org.springframework.aop.framework.ProxyConfig"
 }, {
-  "name" : "org.springframework.aop.framework.ProxyProcessorSupport",
   "methods" : [ {
     "name" : "setOrder",
     "parameterTypes" : [ "int" ]
-  } ]
+  } ],
+  "name" : "org.springframework.aop.framework.ProxyProcessorSupport"
 }, {
   "name" : "org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator"
 }, {
@@ -1957,11 +1770,11 @@
 }, {
   "name" : "org.springframework.aop.framework.autoproxy.AbstractBeanFactoryAwareAdvisingPostProcessor"
 }, {
-  "name" : "org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator"
 }, {
   "name" : "org.springframework.aot.hint.annotation.Reflective"
 }, {
@@ -1981,11 +1794,11 @@
 }, {
   "name" : "org.springframework.beans.factory.annotation.Autowired"
 }, {
-  "name" : "org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"
 }, {
   "name" : "org.springframework.beans.factory.annotation.Value"
 }, {
@@ -2003,17 +1816,17 @@
 }, {
   "name" : "org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor"
 }, {
-  "name" : "org.springframework.boot.ApplicationProperties",
   "methods" : [ {
     "name" : "setWebApplicationType",
     "parameterTypes" : [ "org.springframework.boot.WebApplicationType" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.ApplicationProperties"
 }, {
-  "name" : "org.springframework.boot.ClearCachesApplicationListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.ClearCachesApplicationListener"
 }, {
   "name" : "org.springframework.boot.CommandLineRunner"
 }, {
@@ -2027,37 +1840,37 @@
 }, {
   "name" : "org.springframework.boot.autoconfigure.AutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationImportSelector",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationImportSelector"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationImportSelector$AutoConfigurationGroup",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationImportSelector$AutoConfigurationGroup"
 }, {
   "name" : "org.springframework.boot.autoconfigure.AutoConfigurationPackage"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationPackages$BasePackages",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "java.lang.String[]" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationPackages$BasePackages"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationPackages$Registrar",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.AutoConfigurationPackages$Registrar"
 }, {
   "name" : "org.springframework.boot.autoconfigure.AutoConfigureAfter"
 }, {
@@ -2067,43 +1880,43 @@
 }, {
   "name" : "org.springframework.boot.autoconfigure.EnableAutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.SharedMetadataReaderFactoryContextInitializer",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.SharedMetadataReaderFactoryContextInitializer"
 }, {
   "name" : "org.springframework.boot.autoconfigure.SpringBootApplication"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.aop.AopAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.aop.AopAutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$ClassProxyingConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "forceAutoProxyCreatorToUseClassProxying",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$ClassProxyingConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "applicationAvailability",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.condition.ConditionEvaluationReportAutoConfigurationImportListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.condition.ConditionEvaluationReportAutoConfigurationImportListener"
 }, {
   "name" : "org.springframework.boot.autoconfigure.condition.ConditionalOnBean"
 }, {
@@ -2123,131 +1936,130 @@
 }, {
   "name" : "org.springframework.boot.autoconfigure.condition.ConditionalOnThreading"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.condition.OnBeanCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.condition.OnBeanCondition"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.condition.OnClassCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.condition.OnClassCondition"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.condition.OnExpressionCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.condition.OnExpressionCondition"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.condition.OnPropertyCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.condition.OnPropertyCondition"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.condition.OnResourceCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.condition.OnResourceCondition"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.condition.OnThreadingCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.condition.OnThreadingCondition"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition"
 }, {
   "name" : "org.springframework.boot.autoconfigure.condition.SearchStrategy"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "defaultLifecycleProcessor",
     "parameterTypes" : [ "org.springframework.boot.autoconfigure.context.LifecycleProperties" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.context.LifecycleProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.context.LifecycleProperties"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration$ResourceBundleCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration$ResourceBundleCondition"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "propertySourcesPlaceholderConfigurer",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.boot.autoconfigure.info.ProjectInfoProperties" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration$GitResourceAvailableCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration$GitResourceAvailableCondition"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.info.ProjectInfoProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.info.ProjectInfoProperties"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.preinitialize.BackgroundPreinitializingApplicationListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.preinitialize.BackgroundPreinitializingApplicationListener"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.preinitialize.CharsetsBackgroundPreinitializer",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.preinitialize.CharsetsBackgroundPreinitializer"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.preinitialize.ConversionServiceBackgroundPreinitializer",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.preinitialize.ConversionServiceBackgroundPreinitializer"
 }, {
   "name" : "org.springframework.boot.autoconfigure.ssl.FileWatcher"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.core.io.ResourceLoader", "org.springframework.boot.autoconfigure.ssl.SslProperties" ]
@@ -2260,162 +2072,163 @@
   }, {
     "name" : "sslPropertiesSslBundleRegistrar",
     "parameterTypes" : [ "org.springframework.boot.autoconfigure.ssl.FileWatcher" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration"
 }, {
   "name" : "org.springframework.boot.autoconfigure.ssl.SslBundleRegistrar"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.ssl.SslProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.ssl.SslProperties"
 }, {
   "name" : "org.springframework.boot.autoconfigure.ssl.SslPropertiesBundleRegistrar"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutionProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutionProperties"
 }, {
   "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$ApplicationTaskExecutorAsyncConfigurer"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$AsyncConfigurerConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "applicationTaskExecutorAsyncConfigurer",
     "parameterTypes" : [ "org.springframework.beans.factory.BeanFactory" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$AsyncConfigurerConfiguration"
 }, {
   "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$AsyncConfigurerWrapperConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$BootstrapExecutorConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "bootstrapExecutorAliasPostProcessor",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$BootstrapExecutorConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$OnExecutorCondition",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$OnExecutorCondition"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$SimpleAsyncTaskExecutorBuilderConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.boot.autoconfigure.task.TaskExecutionProperties", "org.springframework.beans.factory.ObjectProvider", "org.springframework.beans.factory.ObjectProvider" ]
   }, {
     "name" : "simpleAsyncTaskExecutorBuilder",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$SimpleAsyncTaskExecutorBuilderConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$TaskExecutorConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "applicationTaskExecutor",
     "parameterTypes" : [ "org.springframework.boot.task.ThreadPoolTaskExecutorBuilder" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$TaskExecutorConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$ThreadPoolTaskExecutorBuilderConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "threadPoolTaskExecutorBuilder",
     "parameterTypes" : [ "org.springframework.boot.autoconfigure.task.TaskExecutionProperties", "org.springframework.beans.factory.ObjectProvider", "org.springframework.beans.factory.ObjectProvider" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$ThreadPoolTaskExecutorBuilderConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$SimpleAsyncTaskSchedulerBuilderConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.boot.autoconfigure.task.TaskSchedulingProperties", "org.springframework.beans.factory.ObjectProvider", "org.springframework.beans.factory.ObjectProvider" ]
   }, {
     "name" : "simpleAsyncTaskSchedulerBuilder",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$SimpleAsyncTaskSchedulerBuilderConfiguration"
 }, {
   "name" : "org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$TaskSchedulerConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$ThreadPoolTaskSchedulerBuilderConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "threadPoolTaskSchedulerBuilder",
     "parameterTypes" : [ "org.springframework.boot.autoconfigure.task.TaskSchedulingProperties", "org.springframework.beans.factory.ObjectProvider", "org.springframework.beans.factory.ObjectProvider" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$ThreadPoolTaskSchedulerBuilderConfiguration"
 }, {
-  "name" : "org.springframework.boot.autoconfigure.task.TaskSchedulingProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.autoconfigure.task.TaskSchedulingProperties"
 }, {
   "name" : "org.springframework.boot.availability.ApplicationAvailability"
 }, {
   "name" : "org.springframework.boot.availability.ApplicationAvailabilityBean"
 }, {
-  "name" : "org.springframework.boot.builder.ParentContextCloserApplicationListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.builder.ParentContextCloserApplicationListener"
 }, {
-  "name" : "org.springframework.boot.cloud.CloudFoundryVcapEnvironmentPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.boot.logging.DeferredLogFactory" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.cloud.CloudFoundryVcapEnvironmentPostProcessor"
 }, {
-  "name" : "org.springframework.boot.context.ConfigurationWarningsApplicationContextInitializer",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.ConfigurationWarningsApplicationContextInitializer"
 }, {
-  "name" : "org.springframework.boot.context.ContextIdApplicationContextInitializer",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.ContextIdApplicationContextInitializer"
 }, {
-  "name" : "org.springframework.boot.context.FileEncodingApplicationListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.FileEncodingApplicationListener"
 }, {
-  "name" : "org.springframework.boot.context.TypeExcludeFilter",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.TypeExcludeFilter"
 }, {
-  "name" : "org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.boot.logging.DeferredLogFactory", "org.springframework.boot.bootstrap.ConfigurableBootstrapContext" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor"
 }, {
   "name" : "org.springframework.boot.context.config.ConfigDataLocation[]"
 }, {
@@ -2423,83 +2236,83 @@
 }, {
   "name" : "org.springframework.boot.context.config.ConfigDataProperties"
 }, {
-  "name" : "org.springframework.boot.context.config.ConfigTreeConfigDataLoader",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.config.ConfigTreeConfigDataLoader"
 }, {
-  "name" : "org.springframework.boot.context.config.ConfigTreeConfigDataLocationResolver",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.core.io.ResourceLoader" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.config.ConfigTreeConfigDataLocationResolver"
 }, {
-  "name" : "org.springframework.boot.context.config.StandardConfigDataLoader",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.config.StandardConfigDataLoader"
 }, {
-  "name" : "org.springframework.boot.context.config.StandardConfigDataLocationResolver",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.boot.logging.DeferredLogFactory", "org.springframework.boot.context.properties.bind.Binder", "org.springframework.core.io.ResourceLoader" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.config.StandardConfigDataLocationResolver"
 }, {
-  "name" : "org.springframework.boot.context.config.SystemEnvironmentConfigDataLoader",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.config.SystemEnvironmentConfigDataLoader"
 }, {
-  "name" : "org.springframework.boot.context.config.SystemEnvironmentConfigDataLocationResolver",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.config.SystemEnvironmentConfigDataLocationResolver"
 }, {
-  "name" : "org.springframework.boot.context.event.EventPublishingRunListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.boot.SpringApplication", "java.lang.String[]" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.event.EventPublishingRunListener"
 }, {
-  "name" : "org.springframework.boot.context.logging.LoggingApplicationListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.logging.LoggingApplicationListener"
 }, {
-  "name" : "org.springframework.boot.context.properties.BoundConfigurationProperties",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.properties.BoundConfigurationProperties"
 }, {
   "name" : "org.springframework.boot.context.properties.ConfigurationProperties"
 }, {
-  "name" : "org.springframework.boot.context.properties.ConfigurationPropertiesBinder$ConfigurationPropertiesBinderFactory",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.properties.ConfigurationPropertiesBinder$ConfigurationPropertiesBinderFactory"
 }, {
-  "name" : "org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor"
 }, {
   "name" : "org.springframework.boot.context.properties.ConfigurationPropertiesSource"
 }, {
   "name" : "org.springframework.boot.context.properties.EnableConfigurationProperties"
 }, {
-  "name" : "org.springframework.boot.context.properties.EnableConfigurationPropertiesRegistrar",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.context.properties.EnableConfigurationPropertiesRegistrar"
 }, {
   "name" : "org.springframework.boot.context.properties.NestedConfigurationProperty"
 }, {
@@ -2507,63 +2320,63 @@
 }, {
   "name" : "org.springframework.boot.context.properties.bind.Nested"
 }, {
-  "name" : "org.springframework.boot.env.PropertiesPropertySourceLoader",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.env.PropertiesPropertySourceLoader"
 }, {
-  "name" : "org.springframework.boot.env.YamlPropertySourceLoader",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.env.YamlPropertySourceLoader"
 }, {
-  "name" : "org.springframework.boot.io.Base64ProtocolResolver",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.io.Base64ProtocolResolver"
 }, {
-  "name" : "org.springframework.boot.io.ClassPathResourceFilePathResolver",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.io.ClassPathResourceFilePathResolver"
 }, {
-  "name" : "org.springframework.boot.io.ProtocolResolverApplicationContextInitializer",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.io.ProtocolResolverApplicationContextInitializer"
 }, {
   "name" : "org.springframework.boot.loader.launch.LaunchedClassLoader"
 }, {
-  "name" : "org.springframework.boot.logging.java.JavaLoggingSystem$Factory",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.logging.java.JavaLoggingSystem$Factory"
 }, {
-  "name" : "org.springframework.boot.logging.log4j2.Log4J2LoggingSystem$Factory",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.logging.log4j2.Log4J2LoggingSystem$Factory"
 }, {
   "name" : "org.springframework.boot.logging.log4j2.SpringBootPropertySource"
 }, {
-  "name" : "org.springframework.boot.logging.logback.ColorConverter",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.logging.logback.ColorConverter"
 }, {
-  "name" : "org.springframework.boot.logging.logback.LogbackLoggingSystem$Factory",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.logging.logback.LogbackLoggingSystem$Factory"
 }, {
   "name" : "org.springframework.boot.logging.logback.RootLogLevelConfigurator"
 }, {
@@ -2573,35 +2386,35 @@
 }, {
   "name" : "org.springframework.boot.ssl.SslBundles"
 }, {
-  "name" : "org.springframework.boot.support.AnsiOutputApplicationListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.support.AnsiOutputApplicationListener"
 }, {
-  "name" : "org.springframework.boot.support.EnvironmentPostProcessorApplicationListener",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.support.EnvironmentPostProcessorApplicationListener"
 }, {
-  "name" : "org.springframework.boot.support.RandomValuePropertySourceEnvironmentPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "org.springframework.boot.logging.DeferredLogFactory" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.support.RandomValuePropertySourceEnvironmentPostProcessor"
 }, {
-  "name" : "org.springframework.boot.support.SpringApplicationJsonEnvironmentPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.support.SpringApplicationJsonEnvironmentPostProcessor"
 }, {
-  "name" : "org.springframework.boot.support.SystemEnvironmentPropertySourceEnvironmentPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.support.SystemEnvironmentPropertySourceEnvironmentPostProcessor"
 }, {
   "name" : "org.springframework.boot.task.SimpleAsyncTaskExecutorBuilder"
 }, {
@@ -2613,47 +2426,47 @@
 }, {
   "name" : "org.springframework.boot.thread.Threading"
 }, {
-  "name" : "org.springframework.boot.validation.beanvalidation.MethodValidationExcludeFilter",
   "methods" : [ {
     "name" : "byAnnotation",
     "parameterTypes" : [ "java.lang.Class" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.validation.beanvalidation.MethodValidationExcludeFilter"
 }, {
-  "name" : "org.springframework.boot.web.context.reactive.FilteredReactiveWebContextResourceFilePathResolver",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.web.context.reactive.FilteredReactiveWebContextResourceFilePathResolver"
 }, {
-  "name" : "org.springframework.boot.web.context.servlet.ServletContextResourceFilePathResolver",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.web.context.servlet.ServletContextResourceFilePathResolver"
 }, {
-  "name" : "org.springframework.boot.web.server.autoconfigure.ServerProperties",
   "methods" : [ {
     "name" : "setPort",
     "parameterTypes" : [ "java.lang.Integer" ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.web.server.autoconfigure.ServerProperties"
 }, {
-  "name" : "org.springframework.boot.web.server.context.ServerPortInfoApplicationContextInitializer",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.web.server.context.ServerPortInfoApplicationContextInitializer"
 }, {
-  "name" : "org.springframework.boot.web.server.reactive.context.ReactiveWebServerApplicationContextFactory",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.web.server.reactive.context.ReactiveWebServerApplicationContextFactory"
 }, {
-  "name" : "org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContextFactory",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContextFactory"
 }, {
   "name" : "org.springframework.cglib.proxy.Dispatcher"
 }, {
@@ -2679,19 +2492,19 @@
 }, {
   "name" : "org.springframework.context.SmartLifecycle"
 }, {
-  "name" : "org.springframework.context.annotation.AnnotationScopeMetadataResolver",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.context.annotation.AnnotationScopeMetadataResolver"
 }, {
   "name" : "org.springframework.context.annotation.Bean"
 }, {
-  "name" : "org.springframework.context.annotation.CommonAnnotationBeanPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"
 }, {
   "name" : "org.springframework.context.annotation.ComponentScan"
 }, {
@@ -2703,14 +2516,14 @@
 }, {
   "name" : "org.springframework.context.annotation.ConfigurationClassEnhancer$EnhancedConfiguration"
 }, {
-  "name" : "org.springframework.context.annotation.ConfigurationClassPostProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "setMetadataReaderFactory",
     "parameterTypes" : [ "org.springframework.core.type.classreading.MetadataReaderFactory" ]
-  } ]
+  } ],
+  "name" : "org.springframework.context.annotation.ConfigurationClassPostProcessor"
 }, {
   "name" : "org.springframework.context.annotation.Import"
 }, {
@@ -2724,19 +2537,19 @@
 }, {
   "name" : "org.springframework.context.annotation.Role"
 }, {
-  "name" : "org.springframework.context.event.DefaultEventListenerFactory",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.context.event.DefaultEventListenerFactory"
 }, {
   "name" : "org.springframework.context.event.EventListener"
 }, {
-  "name" : "org.springframework.context.event.EventListenerMethodProcessor",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.context.event.EventListenerMethodProcessor"
 }, {
   "name" : "org.springframework.context.support.DefaultLifecycleProcessor"
 }, {
@@ -2764,34 +2577,34 @@
 }, {
   "name" : "org.springframework.scheduling.SchedulingTaskExecutor"
 }, {
-  "name" : "org.springframework.scheduling.annotation.AbstractAsyncConfiguration",
   "methods" : [ {
     "name" : "setConfigurers",
     "parameterTypes" : [ "org.springframework.beans.factory.ObjectProvider" ]
-  } ]
+  } ],
+  "name" : "org.springframework.scheduling.annotation.AbstractAsyncConfiguration"
 }, {
   "name" : "org.springframework.scheduling.annotation.Async"
 }, {
   "name" : "org.springframework.scheduling.annotation.AsyncAnnotationBeanPostProcessor"
 }, {
-  "name" : "org.springframework.scheduling.annotation.AsyncConfigurationSelector",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.scheduling.annotation.AsyncConfigurationSelector"
 }, {
   "name" : "org.springframework.scheduling.annotation.AsyncConfigurer"
 }, {
   "name" : "org.springframework.scheduling.annotation.EnableAsync"
 }, {
-  "name" : "org.springframework.scheduling.annotation.ProxyAsyncConfiguration",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
   }, {
     "name" : "asyncAdvisor",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.scheduling.annotation.ProxyAsyncConfiguration"
 }, {
   "name" : "org.springframework.scheduling.concurrent.CustomizableThreadFactory"
 }, {
@@ -2813,39 +2626,39 @@
 }, {
   "name" : "org.springframework.web.bind.annotation.ControllerAdvice"
 }, {
-  "name" : "org.springframework.web.bind.annotation.DeleteMapping",
   "methods" : [ {
     "name" : "value",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.web.bind.annotation.DeleteMapping"
 }, {
   "name" : "org.springframework.web.bind.annotation.ExceptionHandler"
 }, {
-  "name" : "org.springframework.web.bind.annotation.GetMapping",
   "methods" : [ {
     "name" : "value",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.web.bind.annotation.GetMapping"
 }, {
   "name" : "org.springframework.web.bind.annotation.Mapping"
 }, {
-  "name" : "org.springframework.web.bind.annotation.PostMapping",
   "methods" : [ {
     "name" : "value",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.web.bind.annotation.PostMapping"
 }, {
-  "name" : "org.springframework.web.bind.annotation.PutMapping",
   "methods" : [ {
     "name" : "value",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.web.bind.annotation.PutMapping"
 }, {
-  "name" : "org.springframework.web.bind.annotation.RequestMapping",
   "methods" : [ {
     "name" : "value",
     "parameterTypes" : [ ]
-  } ]
+  } ],
+  "name" : "org.springframework.web.bind.annotation.RequestMapping"
 }, {
   "name" : "org.springframework.web.bind.annotation.RequestMethod[]"
 }, {
@@ -2859,7 +2672,7 @@
 }, {
   "name" : "short[]"
 }, {
-  "name" : "sun.management.VMManagementImpl",
+  "jniAccessible" : true,
   "fields" : [ {
     "name" : "compTimeMonitoringSupport"
   }, {
@@ -2877,38 +2690,35 @@
   }, {
     "name" : "threadContentionMonitoringSupport"
   } ],
-  "jniAccessible" : true
+  "name" : "sun.management.VMManagementImpl"
 }, {
-  "name" : "sun.misc.Unsafe",
   "fields" : [ {
     "name" : "theUnsafe"
   } ],
-  "methods" : [ {
-    "name" : "invokeCleaner",
-    "parameterTypes" : [ "java.nio.ByteBuffer" ]
-  } ]
+  "name" : "sun.misc.Unsafe"
 }, {
-  "name" : "sun.nio.ch.SelectorImpl",
-  "fields" : [ {
-    "name" : "publicSelectedKeys"
-  }, {
-    "name" : "selectedKeys"
-  } ]
+  "name" : "sun.nio.ch.SelectorImpl"
 }, {
-  "name" : "sun.reflect.ReflectionFactory",
   "methods" : [ {
     "name" : "getReflectionFactory",
     "parameterTypes" : [ ]
   }, {
     "name" : "newConstructorForSerialization",
     "parameterTypes" : [ "java.lang.Class", "java.lang.reflect.Constructor" ]
-  } ]
+  } ],
+  "name" : "sun.reflect.ReflectionFactory"
 }, {
-  "name" : "sun.security.provider.NativePRNG",
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ "java.security.SecureRandomParameters" ]
-  } ]
+  } ],
+  "name" : "sun.security.provider.NativePRNG"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "sun.security.provider.SHA"
 }, {
   "name" : "sun.text.resources.cldr.FormatData"
 }, {
@@ -2918,640 +2728,5 @@
 }, {
   "name" : "sun.util.resources.cldr.CalendarData"
 }, {
-  "name" : "android.app.Application"
-}, {
-  "name" : "ch.qos.logback.classic.Logger"
-}, {
-  "name" : "com.alibaba.nacos.api.ability.ClientAbilities",
-  "methods" : [ {
-    "name" : "getConfigAbility",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getNamingAbility",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getRemoteAbility",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.config.ability.ClientConfigAbility",
-  "methods" : [ {
-    "name" : "isSupportRemoteMetrics",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.request.AbstractConfigRequest",
-  "methods" : [ {
-    "name" : "getModule",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.request.ClientConfigMetricRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigBatchListenRequest",
-  "methods" : [ {
-    "name" : "getConfigListenContexts",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "isListen",
-    "parameterTypes" : [ ]
-  } ],
-  "fields" : [ {
-    "name" : "configListenContexts"
-  }, {
-    "name" : "listen"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigBatchListenRequest$ConfigListenContext",
-  "methods" : [ {
-    "name" : "getDataId",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getGroup",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getMd5",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getTenant",
-    "parameterTypes" : [ ]
-  } ],
-  "fields" : [ {
-    "name" : "dataId"
-  }, {
-    "name" : "group"
-  }, {
-    "name" : "md5"
-  }, {
-    "name" : "tenant"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigChangeNotifyRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigPublishRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigQueryRequest",
-  "methods" : [ {
-    "name" : "getDataId",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getGroup",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getTag",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getTenant",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "isNotify",
-    "parameterTypes" : [ ]
-  } ],
-  "fields" : [ {
-    "name" : "dataId"
-  }, {
-    "name" : "group"
-  }, {
-    "name" : "tag"
-  }, {
-    "name" : "tenant"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.request.ConfigRemoveRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.request.cluster.ConfigChangeClusterSyncRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.response.ClientConfigMetricResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigChangeBatchListenResponse",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "setChangedConfigs",
-    "parameterTypes" : [ "java.util.List" ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigChangeBatchListenResponse$ConfigContext"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigChangeNotifyResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigPublishResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigQueryResponse",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "setBeta",
-    "parameterTypes" : [ "boolean" ]
-  }, {
-    "name" : "setContent",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setContentType",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setEncryptedDataKey",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setLastModified",
-    "parameterTypes" : [ "long" ]
-  }, {
-    "name" : "setMd5",
-    "parameterTypes" : [ "java.lang.String" ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.response.ConfigRemoveResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.config.remote.response.cluster.ConfigChangeClusterSyncResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.ability.ClientNamingAbility",
-  "methods" : [ {
-    "name" : "isSupportDeltaPush",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "isSupportRemoteMetric",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.naming.pojo.Instance",
-  "methods" : [ {
-    "name" : "getClusterName",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getInstanceHeartBeatInterval",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getInstanceHeartBeatTimeOut",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getInstanceId",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getInstanceIdGenerator",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getIp",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getIpDeleteTimeout",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getMetadata",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getPort",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getServiceName",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getWeight",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "isEnabled",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "isEphemeral",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "isHealthy",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.request.AbstractNamingRequest",
-  "methods" : [ {
-    "name" : "getGroupName",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getModule",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getNamespace",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getServiceName",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.request.InstanceRequest",
-  "methods" : [ {
-    "name" : "getInstance",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getType",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.request.BatchInstanceRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.request.NotifySubscriberRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.request.PersistentInstanceRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.request.ServiceListRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.request.ServiceQueryRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.request.SubscribeServiceRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.response.BatchInstanceResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.response.InstanceResponse",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "setType",
-    "parameterTypes" : [ "java.lang.String" ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.response.NotifySubscriberResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.response.QueryServiceResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.response.ServiceListResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.naming.remote.response.SubscribeServiceResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.ability.ClientRemoteAbility",
-  "methods" : [ {
-    "name" : "isSupportRemoteConnection",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.ClientDetectionRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.ConnectResetRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.ConnectionSetupRequest",
-  "methods" : [ {
-    "name" : "getAbilities",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getClientVersion",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getLabels",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getTenant",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.HealthCheckRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.InternalRequest",
-  "methods" : [ {
-    "name" : "getModule",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.PushAckRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.Request",
-  "methods" : [ {
-    "name" : "getHeaders",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "getRequestId",
-    "parameterTypes" : [ ]
-  } ],
-  "fields" : [ {
-    "name" : "headers"
-  }, {
-    "name" : "requestId"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.ServerCheckRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.ServerLoaderInfoRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.ServerReloadRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.SetupAckRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.request.ServerRequest"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.response.ClientDetectionResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.response.ConnectResetResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.response.ErrorResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.response.HealthCheckResponse",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.remote.response.Response",
-  "methods" : [ {
-    "name" : "setErrorCode",
-    "parameterTypes" : [ "int" ]
-  }, {
-    "name" : "setMessage",
-    "parameterTypes" : [ "java.lang.String" ]
-  }, {
-    "name" : "setResultCode",
-    "parameterTypes" : [ "int" ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.remote.response.ServerCheckResponse",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "setConnectionId",
-    "parameterTypes" : [ "java.lang.String" ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.api.remote.response.ServerLoaderInfoResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.response.ServerReloadResponse"
-}, {
-  "name" : "com.alibaba.nacos.api.remote.response.SetupAckResponse"
-}, {
-  "name" : "com.alibaba.nacos.client.config.NacosConfigService",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ "java.util.Properties" ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.client.naming.NacosNamingService",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ "java.util.Properties" ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.common.notify.DefaultPublisher",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.com.google.common.util.concurrent.AbstractFuture",
-  "fields" : [ {
-    "name" : "listeners"
-  }, {
-    "name" : "value"
-  }, {
-    "name" : "waiters"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.com.google.common.util.concurrent.AbstractFuture$Waiter",
-  "fields" : [ {
-    "name" : "next"
-  }, {
-    "name" : "thread"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.com.google.protobuf.ExtensionRegistry",
-  "methods" : [ {
-    "name" : "getEmptyRegistry",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.CensusStatsModule$ClientCallTracer"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.CensusStatsModule$ClientTracer"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.CensusTracingModule$ClientCallTracer"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.CensusTracingModule$ServerTracer"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.DnsNameResolverProvider"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.JndiResourceResolverFactory",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.PickFirstLoadBalancerProvider"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.internal.SerializingExecutor"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.NettyChannelProvider"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.NettyClientHandler"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.ProtocolNegotiators$GrpcNegotiationHandler"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.ProtocolNegotiators$WaitUntilActiveHandler"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.grpc.netty.WriteBufferingAndExceptionHandler"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.buffer.AbstractByteBufAllocator"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.buffer.AbstractReferenceCountedByteBuf",
-  "fields" : [ {
-    "name" : "refCnt"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.ChannelOutboundBuffer"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline$HeadContext"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline$TailContext"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.epoll.Epoll",
-  "methods" : [ {
-    "name" : "isAvailable",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "unavailabilityCause",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.channel.socket.nio.NioSocketChannel",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.DefaultAttributeMap"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueueColdProducerFields",
-  "fields" : [ {
-    "name" : "producerLimit"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueueConsumerFields",
-  "fields" : [ {
-    "name" : "consumerIndex"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.BaseMpscLinkedArrayQueueProducerFields",
-  "fields" : [ {
-    "name" : "producerIndex"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueConsumerIndexField",
-  "fields" : [ {
-    "name" : "consumerIndex"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueProducerIndexField",
-  "fields" : [ {
-    "name" : "producerIndex"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueProducerLimitField",
-  "fields" : [ {
-    "name" : "producerLimit"
-  } ]
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.override.ContextStorageOverride"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.grpc.util.SecretRoundRobinLoadBalancerProvider$Provider"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.opencensus.impl.stats.StatsComponentImpl"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.opencensus.impl.tags.TagsComponentImpl"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.opencensus.impl.trace.TraceComponentImpl"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.opencensus.impllite.stats.StatsComponentImplLite"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.opencensus.impllite.tags.TagsComponentImplLite"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.opencensus.impllite.trace.TraceComponentImplLite"
-}, {
-  "name" : "com.alibaba.nacos.shaded.io.perfmark.impl.SecretPerfMarkImpl$PerfMarkImpl"
-}, {
-  "name" : "com.sun.jndi.dns.DnsContextFactory"
-}, {
-  "name" : "double"
-}, {
-  "name" : "io.prometheus.client.Striped64"
-}, {
-  "name" : "io.seata.config.ConfigurationProvider"
-}, {
-  "name" : "io.seata.config.processor.Processor"
-}, {
-  "name" : "java.lang.invoke.CallSite"
-}, {
-  "name" : "java.lang.reflect.AccessibleObject"
-}, {
-  "name" : "java.net.InetSocketAddress",
-  "methods" : [ {
-    "name" : "getHostString",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "java.nio.Bits"
-}, {
-  "name" : "java.nio.Buffer",
-  "fields" : [ {
-    "name" : "address"
-  } ]
-}, {
-  "name" : "java.nio.DirectByteBuffer"
-}, {
-  "name" : "java.util.List"
-}, {
-  "name" : "java.util.Map"
-}, {
-  "name" : "java.util.concurrent.atomic.LongAdder",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  }, {
-    "name" : "add",
-    "parameterTypes" : [ "long" ]
-  } ]
-}, {
-  "name" : "java.util.function.Function"
-}, {
-  "name" : "java.util.zip.DeflaterInputStream"
-}, {
-  "name" : "javax.naming.directory.InitialDirContext"
-}, {
-  "name" : "libcore.io.Memory"
-}, {
-  "name" : "org.apache.seata.config.apollo.ApolloConfigurationProvider"
-}, {
-  "name" : "org.apache.seata.config.consul.ConsulConfigurationProvider"
-}, {
-  "name" : "org.apache.seata.config.etcd3.EtcdConfigurationProvider"
-}, {
-  "name" : "org.apache.seata.config.nacos.NacosConfigurationProvider",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.config.processor.ProcessorProperties",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.config.processor.ProcessorYaml"
-}, {
-  "name" : "org.apache.seata.config.springcloud.SpringCloudConfigurationProvider"
-}, {
-  "name" : "org.apache.seata.config.zk.ZookeeperConfigurationProvider"
-}, {
-  "name" : "org.robolectric.Robolectric"
-}, {
-  "name" : "org.slf4j.impl.StaticLoggerBinder"
-}, {
-  "name" : "org.springframework.boot.context.config.ConfigDataLocation",
-  "methods" : [ {
-    "name" : "of",
-    "parameterTypes" : [ "java.lang.String" ]
-  } ]
-}, {
-  "name" : "org.springframework.boot.context.config.ConfigDataLocationEditor"
-}, {
-  "name" : "org.springframework.boot.origin.OriginProvider[]"
-}, {
-  "name" : "sun.misc.VM"
-}, {
-  "name" : "sun.security.provider.MD5",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.core.serializer.Serializer"
-}, {
-  "name" : "org.apache.seata.serializer.seata.SeataSerializer",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ "java.lang.Byte" ]
-  } ]
-}, {
-  "name" : "org.apache.seata.serializer.seata.SeataSerializer$SeataSerializerV0",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "org.apache.seata.serializer.seata.SeataSerializer$SeataSerializerV1",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-}, {
-  "name" : "sun.security.provider.SHA",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
+  "name" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory"
 } ]
