@@ -33,19 +33,6 @@ jobs:
   build:
     name: build
     runs-on: ${{ matrix.os }}
-    services:
-      mysql:
-        image: mysql:8.0
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: seata_test_native
-        options: >-
-          --health-cmd "mysqladmin ping -h localhost"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     strategy:
       fail-fast: false
       matrix:
@@ -54,6 +41,28 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
+      - name: "Start MySQL via Docker (Linux only)"
+        if: runner.os == 'Linux'
+        shell: sh
+        run: |
+          docker run -d --name mysql-test \
+            -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+            -e MYSQL_DATABASE=seata_test_native \
+            -p 3306:3306 \
+            mysql:8.0
+          echo "Waiting for MySQL to be ready..."
+          for i in $(seq 1 30); do
+            if docker exec mysql-test mysqladmin ping -h localhost --silent 2>/dev/null; then
+              echo "MySQL is ready"
+              docker logs mysql-test --tail 10
+              exit 0
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 2
+          done
+          echo "ERROR: MySQL failed to start after 60s"
+          docker logs mysql-test --tail 50
+          exit 1
       - name: "Set up Java JDK"
         uses: actions/setup-java@v5.5.0
         with:
@@ -116,6 +125,7 @@ jobs:
           echo "ERROR: Port 8091 is not responding after 30 seconds"
           exit 1
       - name: "Run native tests for ${{ matrix.module }} in ${{ matrix.os }}"
+        if: runner.os == 'Linux'
         run: ./mvnw -T 2C -Ptest-native -pl test-suite/test-native clean test
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
