@@ -52,6 +52,9 @@ public class BusinessServiceImpl implements BusinessService {
     public void purchase(String userId, String commodityCode, int orderCount) {
         String xid = RootContext.getXID();
         LOGGER.info("xid: {}", xid);
+        if (xid == null) {
+            throw new NullPointerException("xid is null");
+        }
 
         storageService.deduct(commodityCode, orderCount);
 

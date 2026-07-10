@@ -42,17 +42,20 @@ import static org.junit.jupiter.api.Assertions.*;
  * <ul>
  *   <li>A running Seata Server at {@code 127.0.0.1:8091} (or via {@code SEATA_SERVER_ADDR})</li>
  *   <li>A MySQL database at {@code 127.0.0.1:3306/seata_test_native} (or via {@code DATASOURCE_*})</li>
- *   <li>Tables created by {@code schema.sql} — set {@code SQL_INIT_MODE=ALWAYS}</li>
- *   <li>Test data inserted by {@code data.sql} — set {@code SQL_INIT_MODE=ALWAYS}</li>
+ *   <li>Tables and test data are initialized by {@link org.apache.seata.config.EarlyDatabaseInitializer},
+ *       which runs {@code schema.sql} and {@code data.sql} before Seata's DataSourceProxy wraps
+ *       the DataSource bean.</li>
+ *   <li>Test data is reset before each test method via {@link #resetTestData()} and
+ *       before the test class via {@code @Sql} with {@code setup-test-data.sql}.</li>
  * </ul>
  *
- * <p>Run with: {@code mvn test -pl test-suite/test-native
- * -Dtest=SeataTestNativeApplicationTests -Dseata.server.addr=127.0.0.1:8091}</p>
+ * <p>Run with: {@code mvn test -Ptest-native -pl test-suite/test-native
+ * -Dtest=DataSourceProxyModeAtTests -Dseata.server.addr=127.0.0.1:8091}</p>
  *
  * @see BusinessService#purchase(String, String, int)
  */
 @SpringBootTest
-@TestPropertySource(properties = {"seata.data-source-proxy-mode=AT", "spring.sql.init.mode=always"})
+@TestPropertySource(properties = {"seata.data-source-proxy-mode=AT"})
 @Sql(scripts = "/setup-test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 class DataSourceProxyModeAtTests {
 

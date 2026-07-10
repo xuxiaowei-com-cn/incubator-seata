@@ -126,7 +126,24 @@ jobs:
           exit 1
       - name: "Run native tests for ${{ matrix.module }} in ${{ matrix.os }}"
         if: runner.os == 'Linux'
-        run: ./mvnw -T 2C -Ptest-native -pl test-suite/test-native clean test
+        run: ./mvnw -e -T 2C -Ptest-native -pl test-suite/test-native clean test
+      - name: "Capture test reports on failure"
+        if: failure() && runner.os == 'Linux'
+        shell: sh
+        run: |
+          echo "=== Surefire Test Reports ==="
+          if [ -d test-suite/test-native/target/surefire-reports ]; then
+            for f in test-suite/test-native/target/surefire-reports/*.txt; do
+              [ -f "$f" ] || continue
+              echo ""
+              echo "============================================================"
+              echo "--- $f ---"
+              echo "============================================================"
+              cat "$f"
+            done
+          else
+            echo "No surefire-reports directory found"
+          fi
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
