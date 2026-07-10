@@ -610,6 +610,7 @@
                                     <arg>--initialize-at-build-time=org.slf4j</arg>
                                     <arg>--initialize-at-build-time=com.alibaba.fastjson2</arg>
                                     <arg>--initialize-at-run-time=io.netty.channel.kqueue</arg>
+                                    <arg>-H:+SharedArenaSupport</arg>
                                 </buildArgs>
                                 <exclusions>
                                     <exclusion>
@@ -670,6 +671,7 @@
                                     <arg>--initialize-at-build-time=org.slf4j</arg>
                                     <arg>--initialize-at-build-time=com.alibaba.fastjson2</arg>
                                     <arg>--initialize-at-run-time=io.netty.channel.kqueue</arg>
+                                    <arg>-H:+SharedArenaSupport</arg>
                                 </buildArgs>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                                 <exclusions>

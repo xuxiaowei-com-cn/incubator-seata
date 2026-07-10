@@ -30,7 +30,6 @@ import org.apache.seata.service.StorageService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,8 +54,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see BusinessService#purchase(String, String, int)
  */
 @SpringBootTest
-@TestPropertySource(properties = {"seata.data-source-proxy-mode=AT"})
-@Sql(scripts = "/setup-test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 class DataSourceProxyModeAtTests {
 
     @Autowired
