@@ -57,7 +57,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
-        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
+        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }},spring/seata-spring-boot-starter install -DskipTests -am
       - name: "Compile native image for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 2C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative spring-boot:process-aot native:compile
       - name: "Upload binaries for ${{ matrix.module }} in ${{ matrix.os }}"
