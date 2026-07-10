@@ -110,7 +110,7 @@ run-merge-native-server: ##
 	python3 script/native/merge_native_image_config.py
 
 package-server-native: spotless-apply ##
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative native:compile
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server spring-boot:process-aot -Pnative native:compile
 
 run-server-native-mode-file: ##
 	SEATA_REGISTRY_TYPE=file \
