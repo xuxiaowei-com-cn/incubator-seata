@@ -543,6 +543,10 @@
     }, {
       "pattern" : "jdk/jfr/internal/types/metadata.bin",
       "module" : "jdk.jfr"
+    }, {
+      "pattern" : "META-INF/services/com.alibaba.nacos.api.ability.initializer.AbilityPostProcessor"
+    }, {
+      "pattern" : "nacos-logback14.xml"
     } ]
   }
 }

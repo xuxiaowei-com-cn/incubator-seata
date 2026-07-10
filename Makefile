@@ -45,6 +45,7 @@ SERVER_NATIVE_NAME ?= seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
 	package-server-native-pre \
 	package-server-native-metadata-file package-server-native-metadata-file-only run-server-native-metadata-file \
 	package-server-native-metadata-nacos package-server-native-metadata-nacos-only run-server-native-metadata-nacos \
+	merge-server-native-config \
 	package-server-native package-server-native-only \
 	package-test-native-run package-test-native-run-only \
 	package-test-native package-test-native-only
@@ -150,6 +151,10 @@ run-server-native-metadata-nacos: ## Run the server native image with Nacos regi
 	SEATA_CONFIG_NACOS_DATA_ID=seataServer.properties \
 	SEATA_STORE_MODE=file \
 	./server/target/$(SERVER_NATIVE_NAME)
+
+merge-server-native-config: ## Merge reachability-metadata.json into native-image config files and apply Spotless
+	python3 ./server/src/main/resources/META-INF/native-image/org.apache.seata/seata-server/merge_native_image_config.py
+	$(MVN) $(MAVEN_ARGS) spotless:apply -pl server -am
 
 package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
