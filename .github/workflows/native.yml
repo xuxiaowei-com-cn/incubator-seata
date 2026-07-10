@@ -124,6 +124,19 @@ jobs:
           done
           echo "ERROR: Port 8091 is not responding after 30 seconds"
           exit 1
+      - name: "Start test-native app for ${{ matrix.module }} in ${{ matrix.os }}"
+        run: |
+          nohup ./mvnw -e -T 2C -Ptest-native -pl test-suite/test-native spring-boot:run &
+          for i in 1 2 3 4 5 6; do
+            if curl -sSf http://localhost:50180/actuator/health >/dev/null 2>&1; then
+              echo "Port 50180 is responding"
+              exit 0
+            fi
+            echo "Waiting for port 50180... ($i/6)"
+            sleep 5
+          done
+          echo "ERROR: Port 50180 is not responding after 30 seconds"
+          exit 1
       - name: "Run native tests for ${{ matrix.module }} in ${{ matrix.os }}"
         if: runner.os == 'Linux'
         run: ./mvnw -e -T 2C -Ptest-native -pl test-suite/test-native clean test

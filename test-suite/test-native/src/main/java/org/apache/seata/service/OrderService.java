@@ -16,13 +16,11 @@
  */
 package org.apache.seata.service;
 
-import org.apache.seata.entity.Order;
+import org.apache.seata.dto.OrderRequest;
 
 public interface OrderService {
 
-    /**
-     * create order
-     *
-     */
-    Order create(String userId, String commodityCode, int orderCount);
+    long count(String commodityCode);
+
+    void order(OrderRequest request);
 }

@@ -17,6 +17,7 @@
 package org.apache.seata.service.impl;
 
 import org.apache.seata.dao.OrderDAO;
+import org.apache.seata.dto.OrderRequest;
 import org.apache.seata.entity.Order;
 import org.apache.seata.service.AccountService;
 import org.apache.seata.service.OrderService;
@@ -42,25 +43,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public Order create(String userId, String commodityCode, int orderCount) {
-
-        int orderMoney = calculate(commodityCode, orderCount);
-
-        accountService.debit(userId, orderMoney);
-
-        Order order = new Order();
-        order.setUserId(userId);
-        order.setCommodityCode(commodityCode);
-        order.setCount(orderCount);
-        order.setMoney(orderMoney);
-
-        // INSERT INTO orders ...
-        return orderDAO.save(order);
+    public long count(String commodityCode) {
+        return orderDAO.countByCommodityCode(commodityCode);
     }
 
-    private int calculate(String commodityCode, int orderCount) {
-        // Simple pricing: each commodity unit costs 100
-        return orderCount * 100;
+    @Override
+    @Transactional
+    public void order(OrderRequest request) {
+        Long count = request.getCount();
+        Long money = request.getMoney();
+        String commodityCode = request.getCommodityCode();
+        String userId = request.getUserId();
+        if (count == null) {
+            throw new RuntimeException("Order count must not be null");
+        }
+        if (money == null) {
+            throw new RuntimeException("Order amount must not be null");
+        }
+        count = Math.abs(count);
+        money = Math.abs(money);
+        Order order = new Order(userId, commodityCode, count.intValue(), money.intValue());
+        orderDAO.save(order);
     }
 }

@@ -18,26 +18,10 @@ package org.apache.seata.dao;
 
 import org.apache.seata.entity.Storage;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StorageDAO extends JpaRepository<Storage, Integer> {
 
     Storage findByCommodityCode(String commodityCode);
-
-    /**
-     * Atomically deduct storage count. Uses database-level atomicity to
-     * prevent race conditions in concurrent deduction scenarios.
-     *
-     * @param commodityCode the commodity code
-     * @param count         the count to deduct
-     * @return number of rows affected (1 if deduction succeeded, 0 if insufficient stock or commodity not found)
-     */
-    @Modifying
-    @Query(
-            "UPDATE Storage s SET s.count = s.count - :count WHERE s.commodityCode = :commodityCode AND s.count >= :count")
-    int deduct(@Param("commodityCode") String commodityCode, @Param("count") int count);
 }

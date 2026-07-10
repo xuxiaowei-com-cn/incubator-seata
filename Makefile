@@ -91,6 +91,7 @@ package-server-native-pre: spotless-apply ## Build and install all modules local
 
 package-server-native-metadata-file: package-server-native-pre ## Generate GraalVM native-image metadata files (requires local install first)
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Prelease-seata-jar
+    $GRAALVM_HOME/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
 package-server-native-metadata-file-only: ## Generate GraalVM native-image metadata files using the agent (requires GRAALVM_HOME; run the jar manually afterward to collect reflection config)
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Prelease-seata-jar

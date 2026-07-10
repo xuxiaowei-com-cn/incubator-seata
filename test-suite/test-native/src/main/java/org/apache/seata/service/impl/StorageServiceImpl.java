@@ -17,6 +17,7 @@
 package org.apache.seata.service.impl;
 
 import org.apache.seata.dao.StorageDAO;
+import org.apache.seata.dto.StorageRequest;
 import org.apache.seata.entity.Storage;
 import org.apache.seata.service.StorageService;
 import org.slf4j.Logger;
@@ -38,21 +39,38 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public void deduct(String commodityCode, int count) {
-        LOGGER.info("Deducting storage: commodityCode={}, count={}", commodityCode, count);
+    public Long count(String commodityCode) {
+        Storage storage = storageDAO.findByCommodityCode(commodityCode);
+        if (storage == null) {
+            return null;
+        }
+        return storage.getCount();
+    }
 
-        int affected = storageDAO.deduct(commodityCode, count);
-        if (affected == 0) {
-            // Determine whether commodity not found or insufficient stock
-            Storage storage = storageDAO.findByCommodityCode(commodityCode);
-            if (storage == null) {
-                throw new RuntimeException("Storage not found for commodityCode: " + commodityCode);
-            }
-            throw new RuntimeException("Insufficient storage: commodityCode=" + commodityCode + ", required=" + count
-                    + ", available=" + storage.getCount());
+    @Override
+    @Transactional
+    public void storage(StorageRequest request) {
+        String commodityCode = request.getCommodityCode();
+        Long count = request.getCount();
+        if (count == null) {
+            return;
         }
 
-        LOGGER.info("Storage deducted successfully: commodityCode={}, count={}", commodityCode, count);
+        if (count == 0) {
+            return;
+        }
+        Storage storage = storageDAO.findByCommodityCode(commodityCode);
+        if (storage == null) {
+            throw new RuntimeException("Commodity does not exist");
+        }
+        if (count > 0) {
+            storage.setCount(storage.getCount() + count);
+        } else {
+            if (storage.getCount() + count < 0) {
+                throw new RuntimeException("Insufficient stock");
+            }
+            storage.setCount(storage.getCount() + count);
+        }
+        storageDAO.save(storage);
     }
 }

@@ -30,13 +30,13 @@ public class Account {
     private String userId;
 
     @Column(columnDefinition = "INT DEFAULT 0")
-    private Integer money;
+    private Long money;
 
     // Constructors
 
     public Account() {}
 
-    public Account(String userId, Integer money) {
+    public Account(String userId, Long money) {
         this.userId = userId;
         this.money = money;
     }
@@ -59,11 +59,11 @@ public class Account {
         this.userId = userId;
     }
 
-    public Integer getMoney() {
+    public Long getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(Long money) {
         this.money = money;
     }
 

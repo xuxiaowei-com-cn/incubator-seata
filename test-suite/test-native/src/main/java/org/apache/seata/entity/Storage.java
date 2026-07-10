@@ -30,13 +30,13 @@ public class Storage {
     private String commodityCode;
 
     @Column(columnDefinition = "INT DEFAULT 0")
-    private Integer count;
+    private Long count;
 
     // Constructors
 
     public Storage() {}
 
-    public Storage(String commodityCode, Integer count) {
+    public Storage(String commodityCode, Long count) {
         this.commodityCode = commodityCode;
         this.count = count;
     }
@@ -59,11 +59,11 @@ public class Storage {
         this.commodityCode = commodityCode;
     }
 
-    public Integer getCount() {
+    public Long getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(Long count) {
         this.count = count;
     }
 

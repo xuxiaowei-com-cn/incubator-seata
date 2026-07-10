@@ -16,11 +16,9 @@
  */
 package org.apache.seata.service.impl;
 
-import org.apache.seata.core.context.RootContext;
 import org.apache.seata.service.BusinessService;
 import org.apache.seata.service.OrderService;
 import org.apache.seata.service.StorageService;
-import org.apache.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,22 +40,5 @@ public class BusinessServiceImpl implements BusinessService {
     @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
-    }
-
-    /**
-     * purchase
-     */
-    @Override
-    @GlobalTransactional
-    public void purchase(String userId, String commodityCode, int orderCount) {
-        String xid = RootContext.getXID();
-        LOGGER.info("xid: {}", xid);
-        if (xid == null) {
-            throw new NullPointerException("xid is null");
-        }
-
-        storageService.deduct(commodityCode, orderCount);
-
-        orderService.create(userId, commodityCode, orderCount);
     }
 }

@@ -16,10 +16,11 @@
  */
 package org.apache.seata.service;
 
+import org.apache.seata.dto.AccountMoneyRequest;
+
 public interface AccountService {
 
-    /**
-     * debit balance of user's account
-     */
-    void debit(String userId, int money);
+    Long getMoney(String userId);
+
+    void money(AccountMoneyRequest request);
 }

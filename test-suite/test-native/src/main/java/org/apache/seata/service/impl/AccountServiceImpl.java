@@ -17,6 +17,7 @@
 package org.apache.seata.service.impl;
 
 import org.apache.seata.dao.AccountDAO;
+import org.apache.seata.dto.AccountMoneyRequest;
 import org.apache.seata.entity.Account;
 import org.apache.seata.service.AccountService;
 import org.slf4j.Logger;
@@ -38,21 +39,41 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public void debit(String userId, int money) {
-        LOGGER.info("Debiting account: userId={}, money={}", userId, money);
+    public Long getMoney(String userId) {
+        Account account = accountDAO.findByUserId(userId);
+        if (account == null) {
+            return null;
+        }
+        return account.getMoney();
+    }
 
-        int affected = accountDAO.debit(userId, money);
-        if (affected == 0) {
-            // Determine whether user not found or insufficient balance
-            Account account = accountDAO.findByUserId(userId);
-            if (account == null) {
-                throw new RuntimeException("Account not found for userId: " + userId);
-            }
-            throw new RuntimeException("Insufficient balance: userId=" + userId + ", required=" + money + ", available="
-                    + account.getMoney());
+    @Override
+    @Transactional
+    public void money(AccountMoneyRequest request) {
+        String userId = request.getUserId();
+        Long money = request.getMoney();
+
+        if (money == null) {
+            return;
         }
 
-        LOGGER.info("Account debited successfully: userId={}, money={}", userId, money);
+        if (money == 0) {
+            return;
+        }
+
+        Account account = accountDAO.findByUserId(userId);
+        if (account == null) {
+            throw new RuntimeException("User does not exist");
+        }
+
+        if (money > 0) {
+            account.setMoney(account.getMoney() + money);
+        } else {
+            if (account.getMoney() + money < 0) {
+                throw new RuntimeException("Insufficient balance");
+            }
+            account.setMoney(account.getMoney() + money);
+        }
+        accountDAO.save(account);
     }
 }
