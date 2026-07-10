@@ -34,14 +34,14 @@ class AccountServiceTests {
 
     @Test
     void getMoney() {
-        String userId = "U003";
+        String userId = "U001";
         Long money = accountService.getMoney(userId);
         assertNotNull(money);
     }
 
     @Test
     void money_1() {
-        String userId = "U003";
+        String userId = "U001";
 
         Long money1 = accountService.getMoney(userId);
         assertNotNull(money1);
@@ -61,7 +61,7 @@ class AccountServiceTests {
 
     @Test
     void money_2() {
-        String userId = "U003";
+        String userId = "U001";
 
         Long money1 = accountService.getMoney(userId);
         assertNotNull(money1);
@@ -80,7 +80,7 @@ class AccountServiceTests {
 
     @Test
     void money_3() {
-        String userId = "U003";
+        String userId = "U001";
         long money = -10000000;
         AccountMoneyRequest request = new AccountMoneyRequest();
         request.setUserId(userId);

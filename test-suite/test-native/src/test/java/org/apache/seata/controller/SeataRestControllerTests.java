@@ -49,7 +49,7 @@ class SeataRestControllerTests {
 
     @Test
     void ok() {
-        String userId = "U003";
+        String userId = "U001";
         String commodityCode = "A001";
         long count = -2;
         long money = -1;
@@ -87,7 +87,7 @@ class SeataRestControllerTests {
      */
     @Test
     void error() {
-        String userId = "U003";
+        String userId = "U001";
         String commodityCode = "A001";
 
         // First: balance deduction succeeds

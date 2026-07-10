@@ -16,8 +16,4 @@
 --
 
 INSERT IGNORE INTO `storage_tbl` (`commodity_code`, `count`) VALUES ('A001', 200);
-INSERT IGNORE INTO `storage_tbl` (`commodity_code`, `count`) VALUES ('C001', 100);
-INSERT IGNORE INTO `storage_tbl` (`commodity_code`, `count`) VALUES ('C002', 5);
-INSERT IGNORE INTO `account_tbl` (`user_id`, `money`) VALUES ('U001', 10000);
-INSERT IGNORE INTO `account_tbl` (`user_id`, `money`) VALUES ('U002', 100);
-INSERT IGNORE INTO `account_tbl` ( `user_id`, `money`) VALUES ('U003', 100);
+INSERT IGNORE INTO `account_tbl` (`user_id`, `money`) VALUES ('U001', 100);

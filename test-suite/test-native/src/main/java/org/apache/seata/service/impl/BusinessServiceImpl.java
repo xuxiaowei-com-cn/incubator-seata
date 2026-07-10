@@ -20,6 +20,4 @@ import org.apache.seata.service.BusinessService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BusinessServiceImpl implements BusinessService {
-
-}
+public class BusinessServiceImpl implements BusinessService {}

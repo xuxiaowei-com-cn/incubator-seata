@@ -35,7 +35,7 @@ class OrderServiceTests {
     @Test
     void order() {
         String commodityCode = "A001";
-        String userId = "U003";
+        String userId = "U001";
         long count1 = orderService.count(commodityCode);
 
         long count = 1;
