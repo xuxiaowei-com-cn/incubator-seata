@@ -536,6 +536,13 @@
       "pattern" : "org/apache/seata/server/instance/AbstractSeataInstanceStrategy.class"
     }, {
       "pattern" : "spas.properties"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.serializer.Serializer"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.server.limit.ratelimit.RateLimiter"
+    }, {
+      "pattern" : "jdk/jfr/internal/types/metadata.bin",
+      "module" : "jdk.jfr"
     } ]
   }
 }

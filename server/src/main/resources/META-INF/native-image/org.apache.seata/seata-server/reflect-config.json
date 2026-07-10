@@ -3554,4 +3554,56 @@
     "name" : "<init>",
     "parameterTypes" : [ ]
   } ]
+}, {
+  "name" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.ResourceLeakDetector$DefaultResourceLeak"
+}, {
+  "name" : "com.fasterxml.jackson.databind.deser.Deserializers[]"
+}, {
+  "name" : "io.netty.buffer.AdaptivePoolingAllocator$SizeClassedChunk"
+}, {
+  "name" : "io.netty.handler.timeout.IdleStateHandler"
+}, {
+  "name" : "io.netty.util.Recycler$DefaultHandle"
+}, {
+  "name" : "io.netty.util.ReferenceCountUtil"
+}, {
+  "name" : "io.netty.util.ResourceLeakDetector$DefaultResourceLeak"
+}, {
+  "name" : "io.netty.util.concurrent.MpscIntQueue$MpscAtomicIntegerArrayQueue"
+}, {
+  "name" : "io.seata.core.serializer.Serializer"
+}, {
+  "name" : "io.seata.server.limit.ratelimit.RateLimiter"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.AbstractNettyRemotingServer$ServerHandler"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.MultiProtocolDecoder"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.NettyServerBootstrap$1"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.ProtocolDetectHandler"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.v2.ProtocolDecoderV2"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.v2.ProtocolEncoderV2"
+}, {
+  "name" : "org.apache.seata.serializer.fastjson2.Fastjson2Serializer"
+}, {
+  "name" : "org.apache.seata.serializer.fory.ForySerializer"
+}, {
+  "name" : "org.apache.seata.serializer.hessian.HessianSerializer"
+}, {
+  "name" : "org.apache.seata.serializer.kryo.KryoSerializer"
+}, {
+  "name" : "org.apache.seata.serializer.protobuf.GrpcSerializer"
+}, {
+  "name" : "org.apache.seata.serializer.protobuf.ProtobufSerializer"
+}, {
+  "name" : "org.apache.seata.server.cluster.raft.serializer.JacksonSerializer"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.server.limit.ratelimit.TokenBucketLimiter"
 } ]
