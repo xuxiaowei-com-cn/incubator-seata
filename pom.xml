@@ -396,6 +396,12 @@
 
         <!-- profile: native -->
         <profile>
+            <id>test-native</id>
+            <modules>
+                <module>test-suite/test-native</module>
+            </modules>
+        </profile>
+        <profile>
             <id>native-linux-amd64</id>
             <activation>
                 <os>

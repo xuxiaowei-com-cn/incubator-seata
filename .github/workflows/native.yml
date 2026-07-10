@@ -70,6 +70,10 @@ jobs:
           if-no-files-found: error
       - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
+        env:
+          SEATA_CONFIG_TYPE: file
+          SEATA_REGISTRY_TYPE: file
+          SEATA_STORE_TYPE: file
         run: |
           rm -rf ./${{ matrix.module }}/target/*.jar
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
@@ -98,6 +102,8 @@ jobs:
           done
           echo "ERROR: Port 8091 is not responding after 30 seconds"
           exit 1
+      - name: "Run native tests for ${{ matrix.module }} in ${{ matrix.os }}"
+        run: ./mvnw -T 2C -Ptest-native -pl test-suite/test-native clean test
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
