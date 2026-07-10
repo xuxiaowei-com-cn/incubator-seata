@@ -20,16 +20,12 @@ import org.apache.seata.dao.StorageDAO;
 import org.apache.seata.dto.StorageRequest;
 import org.apache.seata.entity.Storage;
 import org.apache.seata.service.StorageService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StorageServiceImpl implements StorageService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(StorageServiceImpl.class);
 
     private StorageDAO storageDAO;
 

@@ -20,16 +20,12 @@ import org.apache.seata.dao.AccountDAO;
 import org.apache.seata.dto.AccountMoneyRequest;
 import org.apache.seata.entity.Account;
 import org.apache.seata.service.AccountService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
 
     private AccountDAO accountDAO;
 

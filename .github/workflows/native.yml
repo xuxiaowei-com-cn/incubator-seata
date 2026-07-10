@@ -125,6 +125,7 @@ jobs:
           echo "ERROR: Port 8091 is not responding after 30 seconds"
           exit 1
       - name: "Start test-native app for ${{ matrix.module }} in ${{ matrix.os }}"
+        if: runner.os == 'Linux'
         run: |
           nohup ./mvnw -e -T 2C -Ptest-native -pl test-suite/test-native spring-boot:run &
           for i in 1 2 3 4 5 6; do

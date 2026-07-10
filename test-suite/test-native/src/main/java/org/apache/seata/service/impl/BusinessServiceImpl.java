@@ -17,28 +17,9 @@
 package org.apache.seata.service.impl;
 
 import org.apache.seata.service.BusinessService;
-import org.apache.seata.service.OrderService;
-import org.apache.seata.service.StorageService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BusinessServiceImpl implements BusinessService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BusinessServiceImpl.class);
 
-    private StorageService storageService;
-
-    private OrderService orderService;
-
-    @Autowired
-    public void setStorageService(StorageService storageService) {
-        this.storageService = storageService;
-    }
-
-    @Autowired
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
-    }
 }

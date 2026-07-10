@@ -19,7 +19,6 @@ package org.apache.seata.service.impl;
 import org.apache.seata.dao.OrderDAO;
 import org.apache.seata.dto.OrderRequest;
 import org.apache.seata.entity.Order;
-import org.apache.seata.service.AccountService;
 import org.apache.seata.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,16 +29,9 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderDAO orderDAO;
 
-    private AccountService accountService;
-
     @Autowired
     public void setOrderDAO(OrderDAO orderDAO) {
         this.orderDAO = orderDAO;
-    }
-
-    @Autowired
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
     }
 
     @Override
