@@ -107,7 +107,7 @@ run-test-native: ##
 	$(MVN) $(MAVEN_ARGS) clean -Ptest-native -pl test-suite/test-native test
 
 run-merge-native-server: ##
-	python3 script/native/merge_native_image_config.py
+	python3 script/native/merge_native_image_config.py --target-dir server/src/main/resources/META-INF/native-image/org.apache.seata/seata-server
 
 package-server-native: spotless-apply ##
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server spring-boot:process-aot -Pnative native:compile
