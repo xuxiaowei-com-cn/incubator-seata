@@ -16,10 +16,17 @@
 # Use bash as the default shell for consistent behavior across platforms
 SHELL := /usr/bin/env bash
 
-# Declare all phony targets (targets that are not actual files)
-.PHONY: help
 # Set the default goal to 'help' so running `make` without arguments shows usage
 .DEFAULT_GOAL := help
+
+# Declare all phony targets (targets that are not actual files, i.e. they don't produce a file
+# matching the target name — make will always execute them regardless of file timestamps)
+.PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
+	package-only package \
+	package-namingserver-native-metadata run-namingserver-native-metadata \
+	run-test-native-spring-boot run-test-native \
+	run-merge-native-namingserver \
+	package-namingserver-native run-namingserver-native-mode-file package-run-namingserver-native-mode-file
 
 help: ## Show help information
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-44s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -39,13 +46,6 @@ NACOS_SERVER_ADDR ?= 127.0.0.1:8848
 SERVER_VERSION ?= $(shell $(MVN) help:evaluate -Dexpression=project.version -q -DforceStdout)
 NATIVE_PLATFORM=$(shell $(MVN) help:evaluate -Dexpression=native.platform -q -DforceStdout)
 SERVER_NATIVE_NAME ?= seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
-
-# Declare all GraalVM native-image related phony targets
-.PHONY: clean spotless-check spotless-apply checkstyle checkstyle-diff license test package-only package \
-	package-namingserver-native-metadata run-namingserver-native-metadata \
-	run-test-native-spring-boot run-test-native \
-	run-merge-native-namingserver \
-	package-namingserver-native run-namingserver-native-mode-file package-run-namingserver-native-mode-file
 
 clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean -e
@@ -93,27 +93,27 @@ package-only: ## Package the project without running tests
 package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean -e package
 
-package-namingserver-native-metadata: ##
+package-namingserver-native-metadata: ## Build namingserver JAR for GraalVM native-image metadata collection
 	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl namingserver -am
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl namingserver -Prelease-seata-jar
 
-run-namingserver-native-metadata: ##
+run-namingserver-native-metadata: ## Run namingserver with GraalVM native-image agent to collect reflection/config metadata
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./namingserver/target/seata-namingserver.jar --console.user.username=seata  --console.user.password=seata
 
-run-test-native-spring-boot: ##
+run-test-native-spring-boot: ## Run native test suite via Spring Boot Maven plugin
 	$(MVN) $(MAVEN_ARGS) clean -Ptest-native -pl test-suite/test-native spring-boot:run
 
-run-test-native: ##
+run-test-native: ## Run native test suite via Maven test phase
 	$(MVN) $(MAVEN_ARGS) clean -Ptest-native -pl test-suite/test-native test
 
-run-merge-native-namingserver: ##
+run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory
 	python3 script/native/merge_native_image_config.py --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
 
-package-namingserver-native: spotless-apply ##
+package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image (requires GraalVM with native-image)
 	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
-run-namingserver-native-mode-file: ##
+run-namingserver-native-mode-file: ## Run the namingserver native image binary directly
 	./namingserver/target/$(SERVER_NATIVE_NAME)
 
-package-run-namingserver-native-mode-file: package-namingserver-native ##
+package-run-namingserver-native-mode-file: package-namingserver-native ## Build native image and then run it
 	./namingserver/target/$(SERVER_NATIVE_NAME)
