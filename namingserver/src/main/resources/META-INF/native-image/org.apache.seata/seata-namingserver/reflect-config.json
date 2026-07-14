@@ -5393,4 +5393,26 @@
   "name" : "tools.jackson.dataformat.xml.XmlMapper"
 }, {
   "name" : "tools.jackson.dataformat.yaml.YAMLMapper"
+}, {
+  "name" : "org.springframework.aot.generate.Generated"
+}, {
+  "name" : "org.springframework.boot.loader.net.protocol.http.Handler"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.loader.net.protocol.nested.Handler"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "sun.net.www.protocol.http.Handler"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "sun.net.www.protocol.jar.Handler"
 } ]
