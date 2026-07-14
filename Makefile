@@ -13,25 +13,51 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Use bash as the default shell for consistent behavior across platforms
 SHELL := /usr/bin/env bash
 
+# Declare all phony targets (targets that are not actual files)
 .PHONY: help
+# Set the default goal to 'help' so running `make` without arguments shows usage
 .DEFAULT_GOAL := help
 
 help: ## Show help information
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-44s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-# Prefer using mvn, fall back to ./mvnw if mvn does not exist
+# Prefer using the system-installed `mvn`, fall back to the Maven Wrapper (`./mvnw`) if unavailable
 MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
+# Common Maven arguments:
+#   -T 4C : use 4 threads per available CPU core for parallel builds
+#   -e    : show error stack traces on failure
+#   -B    : run in batch (non-interactive) mode
+#   -V    : print Maven version information
 MAVEN_ARGS ?= -T 4C -e -B -V
 
-.PHONY: clean checkstyle checkstyle-diff license test package-only package
+NACOS_SERVER_ADDR ?= 127.0.0.1:8848
+
+# Dynamically resolve the namingserver version from the Maven project (e.g. 2.8.0-SNAPSHOT)
+SERVER_VERSION ?= $(shell $(MVN) help:evaluate -Dexpression=project.version -q -DforceStdout)
+NATIVE_PLATFORM=$(shell $(MVN) help:evaluate -Dexpression=native.platform -q -DforceStdout)
+SERVER_NATIVE_NAME ?= seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+
+# Declare all GraalVM native-image related phony targets
+.PHONY: clean spotless-check spotless-apply checkstyle checkstyle-diff license test package-only package \
+	package-namingserver-native-metadata run-namingserver-native-metadata \
+	run-test-native-spring-boot run-test-native \
+	run-merge-native-namingserver \
+	package-namingserver-native run-namingserver-native-mode-file package-run-namingserver-native-mode-file
 
 clean: ## Clean the project
-	$(MVN) $(MAVEN_ARGS) clean
+	$(MVN) $(MAVEN_ARGS) clean -e
+
+spotless-check: ## Run Spotless code format check
+	$(MVN) $(MAVEN_ARGS) spotless:check
+
+spotless-apply: ## Apply Spotless code formatting
+	$(MVN) $(MAVEN_ARGS) spotless:apply
 
 checkstyle: ## Run global Checkstyle code check
-	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false
+	$(MVN) $(MAVEN_ARGS) clean -e checkstyle:check -Dcheckstyle.skip=false
 
 checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 	BASE_REF="$${GITHUB_BASE_REF:-2.x}"; \
@@ -53,16 +79,41 @@ checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 		echo "No changed .java files detected, skip checkstyle."; \
 		exit 0; \
 	fi; \
-	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
+	$(MVN) $(MAVEN_ARGS) clean -e checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
 
 license: ## Run license check
-	$(MVN) $(MAVEN_ARGS) clean -Dlicense.skip=false
+	$(MVN) $(MAVEN_ARGS) clean -e -Dlicense.skip=false
 
 test: ## Run unit tests
-	$(MVN) $(MAVEN_ARGS) clean test
+	$(MVN) $(MAVEN_ARGS) clean -e test
 
 package-only: ## Package the project without running tests
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests
 
 package: ## Package the project
-	$(MVN) $(MAVEN_ARGS) clean package
+	$(MVN) $(MAVEN_ARGS) clean -e package
+
+package-namingserver-native-metadata: ##
+	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl namingserver -am
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl namingserver -Prelease-seata-jar
+
+run-namingserver-native-metadata: ##
+	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./namingserver/target/seata-namingserver.jar --console.user.username=seata  --console.user.password=seata
+
+run-test-native-spring-boot: ##
+	$(MVN) $(MAVEN_ARGS) clean -Ptest-native -pl test-suite/test-native spring-boot:run
+
+run-test-native: ##
+	$(MVN) $(MAVEN_ARGS) clean -Ptest-native -pl test-suite/test-native test
+
+run-merge-native-namingserver: ##
+	python3 script/native/merge_native_image_config.py --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
+
+package-namingserver-native: spotless-apply ##
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl namingserver -Pnative native:compile
+
+run-namingserver-native-mode-file: ##
+	./namingserver/target/$(SERVER_NATIVE_NAME)
+
+package-run-namingserver-native-mode-file: package-namingserver-native ##
+	./namingserver/target/$(SERVER_NATIVE_NAME)
