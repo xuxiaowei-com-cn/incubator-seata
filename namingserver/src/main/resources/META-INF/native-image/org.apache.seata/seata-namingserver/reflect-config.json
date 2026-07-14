@@ -817,7 +817,9 @@
   } ],
   "name" : "java.lang.Integer"
 }, {
-  "name" : "java.lang.Iterable"
+  "name" : "java.lang.Iterable",
+  "allDeclaredMethods" : true,
+  "allPublicMethods" : true
 }, {
   "fields" : [ {
     "name" : "TYPE"
@@ -849,7 +851,11 @@
 }, {
   "name" : "java.lang.StringBuffer"
 }, {
-  "name" : "java.lang.StringBuilder"
+  "name" : "java.lang.StringBuilder",
+  "allDeclaredMethods" : true,
+  "allPublicMethods" : true,
+  "allDeclaredConstructors" : true,
+  "allPublicConstructors" : true
 }, {
   "name" : "java.lang.String[]"
 }, {
@@ -1013,7 +1019,9 @@
 }, {
   "name" : "java.util.ImmutableCollections$ListN"
 }, {
-  "name" : "java.util.Iterator"
+  "name" : "java.util.Iterator",
+  "allDeclaredMethods" : true,
+  "allPublicMethods" : true
 }, {
   "name" : "java.util.List"
 }, {

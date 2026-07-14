@@ -31,20 +31,11 @@
     <springProperty name="LOG_BASH_DIR" source="spring.config.additional-location" defaultValue="" />
     <springProperty name="APPLICATION_NAME" source="spring.application.name" defaultValue="seata-namingserver"/>
 
-    <if condition='property("LOG_BASH_DIR").equals("")' >
-        <then>
-            <!-- console-appender -->
-            <include resource="logback/console-appender.xml"/>
+    <!-- console-appender -->
+    <include resource="logback/console-appender.xml"/>
 
-            <!-- file-appender -->
-            <include resource="logback/file-appender.xml"/>
-
-        </then>
-        <else>
-            <include file="${LOG_BASH_DIR}/logback/console-appender.xml"/>
-            <include file="${LOG_BASH_DIR}/logback/file-appender.xml"/>
-        </else>
-    </if>
+    <!-- file-appender -->
+    <include resource="logback/file-appender.xml"/>
 
 
 

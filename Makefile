@@ -110,7 +110,7 @@ run-merge-native-namingserver: ##
 	python3 script/native/merge_native_image_config.py --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
 
 package-namingserver-native: spotless-apply ##
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl namingserver -Pnative native:compile
+	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
 run-namingserver-native-mode-file: ##
 	./namingserver/target/$(SERVER_NATIVE_NAME)
