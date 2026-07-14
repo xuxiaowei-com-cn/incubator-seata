@@ -1,0 +1,132 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+name: Native Build
+
+on:
+  push:
+    branches: [ 2.x, develop, master ]
+  pull_request:
+    branches: [ 2.x, develop, master ]
+    types: [ opened, reopened, synchronize ]
+    paths-ignore:
+      - '**.md'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-latest ]
+        module: [ namingserver ]
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v7.0.0
+      - name: "Start MySQL via Docker (Linux only)"
+        if: runner.os == 'Linux'
+        shell: sh
+        run: |
+          docker run -d --name mysql-test \
+            -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+            -e MYSQL_DATABASE=seata_test_native \
+            -p 3306:3306 \
+            mysql:8.0
+          echo "Waiting for MySQL to be ready..."
+          for i in $(seq 1 30); do
+            if docker exec mysql-test mysqladmin ping -h localhost --silent 2>/dev/null; then
+              echo "MySQL is ready"
+              docker logs mysql-test --tail 10
+              exit 0
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 2
+          done
+          echo "ERROR: MySQL failed to start after 60s"
+          docker logs mysql-test --tail 50
+          exit 1
+      - name: "Set up Java JDK"
+        uses: actions/setup-java@v5.5.0
+        with:
+          distribution: 'graalvm'
+          java-version: 25
+      - name: "Print maven version"
+        run: ./mvnw -version
+      - name: "Restore local maven repository cache"
+        uses: actions/cache/restore@v6.1.0
+        id: cache-maven-repository
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
+        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
+      - name: "Compile native image for ${{ matrix.module }} in ${{ matrix.os }}"
+        run: ./mvnw -T 2C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative spring-boot:process-aot native:compile
+      - name: "Upload binaries for ${{ matrix.module }} in ${{ matrix.os }}"
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: ${{ matrix.module }}-native-${{ runner.os }}-${{ runner.arch }}
+          path: |
+            ${{ matrix.module }}/target/seata-*-*
+            !${{ matrix.module }}/target/*.jar
+          if-no-files-found: error
+      - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }}"
+        shell: sh
+        run: |
+          rm -rf ./${{ matrix.module }}/target/*.jar
+          ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
+          NATIVE_PID=$!
+          echo "$NATIVE_PID" > ./seata-native-${{ matrix.module }}.pid
+          echo "Native binary started with PID=$NATIVE_PID"
+          sleep 10
+          if kill -0 $NATIVE_PID 2>/dev/null; then
+            echo "Native binary is running normally (PID=$NATIVE_PID)"
+          else
+            echo "ERROR: Native binary failed to start or crashed (PID=$NATIVE_PID)"
+            exit 1
+          fi
+      - name: "Check port 8081 for ${{ matrix.module }} in ${{ matrix.os }}"
+        shell: sh
+        if: matrix.module == 'namingserver'
+        run: |
+          NATIVE_PID=$(cat ./seata-native-${{ matrix.module }}.pid)
+          echo "NATIVE_PID=$NATIVE_PID"
+          for i in 1 2 3 4 5 6; do
+            if curl -sSf http://localhost:8081/naming/v1/health >/dev/null 2>&1; then
+              echo "Port 8081 is responding"
+              exit 0
+            fi
+            echo "Waiting for port 8081... ($i/6)"
+            sleep 5
+          done
+          echo "ERROR: Port 8081 is not responding after 30 seconds"
+          exit 1
+      - name: "Delete snapshots from the Maven local repository"
+        shell: sh
+        run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
+      - name: "Save local maven repository cache"
+        uses: actions/cache/save@v6.1.0
+        if: steps.cache-maven-repository.outputs.cache-hit != 'true'
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
