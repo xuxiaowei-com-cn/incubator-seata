@@ -53,9 +53,9 @@ jobs:
         id: cache-maven-repository
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-${{ runner.arch }}-maven-
       - name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
       - name: "Compile native image for ${{ matrix.module }} in ${{ matrix.os }}"
@@ -107,4 +107,4 @@ jobs:
         if: steps.cache-maven-repository.outputs.cache-hit != 'true'
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
