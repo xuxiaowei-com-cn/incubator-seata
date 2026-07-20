@@ -28,7 +28,6 @@
 
     <!-- common properties -->
     <springProperty name="PORT" source="server.port" defaultValue="8081"/>
-    <springProperty name="LOG_BASH_DIR" source="spring.config.additional-location" defaultValue="" />
     <springProperty name="APPLICATION_NAME" source="spring.application.name" defaultValue="seata-namingserver"/>
 
     <!-- console-appender -->
