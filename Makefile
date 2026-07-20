@@ -100,12 +100,6 @@ package-namingserver-native-metadata: ## Build namingserver JAR for GraalVM nati
 run-namingserver-native-metadata: ## Run namingserver with GraalVM native-image agent to collect reflection/config metadata
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./namingserver/target/seata-namingserver.jar --console.user.username=seata  --console.user.password=seata
 
-run-test-native-spring-boot: ## Run native test suite via Spring Boot Maven plugin
-	$(MVN) $(MAVEN_ARGS) clean -Ptest-native -pl test-suite/test-native spring-boot:run
-
-run-test-native: ## Run native test suite via Maven test phase
-	$(MVN) $(MAVEN_ARGS) clean -Ptest-native -pl test-suite/test-native test
-
 run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory
 	python3 script/native/merge_native_image_config.py --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
 
