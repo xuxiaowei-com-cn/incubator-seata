@@ -38,6 +38,9 @@ jobs:
       matrix:
         os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-latest ]
         module: [ namingserver ]
+    env:
+      USERNAME: seata
+      PASSWORD: seata
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
@@ -57,7 +60,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ runner.arch }}-maven-
       - name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
-        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }} install -DskipTests -am
+        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }},server install -DskipTests -am
       - name: "Compile native image for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 2C clean -B -pl ${{ matrix.module }} package -DskipTests -Pnative spring-boot:process-aot native:compile
       - name: "Upload binaries for ${{ matrix.module }} in ${{ matrix.os }}"
@@ -71,8 +74,8 @@ jobs:
       - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
         env:
-          CONSOLE_USER_USERNAME: seata
-          CONSOLE_USER_PASSWORD: seata
+          CONSOLE_USER_USERNAME: ${{ env.USERNAME }}
+          CONSOLE_USER_PASSWORD: ${{ env.PASSWORD }}
         run: |
           rm -rf ./${{ matrix.module }}/target/*.jar
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
@@ -101,6 +104,26 @@ jobs:
             sleep 5
           done
           echo "ERROR: Port 8081 is not responding after 30 seconds"
+          exit 1
+      - name: "Start Seata server for ${{ matrix.module }} in ${{ matrix.os }}"
+        if: matrix.module == 'namingserver'
+        env:
+          SEATA_REGISTRY_TYPE: seata
+          SEATA_REGISTRY_SEATA_SERVER_ADDR: 127.0.0.1:8081
+          SEATA_REGISTRY_SEATA_USERNAME: ${{ env.USERNAME }}
+          SEATA_REGISTRY_SEATA_PASSWORD: ${{ env.PASSWORD }}
+        shell: sh
+        run: |
+          ./mvnw -T 2C clean -B -pl server spring-boot:run -Prelease-seata-jar &
+          for i in 1 2 3 4 5 6; do
+            if curl -sSf http://localhost:8091/health >/dev/null 2>&1; then
+              echo "Port 8091 is responding"
+              exit 0
+            fi
+            echo "Waiting for port 8091... ($i/6)"
+            sleep 5
+          done
+          echo "ERROR: Port 8091 is not responding after 30 seconds"
           exit 1
       - name: "Run native tests for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 2C clean -B test -Ptest-native-${{ matrix.module }} -pl test-suite/test-native-${{ matrix.module }}
