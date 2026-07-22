@@ -25,6 +25,7 @@ SHELL := /usr/bin/env bash
 	package-only package \
 	package-namingserver-native-metadata run-namingserver-native-metadata \
 	run-test-native-spring-boot run-test-native \
+	test-native-namingserver \
 	run-merge-native-namingserver \
 	package-namingserver-native run-namingserver-native-mode-file package-run-namingserver-native-mode-file
 
@@ -99,6 +100,9 @@ package-namingserver-native-metadata: ## Build namingserver JAR for GraalVM nati
 
 run-namingserver-native-metadata: ## Run namingserver with GraalVM native-image agent to collect reflection/config metadata
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./namingserver/target/seata-namingserver.jar --console.user.username=seata  --console.user.password=seata
+
+test-native-namingserver: ## Run namingserver GraalVM native-image compatibility tests (requires GraalVM with native-image)
+	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-namingserver -pl test-suite/test-native-namingserver
 
 run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory
 	python3 script/native/merge_native_image_config.py --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
