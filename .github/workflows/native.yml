@@ -70,6 +70,9 @@ jobs:
           if-no-files-found: error
       - name: "Verify native binary for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
+        env:
+          CONSOLE_USER_USERNAME: seata
+          CONSOLE_USER_PASSWORD: seata
         run: |
           rm -rf ./${{ matrix.module }}/target/*.jar
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &

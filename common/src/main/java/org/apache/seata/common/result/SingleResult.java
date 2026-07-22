@@ -29,6 +29,8 @@ public class SingleResult<T> extends Result<T> implements Serializable {
      */
     private T data;
 
+    public SingleResult() {}
+
     public SingleResult(String code, String message) {
         super(code, message);
     }
