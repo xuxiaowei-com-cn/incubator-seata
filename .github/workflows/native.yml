@@ -115,6 +115,9 @@ jobs:
         shell: sh
         run: |
           ./mvnw -T 2C clean -B -pl server spring-boot:run -Prelease-seata-jar &
+          SEATA_SERVER_PID=$!
+          echo "$SEATA_SERVER_PID" > ./seata-server.pid
+          echo "Seata server started with PID=$SEATA_SERVER_PID"
           for i in 1 2 3 4 5 6; do
             if curl -sSf http://localhost:8091/health >/dev/null 2>&1; then
               echo "Port 8091 is responding"
@@ -127,6 +130,28 @@ jobs:
           exit 1
       - name: "Run native tests for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 2C clean -B test -Ptest-native-${{ matrix.module }} -pl test-suite/test-native-${{ matrix.module }}
+      - name: "Stop background processes"
+        if: always()
+        shell: sh
+        run: |
+          for pid_file in ./seata-native-*.pid ./seata-server.pid; do
+            if [ -f "$pid_file" ]; then
+              PID=$(cat "$pid_file")
+              if kill -0 "$PID" 2>/dev/null; then
+                echo "Stopping process $PID from $pid_file..."
+                kill "$PID" || true
+                sleep 2
+                if kill -0 "$PID" 2>/dev/null; then
+                  echo "Force killing process $PID..."
+                  kill -9 "$PID" || true
+                fi
+                echo "Process $PID stopped."
+              else
+                echo "Process $PID from $pid_file is already stopped."
+              fi
+              rm -f "$pid_file"
+            fi
+          done
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
