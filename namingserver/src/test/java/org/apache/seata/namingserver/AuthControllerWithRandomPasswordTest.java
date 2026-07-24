@@ -27,6 +27,7 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import tools.jackson.databind.ObjectMapper;
@@ -41,6 +42,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Use a unique UUID property to ensure this test class gets its own isolated
+ * Spring Boot application context rather than reusing a cached context from
+ * other RANDOM_PORT tests (e.g. NamingControllerPropertiesSmokeTest).
+ * Without this, when all namingserver tests run together, the test framework
+ * may reuse a cached context whose startup logs don't contain the
+ * "Use the auto-generated password: [...]" line, causing the test to fail.
+ */
+@TestPropertySource(properties = {"uuid=26d766d7-8aee-4940-bc50-d02ffa6e8a3a"})
 @SpringBootTest
 @ExtendWith(OutputCaptureExtension.class)
 @AutoConfigureMockMvc
