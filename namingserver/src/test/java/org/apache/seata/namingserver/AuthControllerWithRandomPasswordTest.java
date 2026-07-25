@@ -43,14 +43,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Use a unique UUID property to ensure this test class gets its own isolated
- * Spring Boot application context rather than reusing a cached context from
- * other RANDOM_PORT tests (e.g. NamingControllerPropertiesSmokeTest).
- * Without this, when all namingserver tests run together, the test framework
- * may reuse a cached context whose startup logs don't contain the
- * "Use the auto-generated password: [...]" line, causing the test to fail.
+ * Add a unique, namespaced test property so Spring's test context cache treats this class as a distinct configuration.
+ * This prevents reuse of an already-started context (e.g. other @SpringBootTest + @AutoConfigureMockMvc tests),
+ * which would omit the startup log line "Use the auto-generated password: [...]" from {@link CapturedOutput}.
  */
-@TestPropertySource(properties = {"uuid=26d766d7-8aee-4940-bc50-d02ffa6e8a3a"})
+@TestPropertySource(properties = "seata.test.context.cache.key=AuthControllerWithRandomPasswordTest")
 @SpringBootTest
 @ExtendWith(OutputCaptureExtension.class)
 @AutoConfigureMockMvc
