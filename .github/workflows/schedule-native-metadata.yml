@@ -258,6 +258,19 @@ jobs:
           else
             echo "Warning: reachability-metadata.json not found after ${ELAPSED}s."
             echo "This may indicate the native-image-agent did not collect metadata on this platform."
+            # Force kill the process if it is still alive — all graceful shutdown
+            # attempts (actuator, jcmd VM.exit, kill) have already been exhausted.
+            if [ -f "${PID_FILE}" ]; then
+              APP_PID=$(cat "${PID_FILE}")
+              if jcmd -l 2>/dev/null | grep -q "^${APP_PID} "; then
+                echo "Process still alive, force killing (kill -9 ${APP_PID})..."
+                kill -9 ${APP_PID} 2>/dev/null || true
+                sleep 2
+                jcmd -l
+              else
+                echo "Process ${APP_PID} already stopped."
+              fi
+            fi
           fi
       - name: "Upload ${{ matrix.module.name }} reachability-metadata.json"
         if: always()
