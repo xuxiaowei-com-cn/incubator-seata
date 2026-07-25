@@ -1,0 +1,70 @@
+name: Schedule Native Build Metadata
+
+on:
+  push:
+    paths:
+      - '.github/workflows/schedule-native-metadata.yml'
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: 'Repository to check out'
+        type: string
+        required: false
+        default: 'xuxiaowei-com-cn/incubator-seata'
+      ref:
+        description: 'Branch or tag to check out'
+        type: string
+        required: false
+        default: ''
+
+env:
+  repository: xuxiaowei-com-cn/incubator-seata
+  ref: xuxiaowei/Seata-Namingserver-GraalVM
+
+jobs:
+  build:
+    name: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-latest ]
+        module: [ namingserver ]
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v7.0.0
+        with:
+          repository: ${{ inputs.repository || env.repository }}
+          ref: ${{ inputs.ref || env.ref }}
+      - name: "Set up Java JDK"
+        uses: actions/setup-java@v5.5.0
+        with:
+          distribution: 'graalvm'
+          java-version: 25
+      - name: "Print maven version"
+        run: ./mvnw -version
+      - name: "Restore local maven repository cache"
+        uses: actions/cache/restore@v6.1.0
+        id: cache-maven-repository
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-maven-
+      - name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
+        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }},server install -DskipTests -am
+      - name: "Package ${{ matrix.module }}"
+        run: ./mvnw -T 2C -B -pl ${{ matrix.module }} package -DskipTests -Prelease-seata-jar
+      - name: "List ${{ matrix.module }} jar"
+        shell: sh
+        run: ls -lh ${{ matrix.module }}/target/seata-${{ matrix.module }}.jar
+      - name: "Delete snapshots from the Maven local repository"
+        shell: sh
+        run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
+      - name: "Save local maven repository cache"
+        uses: actions/cache/save@v6.1.0
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
