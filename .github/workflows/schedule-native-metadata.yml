@@ -149,10 +149,20 @@ jobs:
           kill ${APP_PID} 2>/dev/null || true
 
           SHUTDOWN_ELAPSED=0
-          while kill -0 ${APP_PID} 2>/dev/null && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
+          while [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
             sleep 1
             SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
-            echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
+            if kill -0 ${APP_PID} 2>/dev/null; then
+              echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
+              if curl -sSf http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }} >/dev/null 2>&1; then
+                echo "  Readiness endpoint still responding."
+              else
+                echo "  Readiness endpoint no longer responding."
+              fi
+            else
+              echo "  Process no longer running, shutdown complete."
+              break
+            fi
           done
 
           #if kill -0 ${APP_PID} 2>/dev/null; then
