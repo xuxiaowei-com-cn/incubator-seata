@@ -169,7 +169,7 @@ jobs:
           jcmd ${APP_PID} VM.exit 2>/dev/null || true
 
           SHUTDOWN_ELAPSED=0
-          while kill -0 ${APP_PID} 2>/dev/null && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
+          while jcmd ${APP_PID} VM.exit 2>/dev/null && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
             sleep 1
             SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
             echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
@@ -196,7 +196,7 @@ jobs:
             # in the stop step may not have taken effect (e.g. jcmd not available).
             if [ -f "${PID_FILE}" ]; then
               APP_PID=$(cat "${PID_FILE}")
-              if kill -0 ${APP_PID} 2>/dev/null; then
+              if jcmd ${APP_PID} VM.exit 2>/dev/null; then
                 echo "  Process still alive (PID: ${APP_PID}), retrying shutdown..."
                 jcmd ${APP_PID} VM.exit 2>/dev/null || kill ${APP_PID} 2>/dev/null || true
               fi
