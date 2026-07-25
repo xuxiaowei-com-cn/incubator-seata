@@ -31,7 +31,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-latest ]
-        module: [ namingserver ]
+        module:
+          - name: namingserver
+            port: 8081
+    env:
+      USERNAME: seata
+      PASSWORD: seata
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
@@ -53,13 +58,84 @@ jobs:
           key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-${{ runner.arch }}-maven-
-      - name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
-        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }},server install -DskipTests -am
-      - name: "Package ${{ matrix.module }}"
-        run: ./mvnw -T 2C -B -pl ${{ matrix.module }} package -DskipTests -Prelease-seata-jar
-      - name: "List ${{ matrix.module }} jar"
+      - name: "Install dependencies for ${{ matrix.module.name }} in ${{ matrix.os }}"
+        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module.name }},server install -DskipTests -am
+      - name: "Package ${{ matrix.module.name }}"
+        run: ./mvnw -T 2C -B -pl ${{ matrix.module.name }} package -DskipTests -Prelease-seata-jar
+      - name: "List ${{ matrix.module.name }} jar"
         shell: sh
-        run: ls -lh ${{ matrix.module }}/target/seata-${{ matrix.module }}.jar
+        run: ls -lh ${{ matrix.module.name }}/target/seata-${{ matrix.module.name }}.jar
+      - name: "Start ${{ matrix.module.name }} in background with native-image-agent"
+        shell: sh
+        env:
+          CONSOLE_USER_USERNAME: ${{ env.USERNAME }}
+          CONSOLE_USER_PASSWORD: ${{ env.PASSWORD }}
+        run: |
+          echo "Starting ${{ matrix.module.name }} in background on port ${{ matrix.module.port }}..."
+          java -agentlib:native-image-agent=config-output-dir=./target/native-image-config \
+            -jar ./${{ matrix.module.name }}/target/seata-${{ matrix.module.name }}.jar &
+
+          APP_PID=$!
+          echo "${APP_PID}" > ./target/app.pid
+          echo "Application started with PID: ${APP_PID}"
+      - name: "Wait for ${{ matrix.module.name }} to be ready"
+        shell: sh
+        env:
+          TIMEOUT: 120
+        run: |
+          echo "Waiting for application to be ready on port ${{ matrix.module.port }}..."
+          ELAPSED=0
+          while [ ${ELAPSED} -lt ${{ env.TIMEOUT }} ]; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:${{ matrix.module.port }}/" 2>/dev/null || echo "000")
+            if [ "${STATUS}" != "000" ]; then
+              echo "Application is ready after ${ELAPSED}s (HTTP ${STATUS})!"
+              exit 0
+            fi
+            sleep 2
+            ELAPSED=$((ELAPSED + 2))
+            echo "  Still waiting... ${ELAPSED}s elapsed."
+          done
+
+          echo "Warning: Application did not become ready within ${{ env.TIMEOUT }}s."
+      - name: "Exercise ${{ matrix.module.name }} endpoints for native-image metadata"
+        shell: sh
+        run: |
+          echo "Exercising endpoints to collect native-image metadata..."
+          curl -s -o /dev/null "http://localhost:${{ matrix.module.port }}/version.json" || echo "  GET /version.json → failed (non-fatal)"
+      - name: "Stop ${{ matrix.module.name }}"
+        shell: sh
+        if: always()
+        env:
+          SHUTDOWN_TIMEOUT: 60
+        run: |
+          CONFIG_DIR="./target/native-image-config"
+          PID_FILE="./target/app.pid"
+
+          if [ ! -f "${PID_FILE}" ]; then
+            echo "PID file not found, nothing to stop."
+            exit 0
+          fi
+
+          APP_PID=$(cat "${PID_FILE}")
+          echo "Stopping application (PID: ${APP_PID})..."
+
+          # 优雅关闭
+          kill ${APP_PID} 2>/dev/null || true
+
+          SHUTDOWN_ELAPSED=0
+          while kill -0 ${APP_PID} 2>/dev/null && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
+            sleep 1
+            SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
+            echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
+          done
+
+          if kill -0 ${APP_PID} 2>/dev/null; then
+            echo "Application did not shut down gracefully, force killing..."
+            kill -9 ${APP_PID} 2>/dev/null || true
+          fi
+
+          wait ${APP_PID} 2>/dev/null || true
+          echo "Application stopped. Native-image metadata collected in ${CONFIG_DIR}."
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
