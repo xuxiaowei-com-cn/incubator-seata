@@ -41,6 +41,7 @@ jobs:
       STARTUP_TIMEOUT: 120
       SHUTDOWN_TIMEOUT: 120
       SEATA_SERVER_STARTUP_RETRIES: 120
+      METADATA_FILE_WAIT_TIMEOUT: 120
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
@@ -161,6 +162,25 @@ jobs:
 
           wait ${APP_PID} 2>/dev/null || true
           echo "Application stopped."
+      - name: "Wait for reachability-metadata.json for ${{ matrix.module.name }}"
+        shell: sh
+        if: always()
+        run: |
+          METADATA_FILE="./target/native-image-config/reachability-metadata.json"
+          ELAPSED=0
+          while [ ! -f "${METADATA_FILE}" ] && [ ${ELAPSED} -lt ${{ env.METADATA_FILE_WAIT_TIMEOUT }} ]; do
+            sleep 1
+            ELAPSED=$((ELAPSED + 1))
+            echo "  Waiting for reachability-metadata.json... ${ELAPSED}s elapsed."
+          done
+
+          if [ -f "${METADATA_FILE}" ]; then
+            echo "reachability-metadata.json found (${ELAPSED}s)."
+            ls -lh "${METADATA_FILE}"
+          else
+            echo "Warning: reachability-metadata.json not found after ${ELAPSED}s."
+            echo "This may indicate the native-image-agent did not collect metadata on this platform."
+          fi
       - name: "Upload ${{ matrix.module.name }} reachability-metadata.json"
         if: always()
         uses: actions/upload-artifact@v7.0.1
