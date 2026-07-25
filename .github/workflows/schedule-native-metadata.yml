@@ -12,7 +12,7 @@ on:
         description: 'Repository to check out'
         type: string
         required: false
-        default: 'xuxiaowei-com-cn/incubator-seata'
+        default: ''
       ref:
         description: 'Branch or tag to check out'
         type: string
@@ -101,7 +101,7 @@ jobs:
 
           echo "Warning: Application did not become ready within ${{ env.STARTUP_TIMEOUT }}s."
           exit 1
-      - name: "Start Seata server for ${{ matrix.module }} in ${{ matrix.os }}"
+      - name: "Start Seata server for ${{ matrix.module.name }} in ${{ matrix.os }}"
         if: matrix.module.name == 'namingserver'
         env:
           SEATA_REGISTRY_TYPE: seata
