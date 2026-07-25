@@ -152,6 +152,8 @@ jobs:
         run: |
           python3 script/native/merge_native_image_config.py \
             --target-dir ${{ matrix.module.name }}/src/main/resources/META-INF/native-image/org.apache.seata/seata-${{ matrix.module.name }}
+      - name: "Apply spotless formatting for ${{ matrix.module.name }}"
+        run: ./mvnw spotless:apply -pl ${{ matrix.module.name }}
       - name: "Show ${{ matrix.module.name }} native-image config diff"
         id: diff
         shell: sh
