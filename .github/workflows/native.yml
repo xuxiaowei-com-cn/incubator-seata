@@ -7,7 +7,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  checkout:
+    name: Checkout Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v7.0.0
+        with:
+          repository: xuxiaowei-com-cn/incubator-seata
+
   call-remote:
+    needs: checkout
     uses: xuxiaowei-com-cn/incubator-seata/.github/workflows/native.yml@xuxiaowei/Seata-Namingserver-GraalVM
     with:
       ref: xuxiaowei/Seata-Namingserver-GraalVM
