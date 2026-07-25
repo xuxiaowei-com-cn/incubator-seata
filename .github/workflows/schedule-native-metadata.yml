@@ -34,6 +34,7 @@ jobs:
         module:
           - name: namingserver
             port: 8081
+            readiness: /naming/v1/health
     env:
       USERNAME: seata
       PASSWORD: seata
@@ -88,7 +89,7 @@ jobs:
           echo "Waiting for application to be ready on port ${{ matrix.module.port }}..."
           ELAPSED=0
           while [ ${ELAPSED} -lt ${{ env.STARTUP_TIMEOUT }} ]; do
-            if curl -sSf http://localhost:${{ matrix.module.port }}/naming/v1/health >/dev/null 2>&1; then
+            if curl -sSf http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }} >/dev/null 2>&1; then
               echo "Application is ready after ${ELAPSED}s!"
               exit 0
             fi
@@ -98,11 +99,11 @@ jobs:
           done
 
           echo "Warning: Application did not become ready within ${{ env.STARTUP_TIMEOUT }}s."
-      - name: "Exercise ${{ matrix.module.name }} endpoints for native-image metadata"
+      - name: "Run ${{ matrix.module.name }} native tests for native-image metadata"
         shell: sh
         run: |
           echo "Exercising endpoints to collect native-image metadata..."
-          curl -s -o /dev/null "http://localhost:${{ matrix.module.port }}/naming/v1/health" || echo "  GET /naming/v1/health → failed (non-fatal)"
+          ./mvnw -T 2C -B test -Ptest-native-${{ matrix.module.name }} -pl test-suite/test-native-${{ matrix.module.name }}
       - name: "Stop ${{ matrix.module.name }}"
         shell: sh
         if: always()
@@ -133,14 +134,6 @@ jobs:
 
           wait ${APP_PID} 2>/dev/null || true
           echo "Application stopped."
-
-          METADATA_FILE="./target/native-image-config/reachability-metadata.json"
-          if [ -f "${METADATA_FILE}" ]; then
-            echo "Native-image metadata found: ${METADATA_FILE}"
-          else
-            echo "Error: Native-image metadata not found at ${METADATA_FILE}"
-            exit 1
-          fi
       - name: "Upload ${{ matrix.module.name }} reachability-metadata.json"
         if: always()
         uses: actions/upload-artifact@v7.0.1
