@@ -289,7 +289,7 @@ def main() -> int:
     print(f"\n[DONE] {total_added} entries added across all files.")
 
     if total_added > 0:
-        print("  Next: run 'mvn spotless:apply -pl server -am' to format the JSON.")
+        print("  Next: run 'mvn spotless:apply' to format the JSON.")
 
     return 0
 
