@@ -19,6 +19,8 @@ name: Native Build
 on:
   push:
     branches: [ test*, "*.*.*" ]
+    paths:
+      - '.github/workflows/native.yml'
   workflow_call:
     inputs:
       ref:
