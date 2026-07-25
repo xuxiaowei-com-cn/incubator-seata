@@ -20,4 +20,5 @@ jobs:
     needs: checkout
     uses: xuxiaowei-com-cn/incubator-seata/.github/workflows/native.yml@xuxiaowei/Seata-Namingserver-GraalVM
     with:
+      repository: xuxiaowei-com-cn/incubator-seata
       ref: xuxiaowei/Seata-Namingserver-GraalVM
