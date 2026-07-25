@@ -107,18 +107,23 @@ jobs:
       - name: "Check port 8081 for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
         if: matrix.module == 'namingserver'
+        env:
+          MAX_RETRIES: 6
+          SLEEP_SECONDS: 5
         run: |
           NATIVE_PID=$(cat ./seata-native-${{ matrix.module }}.pid)
           echo "NATIVE_PID=$NATIVE_PID"
-          for i in 1 2 3 4 5 6; do
+          i=1
+          while [ $i -le $MAX_RETRIES ]; do
             if curl -sSf http://localhost:8081/naming/v1/health >/dev/null 2>&1; then
               echo "Port 8081 is responding"
               exit 0
             fi
-            echo "Waiting for port 8081... ($i/6)"
-            sleep 5
+            echo "Waiting for port 8081... ($i/$MAX_RETRIES)"
+            sleep $SLEEP_SECONDS
+            i=$((i + 1))
           done
-          echo "ERROR: Port 8081 is not responding after 30 seconds"
+          echo "ERROR: Port 8081 is not responding after $((MAX_RETRIES * SLEEP_SECONDS)) seconds"
           exit 1
       - name: "Start Seata server for ${{ matrix.module }} in ${{ matrix.os }}"
         if: matrix.module == 'namingserver'
@@ -127,21 +132,25 @@ jobs:
           SEATA_REGISTRY_SEATA_SERVER_ADDR: 127.0.0.1:8081
           SEATA_REGISTRY_SEATA_USERNAME: ${{ env.USERNAME }}
           SEATA_REGISTRY_SEATA_PASSWORD: ${{ env.PASSWORD }}
+          MAX_RETRIES: 12
+          SLEEP_SECONDS: 5
         shell: sh
         run: |
           ./mvnw -T 2C clean -B -pl server spring-boot:run -Prelease-seata-jar &
           SEATA_SERVER_PID=$!
           echo "$SEATA_SERVER_PID" > ./seata-server.pid
           echo "Seata server started with PID=$SEATA_SERVER_PID"
-          for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
+          i=1
+          while [ $i -le $MAX_RETRIES ]; do
             if curl -sSf http://localhost:8091/health >/dev/null 2>&1; then
               echo "Port 8091 is responding"
               exit 0
             fi
-            echo "Waiting for port 8091... ($i/6)"
-            sleep 5
+            echo "Waiting for port 8091... ($i/$MAX_RETRIES)"
+            sleep $SLEEP_SECONDS
+            i=$((i + 1))
           done
-          echo "ERROR: Port 8091 is not responding after 60 seconds"
+          echo "ERROR: Port 8091 is not responding after $((MAX_RETRIES * SLEEP_SECONDS)) seconds"
           exit 1
       - name: "Run native tests for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 2C clean -B test -Ptest-native-${{ matrix.module }} -pl test-suite/test-native-${{ matrix.module }}
