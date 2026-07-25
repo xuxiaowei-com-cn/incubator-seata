@@ -6,10 +6,6 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
-env:
-  repository: xuxiaowei-com-cn/incubator-seata
-  ref: xuxiaowei/Seata-Namingserver-GraalVM
-
 jobs:
   checkout:
     name: Checkout Code
@@ -18,8 +14,8 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
         with:
-          repository: ${{ env.repository }}
+          repository: xuxiaowei-com-cn/incubator-seata
 
   call-remote:
     needs: checkout
-    uses: ${{ env.repository }}/.github/workflows/native.yml@${{ env.ref }}
+    uses: xuxiaowei-com-cn/incubator-seata/.github/workflows/native.yml@xuxiaowei/Seata-Namingserver-GraalVM
