@@ -102,7 +102,7 @@ jobs:
           echo "Warning: Application did not become ready within ${{ env.STARTUP_TIMEOUT }}s."
           exit 1
       - name: "Start Seata server for ${{ matrix.module }} in ${{ matrix.os }}"
-        if: matrix.module == 'namingserver'
+        if: matrix.module.name == 'namingserver'
         env:
           SEATA_REGISTRY_TYPE: seata
           SEATA_REGISTRY_SEATA_SERVER_ADDR: 127.0.0.1:8081
