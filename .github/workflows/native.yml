@@ -18,12 +18,7 @@ name: Native Build
 
 on:
   push:
-    branches: [ 2.x, develop, master ]
-  pull_request:
-    branches: [ 2.x, develop, master ]
-    types: [ opened, reopened, synchronize ]
-    paths-ignore:
-      - '**.md'
+    branches: [ test*, "*.*.*" ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
