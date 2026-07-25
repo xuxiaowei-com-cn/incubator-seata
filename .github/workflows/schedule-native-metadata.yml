@@ -48,10 +48,6 @@ jobs:
         with:
           repository: ${{ inputs.repository || env.repository }}
           ref: ${{ inputs.ref || env.ref }}
-      - name: "Checkout schedule-native tools"
-        uses: actions/checkout@v7.0.0
-        with:
-          path: schedule-native-tools
       - name: "Set up Java JDK"
         uses: actions/setup-java@v5.5.0
         with:
@@ -96,6 +92,7 @@ jobs:
           APP_PID=$(jcmd -l | grep "${JAR_PATTERN}" | grep -v jcmd | awk '{print $1}')
           if [ -z "${APP_PID}" ]; then
             echo "ERROR: Could not find PID for ${JAR_PATTERN} via jcmd."
+            jcmd -l
             exit 1
           fi
           echo "${APP_PID}" > ./target/app.pid
@@ -148,8 +145,8 @@ jobs:
           echo "Exercising endpoints to collect native-image metadata..."
           ./mvnw -T 2C -B test -Ptest-native-${{ matrix.module.name }} -pl test-suite/test-native-${{ matrix.module.name }}
       - name: "Stop ${{ matrix.module.name }}"
-        if: runner.os != 'Windows'
         shell: sh
+        if: always()
         run: |
           PID_FILE="./target/app.pid"
 
@@ -157,13 +154,18 @@ jobs:
             echo "PID file not found, nothing to stop."
             exit 0
           fi
+          
+          jcmd -l
 
           APP_PID=$(cat "${PID_FILE}")
           echo "Stopping application (PID: ${APP_PID})..."
 
-          # Use jcmd for graceful JVM shutdown.
+          # Use jcmd for cross-platform graceful JVM shutdown.
+          # On Windows, POSIX kill sends TerminateProcess which kills the JVM
+          # immediately without running shutdown hooks — native-image-agent would
+          # never write reachability-metadata.json.
           # jcmd <pid> VM.exit triggers a proper JVM exit with shutdown hooks on
-          # every platform (Linux, macOS).
+          # every platform (Linux, macOS, Windows).
           jcmd ${APP_PID} VM.exit 2>/dev/null || true
 
           SHUTDOWN_ELAPSED=0
@@ -171,32 +173,21 @@ jobs:
             sleep 1
             SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
             echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
+            jcmd -l
           done
+
+          #if kill -0 ${APP_PID} 2>/dev/null; then
+          #  echo "Application did not shut down gracefully, force killing..."
+          #  kill -9 ${APP_PID} 2>/dev/null || true
+          #fi
 
           wait ${APP_PID} 2>/dev/null || true
           echo "Application stopped."
-      - name: "Stop ${{ matrix.module.name }} (Windows)"
-        if: runner.os == 'Windows'
-        shell: cmd
-        run: |
-          if not exist "target\app.pid" (
-            echo PID file not found, nothing to stop.
-            exit /b 0
-          )
-
-          echo Stopping application using graceful-kill-java.bat...
-          REM graceful-kill-java.bat uses wmic to find Java processes matching
-          REM the command-line snippet, then loads a Java agent into each one to
-          REM trigger a graceful shutdown with full shutdown hooks — this ensures
-          REM native-image-agent writes reachability-metadata.json before exit.
-          REM It waits up to 300000ms (5 minutes) for graceful shutdown, then
-          REM force-kills if needed.
-          schedule-native-tools\graceful-kill-java\graceful-kill-java.bat "seata-${{ matrix.module.name }}.jar"
-          echo Application stopped.
       - name: "Wait for reachability-metadata.json for ${{ matrix.module.name }}"
         shell: sh
         if: always()
         run: |
+          jcmd -l
           METADATA_FILE="./target/native-image-config/reachability-metadata.json"
           ELAPSED=0
           PID_FILE="./target/app.pid"
@@ -215,6 +206,7 @@ jobs:
             echo "  Waiting for reachability-metadata.json... ${ELAPSED}s elapsed."
             echo "  Checking readiness endpoint..."
             curl -sS -w "\n  HTTP status: %{http_code}\n" http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }} 2>/dev/null || echo "  Connection failed - application may have stopped"
+            jcmd -l
           done
 
           if [ -f "${METADATA_FILE}" ]; then
