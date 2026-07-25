@@ -192,6 +192,8 @@ jobs:
             sleep 1
             ELAPSED=$((ELAPSED + 1))
             echo "  Waiting for reachability-metadata.json... ${ELAPSED}s elapsed."
+            echo "  Checking readiness endpoint..."
+            curl -sS -w "\n  HTTP status: %{http_code}\n" http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }} 2>/dev/null || echo "  Connection failed - application may have stopped"
             find target
           done
 
