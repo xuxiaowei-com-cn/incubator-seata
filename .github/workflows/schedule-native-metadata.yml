@@ -111,7 +111,7 @@ jobs:
           SEATA_REGISTRY_SEATA_PASSWORD: ${{ env.PASSWORD }}
         shell: sh
         run: |
-          ./mvnw -T 2C clean -B -pl server spring-boot:run -Prelease-seata-jar &
+          ./mvnw -T 2C -B -pl server spring-boot:run -Prelease-seata-jar &
           SEATA_SERVER_PID=$!
           echo "$SEATA_SERVER_PID" > ./seata-server.pid
           echo "Seata server started with PID=$SEATA_SERVER_PID"
