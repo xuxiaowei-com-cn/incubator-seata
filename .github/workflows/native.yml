@@ -26,13 +26,13 @@ on:
       - 'namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver/**'
   workflow_call:
     inputs:
-      ref:
-        description: 'Branch or tag to check out'
+      repository:
+        description: 'Repository to check out'
         type: string
         required: false
         default: ''
-      repository:
-        description: 'Repository to check out'
+      ref:
+        description: 'Branch or tag to check out'
         type: string
         required: false
         default: ''
