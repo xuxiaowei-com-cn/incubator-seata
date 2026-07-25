@@ -20,6 +20,12 @@ on:
   push:
     branches: [ test*, "*.*.*" ]
   workflow_call:
+    inputs:
+      ref:
+        description: 'Branch or tag to check out'
+        type: string
+        required: false
+        default: ''
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -40,6 +46,8 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
+        with:
+          ref: ${{ inputs.ref || github.ref }}
       - name: "Set up Java JDK"
         uses: actions/setup-java@v5.5.0
         with:
