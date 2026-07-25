@@ -41,7 +41,7 @@ jobs:
       STARTUP_TIMEOUT: 120
       SHUTDOWN_TIMEOUT: 120
       SEATA_SERVER_STARTUP_RETRIES: 120
-      METADATA_FILE_WAIT_TIMEOUT: 120
+      METADATA_FILE_WAIT_TIMEOUT: 240
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
@@ -178,7 +178,17 @@ jobs:
           find target
           METADATA_FILE="./target/native-image-config/reachability-metadata.json"
           ELAPSED=0
+          PID_FILE="./target/app.pid"
           while [ ! -f "${METADATA_FILE}" ] && [ ${ELAPSED} -lt ${{ env.METADATA_FILE_WAIT_TIMEOUT }} ]; do
+            # Retry shutdown command if process is still alive — the first attempt
+            # in the stop step may not have taken effect (e.g. jcmd not available).
+            if [ -f "${PID_FILE}" ]; then
+              APP_PID=$(cat "${PID_FILE}")
+              if kill -0 ${APP_PID} 2>/dev/null; then
+                echo "  Process still alive (PID: ${APP_PID}), retrying shutdown..."
+                jcmd ${APP_PID} VM.exit 2>/dev/null || kill ${APP_PID} 2>/dev/null || true
+              fi
+            fi
             sleep 1
             ELAPSED=$((ELAPSED + 1))
             echo "  Waiting for reachability-metadata.json... ${ELAPSED}s elapsed."
