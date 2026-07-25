@@ -215,18 +215,19 @@ jobs:
           ELAPSED=0
           PID_FILE="./target/app.pid"
           while [ ! -f "${METADATA_FILE}" ] && [ ${ELAPSED} -lt ${{ env.METADATA_FILE_WAIT_TIMEOUT }} ]; do
-            # Retry shutdown if process is still alive — the first attempt
-            # in the stop step may not have taken effect.
+            # Force kill the process if it's still alive — the graceful
+            # shutdown in the stop step may not have taken effect.
+            # kill -9 ensures the JVM terminates so native-image-agent
+            # writes reachability-metadata.json.
             if [ -f "${PID_FILE}" ]; then
               APP_PID=$(cat "${PID_FILE}")
-              if kill -0 ${APP_PID} 2>/dev/null; then
-                echo "  Process still alive (PID: ${APP_PID}), retrying actuator shutdown..."
-                curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown" 2>/dev/null || true
-                sleep 2
-                if kill -0 ${APP_PID} 2>/dev/null; then
-                  echo "  Process still alive, falling back to kill..."
-                  kill ${APP_PID} 2>/dev/null || true
-                fi
+              if kill -0 "${APP_PID}" 2>/dev/null; then
+                echo "Process ${APP_PID} is still alive, force killing..."
+                kill -9 "${APP_PID}" 2>/dev/null || true
+                wait "${APP_PID}" 2>/dev/null || true
+                echo "Process ${APP_PID} force killed."
+              else
+                echo "Process ${APP_PID} is already dead."
               fi
             fi
             sleep 1
