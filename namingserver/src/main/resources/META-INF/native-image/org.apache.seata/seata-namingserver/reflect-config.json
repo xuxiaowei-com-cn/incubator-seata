@@ -5552,4 +5552,213 @@
   "name" : "org.apache.seata.namingserver.entity.vo.v2.NamespaceVO"
 }, {
   "name" : "org.springframework.web.bind.annotation.RequestParam"
+}, {
+  "name" : "org.springframework.aot.hint.annotation.RegisterReflection"
+}, {
+  "name" : "org.springframework.boot.actuate.autoconfigure.audit.AuditAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.audit.AuditEventsEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "beansEndpoint",
+    "parameterTypes" : [ "org.springframework.context.ConfigurableApplicationContext" ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.beans.BeansEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "conditionsReportEndpoint",
+    "parameterTypes" : [ "org.springframework.context.ConfigurableApplicationContext" ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.condition.ConditionsReportEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "shutdownEndpoint",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.context.ShutdownEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "configurationPropertiesReportEndpoint",
+    "parameterTypes" : [ "org.springframework.boot.actuate.autoconfigure.context.properties.ConfigurationPropertiesReportEndpointProperties", "org.springframework.beans.factory.ObjectProvider" ]
+  }, {
+    "name" : "configurationPropertiesReportEndpointWebExtension",
+    "parameterTypes" : [ "org.springframework.boot.actuate.context.properties.ConfigurationPropertiesReportEndpoint", "org.springframework.boot.actuate.autoconfigure.context.properties.ConfigurationPropertiesReportEndpointProperties" ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.context.properties.ConfigurationPropertiesReportEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.context.properties.ConfigurationPropertiesReportEndpointProperties"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "environmentEndpoint",
+    "parameterTypes" : [ "org.springframework.core.env.Environment", "org.springframework.boot.actuate.autoconfigure.env.EnvironmentEndpointProperties", "org.springframework.beans.factory.ObjectProvider" ]
+  }, {
+    "name" : "environmentEndpointWebExtension",
+    "parameterTypes" : [ "org.springframework.boot.actuate.env.EnvironmentEndpoint", "org.springframework.boot.actuate.autoconfigure.env.EnvironmentEndpointProperties" ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.env.EnvironmentEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.env.EnvironmentEndpointProperties"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "logFileWebEndpoint",
+    "parameterTypes" : [ "org.springframework.beans.factory.ObjectProvider", "org.springframework.boot.actuate.autoconfigure.logging.LogFileWebEndpointProperties" ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.logging.LogFileWebEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.logging.LogFileWebEndpointAutoConfiguration$LogFileCondition"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.logging.LogFileWebEndpointProperties"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "loggersEndpoint",
+    "parameterTypes" : [ "org.springframework.boot.logging.LoggingSystem", "org.springframework.beans.factory.ObjectProvider" ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.logging.LoggersEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.logging.LoggersEndpointAutoConfiguration$OnEnabledLoggingSystemCondition"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "dumpEndpoint",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.management.ThreadDumpEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ "org.springframework.boot.actuate.sbom.SbomProperties" ]
+  }, {
+    "name" : "sbomEndpoint",
+    "parameterTypes" : [ "org.springframework.core.io.ResourceLoader" ]
+  }, {
+    "name" : "sbomEndpointWebExtension",
+    "parameterTypes" : [ "org.springframework.boot.actuate.sbom.SbomEndpoint" ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.sbom.SbomEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "scheduledTasksEndpoint",
+    "parameterTypes" : [ "org.springframework.beans.factory.ObjectProvider" ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.scheduling.ScheduledTasksEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.web.exchanges.HttpExchangesEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "mappingsEndpoint",
+    "parameterTypes" : [ "org.springframework.context.ApplicationContext", "org.springframework.beans.factory.ObjectProvider" ]
+  } ],
+  "name" : "org.springframework.boot.actuate.autoconfigure.web.mappings.MappingsEndpointAutoConfiguration"
+}, {
+  "methods" : [ {
+    "name" : "getMessage",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.context.ShutdownEndpoint$ShutdownDescriptor"
+}, {
+  "name" : "org.springframework.boot.actuate.context.properties.ConfigurationPropertiesReportEndpointWebExtension"
+}, {
+  "name" : "org.springframework.boot.actuate.endpoint.OperationResponseBody"
+}, {
+  "name" : "org.springframework.boot.actuate.endpoint.annotation.WriteOperation"
+}, {
+  "name" : "org.springframework.boot.actuate.env.EnvironmentEndpointWebExtension"
+}, {
+  "name" : "org.springframework.boot.actuate.sbom.SbomEndpointWebExtension"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.actuate.sbom.SbomProperties"
+}, {
+  "name" : "org.springframework.boot.actuate.web.mappings.MappingDescriptionProvider"
+}, {
+  "name" : "org.springframework.boot.logging.LoggingSystem"
+}, {
+  "name" : "org.springframework.boot.servlet.actuate.web.mappings.FiltersMappingDescriptionProvider"
+}, {
+  "name" : "org.springframework.boot.servlet.actuate.web.mappings.ServletsMappingDescriptionProvider"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "filterMappingDescriptionProvider",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "servletMappingDescriptionProvider",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.servlet.autoconfigure.actuate.web.mappings.ServletMappingsAutoConfiguration"
+}, {
+  "name" : "org.springframework.boot.webmvc.actuate.web.mappings.DispatcherServletsMappingDescriptionProvider"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "dispatcherServletMappingDescriptionProvider",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.springframework.boot.webmvc.autoconfigure.actuate.web.mappings.WebMvcMappingsAutoConfiguration"
+}, {
+  "name" : "tools.jackson.databind.ser.ValueSerializerModifier[]"
 } ]

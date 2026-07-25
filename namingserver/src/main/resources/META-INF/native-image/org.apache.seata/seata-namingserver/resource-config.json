@@ -1376,6 +1376,16 @@
       "pattern" : "org/apache/naming/LocalStrings_en_US.properties"
     }, {
       "pattern" : "org/springframework/security/messages_en_US.properties"
+    }, {
+      "pattern" : "META-INF/native-image/sbom.json"
+    }, {
+      "pattern" : "META-INF/sbom/application.cdx.json"
+    }, {
+      "pattern" : "META-INF/sbom/bom.json"
+    }, {
+      "pattern" : "org/springframework/boot/actuate/autoconfigure/logging/LogFileWebEndpointAutoConfiguration$LogFileCondition.class"
+    }, {
+      "pattern" : "org/springframework/boot/actuate/autoconfigure/logging/LoggersEndpointAutoConfiguration$OnEnabledLoggingSystemCondition.class"
     } ]
   }
 }
