@@ -1368,6 +1368,14 @@
       "pattern" : "static/api/v1/console/globalLock/query"
     }, {
       "pattern" : "org/springframework/security/messages_en.properties"
+    }, {
+      "pattern" : "jakarta/servlet/LocalStrings_en_US.properties"
+    }, {
+      "pattern" : "jakarta/servlet/http/LocalStrings_en_US.properties"
+    }, {
+      "pattern" : "org/apache/naming/LocalStrings_en_US.properties"
+    }, {
+      "pattern" : "org/springframework/security/messages_en_US.properties"
     } ]
   }
 }
