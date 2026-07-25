@@ -77,7 +77,14 @@ jobs:
         env:
           CONSOLE_USER_USERNAME: ${{ env.USERNAME }}
           CONSOLE_USER_PASSWORD: ${{ env.PASSWORD }}
+          MANAGEMENT_ENDPOINT_SHUTDOWN_ACCESS: unrestricted
+          MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
         run: |
+          SEATA_SECURITY_IGNORE_URLS=$(sed -n 's/.*urls:[ \t]*//p' ${{ matrix.module.name }}/src/main/resources/application.yml)
+          echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
+          SEATA_SECURITY_IGNORE_URLS="/actuator/shutdown,${SEATA_SECURITY_IGNORE_URLS}"
+          echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
+          export SEATA_SECURITY_IGNORE_URLS="$SEATA_SECURITY_IGNORE_URLS"
           echo "Starting ${{ matrix.module.name }} in background on port ${{ matrix.module.port }}..."
           java -agentlib:native-image-agent=config-output-dir=./target/native-image-config \
             -jar ./${{ matrix.module.name }}/target/seata-${{ matrix.module.name }}.jar &
@@ -154,32 +161,46 @@ jobs:
             echo "PID file not found, nothing to stop."
             exit 0
           fi
-          
+
           jcmd -l
 
           APP_PID=$(cat "${PID_FILE}")
           echo "Stopping application (PID: ${APP_PID})..."
 
-          # Use jcmd for cross-platform graceful JVM shutdown.
-          # On Windows, POSIX kill sends TerminateProcess which kills the JVM
-          # immediately without running shutdown hooks — native-image-agent would
-          # never write reachability-metadata.json.
-          # jcmd <pid> VM.exit triggers a proper JVM exit with shutdown hooks on
-          # every platform (Linux, macOS, Windows).
-          jcmd ${APP_PID} VM.exit 2>/dev/null || true
+          # Step 1: Graceful shutdown via Spring Boot Actuator shutdown endpoint.
+          # This triggers a proper Spring context close with shutdown hooks,
+          # ensuring native-image-agent writes reachability-metadata.json.
+          echo "Sending shutdown request to http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown..."
+          curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown"
 
+          # Step 2: Wait for the port to become unreachable.
           SHUTDOWN_ELAPSED=0
-          while kill -0 ${APP_PID} 2>/dev/null && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
+          while [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
+            if ! curl -sSf "http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }}" >/dev/null 2>&1; then
+              echo "Port ${{ matrix.module.port }} is no longer reachable after ${SHUTDOWN_ELAPSED}s."
+              break
+            fi
             sleep 1
             SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
             echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
             jcmd -l
           done
 
-          #if kill -0 ${APP_PID} 2>/dev/null; then
-          #  echo "Application did not shut down gracefully, force killing..."
-          #  kill -9 ${APP_PID} 2>/dev/null || true
-          #fi
+          # Step 3: If the process is still alive after actuator shutdown, fall back
+          # to kill for graceful termination (SIGTERM triggers shutdown hooks on
+          # Linux/macOS; on Windows it sends TerminateProcess which may skip hooks).
+          if kill -0 ${APP_PID} 2>/dev/null; then
+            echo "Application still running after actuator shutdown, falling back to kill..."
+            kill ${APP_PID} 2>/dev/null || true
+
+            KILL_ELAPSED=0
+            while kill -0 ${APP_PID} 2>/dev/null && [ ${KILL_ELAPSED} -lt 30 ]; do
+              sleep 1
+              KILL_ELAPSED=$((KILL_ELAPSED + 1))
+              echo "  Still waiting for shutdown after kill... ${KILL_ELAPSED}s elapsed."
+              jcmd -l
+            done
+          fi
 
           wait ${APP_PID} 2>/dev/null || true
           echo "Application stopped."
@@ -192,13 +213,18 @@ jobs:
           ELAPSED=0
           PID_FILE="./target/app.pid"
           while [ ! -f "${METADATA_FILE}" ] && [ ${ELAPSED} -lt ${{ env.METADATA_FILE_WAIT_TIMEOUT }} ]; do
-            # Retry shutdown command if process is still alive — the first attempt
-            # in the stop step may not have taken effect (e.g. jcmd not available).
+            # Retry shutdown if process is still alive — the first attempt
+            # in the stop step may not have taken effect.
             if [ -f "${PID_FILE}" ]; then
               APP_PID=$(cat "${PID_FILE}")
               if kill -0 ${APP_PID} 2>/dev/null; then
-                echo "  Process still alive (PID: ${APP_PID}), retrying shutdown..."
-                jcmd ${APP_PID} VM.exit 2>/dev/null || kill ${APP_PID} 2>/dev/null || true
+                echo "  Process still alive (PID: ${APP_PID}), retrying actuator shutdown..."
+                curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown" 2>/dev/null || true
+                sleep 2
+                if kill -0 ${APP_PID} 2>/dev/null; then
+                  echo "  Process still alive, falling back to kill..."
+                  kill ${APP_PID} 2>/dev/null || true
+                fi
               fi
             fi
             sleep 1
