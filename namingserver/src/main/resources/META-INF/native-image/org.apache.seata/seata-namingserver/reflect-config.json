@@ -5415,4 +5415,141 @@
     "parameterTypes" : [ ]
   } ],
   "name" : "sun.net.www.protocol.jar.Handler"
+}, {
+  "name" : "com.sun.management.internal.HotSpotAOTCacheImpl"
+}, {
+  "name" : "jdk.management.HotSpotAOTCacheMXBean"
+}, {
+  "name" : "org.apache.seata.common.metadata.ClusterRole"
+}, {
+  "methods" : [ {
+    "name" : "getControl",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getGroup",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getInternal",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getMetadata",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getRole",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getTransaction",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getVersion",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setControl",
+    "parameterTypes" : [ "org.apache.seata.common.metadata.Node$Endpoint" ]
+  }, {
+    "name" : "setInternal",
+    "parameterTypes" : [ "org.apache.seata.common.metadata.Node$Endpoint" ]
+  }, {
+    "name" : "setMetadata",
+    "parameterTypes" : [ "java.util.Map" ]
+  }, {
+    "name" : "setRole",
+    "parameterTypes" : [ "org.apache.seata.common.metadata.ClusterRole" ]
+  }, {
+    "name" : "setTransaction",
+    "parameterTypes" : [ "org.apache.seata.common.metadata.Node$Endpoint" ]
+  }, {
+    "name" : "setVersion",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ],
+  "name" : "org.apache.seata.common.metadata.Node"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getHost",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getPort",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setHost",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setPort",
+    "parameterTypes" : [ "int" ]
+  } ],
+  "name" : "org.apache.seata.common.metadata.Node$Endpoint"
+}, {
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getTerm",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getUnit",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getWeight",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "isHealthy",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setHealthy",
+    "parameterTypes" : [ "boolean" ]
+  }, {
+    "name" : "setTerm",
+    "parameterTypes" : [ "long" ]
+  }, {
+    "name" : "setUnit",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setWeight",
+    "parameterTypes" : [ "double" ]
+  } ],
+  "name" : "org.apache.seata.common.metadata.namingserver.NamingServerNode"
+}, {
+  "methods" : [ {
+    "name" : "getNamingInstanceList",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getUnitName",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.common.metadata.namingserver.Unit"
+}, {
+  "methods" : [ {
+    "name" : "getClusterName",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getClusterType",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getUnitData",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.namingserver.entity.pojo.ClusterData"
+}, {
+  "methods" : [ {
+    "name" : "getType",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getUnits",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "getVgroups",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.namingserver.entity.vo.v2.ClusterVO"
+}, {
+  "methods" : [ {
+    "name" : "getClusters",
+    "parameterTypes" : [ ]
+  } ],
+  "name" : "org.apache.seata.namingserver.entity.vo.v2.NamespaceVO"
+}, {
+  "name" : "org.springframework.web.bind.annotation.RequestParam"
 } ]

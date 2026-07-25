@@ -1366,6 +1366,8 @@
       "pattern" : "resources/api/v1/console/globalLock/query"
     }, {
       "pattern" : "static/api/v1/console/globalLock/query"
+    }, {
+      "pattern" : "org/springframework/security/messages_en.properties"
     } ]
   }
 }

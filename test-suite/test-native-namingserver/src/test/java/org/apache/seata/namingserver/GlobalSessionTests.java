@@ -46,7 +46,8 @@ class GlobalSessionTests {
     RestTemplate restTemplate = new RestTemplate();
 
     /** Namingserver global session query endpoint URL. */
-    String url = "http://127.0.0.1:8081/api/v1/console/globalSession/query?withBranch={withBranch}&pageSize={pageSize}&pageNum={pageNum}&namespace={namespace}&cluster={cluster}";
+    String url =
+            "http://127.0.0.1:8081/api/v1/console/globalSession/query?withBranch={withBranch}&pageSize={pageSize}&pageNum={pageNum}&namespace={namespace}&cluster={cluster}";
 
     /**
      * Test querying global sessions with valid authentication.
@@ -93,11 +94,11 @@ class GlobalSessionTests {
         RequestCallback requestCallback = restTemplate.httpEntityCallback(httpEntity, SingleResult.class);
         HttpMessageConverterExtractor<SingleResult> responseExtractor =
                 new HttpMessageConverterExtractor<>(SingleResult.class, restTemplate.getMessageConverters());
-        SingleResult singleResult = restTemplate.execute(url, HttpMethod.GET, requestCallback, responseExtractor, uriVariables);
+        SingleResult singleResult =
+                restTemplate.execute(url, HttpMethod.GET, requestCallback, responseExtractor, uriVariables);
         assertNotNull(singleResult);
         assertEquals(Result.SUCCESS_CODE, singleResult.getCode());
         assertEquals(Result.SUCCESS_MSG, singleResult.getMessage());
         assertNotNull(singleResult.getData());
     }
-
 }

@@ -163,5 +163,4 @@ class LoginTests {
         assertEquals("Login failed", singleResult.getMessage());
         assertNull(singleResult.getData());
     }
-
 }

@@ -85,5 +85,4 @@ class NamespaceTests {
         assertEquals(Result.SUCCESS_MSG, singleResult.getMessage());
         assertNotNull(singleResult.getData());
     }
-
 }

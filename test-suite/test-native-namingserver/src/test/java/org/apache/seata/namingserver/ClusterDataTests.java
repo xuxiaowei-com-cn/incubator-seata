@@ -84,11 +84,11 @@ class ClusterDataTests {
         RequestCallback requestCallback = restTemplate.httpEntityCallback(httpEntity, SingleResult.class);
         HttpMessageConverterExtractor<SingleResult> responseExtractor =
                 new HttpMessageConverterExtractor<>(SingleResult.class, restTemplate.getMessageConverters());
-        SingleResult singleResult = restTemplate.execute(url, HttpMethod.GET, requestCallback, responseExtractor, uriVariables);
+        SingleResult singleResult =
+                restTemplate.execute(url, HttpMethod.GET, requestCallback, responseExtractor, uriVariables);
         assertNotNull(singleResult);
         assertEquals(Result.SUCCESS_CODE, singleResult.getCode());
         assertEquals(Result.SUCCESS_MSG, singleResult.getMessage());
         assertNotNull(singleResult.getData());
     }
-
 }

@@ -48,5 +48,4 @@ class VersionTests {
         assertNotNull(map);
         assertNotNull(map.get("version"));
     }
-
 }
