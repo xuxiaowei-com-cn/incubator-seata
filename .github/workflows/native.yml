@@ -19,3 +19,5 @@ jobs:
   call-remote:
     needs: checkout
     uses: xuxiaowei-com-cn/incubator-seata/.github/workflows/native.yml@xuxiaowei/Seata-Namingserver-GraalVM
+    with:
+      ref: xuxiaowei/Seata-Namingserver-GraalVM
