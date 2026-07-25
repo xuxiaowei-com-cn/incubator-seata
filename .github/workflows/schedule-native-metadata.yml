@@ -142,6 +142,8 @@ jobs:
             echo "PID file not found, nothing to stop."
             exit 0
           fi
+          
+          jcmd -l
 
           APP_PID=$(cat "${PID_FILE}")
           echo "Stopping application (PID: ${APP_PID})..."
@@ -162,6 +164,7 @@ jobs:
             sleep 1
             SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
             echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
+            jcmd -l
           done
 
           #if kill -0 ${APP_PID} 2>/dev/null; then
@@ -176,6 +179,7 @@ jobs:
         if: always()
         run: |
           find target
+          jcmd -l
           METADATA_FILE="./target/native-image-config/reachability-metadata.json"
           ELAPSED=0
           PID_FILE="./target/app.pid"
@@ -195,6 +199,7 @@ jobs:
             echo "  Checking readiness endpoint..."
             curl -sS -w "\n  HTTP status: %{http_code}\n" http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }} 2>/dev/null || echo "  Connection failed - application may have stopped"
             find target
+            jcmd -l
           done
 
           if [ -f "${METADATA_FILE}" ]; then
