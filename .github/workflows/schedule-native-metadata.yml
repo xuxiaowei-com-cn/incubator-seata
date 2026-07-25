@@ -221,14 +221,10 @@ jobs:
             # writes reachability-metadata.json.
             if [ -f "${PID_FILE}" ]; then
               APP_PID=$(cat "${PID_FILE}")
-              if kill -0 "${APP_PID}" 2>/dev/null; then
-                echo "Process ${APP_PID} is still alive, force killing..."
-                kill -9 "${APP_PID}" 2>/dev/null || true
-                wait "${APP_PID}" 2>/dev/null || true
-                echo "Process ${APP_PID} force killed."
-              else
-                echo "Process ${APP_PID} is already dead."
-              fi
+              echo "Process ${APP_PID} is still alive, force killing..."
+              kill -9 "${APP_PID}" 2>/dev/null || true
+              wait "${APP_PID}" 2>/dev/null || true
+              echo "Process ${APP_PID} force killed."
             fi
             sleep 1
             ELAPSED=$((ELAPSED + 1))
