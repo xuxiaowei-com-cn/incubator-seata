@@ -166,6 +166,7 @@ jobs:
         shell: sh
         if: always()
         run: |
+          find target
           METADATA_FILE="./target/native-image-config/reachability-metadata.json"
           ELAPSED=0
           while [ ! -f "${METADATA_FILE}" ] && [ ${ELAPSED} -lt ${{ env.METADATA_FILE_WAIT_TIMEOUT }} ]; do
