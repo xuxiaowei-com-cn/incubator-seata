@@ -19,6 +19,7 @@ name: Native Build
 on:
   push:
     branches: [ test*, "*.*.*" ]
+  workflow_call:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
