@@ -21,6 +21,7 @@ on:
     branches: [ test*, "*.*.*" ]
     paths:
       - '.github/workflows/native.yml'
+      - 'namingserver/src/main/resources/META-INF/native-image/**'
   workflow_call:
     inputs:
       ref:
