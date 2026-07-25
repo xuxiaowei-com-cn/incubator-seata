@@ -18,11 +18,12 @@ name: Native Build
 
 on:
   push:
-    - branches: [ test*, "*.*.*" ]
-    - branches: [ 2.x, develop, master ]
-      paths:
-        - '.github/workflows/native.yml'
-        - 'namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver/**'
+    branches: [ test*, "*.*.*" ]
+  pull_request:
+    branches: [ 2.x, develop, master ]
+    paths:
+      - '.github/workflows/native.yml'
+      - 'namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver/**'
   workflow_call:
     inputs:
       ref:
