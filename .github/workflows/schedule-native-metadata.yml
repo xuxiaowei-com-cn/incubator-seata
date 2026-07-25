@@ -82,7 +82,19 @@ jobs:
           java -agentlib:native-image-agent=config-output-dir=./target/native-image-config \
             -jar ./${{ matrix.module.name }}/target/seata-${{ matrix.module.name }}.jar &
 
-          APP_PID=$!
+          # Wait for JVM to start, then get the real OS PID via jcmd.
+          # Using $! directly is unreliable on Windows: MSYS2/Git Bash maps PIDs
+          # internally, so $! returns a synthetic PID (e.g. 146) that differs from
+          # the actual Windows PID (e.g. 9988). jcmd always reports the real OS PID
+          # on every platform.
+          sleep 3
+          JAR_PATTERN="seata-${{ matrix.module.name }}.jar"
+          APP_PID=$(jcmd -l | grep "${JAR_PATTERN}" | grep -v jcmd | awk '{print $1}')
+          if [ -z "${APP_PID}" ]; then
+            echo "ERROR: Could not find PID for ${JAR_PATTERN} via jcmd."
+            jcmd -l
+            exit 1
+          fi
           echo "${APP_PID}" > ./target/app.pid
           echo "Application started with PID: ${APP_PID}"
       - name: "Wait for ${{ matrix.module.name }} to be ready"
