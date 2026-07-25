@@ -37,6 +37,8 @@ jobs:
     env:
       USERNAME: seata
       PASSWORD: seata
+      STARTUP_TIMEOUT: 120
+      SHUTDOWN_TIMEOUT: 120
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
@@ -48,6 +50,8 @@ jobs:
         with:
           distribution: 'graalvm'
           java-version: 25
+      - name: "Set up Python"
+        uses: actions/setup-python@v7.0.0
       - name: "Print maven version"
         run: ./mvnw -version
       - name: "Restore local maven repository cache"
@@ -80,12 +84,10 @@ jobs:
           echo "Application started with PID: ${APP_PID}"
       - name: "Wait for ${{ matrix.module.name }} to be ready"
         shell: sh
-        env:
-          TIMEOUT: 120
         run: |
           echo "Waiting for application to be ready on port ${{ matrix.module.port }}..."
           ELAPSED=0
-          while [ ${ELAPSED} -lt ${{ env.TIMEOUT }} ]; do
+          while [ ${ELAPSED} -lt ${{ env.STARTUP_TIMEOUT }} ]; do
             if curl -sSf http://localhost:${{ matrix.module.port }}/naming/v1/health >/dev/null 2>&1; then
               echo "Application is ready after ${ELAPSED}s!"
               exit 0
@@ -95,7 +97,7 @@ jobs:
             echo "  Still waiting... ${ELAPSED}s elapsed."
           done
 
-          echo "Warning: Application did not become ready within ${{ env.TIMEOUT }}s."
+          echo "Warning: Application did not become ready within ${{ env.STARTUP_TIMEOUT }}s."
       - name: "Exercise ${{ matrix.module.name }} endpoints for native-image metadata"
         shell: sh
         run: |
@@ -104,10 +106,7 @@ jobs:
       - name: "Stop ${{ matrix.module.name }}"
         shell: sh
         if: always()
-        env:
-          SHUTDOWN_TIMEOUT: 60
         run: |
-          CONFIG_DIR="./target/native-image-config"
           PID_FILE="./target/app.pid"
 
           if [ ! -f "${PID_FILE}" ]; then
@@ -118,7 +117,6 @@ jobs:
           APP_PID=$(cat "${PID_FILE}")
           echo "Stopping application (PID: ${APP_PID})..."
 
-          # 优雅关闭
           kill ${APP_PID} 2>/dev/null || true
 
           SHUTDOWN_ELAPSED=0
@@ -128,13 +126,48 @@ jobs:
             echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
           done
 
-          if kill -0 ${APP_PID} 2>/dev/null; then
-            echo "Application did not shut down gracefully, force killing..."
-            kill -9 ${APP_PID} 2>/dev/null || true
-          fi
+          #if kill -0 ${APP_PID} 2>/dev/null; then
+          #  echo "Application did not shut down gracefully, force killing..."
+          #  kill -9 ${APP_PID} 2>/dev/null || true
+          #fi
 
           wait ${APP_PID} 2>/dev/null || true
-          echo "Application stopped. Native-image metadata collected in ${CONFIG_DIR}."
+          echo "Application stopped."
+
+          METADATA_FILE="./target/native-image-config/reachability-metadata.json"
+          if [ -f "${METADATA_FILE}" ]; then
+            echo "Native-image metadata found: ${METADATA_FILE}"
+          else
+            echo "Error: Native-image metadata not found at ${METADATA_FILE}"
+            exit 1
+          fi
+      - name: "Upload ${{ matrix.module.name }} reachability-metadata.json"
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: ${{ matrix.module.name }}-${{ matrix.os }}-reachability-metadata
+          path: ./target/native-image-config/reachability-metadata.json
+      - name: "Merge native-image config for ${{ matrix.module.name }}"
+        shell: sh
+        run: |
+          python3 script/native/merge_native_image_config.py \
+            --target-dir ${{ matrix.module.name }}/src/main/resources/META-INF/native-image/org.apache.seata/seata-${{ matrix.module.name }}
+      - name: "Show ${{ matrix.module.name }} native-image config diff"
+        id: diff
+        shell: sh
+        run: |
+          git diff | tee ./target/native-image-config.diff
+          if [ -s ./target/native-image-config.diff ]; then
+            echo "has_diff=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "has_diff=false" >> "${GITHUB_OUTPUT}"
+          fi
+      - name: "Upload ${{ matrix.module.name }} native-image config diff"
+        if: steps.diff.outputs.has_diff == 'true'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: ${{ matrix.module.name }}-${{ matrix.os }}-native-image-config-diff
+          path: ./target/native-image-config.diff
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
