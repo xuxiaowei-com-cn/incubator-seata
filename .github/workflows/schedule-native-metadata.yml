@@ -159,12 +159,6 @@ jobs:
         run: |
           PID_FILE="./target/app.pid"
 
-          # Helper: check if a PID is alive by looking for it in jcmd output.
-          # kill -0 is unreliable on Windows (Git Bash maps PIDs differently).
-          is_pid_alive() {
-            jcmd -l 2>/dev/null | grep -q "^${1} "
-          }
-
           if [ ! -f "${PID_FILE}" ]; then
             echo "PID file not found, nothing to stop."
             exit 0
@@ -179,38 +173,35 @@ jobs:
           # This triggers a proper Spring context close with shutdown hooks,
           # ensuring native-image-agent writes reachability-metadata.json.
           echo "Sending shutdown request to http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown..."
-          curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown" 2>/dev/null || true
+          curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown"
 
-          # Step 2: Wait for the PID to exit (not just port unreachable —
-          # on Windows the port may close before the JVM finishes shutting down).
+          # Step 2: Wait for the port to become unreachable.
           SHUTDOWN_ELAPSED=0
-          while is_pid_alive ${APP_PID} && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
+          while [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
+            if ! curl -sSf "http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }}" >/dev/null 2>&1; then
+              echo "Port ${{ matrix.module.port }} is no longer reachable after ${SHUTDOWN_ELAPSED}s."
+              break
+            fi
             sleep 1
             SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
             echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
             jcmd -l
           done
 
-          # Step 3: If the process is still alive, fall back to jcmd VM.exit
-          # (cross-platform graceful JVM shutdown with shutdown hooks).
-          # Then kill as last resort.
-          if is_pid_alive ${APP_PID}; then
-            echo "Application still running after actuator shutdown, trying jcmd VM.exit..."
-            jcmd ${APP_PID} VM.exit 2>/dev/null || true
+          # Step 3: If the process is still alive after actuator shutdown, fall back
+          # to kill for graceful termination (SIGTERM triggers shutdown hooks on
+          # Linux/macOS; on Windows it sends TerminateProcess which may skip hooks).
+          if kill -0 ${APP_PID} 2>/dev/null; then
+            echo "Application still running after actuator shutdown, falling back to kill..."
+            kill ${APP_PID} 2>/dev/null || true
 
-            FALLBACK_ELAPSED=0
-            while is_pid_alive ${APP_PID} && [ ${FALLBACK_ELAPSED} -lt 30 ]; do
+            KILL_ELAPSED=0
+            while kill -0 ${APP_PID} 2>/dev/null && [ ${KILL_ELAPSED} -lt 30 ]; do
               sleep 1
-              FALLBACK_ELAPSED=$((FALLBACK_ELAPSED + 1))
-              echo "  Still waiting... ${FALLBACK_ELAPSED}s elapsed."
+              KILL_ELAPSED=$((KILL_ELAPSED + 1))
+              echo "  Still waiting for shutdown after kill... ${KILL_ELAPSED}s elapsed."
               jcmd -l
             done
-
-            if is_pid_alive ${APP_PID}; then
-              echo "Still alive, sending kill..."
-              kill ${APP_PID} 2>/dev/null || true
-              sleep 3
-            fi
           fi
 
           wait ${APP_PID} 2>/dev/null || true
@@ -226,21 +217,15 @@ jobs:
           while [ ! -f "${METADATA_FILE}" ] && [ ${ELAPSED} -lt ${{ env.METADATA_FILE_WAIT_TIMEOUT }} ]; do
             # Retry shutdown if process is still alive — the first attempt
             # in the stop step may not have taken effect.
-            # Use jcmd instead of kill -0 for cross-platform PID liveness check.
             if [ -f "${PID_FILE}" ]; then
               APP_PID=$(cat "${PID_FILE}")
-              if jcmd -l 2>/dev/null | grep -q "^${APP_PID} "; then
+              if kill -0 ${APP_PID} 2>/dev/null; then
                 echo "  Process still alive (PID: ${APP_PID}), retrying actuator shutdown..."
                 curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown" 2>/dev/null || true
                 sleep 2
-                if jcmd -l 2>/dev/null | grep -q "^${APP_PID} "; then
-                  echo "  Process still alive, trying jcmd VM.exit..."
-                  jcmd ${APP_PID} VM.exit 2>/dev/null || true
-                  sleep 2
-                  if jcmd -l 2>/dev/null | grep -q "^${APP_PID} "; then
-                    echo "  Process still alive, falling back to kill..."
-                    kill ${APP_PID} 2>/dev/null || true
-                  fi
+                if kill -0 ${APP_PID} 2>/dev/null; then
+                  echo "  Process still alive, falling back to kill..."
+                  kill ${APP_PID} 2>/dev/null || true
                 fi
               fi
             fi
