@@ -55,6 +55,8 @@ jobs:
           java-version: 25
       - name: "Set up Python"
         uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.14'
       - name: "Print maven version"
         run: ./mvnw -version
       - name: "Restore local maven repository cache"
