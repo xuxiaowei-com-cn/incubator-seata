@@ -86,9 +86,8 @@ jobs:
           echo "Waiting for application to be ready on port ${{ matrix.module.port }}..."
           ELAPSED=0
           while [ ${ELAPSED} -lt ${{ env.TIMEOUT }} ]; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:${{ matrix.module.port }}/" 2>/dev/null || echo "000")
-            if [ "${STATUS}" != "000" ]; then
-              echo "Application is ready after ${ELAPSED}s (HTTP ${STATUS})!"
+            if curl -sSf http://localhost:${{ matrix.module.port }}/naming/v1/health >/dev/null 2>&1; then
+              echo "Application is ready after ${ELAPSED}s!"
               exit 0
             fi
             sleep 2
@@ -101,7 +100,7 @@ jobs:
         shell: sh
         run: |
           echo "Exercising endpoints to collect native-image metadata..."
-          curl -s -o /dev/null "http://localhost:${{ matrix.module.port }}/version.json" || echo "  GET /version.json → failed (non-fatal)"
+          curl -s -o /dev/null "http://localhost:${{ matrix.module.port }}/naming/v1/health" || echo "  GET /naming/v1/health → failed (non-fatal)"
       - name: "Stop ${{ matrix.module.name }}"
         shell: sh
         if: always()
