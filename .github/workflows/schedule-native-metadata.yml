@@ -183,6 +183,7 @@ jobs:
             sleep 1
             ELAPSED=$((ELAPSED + 1))
             echo "  Waiting for reachability-metadata.json... ${ELAPSED}s elapsed."
+            find target
           done
 
           if [ -f "${METADATA_FILE}" ]; then
