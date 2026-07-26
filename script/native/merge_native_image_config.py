@@ -101,6 +101,51 @@ def save_json(path: str, data: Any) -> None:
 # Merge workers
 # ---------------------------------------------------------------------------
 
+def _merge_list_into_entry(target_entry: dict, src_entry: dict, src_key: str) -> int:
+    """Merge list-typed fields (methods, fields) from src_entry into target_entry.
+
+    For 'methods', dedup is by (name, parameterTypes).
+    For 'fields', dedup is by name.
+    Returns the number of new items added."""
+    added = 0
+    for list_key in ("methods", "fields"):
+        src_items = src_entry.get(list_key)
+        if not isinstance(src_items, list):
+            continue
+
+        target_items = target_entry.get(list_key)
+        if not isinstance(target_items, list):
+            target_items = []
+            target_entry[list_key] = target_items
+
+        # Build dedup set
+        if list_key == "methods":
+            existing = set()
+            for item in target_items:
+                if isinstance(item, dict):
+                    existing.add((item.get("name"), tuple(item.get("parameterTypes", []))))
+            for item in src_items:
+                if not isinstance(item, dict):
+                    continue
+                key = (item.get("name"), tuple(item.get("parameterTypes", [])))
+                if key not in existing:
+                    target_items.append(item)
+                    existing.add(key)
+                    added += 1
+        else:  # fields
+            existing_names = {item.get("name") for item in target_items
+                              if isinstance(item, dict) and "name" in item}
+            for item in src_items:
+                if not isinstance(item, dict):
+                    continue
+                if item.get("name") not in existing_names:
+                    target_items.append(item)
+                    existing_names.add(item.get("name"))
+                    added += 1
+
+    return added
+
+
 def merge_list_format(
     source_entries: List[dict],
     target_list: List[dict],
@@ -109,29 +154,37 @@ def merge_list_format(
 ) -> int:
     """Merge source entries into a list-format target (e.g. reflect-config.json).
 
-    Returns the number of newly added entries."""
-    # Build existing-id set from target
-    existing_ids: Set[str] = set()
+    For new entries, the whole entry is added.  For entries whose primary
+    identifier already exists in the target, only list-typed fields
+    (methods, fields) are merged — nothing is ever removed.
+
+    Returns the number of newly added entries (including intra-entry
+    method/field additions)."""
+    # Build existing-id → target-entry map
+    existing_map: Dict[str, dict] = {}
     for entry in target_list:
         if isinstance(entry, dict):
             val = entry.get(tgt_key)
             if isinstance(val, str):
-                existing_ids.add(val)
+                existing_map[val] = entry
 
     added = 0
     for src_entry in source_entries:
         identifier = src_entry.get(src_key)
         if not isinstance(identifier, str):
             continue
-        if identifier in existing_ids:
-            continue
 
-        # Build target entry: rename the key, copy everything else
-        new_entry = dict(src_entry)
-        new_entry[tgt_key] = new_entry.pop(src_key)
-        target_list.append(new_entry)
-        existing_ids.add(identifier)
-        added += 1
+        if identifier in existing_map:
+            # Merge new methods / fields into the existing entry
+            added += _merge_list_into_entry(existing_map[identifier],
+                                            src_entry, src_key)
+        else:
+            # Build target entry: rename the key, copy everything else
+            new_entry = dict(src_entry)
+            new_entry[tgt_key] = new_entry.pop(src_key)
+            target_list.append(new_entry)
+            existing_map[identifier] = new_entry
+            added += 1
 
     return added
 
