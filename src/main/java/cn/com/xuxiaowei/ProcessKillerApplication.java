@@ -43,7 +43,7 @@ public class ProcessKillerApplication {
                 ((WindowsProcess) process).setGracefulDestroyEnabled(true);
             }
 
-            process.destroy(true);
+            process.destroy(false);
             System.out.println("Process " + pid + " terminated");
         } catch (Exception e) {
             System.err.println("Failed to terminate process " + pid + ": " + e.getMessage());
