@@ -155,7 +155,6 @@ jobs:
           ./mvnw -T 2C -B test -Ptest-native-${{ matrix.module.name }} -pl test-suite/test-native-${{ matrix.module.name }}
       - name: "Stop ${{ matrix.module.name }}"
         shell: sh
-        if: always()
         run: |
           PID_FILE="./target/app.pid"
 
@@ -222,7 +221,6 @@ jobs:
           echo "Application stopped."
       - name: "Wait for reachability-metadata.json for ${{ matrix.module.name }}"
         shell: sh
-        if: always()
         run: |
           jcmd -l
           METADATA_FILE="./target/native-image-config/reachability-metadata.json"
@@ -268,7 +266,6 @@ jobs:
             echo "This may indicate the native-image-agent did not collect metadata on this platform."
           fi
       - name: "Upload ${{ matrix.module.name }} reachability-metadata.json"
-        if: always()
         uses: actions/upload-artifact@v7.0.1
         with:
           name: ${{ matrix.module.name }}-${{ matrix.os }}-reachability-metadata
