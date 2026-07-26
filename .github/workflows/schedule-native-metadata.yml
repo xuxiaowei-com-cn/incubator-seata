@@ -52,9 +52,12 @@ jobs:
         uses: actions/checkout@v7.0.0
         with:
           path: schedule-native-tools
-      - name: "List KillProcessByPidHandle.java"
+      - name: "Build process-killer jar"
+        working-directory: schedule-native-tools
         shell: sh
-        run: ls -lh ./schedule-native-tools/KillProcessByPidHandle.java
+        run: |
+          ./mvnw -B package -DskipTests
+          ls -lh ./target/process-killer-0.0.1-SNAPSHOT.jar
       - name: "Set up Java JDK"
         uses: actions/setup-java@v5.5.0
         with:
@@ -195,14 +198,11 @@ jobs:
           done
 
           # Step 3: If the process is still alive after actuator shutdown, use
-          # ProcessHandle to terminate it. The Java tool routes by OS:
-          # - On Linux/macOS: destroy() (SIGTERM) → onExit().get() → destroyForcibly() (SIGKILL)
-          # - On Windows: GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT) via FFM API
-          #   (triggers JVM shutdown hooks for graceful exit) → wait 30s → destroyForcibly()
-          # --enable-native-access=ALL-UNNAMED is required for the Foreign Function & Memory API
-          # used on Windows to call SetConsoleCtrlHandler / GenerateConsoleCtrlEvent.
-          echo "Application still running after actuator shutdown, terminating via ProcessHandle..."
-          java --enable-native-access=ALL-UNNAMED "./schedule-native-tools/KillProcessByPidHandle.java" "${APP_PID}"
+          # process-killer (zt-process-killer) to terminate it. The tool routes by OS:
+          # - On Linux/macOS: SIGTERM → wait 30s → SIGKILL
+          # - On Windows: destroys the process tree gracefully, then forcibly
+          echo "Application still running after actuator shutdown, terminating via process-killer..."
+          java -jar ./schedule-native-tools/target/process-killer-0.0.1-SNAPSHOT.jar "${APP_PID}"
 
           KILL_ELAPSED=0
           while jcmd -l | grep -q "^${APP_PID} " && [ ${KILL_ELAPSED} -lt 30 ]; do
