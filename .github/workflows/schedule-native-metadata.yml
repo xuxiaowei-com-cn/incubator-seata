@@ -54,7 +54,7 @@ jobs:
           path: schedule-native-tools
       - name: "List KillProcessByPidHandle.java"
         shell: sh
-        run: ls -lh ${{ github.workspace }}/schedule-native-tools/KillProcessByPidHandle.java
+        run: ls -lh ./schedule-native-tools/KillProcessByPidHandle.java
       - name: "Set up Java JDK"
         uses: actions/setup-java@v5.5.0
         with:
@@ -201,7 +201,7 @@ jobs:
           # - On Unix: sends SIGTERM
           # Falls back to destroyForcibly() if destroy() returns false.
           echo "Application still running after actuator shutdown, terminating via ProcessHandle..."
-          java "${{ github.workspace }}/schedule-native-tools/KillProcessByPidHandle.java" "${APP_PID}"
+          java "./schedule-native-tools/KillProcessByPidHandle.java" "${APP_PID}"
 
           KILL_ELAPSED=0
           while jcmd -l | grep -q "^${APP_PID} " && [ ${KILL_ELAPSED} -lt 30 ]; do
