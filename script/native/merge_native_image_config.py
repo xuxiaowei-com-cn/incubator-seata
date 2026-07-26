@@ -41,7 +41,7 @@ Rules:
         reflection: "type" (source) → "name" (target)
         resources:  "glob" (source) → "pattern" (target)
     - If a target file does not exist, a default (empty) structure is created.
-    - Target file format is preserved.
+    - Target files are rewritten with consistent formatting (2-space indent + trailing newline).
     - After merging, run: mvn spotless:apply -pl server -am
 """
 
