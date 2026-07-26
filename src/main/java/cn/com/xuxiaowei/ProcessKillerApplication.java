@@ -3,7 +3,6 @@ package cn.com.xuxiaowei;
 import org.zeroturnaround.process.PidProcess;
 import org.zeroturnaround.process.ProcessUtil;
 import org.zeroturnaround.process.Processes;
-import org.zeroturnaround.process.WindowsProcess;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,9 +37,9 @@ public class ProcessKillerApplication {
             }
 
             // On Windows, also terminate child processes
-            if (process instanceof WindowsProcess) {
-                ((WindowsProcess) process).setIncludeChildren(true);
-            }
+            // if (process instanceof WindowsProcess) {
+            //     ((WindowsProcess) process).setIncludeChildren(true);
+            // }
 
             ProcessUtil.destroyGracefullyOrForcefullyAndWait(process,
                     30, TimeUnit.SECONDS, 10, TimeUnit.SECONDS);
