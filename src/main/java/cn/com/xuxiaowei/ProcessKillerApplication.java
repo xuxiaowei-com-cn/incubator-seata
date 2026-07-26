@@ -1,8 +1,10 @@
 package cn.com.xuxiaowei;
 
 import org.zeroturnaround.process.PidProcess;
+import org.zeroturnaround.process.ProcessUtil;
 import org.zeroturnaround.process.Processes;
-import org.zeroturnaround.process.WindowsProcess;
+
+import java.util.concurrent.TimeUnit;
 
 public class ProcessKillerApplication {
 
@@ -34,16 +36,13 @@ public class ProcessKillerApplication {
                 return;
             }
 
-            // On Windows, configure process termination behavior:
-            // - setIncludeChildren(true): also terminate child processes
-            // - setGracefulDestroyEnabled(true): send CTRL_BREAK_EVENT first for graceful shutdown,
-            //   then fall back to forceful termination if the process does not exit in time
-            if (process instanceof WindowsProcess) {
-                ((WindowsProcess) process).setIncludeChildren(true);
-                ((WindowsProcess) process).setGracefulDestroyEnabled(true);
-            }
+            // On Windows, also terminate child processes
+            // if (process instanceof WindowsProcess) {
+            //     ((WindowsProcess) process).setIncludeChildren(true);
+            // }
 
-            process.destroy(true);
+            ProcessUtil.destroyGracefullyOrForcefullyAndWait(process,
+                    30, TimeUnit.SECONDS, 10, TimeUnit.SECONDS);
             System.out.println("Process " + pid + " terminated");
         } catch (Exception e) {
             System.err.println("Failed to terminate process " + pid + ": " + e.getMessage());
