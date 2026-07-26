@@ -189,22 +189,38 @@ jobs:
           done
 
           # Step 3: If the process is still alive after actuator shutdown, fall back
-          # to kill for graceful termination (SIGTERM triggers shutdown hooks on
-          # Linux/macOS; on Windows it sends TerminateProcess which may skip hooks).
-          if kill -0 ${APP_PID} 2>/dev/null; then
-            echo "Application still running after actuator shutdown, falling back to kill..."
-            kill ${APP_PID} 2>/dev/null || true
+          # to graceful termination (SIGTERM / taskkill without /F).
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            if tasklist /FI "PID eq ${APP_PID}" 2>/dev/null | grep -i "${APP_PID}" >/dev/null 2>&1; then
+              echo "Application still running after actuator shutdown, falling back to taskkill..."
+              taskkill /PID "${APP_PID}" 2>/dev/null || true
 
-            KILL_ELAPSED=0
-            while kill -0 ${APP_PID} 2>/dev/null && [ ${KILL_ELAPSED} -lt 30 ]; do
-              sleep 1
-              KILL_ELAPSED=$((KILL_ELAPSED + 1))
-              echo "  Still waiting for shutdown after kill... ${KILL_ELAPSED}s elapsed."
-              jcmd -l
-            done
+              KILL_ELAPSED=0
+              while tasklist /FI "PID eq ${APP_PID}" 2>/dev/null | grep -i "${APP_PID}" >/dev/null 2>&1 && [ ${KILL_ELAPSED} -lt 30 ]; do
+                sleep 1
+                KILL_ELAPSED=$((KILL_ELAPSED + 1))
+                echo "  Still waiting for shutdown after taskkill... ${KILL_ELAPSED}s elapsed."
+                jcmd -l
+              done
+            fi
+          else
+            if kill -0 ${APP_PID} 2>/dev/null; then
+              echo "Application still running after actuator shutdown, falling back to kill..."
+              kill ${APP_PID} 2>/dev/null || true
+
+              KILL_ELAPSED=0
+              while kill -0 ${APP_PID} 2>/dev/null && [ ${KILL_ELAPSED} -lt 30 ]; do
+                sleep 1
+                KILL_ELAPSED=$((KILL_ELAPSED + 1))
+                echo "  Still waiting for shutdown after kill... ${KILL_ELAPSED}s elapsed."
+                jcmd -l
+              done
+            fi
           fi
 
-          wait ${APP_PID} 2>/dev/null || true
+          if [ "${{ runner.os }}" != "Windows" ]; then
+            wait ${APP_PID} 2>/dev/null || true
+          fi
           echo "Application stopped."
       - name: "Wait for reachability-metadata.json for ${{ matrix.module.name }}"
         shell: sh
@@ -221,10 +237,26 @@ jobs:
             # writes reachability-metadata.json.
             if [ -f "${PID_FILE}" ]; then
               APP_PID=$(cat "${PID_FILE}")
-              echo "Process ${APP_PID} is still alive, force killing..."
-              kill -9 "${APP_PID}" 2>/dev/null || true
-              wait "${APP_PID}" 2>/dev/null || true
-              echo "Process ${APP_PID} force killed."
+              if [ "${{ runner.os }}" = "Windows" ]; then
+                # Windows: use taskkill to force stop the process
+                if tasklist /FI "PID eq ${APP_PID}" 2>/dev/null | grep -i "${APP_PID}" >/dev/null 2>&1; then
+                  echo "Process ${APP_PID} is still alive, force killing via taskkill..."
+                  taskkill /PID "${APP_PID}" /F 2>/dev/null || true
+                  echo "Process ${APP_PID} force killed."
+                else
+                  echo "Process ${APP_PID} is already dead."
+                fi
+              else
+                # Linux/Mac: use kill
+                if kill -0 "${APP_PID}" 2>/dev/null; then
+                  echo "Process ${APP_PID} is still alive, force killing..."
+                  kill -9 "${APP_PID}" 2>/dev/null || true
+                  wait "${APP_PID}" 2>/dev/null || true
+                  echo "Process ${APP_PID} force killed."
+                else
+                  echo "Process ${APP_PID} is already dead."
+                fi
+              fi
             fi
             sleep 1
             ELAPSED=$((ELAPSED + 1))
