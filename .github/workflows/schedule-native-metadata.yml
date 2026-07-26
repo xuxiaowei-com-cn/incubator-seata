@@ -195,13 +195,14 @@ jobs:
           done
 
           # Step 3: If the process is still alive after actuator shutdown, use
-          # ProcessHandle to terminate it. ProcessHandle.destroy() provides a
-          # unified cross-platform API:
-          # - On Windows: calls TerminateProcess (forced termination)
-          # - On Unix: sends SIGTERM
-          # Falls back to destroyForcibly() if destroy() returns false.
+          # ProcessHandle to terminate it. The Java tool routes by OS:
+          # - On Linux/macOS: destroy() (SIGTERM) → onExit().get() → destroyForcibly() (SIGKILL)
+          # - On Windows: GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT) via FFM API
+          #   (triggers JVM shutdown hooks for graceful exit) → wait 30s → destroyForcibly()
+          # --enable-native-access=ALL-UNNAMED is required for the Foreign Function & Memory API
+          # used on Windows to call SetConsoleCtrlHandler / GenerateConsoleCtrlEvent.
           echo "Application still running after actuator shutdown, terminating via ProcessHandle..."
-          java "./schedule-native-tools/KillProcessByPidHandle.java" "${APP_PID}"
+          java --enable-native-access=ALL-UNNAMED "./schedule-native-tools/KillProcessByPidHandle.java" "${APP_PID}"
 
           KILL_ELAPSED=0
           while jcmd -l | grep -q "^${APP_PID} " && [ ${KILL_ELAPSED} -lt 30 ]; do

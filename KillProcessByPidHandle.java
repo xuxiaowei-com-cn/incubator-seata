@@ -1,5 +1,6 @@
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -8,7 +9,7 @@ public class KillProcessByPidHandle {
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.err.println("Usage: java KillProcessByPidHandle <PID>");
+            System.err.println("Usage: java --enable-native-access=ALL-UNNAMED KillProcessByPidHandle.java <PID>");
             System.exit(1);
         }
 
@@ -18,7 +19,8 @@ public class KillProcessByPidHandle {
             if (killed) {
                 System.out.println("Process " + pid + " terminated successfully.");
             } else {
-                System.err.println("Failed to terminate process " + pid + " (process may not exist or insufficient permissions).");
+                System.err.println(
+                        "Failed to terminate process " + pid + " (process may not exist or insufficient permissions).");
             }
         } catch (NumberFormatException e) {
             System.err.println("Invalid PID: " + args[0]);
@@ -87,10 +89,13 @@ public class KillProcessByPidHandle {
      * Uses the Java Foreign Function &amp; Memory API (standard since Java 22)
      * to call:
      * <ol>
+     * <li>{@code SetConsoleCtrlHandler(ignoreHandler, TRUE)} — register a
+     * handler that ignores console control events for our own process, so we
+     * don't get killed by the CTRL_BREAK_EVENT we're about to send.</li>
      * <li>{@code FreeConsole()} — detach from the current console</li>
      * <li>{@code AttachConsole(pid)} — attach to the target process's console</li>
      * <li>{@code GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT, 0)} — send the
-     * signal</li>
+     * signal to all processes sharing the target console</li>
      * <li>{@code FreeConsole()} — detach from the target console</li>
      * </ol>
      *
@@ -102,13 +107,43 @@ public class KillProcessByPidHandle {
             Linker linker = Linker.nativeLinker();
 
             // BOOL FreeConsole(void)
-            MethodHandle freeConsole = linker.downcallHandle(kernel32.find("FreeConsole").orElseThrow(), FunctionDescriptor.of(ValueLayout.JAVA_INT));
+            MethodHandle freeConsole = linker.downcallHandle(
+                    kernel32.find("FreeConsole").orElseThrow(), FunctionDescriptor.of(ValueLayout.JAVA_INT));
 
             // BOOL AttachConsole(DWORD dwProcessId)
-            MethodHandle attachConsole = linker.downcallHandle(kernel32.find("AttachConsole").orElseThrow(), FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT));
+            MethodHandle attachConsole = linker.downcallHandle(
+                    kernel32.find("AttachConsole").orElseThrow(),
+                    FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT));
 
             // BOOL GenerateConsoleCtrlEvent(DWORD dwCtrlEvent, DWORD dwProcessGroupId)
-            MethodHandle generateEvent = linker.downcallHandle(kernel32.find("GenerateConsoleCtrlEvent").orElseThrow(), FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT));
+            MethodHandle generateEvent = linker.downcallHandle(
+                    kernel32.find("GenerateConsoleCtrlEvent").orElseThrow(),
+                    FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT));
+
+            // BOOL SetConsoleCtrlHandler(PHANDLER_ROUTINE HandlerRoutine, BOOL Add)
+            MethodHandle setConsoleCtrlHandler = linker.downcallHandle(
+                    kernel32.find("SetConsoleCtrlHandler").orElseThrow(),
+                    FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT));
+
+            // Create an upcall stub that acts as a console control handler.
+            // The handler returns TRUE (1) for all events, meaning "I handled it,
+            // don't terminate me." This protects our own process from the
+            // CTRL_BREAK_EVENT we are about to send via GenerateConsoleCtrlEvent.
+            // Without this, AttachConsole + GenerateConsoleCtrlEvent would also
+            // kill us because we now share the target's console.
+            //
+            // Signature: BOOL WINAPI HandlerRoutine(DWORD dwCtrlType)
+            // dropArguments adapts constant ()->int to (int)->int (ignores the arg).
+            MemorySegment ignoreHandler = linker.upcallStub(
+                    MethodHandles.dropArguments(
+                            MethodHandles.constant(int.class, 1), // Always return TRUE
+                            0,
+                            int.class),
+                    FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+                    Arena.ofAuto());
+
+            // Register the ignore handler (add = 1 / TRUE)
+            setConsoleCtrlHandler.invoke(ignoreHandler, 1);
 
             // 1. Detach from current console
             freeConsole.invoke();
@@ -120,7 +155,8 @@ public class KillProcessByPidHandle {
                 return false;
             }
 
-            // 3. Send CTRL_BREAK_EVENT (1) to all processes sharing this console (group 0)
+            // 3. Send CTRL_BREAK_EVENT (1) to all processes sharing this console (group 0).
+            // Our ignoreHandler (registered above) protects us from being killed.
             int result = (int) generateEvent.invoke(1, 0);
 
             // 4. Detach from target console
