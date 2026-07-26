@@ -48,6 +48,13 @@ jobs:
         with:
           repository: ${{ inputs.repository || env.repository }}
           ref: ${{ inputs.ref || env.ref }}
+      - name: "Checkout schedule-native tools"
+        uses: actions/checkout@v7.0.0
+        with:
+          path: schedule-native-tools
+      - name: "List KillProcessByPidHandle.java"
+        shell: sh
+        run: ls -lh ${{ github.workspace }}/schedule-native-tools/KillProcessByPidHandle.java
       - name: "Set up Java JDK"
         uses: actions/setup-java@v5.5.0
         with:
@@ -187,37 +194,23 @@ jobs:
             jcmd -l
           done
 
-          # Step 3: If the process is still alive after actuator shutdown, fall back
-          # to graceful termination (SIGTERM / taskkill without /F).
-          if [ "${{ runner.os }}" = "Windows" ]; then
-            echo "Application still running after actuator shutdown, falling back to taskkill..."
-            taskkill /PID "${APP_PID}" 2>/dev/null || true
+          # Step 3: If the process is still alive after actuator shutdown, use
+          # ProcessHandle to terminate it. ProcessHandle.destroy() provides a
+          # unified cross-platform API:
+          # - On Windows: calls TerminateProcess (forced termination)
+          # - On Unix: sends SIGTERM
+          # Falls back to destroyForcibly() if destroy() returns false.
+          echo "Application still running after actuator shutdown, terminating via ProcessHandle..."
+          java "${{ github.workspace }}/schedule-native-tools/KillProcessByPidHandle.java" "${APP_PID}"
 
-            KILL_ELAPSED=0
-            while tasklist /FI "PID eq ${APP_PID}" 2>/dev/null | grep -i "${APP_PID}" >/dev/null 2>&1 && [ ${KILL_ELAPSED} -lt 30 ]; do
-              sleep 1
-              KILL_ELAPSED=$((KILL_ELAPSED + 1))
-              echo "  Still waiting for shutdown after taskkill... ${KILL_ELAPSED}s elapsed."
-              jcmd -l
-            done
-          else
-            if kill -0 ${APP_PID} 2>/dev/null; then
-              echo "Application still running after actuator shutdown, falling back to kill..."
-              kill ${APP_PID} 2>/dev/null || true
+          KILL_ELAPSED=0
+          while jcmd -l | grep -q "^${APP_PID} " && [ ${KILL_ELAPSED} -lt 30 ]; do
+            sleep 1
+            KILL_ELAPSED=$((KILL_ELAPSED + 1))
+            echo "  Still waiting for shutdown after ProcessHandle terminate... ${KILL_ELAPSED}s elapsed."
+            jcmd -l
+          done
 
-              KILL_ELAPSED=0
-              while kill -0 ${APP_PID} 2>/dev/null && [ ${KILL_ELAPSED} -lt 30 ]; do
-                sleep 1
-                KILL_ELAPSED=$((KILL_ELAPSED + 1))
-                echo "  Still waiting for shutdown after kill... ${KILL_ELAPSED}s elapsed."
-                jcmd -l
-              done
-            fi
-          fi
-
-          if [ "${{ runner.os }}" != "Windows" ]; then
-            wait ${APP_PID} 2>/dev/null || true
-          fi
           echo "Application stopped."
       - name: "Wait for reachability-metadata.json for ${{ matrix.module.name }}"
         shell: sh
@@ -226,44 +219,13 @@ jobs:
           METADATA_FILE="./target/native-image-config/reachability-metadata.json"
           ELAPSED=0
           PID_FILE="./target/app.pid"
-          while [ ! -f "${METADATA_FILE}" ] && [ ${ELAPSED} -lt ${{ env.METADATA_FILE_WAIT_TIMEOUT }} ]; do
-            # Force kill the process if it's still alive — the graceful
-            # shutdown in the stop step may not have taken effect.
-            # kill -9 ensures the JVM terminates so native-image-agent
-            # writes reachability-metadata.json.
-            if [ -f "${PID_FILE}" ]; then
-              APP_PID=$(cat "${PID_FILE}")
-              if [ "${{ runner.os }}" = "Windows" ]; then
-                # Windows: use taskkill to force stop the process
-                echo "Process ${APP_PID} is still alive, force killing via taskkill..."
-                taskkill /PID "${APP_PID}" /F 2>/dev/null || true
-                echo "Process ${APP_PID} force killed."
-              else
-                # Linux/Mac: use kill
-                if kill -0 "${APP_PID}" 2>/dev/null; then
-                  echo "Process ${APP_PID} is still alive, force killing..."
-                  kill -9 "${APP_PID}" 2>/dev/null || true
-                  wait "${APP_PID}" 2>/dev/null || true
-                  echo "Process ${APP_PID} force killed."
-                else
-                  echo "Process ${APP_PID} is already dead."
-                fi
-              fi
-            fi
-            sleep 1
-            ELAPSED=$((ELAPSED + 1))
-            echo "  Waiting for reachability-metadata.json... ${ELAPSED}s elapsed."
-            echo "  Checking readiness endpoint..."
-            curl -sS -w "\n  HTTP status: %{http_code}\n" http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }} 2>/dev/null || echo "  Connection failed - application may have stopped"
-            jcmd -l
-          done
-
           if [ -f "${METADATA_FILE}" ]; then
             echo "reachability-metadata.json found (${ELAPSED}s)."
             ls -lh "${METADATA_FILE}"
           else
             echo "Warning: reachability-metadata.json not found after ${ELAPSED}s."
             echo "This may indicate the native-image-agent did not collect metadata on this platform."
+            exit 1
           fi
       - name: "Upload ${{ matrix.module.name }} reachability-metadata.json"
         uses: actions/upload-artifact@v7.0.1
