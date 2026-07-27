@@ -30,9 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # windows-latest: excluded because kill/shutdown signals are not available on Windows,
-        # preventing graceful termination (actuator shutdown + kill -0 + kill -9) of the JVM process
-        os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26 ]
+        os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-latest ]
         module:
           - name: namingserver
             port: 8081
