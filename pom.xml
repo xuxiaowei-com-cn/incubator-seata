@@ -396,9 +396,9 @@
 
         <!-- profile: native -->
         <profile>
-            <id>test-native</id>
+            <id>test-native-server</id>
             <modules>
-                <module>test-suite/test-native</module>
+                <module>test-suite/test-native-server</module>
             </modules>
         </profile>
         <profile>

@@ -16,10 +16,18 @@
 # Use bash as the default shell for consistent behavior across platforms
 SHELL := /usr/bin/env bash
 
-# Declare all phony targets (targets that are not actual files)
-.PHONY: help
 # Set the default goal to 'help' so running `make` without arguments shows usage
 .DEFAULT_GOAL := help
+
+# Declare all phony targets (targets that are not actual files, i.e. they don't produce a file
+# matching the target name — make will always execute them regardless of file timestamps)
+.PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
+	package-only package \
+	package-server-native-metadata run-server-native-metadata \
+	run-test-native-spring-boot run-test-native \
+	test-native-server \
+	run-merge-native-server \
+	package-server-native run-server-native-mode-file package-run-server-native-mode-file
 
 help: ## Show help information
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-44s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -33,15 +41,14 @@ MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
 #   -V    : print Maven version information
 MAVEN_ARGS ?= -T 4C -e -B -V
 
-# Declare all GraalVM native-image related phony targets
-.PHONY: clean spotless-check spotless-apply checkstyle checkstyle-diff license test package-only package \
-	package-server-native-pre \
-	package-server-native-metadata-file package-server-native-metadata-file-only \
-	package-server-native package-server-native-only \
-	package-test-native
+NACOS_SERVER_ADDR ?= 127.0.0.1:8848
+
+# Dynamically resolve the server version from the Maven project (e.g. 2.8.0-SNAPSHOT)
+SERVER_VERSION ?= $(shell $(MVN) help:evaluate -Dexpression=project.version -q -DforceStdout)
+NATIVE_PLATFORM=$(shell $(MVN) help:evaluate -Dexpression=native.platform -q -DforceStdout)
 
 clean: ## Clean the project
-	$(MVN) $(MAVEN_ARGS) clean -e
+	$(MVN) $(MAVEN_ARGS) clean
 
 spotless-check: ## Run Spotless code format check
 	$(MVN) $(MAVEN_ARGS) spotless:check
@@ -86,28 +93,24 @@ package-only: ## Package the project without running tests
 package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean package
 
-package-server-native-pre: spotless-apply ## Build and install all modules locally (pre-step for native image)
+package-server-native-metadata: ## Build server JAR for GraalVM native-image metadata collection
 	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl server -am
-
-package-server-native-metadata-file: package-server-native-pre ## Generate GraalVM native-image metadata files (requires local install first)
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Prelease-seata-jar
-    $GRAALVM_HOME/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
-package-server-native-metadata-file-only: ## Generate GraalVM native-image metadata files using the agent (requires GRAALVM_HOME; run the jar manually afterward to collect reflection config)
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Prelease-seata-jar
-    $GRAALVM_HOME/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
+run-server-native-metadata: ## Run server with GraalVM native-image agent to collect reflection/config metadata
+	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
-package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
+test-native-server: ## Run server GraalVM native-image compatibility tests (requires GraalVM with native-image)
+	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-server -pl test-suite/test-native-server
 
-package-server-native-only: spotless-apply ## Build server native image (GraalVM) without pre-step
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
+run-merge-native-server: ## Merge collected native-image metadata into the server resource directory (required to regenerate native metadata, requires JDK 21+)
+	java script/native/MergeNativeImageConfig.java --target-dir server/src/main/resources/META-INF/native-image/org.apache.seata/seata-server
 
-package-test-native: ## Build native test suite
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native spotless:apply
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native install -DskipTests -am
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native clean package
+package-server-native: spotless-apply ## Build server GraalVM native image, spotless-apply is automatically executed before building the native image
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server spring-boot:process-aot -Pnative native:compile
 
-package-test-native-only: ##
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native spotless:apply
-	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native clean package
+run-server-native-mode-file: ## Run the server native image binary directly
+	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+
+package-run-server-native-mode-file: package-server-native ## Build native image and then run it
+	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)

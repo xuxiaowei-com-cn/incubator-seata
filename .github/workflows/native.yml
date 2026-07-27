@@ -18,12 +18,24 @@ name: Native Build
 
 on:
   push:
-    branches: [ 2.x, develop, master ]
+    branches: [ test*, "*.*.*" ]
   pull_request:
     branches: [ 2.x, develop, master ]
-    types: [ opened, reopened, synchronize ]
-    paths-ignore:
-      - '**.md'
+    paths:
+      - '.github/workflows/native.yml'
+      - 'server/src/main/resources/META-INF/native-image/org.apache.seata/seata-server/**'
+  workflow_call:
+    inputs:
+      repository:
+        description: 'Repository to check out'
+        type: string
+        required: false
+        default: ''
+      ref:
+        description: 'Branch or tag to check out'
+        type: string
+        required: false
+        default: ''
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -41,6 +53,9 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
+        with:
+          repository: ${{ inputs.repository || github.repository }}
+          ref: ${{ inputs.ref || github.ref }}
       - name: "Start MySQL via Docker (Linux only)"
         if: runner.os == 'Linux'
         shell: sh
@@ -75,9 +90,9 @@ jobs:
         id: cache-maven-repository
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-${{ runner.arch }}-maven-
       - name: "Install dependencies for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 4C clean -B -pl ${{ matrix.module }},spring/seata-spring-boot-starter install -DskipTests -am
       - name: "Compile native image for ${{ matrix.module }} in ${{ matrix.os }}"
@@ -111,43 +126,53 @@ jobs:
           fi
       - name: "Check port 8091 for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
+        env:
+          MAX_RETRIES: 6
+          SLEEP_SECONDS: 5
         run: |
           NATIVE_PID=$(cat ./seata-native-${{ matrix.module }}.pid)
           echo "NATIVE_PID=$NATIVE_PID"
-          for i in 1 2 3 4 5 6; do
+          i=1
+          while [ $i -le $MAX_RETRIES ]; do
             if curl -sSf http://localhost:8091/health >/dev/null 2>&1; then
               echo "Port 8091 is responding"
               exit 0
             fi
-            echo "Waiting for port 8091... ($i/6)"
-            sleep 5
+            echo "Waiting for port 8091... ($i/$MAX_RETRIES)"
+            sleep $SLEEP_SECONDS
+            i=$((i + 1))
           done
-          echo "ERROR: Port 8091 is not responding after 30 seconds"
+          echo "ERROR: Port 8091 is not responding after $((MAX_RETRIES * SLEEP_SECONDS)) seconds"
           exit 1
-      - name: "Start test-native app for ${{ matrix.module }} in ${{ matrix.os }}"
+      - name: "Start test-native-server app for ${{ matrix.module }} in ${{ matrix.os }}"
         if: runner.os == 'Linux'
+        env:
+          MAX_RETRIES: 12
+          SLEEP_SECONDS: 5
         run: |
-          nohup ./mvnw -e -T 2C -Ptest-native -pl test-suite/test-native spring-boot:run &
-          for i in 1 2 3 4 5 6; do
+          nohup ./mvnw -e -T 2C -Ptest-native-server -pl test-suite/test-native-server spring-boot:run &
+          i=1
+          while [ $i -le $MAX_RETRIES ]; do
             if curl -sSf http://localhost:50180/actuator/health >/dev/null 2>&1; then
               echo "Port 50180 is responding"
               exit 0
             fi
-            echo "Waiting for port 50180... ($i/6)"
-            sleep 5
+            echo "Waiting for port 50180... ($i/$MAX_RETRIES)"
+            sleep $SLEEP_SECONDS
+            i=$((i + 1))
           done
-          echo "ERROR: Port 50180 is not responding after 30 seconds"
+          echo "ERROR: Port 50180 is not responding after $((MAX_RETRIES * SLEEP_SECONDS)) seconds"
           exit 1
       - name: "Run native tests for ${{ matrix.module }} in ${{ matrix.os }}"
         if: runner.os == 'Linux'
-        run: ./mvnw -e -T 2C -Ptest-native -pl test-suite/test-native clean test
+        run: ./mvnw -e -T 2C -Ptest-native-server -pl test-suite/test-native-server clean test
       - name: "Capture test reports on failure"
         if: failure() && runner.os == 'Linux'
         shell: sh
         run: |
           echo "=== Surefire Test Reports ==="
-          if [ -d test-suite/test-native/target/surefire-reports ]; then
-            for f in test-suite/test-native/target/surefire-reports/*.txt; do
+          if [ -d test-suite/test-native-server/target/surefire-reports ]; then
+            for f in test-suite/test-native-server/target/surefire-reports/*.txt; do
               [ -f "$f" ] || continue
               echo ""
               echo "============================================================"
@@ -166,4 +191,4 @@ jobs:
         if: steps.cache-maven-repository.outputs.cache-hit != 'true'
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
