@@ -46,7 +46,6 @@ NACOS_SERVER_ADDR ?= 127.0.0.1:8848
 # Dynamically resolve the namingserver version from the Maven project (e.g. 2.8.0-SNAPSHOT)
 SERVER_VERSION ?= $(shell $(MVN) help:evaluate -Dexpression=project.version -q -DforceStdout)
 NATIVE_PLATFORM=$(shell $(MVN) help:evaluate -Dexpression=native.platform -q -DforceStdout)
-SERVER_NATIVE_NAME ?= seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
 
 clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean
@@ -104,14 +103,14 @@ run-namingserver-native-metadata: ## Run namingserver with GraalVM native-image 
 test-native-namingserver: ## Run namingserver GraalVM native-image compatibility tests (requires GraalVM with native-image)
 	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-namingserver -pl test-suite/test-native-namingserver
 
-run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory (Python required to regenerate native metadata)
+run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory (required to regenerate native metadata, requires JDK 21+)
 	java script/native/MergeNativeImageConfig.java --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
 
 package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image, spotless-apply is automatically executed before building the native image
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
 run-namingserver-native-mode-file: ## Run the namingserver native image binary directly
-	./namingserver/target/$(SERVER_NATIVE_NAME)
+	./namingserver/target/seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
 
 package-run-namingserver-native-mode-file: package-namingserver-native ## Build native image and then run it
-	./namingserver/target/$(SERVER_NATIVE_NAME)
+	./namingserver/target/seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
