@@ -29,6 +29,9 @@ public class SingleResult<T> extends Result<T> implements Serializable {
      */
     private T data;
 
+    /**
+     * No-arg constructor for deserialization (e.g., used by the test-native-namingserver module for RestTemplate deserialization).
+     */
     public SingleResult() {}
 
     public SingleResult(String code, String message) {
