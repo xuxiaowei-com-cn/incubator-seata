@@ -49,7 +49,7 @@ NATIVE_PLATFORM=$(shell $(MVN) help:evaluate -Dexpression=native.platform -q -Df
 SERVER_NATIVE_NAME ?= seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
 
 clean: ## Clean the project
-	$(MVN) $(MAVEN_ARGS) clean -e
+	$(MVN) $(MAVEN_ARGS) clean
 
 spotless-check: ## Run Spotless code format check
 	$(MVN) $(MAVEN_ARGS) spotless:check
@@ -58,7 +58,7 @@ spotless-apply: ## Apply Spotless code formatting
 	$(MVN) $(MAVEN_ARGS) spotless:apply
 
 checkstyle: ## Run global Checkstyle code check
-	$(MVN) $(MAVEN_ARGS) clean -e checkstyle:check -Dcheckstyle.skip=false
+	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false
 
 checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 	BASE_REF="$${GITHUB_BASE_REF:-2.x}"; \
@@ -80,23 +80,23 @@ checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 		echo "No changed .java files detected, skip checkstyle."; \
 		exit 0; \
 	fi; \
-	$(MVN) $(MAVEN_ARGS) clean -e checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
+	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
 
 license: ## Run license check
-	$(MVN) $(MAVEN_ARGS) clean -e -Dlicense.skip=false
+	$(MVN) $(MAVEN_ARGS) clean -Dlicense.skip=false
 
 test: ## Run unit tests
-	$(MVN) $(MAVEN_ARGS) clean -e test
+	$(MVN) $(MAVEN_ARGS) clean test
 
 package-only: ## Package the project without running tests
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests
 
 package: ## Package the project
-	$(MVN) $(MAVEN_ARGS) clean -e package
+	$(MVN) $(MAVEN_ARGS) clean package
 
 package-namingserver-native-metadata: ## Build namingserver JAR for GraalVM native-image metadata collection
-	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl namingserver -am
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl namingserver -Prelease-seata-jar
+	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl namingserver -am
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver -Prelease-seata-jar
 
 run-namingserver-native-metadata: ## Run namingserver with GraalVM native-image agent to collect reflection/config metadata
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./namingserver/target/seata-namingserver.jar --console.user.username=seata  --console.user.password=seata
@@ -108,7 +108,7 @@ run-merge-native-namingserver: ## Merge collected native-image metadata into the
 	python3 script/native/merge_native_image_config.py --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
 
 package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image (requires GraalVM with native-image)
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
 run-namingserver-native-mode-file: ## Run the namingserver native image binary directly
 	./namingserver/target/$(SERVER_NATIVE_NAME)
