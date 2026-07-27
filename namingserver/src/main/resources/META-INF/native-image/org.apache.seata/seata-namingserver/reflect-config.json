@@ -1481,6 +1481,9 @@
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
+  }, {
+    "name" : "healthCheck",
+    "parameterTypes" : [ ]
   } ],
   "name" : "org.apache.seata.namingserver.controller.HealthController"
 }, {
@@ -1492,6 +1495,12 @@
   "methods" : [ {
     "name" : "<init>",
     "parameterTypes" : [ ]
+  }, {
+    "name" : "getClusterData",
+    "parameterTypes" : [ "java.lang.String", "java.lang.String" ]
+  }, {
+    "name" : "registerInstance",
+    "parameterTypes" : [ "java.lang.String", "java.lang.String", "java.lang.String", "org.apache.seata.common.metadata.namingserver.NamingServerNode" ]
   } ],
   "name" : "org.apache.seata.namingserver.controller.NamingController"
 }, {
@@ -2100,7 +2109,11 @@
 }, {
   "name" : "org.springframework.boot.actuate.beans.BeansEndpoint"
 }, {
-  "name" : "org.springframework.boot.actuate.context.ShutdownEndpoint"
+  "name" : "org.springframework.boot.actuate.context.ShutdownEndpoint",
+  "methods" : [ {
+    "name" : "shutdown",
+    "parameterTypes" : [ ]
+  } ]
 }, {
   "name" : "org.springframework.boot.actuate.context.properties.ConfigurationPropertiesReportEndpoint"
 }, {
@@ -3946,7 +3959,11 @@
 }, {
   "name" : "org.springframework.boot.webmvc.actuate.endpoint.web.AbstractWebMvcEndpointHandlerMapping$LinksHandler"
 }, {
-  "name" : "org.springframework.boot.webmvc.actuate.endpoint.web.AbstractWebMvcEndpointHandlerMapping$OperationHandler"
+  "name" : "org.springframework.boot.webmvc.actuate.endpoint.web.AbstractWebMvcEndpointHandlerMapping$OperationHandler",
+  "methods" : [ {
+    "name" : "handle",
+    "parameterTypes" : [ "jakarta.servlet.http.HttpServletRequest", "java.util.Map" ]
+  } ]
 }, {
   "name" : "org.springframework.boot.webmvc.actuate.endpoint.web.AdditionalHealthEndpointPathsWebMvcHandlerMapping"
 }, {
