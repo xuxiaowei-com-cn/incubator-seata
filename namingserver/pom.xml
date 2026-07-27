@@ -399,9 +399,6 @@
                                 <mainClass>org.apache.seata.namingserver.NamingserverApplication</mainClass>
                                 <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                                 <imageName>${project.artifactId}-${project.version}-${native.platform}</imageName>
-                                <buildArgs>
-
-                                </buildArgs>
                                 <exclusions>
                                     <exclusion>
                                         <groupId>org.springframework.boot</groupId>
