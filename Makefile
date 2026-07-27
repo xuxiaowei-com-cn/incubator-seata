@@ -105,7 +105,7 @@ test-native-namingserver: ## Run namingserver GraalVM native-image compatibility
 	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-namingserver -pl test-suite/test-native-namingserver
 
 run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory (Python required to regenerate native metadata)
-	python3 script/native/merge_native_image_config.py --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
+	java script/native/MergeNativeImageConfig.java --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
 
 package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image, spotless-apply is automatically executed before building the native image
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
