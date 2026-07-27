@@ -200,10 +200,17 @@ jobs:
             SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
             echo "  Still waiting for port to close... ${SHUTDOWN_ELAPSED}s elapsed."
           done
+          
+          # Step 3: Always send SIGTERM as a safety net to trigger JVM shutdown
+          # hooks, so the native-image-agent can write reachability-metadata.json.
+          # If the actuator shutdown already triggered a graceful exit, this is a
+          # harmless no-op; if the endpoint was unresponsive, this ensures metadata
+          # is still collected.
+          kill -TERM ${APP_PID} 2>/dev/null || true
 
           echo "Port is no longer reachable (or timeout reached)."
 
-          # Step 3: Wait for the JVM process to exit within SHUTDOWN_TIMEOUT.
+          # Step 4: Wait for the JVM process to exit within SHUTDOWN_TIMEOUT.
           # If it is still alive, force-kill and fail the step.
           SHUTDOWN_ELAPSED=0
           while kill -0 ${APP_PID} 2>/dev/null && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
