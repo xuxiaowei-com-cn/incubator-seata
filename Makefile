@@ -50,7 +50,7 @@ spotless-apply: ## Apply Spotless code formatting
 	$(MVN) $(MAVEN_ARGS) spotless:apply
 
 checkstyle: ## Run global Checkstyle code check
-	$(MVN) $(MAVEN_ARGS) clean -e checkstyle:check -Dcheckstyle.skip=false
+	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false
 
 checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 	BASE_REF="$${GITHUB_BASE_REF:-2.x}"; \
@@ -72,36 +72,36 @@ checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 		echo "No changed .java files detected, skip checkstyle."; \
 		exit 0; \
 	fi; \
-	$(MVN) $(MAVEN_ARGS) clean -e checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
+	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
 
 license: ## Run license check
-	$(MVN) $(MAVEN_ARGS) clean -e -Dlicense.skip=false
+	$(MVN) $(MAVEN_ARGS) clean -Dlicense.skip=false
 
 test: ## Run unit tests
-	$(MVN) $(MAVEN_ARGS) clean -e test
+	$(MVN) $(MAVEN_ARGS) clean test
 
 package-only: ## Package the project without running tests
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests
 
 package: ## Package the project
-	$(MVN) $(MAVEN_ARGS) clean -e package
+	$(MVN) $(MAVEN_ARGS) clean package
 
 package-server-native-pre: spotless-apply ## Build and install all modules locally (pre-step for native image)
-	$(MVN) $(MAVEN_ARGS) clean -e install -DskipTests -pl server -am
+	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl server -am
 
 package-server-native-metadata-file: package-server-native-pre ## Generate GraalVM native-image metadata files (requires local install first)
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Prelease-seata-jar
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Prelease-seata-jar
     $GRAALVM_HOME/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
 package-server-native-metadata-file-only: ## Generate GraalVM native-image metadata files using the agent (requires GRAALVM_HOME; run the jar manually afterward to collect reflection config)
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Prelease-seata-jar
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Prelease-seata-jar
     $GRAALVM_HOME/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
 package-server-native: package-server-native-pre ## Build server native image (GraalVM) with pre-step
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
 
 package-server-native-only: spotless-apply ## Build server native image (GraalVM) without pre-step
-	$(MVN) $(MAVEN_ARGS) clean -e package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Pnative spring-boot:process-aot native:compile
 
 package-test-native: ## Build native test suite
 	$(MVN) $(MAVEN_ARGS) -Ptest-native -pl test-suite/test-native spotless:apply
