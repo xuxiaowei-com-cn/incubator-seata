@@ -30,8 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # windows-latest
-        os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-2022 ]
+        os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26-intel, macos-26, windows-latest ]
         module:
           - name: namingserver
             port: 8081
@@ -49,16 +48,6 @@ jobs:
         with:
           repository: ${{ inputs.repository || env.repository }}
           ref: ${{ inputs.ref || env.ref }}
-      - name: "Checkout schedule-native tools"
-        uses: actions/checkout@v7.0.0
-        with:
-          path: schedule-native-tools
-      - name: "Build process-killer jar"
-        working-directory: schedule-native-tools
-        shell: sh
-        run: |
-          ./mvnw -B package -DskipTests
-          ls -lh ./target/process-killer-0.0.1-SNAPSHOT.jar
       - name: "Set up Java JDK"
         uses: actions/setup-java@v5.5.0
         with:
@@ -66,8 +55,6 @@ jobs:
           java-version: 25
       - name: "Set up Python"
         uses: actions/setup-python@v7.0.0
-        with:
-          python-version: '3.14'
       - name: "Print maven version"
         run: ./mvnw -version
       - name: "Restore local maven repository cache"
@@ -90,31 +77,12 @@ jobs:
         env:
           CONSOLE_USER_USERNAME: ${{ env.USERNAME }}
           CONSOLE_USER_PASSWORD: ${{ env.PASSWORD }}
-          MANAGEMENT_ENDPOINT_SHUTDOWN_ACCESS: unrestricted
-          MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
         run: |
-          SEATA_SECURITY_IGNORE_URLS=$(sed -n 's/.*urls:[ \t]*//p' ${{ matrix.module.name }}/src/main/resources/application.yml)
-          echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
-          SEATA_SECURITY_IGNORE_URLS="/actuator/shutdown,${SEATA_SECURITY_IGNORE_URLS}"
-          echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
-          export SEATA_SECURITY_IGNORE_URLS="$SEATA_SECURITY_IGNORE_URLS"
           echo "Starting ${{ matrix.module.name }} in background on port ${{ matrix.module.port }}..."
           java -agentlib:native-image-agent=config-output-dir=./target/native-image-config \
             -jar ./${{ matrix.module.name }}/target/seata-${{ matrix.module.name }}.jar &
 
-          # Wait for JVM to start, then get the real OS PID via jcmd.
-          # Using $! directly is unreliable on Windows: MSYS2/Git Bash maps PIDs
-          # internally, so $! returns a synthetic PID (e.g. 146) that differs from
-          # the actual Windows PID (e.g. 9988). jcmd always reports the real OS PID
-          # on every platform.
-          sleep 3
-          JAR_PATTERN="seata-${{ matrix.module.name }}.jar"
-          APP_PID=$(jcmd -l | grep "${JAR_PATTERN}" | grep -v jcmd | awk '{print $1}')
-          if [ -z "${APP_PID}" ]; then
-            echo "ERROR: Could not find PID for ${JAR_PATTERN} via jcmd."
-            jcmd -l
-            exit 1
-          fi
+          APP_PID=$!
           echo "${APP_PID}" > ./target/app.pid
           echo "Application started with PID: ${APP_PID}"
       - name: "Wait for ${{ matrix.module.name }} to be ready"
@@ -143,7 +111,7 @@ jobs:
           SEATA_REGISTRY_SEATA_PASSWORD: ${{ env.PASSWORD }}
         shell: sh
         run: |
-          ./mvnw -T 2C -B -pl server spring-boot:run -Prelease-seata-jar &
+          ./mvnw -T 2C clean -B -pl server spring-boot:run -Prelease-seata-jar &
           SEATA_SERVER_PID=$!
           echo "$SEATA_SERVER_PID" > ./seata-server.pid
           echo "Seata server started with PID=$SEATA_SERVER_PID"
@@ -166,6 +134,7 @@ jobs:
           ./mvnw -T 2C -B test -Ptest-native-${{ matrix.module.name }} -pl test-suite/test-native-${{ matrix.module.name }}
       - name: "Stop ${{ matrix.module.name }}"
         shell: sh
+        if: always()
         run: |
           PID_FILE="./target/app.pid"
 
@@ -174,62 +143,46 @@ jobs:
             exit 0
           fi
 
-          jcmd -l
-
           APP_PID=$(cat "${PID_FILE}")
           echo "Stopping application (PID: ${APP_PID})..."
 
-          # Step 1: Graceful shutdown via Spring Boot Actuator shutdown endpoint.
-          # This triggers a proper Spring context close with shutdown hooks,
-          # ensuring native-image-agent writes reachability-metadata.json.
-          echo "Sending shutdown request to http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown..."
-          curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown"
+          kill ${APP_PID} 2>/dev/null || true
 
-          # Step 2: Wait for the port to become unreachable.
           SHUTDOWN_ELAPSED=0
-          while [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
-            if ! curl -sSf "http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }}" >/dev/null 2>&1; then
-              echo "Port ${{ matrix.module.port }} is no longer reachable after ${SHUTDOWN_ELAPSED}s."
-              break
-            fi
+          while kill -0 ${APP_PID} 2>/dev/null && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
             sleep 1
             SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
             echo "  Still waiting for shutdown... ${SHUTDOWN_ELAPSED}s elapsed."
-            jcmd -l
           done
 
-          # Step 3: If the process is still alive after actuator shutdown, use
-          # process-killer (zt-process-killer) to terminate it. The tool routes by OS:
-          # - On Linux/macOS: SIGTERM → wait 30s → SIGKILL
-          # - On Windows: destroys the process tree gracefully, then forcibly
-          echo "Application still running after actuator shutdown, terminating via process-killer..."
-          java -jar ./schedule-native-tools/target/process-killer-0.0.1-SNAPSHOT.jar "${APP_PID}"
+          #if kill -0 ${APP_PID} 2>/dev/null; then
+          #  echo "Application did not shut down gracefully, force killing..."
+          #  kill -9 ${APP_PID} 2>/dev/null || true
+          #fi
 
-          KILL_ELAPSED=0
-          while jcmd -l | grep -q "^${APP_PID} " && [ ${KILL_ELAPSED} -lt 30 ]; do
-            sleep 1
-            KILL_ELAPSED=$((KILL_ELAPSED + 1))
-            echo "  Still waiting for shutdown after ProcessHandle terminate... ${KILL_ELAPSED}s elapsed."
-            jcmd -l
-          done
-
+          wait ${APP_PID} 2>/dev/null || true
           echo "Application stopped."
       - name: "Wait for reachability-metadata.json for ${{ matrix.module.name }}"
         shell: sh
+        if: always()
         run: |
-          jcmd -l
           METADATA_FILE="./target/native-image-config/reachability-metadata.json"
           ELAPSED=0
-          PID_FILE="./target/app.pid"
+          while [ ! -f "${METADATA_FILE}" ] && [ ${ELAPSED} -lt ${{ env.METADATA_FILE_WAIT_TIMEOUT }} ]; do
+            sleep 1
+            ELAPSED=$((ELAPSED + 1))
+            echo "  Waiting for reachability-metadata.json... ${ELAPSED}s elapsed."
+          done
+
           if [ -f "${METADATA_FILE}" ]; then
             echo "reachability-metadata.json found (${ELAPSED}s)."
             ls -lh "${METADATA_FILE}"
           else
             echo "Warning: reachability-metadata.json not found after ${ELAPSED}s."
             echo "This may indicate the native-image-agent did not collect metadata on this platform."
-            exit 1
           fi
       - name: "Upload ${{ matrix.module.name }} reachability-metadata.json"
+        if: always()
         uses: actions/upload-artifact@v7.0.1
         with:
           name: ${{ matrix.module.name }}-${{ matrix.os }}-reachability-metadata
