@@ -35,6 +35,12 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * <p>Verifies the authentication endpoint {@code POST /api/v1/auth/login}
  * with valid and invalid credentials.
+ *
+ * <p><b>Prerequisite:</b> These are integration tests that send HTTP requests to a running
+ * Namingserver native binary on {@code 127.0.0.1:8081}. The CI workflow starts the binary
+ * automatically, but running locally requires building the native image first
+ * (see the {@code test-native-namingserver} Maven profile / Makefile targets) and starting
+ * the resulting binary before executing the tests.
  */
 class LoginTests {
 
