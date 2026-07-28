@@ -50,7 +50,8 @@ class VersionTests {
      */
     @Test
     void versionSuccess() {
-        Map map = restTemplate.getForObject(url, Map.class);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> map = restTemplate.getForObject(url, Map.class);
         assertNotNull(map);
         assertNotNull(map.get("version"));
     }
