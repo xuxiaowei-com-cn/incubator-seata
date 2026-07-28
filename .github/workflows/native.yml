@@ -94,10 +94,11 @@ jobs:
         run: |
           rm -rf ./${{ matrix.module }}/target/*.jar
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
-          NATIVE_PID=$!
+          sleep 2
+          NATIVE_PID=$(pgrep -f seata-${{ matrix.module }})
           echo "$NATIVE_PID" > ./seata-native-${{ matrix.module }}.pid
           echo "Native binary started with PID=$NATIVE_PID"
-          sleep 10
+          sleep 8
           if kill -0 $NATIVE_PID 2>/dev/null; then
             echo "Native binary is running normally (PID=$NATIVE_PID)"
           else
@@ -137,7 +138,8 @@ jobs:
         shell: sh
         run: |
           ./mvnw -T 2C clean -B -pl server spring-boot:run -Prelease-seata-jar &
-          SEATA_SERVER_PID=$!
+          sleep 5
+          SEATA_SERVER_PID=$(jcmd -l | grep -i seata-server | awk '{print $1}')
           echo "$SEATA_SERVER_PID" > ./seata-server.pid
           echo "Seata server started with PID=$SEATA_SERVER_PID"
           i=1
