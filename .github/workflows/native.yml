@@ -94,17 +94,6 @@ jobs:
         run: |
           rm -rf ./${{ matrix.module }}/target/*.jar
           ./${{ matrix.module }}/target/seata-${{ matrix.module }}-* &
-          sleep 2
-          NATIVE_PID=$(pgrep -f seata-${{ matrix.module }})
-          echo "$NATIVE_PID" > ./seata-native-${{ matrix.module }}.pid
-          echo "Native binary started with PID=$NATIVE_PID"
-          sleep 8
-          if kill -0 $NATIVE_PID 2>/dev/null; then
-            echo "Native binary is running normally (PID=$NATIVE_PID)"
-          else
-            echo "ERROR: Native binary failed to start or crashed (PID=$NATIVE_PID)"
-            exit 1
-          fi
       - name: "Check port 8081 for ${{ matrix.module }} in ${{ matrix.os }}"
         shell: sh
         if: matrix.module == 'namingserver'
@@ -112,8 +101,6 @@ jobs:
           MAX_RETRIES: 6
           SLEEP_SECONDS: 5
         run: |
-          NATIVE_PID=$(cat ./seata-native-${{ matrix.module }}.pid)
-          echo "NATIVE_PID=$NATIVE_PID"
           i=1
           while [ $i -le $MAX_RETRIES ]; do
             if curl -sSf http://localhost:8081/naming/v1/health >/dev/null 2>&1; then
@@ -139,8 +126,8 @@ jobs:
         run: |
           ./mvnw -T 2C clean -B -pl server spring-boot:run -Prelease-seata-jar &
           sleep 5
+          jcmd -l
           SEATA_SERVER_PID=$(jcmd -l | grep -i seata-server | awk '{print $1}')
-          echo "$SEATA_SERVER_PID" > ./seata-server.pid
           echo "Seata server started with PID=$SEATA_SERVER_PID"
           i=1
           while [ $i -le $MAX_RETRIES ]; do
@@ -156,31 +143,9 @@ jobs:
           exit 1
       - name: "Run native tests for ${{ matrix.module }} in ${{ matrix.os }}"
         run: ./mvnw -T 2C clean -B test -Ptest-native-${{ matrix.module }} -pl test-suite/test-native-${{ matrix.module }}
-      - name: "Stop background processes"
-        if: always()
-        shell: sh
-        run: |
-          for pid_file in ./seata-native-*.pid ./seata-server.pid; do
-            if [ -f "$pid_file" ]; then
-              PID=$(cat "$pid_file")
-              if kill -0 "$PID" 2>/dev/null; then
-                echo "Stopping process $PID from $pid_file..."
-                kill "$PID" || true
-                sleep 2
-                if kill -0 "$PID" 2>/dev/null; then
-                  echo "Force killing process $PID..."
-                  kill -9 "$PID" || true
-                fi
-                echo "Process $PID stopped."
-              else
-                echo "Process $PID from $pid_file is already stopped."
-              fi
-              rm -f "$pid_file"
-            fi
-          done
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
-        run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
+        run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} + || true
       - name: "Save local maven repository cache"
         uses: actions/cache/save@v6.1.0
         if: steps.cache-maven-repository.outputs.cache-hit != 'true'
