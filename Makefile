@@ -120,10 +120,10 @@ run-merge-native-namingserver: ## Merge collected native-image metadata into the
 	EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER=true \
 	$(MVN) $(MAVEN_ARGS) clean test -Dtest=ExecuteMergeNativeImageMetadataTests#namingServer -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
 
-install-namingserver-native: install-namingserver-native-jar ## Build namingserver GraalVM native image (requires install-namingserver-native-jar including its spotless-apply dependency)
+install-namingserver-native: install-namingserver-native-jar ## Build namingserver GraalVM native image (Linux: fully static with musl; requires install-namingserver-native-jar including its spotless-apply dependency)
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
-package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image (requires install-namingserver-native or install-namingserver-native-jar to be executed first; spotless-apply runs first as a direct prerequisite)
+package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image (Linux: fully static with musl; requires install-namingserver-native or install-namingserver-native-jar to be executed first; spotless-apply runs first as a direct prerequisite)
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
 run-namingserver-native: ## Run the namingserver native image binary directly

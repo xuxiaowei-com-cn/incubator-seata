@@ -86,6 +86,11 @@ jobs:
             ${{ runner.os }}-${{ runner.arch }}-maven-
       - name: "Install dependencies"
         run: ./mvnw -T 4C clean -B -pl namingserver,server install -DskipTests -am
+      - name: "Install musl for static native image (Linux)"
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y musl-dev musl-tools
       - name: "Compile native image"
         run: |
           ./mvnw -T 2C clean -B -pl namingserver package -DskipTests -Pnative spring-boot:process-aot native:compile
