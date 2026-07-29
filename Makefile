@@ -23,7 +23,7 @@ SHELL := /usr/bin/env bash
 # matching the target name — make will always execute them regardless of file timestamps)
 .PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
 	package-only package \
-	package-namingserver-native-metadata run-namingserver-native-metadata \
+	package-namingserver-native-jar run-namingserver-native-jar \
 	run-test-native-spring-boot run-test-native \
 	test-native-namingserver \
 	run-merge-native-namingserver \
@@ -93,11 +93,10 @@ package-only: ## Package the project without running tests
 package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean package
 
-package-namingserver-native-metadata: ## Build namingserver JAR for GraalVM native-image metadata collection
-	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl namingserver -am
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver -Prelease-seata-jar
+package-namingserver-native-jar: ## Build namingserver JAR for GraalVM native-image metadata collection
+	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl namingserver -am -Prelease-seata-jar
 
-run-namingserver-native-metadata: ## Run namingserver with GraalVM native-image agent to collect reflection/config metadata
+run-namingserver-native-jar: ## Run namingserver with GraalVM native-image agent to collect reflection/config metadata
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./namingserver/target/seata-namingserver.jar --console.user.username=seata  --console.user.password=seata
 
 test-native-namingserver: ## Run namingserver GraalVM native-image compatibility tests (requires GraalVM with native-image)
@@ -109,8 +108,5 @@ run-merge-native-namingserver: ## Merge collected native-image metadata into the
 package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image, spotless-apply is automatically executed before building the native image
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
-run-namingserver-native-mode-file: ## Run the namingserver native image binary directly
-	./namingserver/target/seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
-
-package-run-namingserver-native-mode-file: package-namingserver-native ## Build native image and then run it
-	./namingserver/target/seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+run-namingserver-native: ## Run the namingserver native image binary directly
+	CONSOLE_USER_USERNAME=seata CONSOLE_USER_PASSWORD=seata ./namingserver/target/seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
