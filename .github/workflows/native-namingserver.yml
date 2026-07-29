@@ -14,16 +14,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: Native Build
+name: Native Build NamingServer
 
 on:
   push:
-    branches: [ test*, "*.*.*" ]
+    branches: [ test*, "*.*.*", 2.x ]
   pull_request:
     branches: [ 2.x, develop, master ]
     paths:
-      - '.github/workflows/native.yml'
-      - 'namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver/**'
+      - '.github/workflows/native-namingserver.yml'
+      - 'build/pom.xml'
+      - 'pom.xml'
+      - 'common/pom.xml'
+      - 'common/src/main/**'
+      - 'console/pom.xml'
+      - 'console/src/main/**'
+      - 'namingserver/pom.xml'
+      - 'namingserver/src/main/**'
+      - 'test-suite/test-native-namingserver/pom.xml'
+      - 'test-suite/test-native-namingserver/src/**'
   workflow_call:
     inputs:
       repository:
