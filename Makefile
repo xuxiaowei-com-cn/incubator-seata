@@ -148,6 +148,13 @@ package-namingserver-native: spotless-apply ## Build namingserver GraalVM native
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
 run-namingserver-native: ## Run the namingserver native image binary directly
+	@echo "=== Workload steps (run in separate terminals) ==="
+	@echo "1. Start server in seata registry mode connecting to namingserver:"
+	@echo "     make install-run-server-jar-registry-seata"
+	@echo "     or"
+	@echo "     make run-server-jar-registry-seata"
+	@echo "2. Run the native namingserver test suite:"
+	@echo "     make test-native-namingserver"
 	CONSOLE_USER_USERNAME=seata \
 	CONSOLE_USER_PASSWORD=seata \
 	./namingserver/target/seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
