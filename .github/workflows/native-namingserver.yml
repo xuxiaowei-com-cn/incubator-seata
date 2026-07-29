@@ -87,14 +87,27 @@ jobs:
       - name: "Install dependencies"
         run: ./mvnw -T 4C clean -B -pl namingserver,server install -DskipTests -am
       - name: "Compile native image"
-        run: ./mvnw -T 2C clean -B -pl namingserver package -DskipTests -Pnative spring-boot:process-aot native:compile
+        run: |
+          ./mvnw -T 2C clean -B -pl namingserver package -DskipTests -Pnative spring-boot:process-aot native:compile
+          rm -rf namingserver/target/*.jar
+      - name: "Calculate SHA256"
+        shell: bash
+        run: |
+          echo "## SHA256 Checksums"
+          if command -v sha256sum &> /dev/null; then
+            sha256sum namingserver/target/seata-*-*
+          elif command -v shasum &> /dev/null; then
+            shasum -a 256 namingserver/target/seata-*-*
+          else
+            echo "ERROR: No SHA256 tool found (sha256sum or shasum required)"
+            exit 1
+          fi
       - name: "Upload binaries"
         uses: actions/upload-artifact@v7.0.1
         with:
           name: namingserver-native-${{ runner.os }}-${{ runner.arch }}
           path: |
             namingserver/target/seata-*-*
-            !namingserver/target/*.jar
           if-no-files-found: error
       - name: "Verify native binary"
         shell: sh
@@ -102,7 +115,6 @@ jobs:
           CONSOLE_USER_USERNAME: ${{ env.USERNAME }}
           CONSOLE_USER_PASSWORD: ${{ env.PASSWORD }}
         run: |
-          rm -rf ./namingserver/target/*.jar
           ./namingserver/target/seata-namingserver-* &
       - name: "Check port 8081"
         shell: sh
