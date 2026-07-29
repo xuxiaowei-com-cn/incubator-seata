@@ -60,6 +60,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26, windows-latest ]
+        # Note: macos-26 is Apple Silicon (ARM64) only.
+        # Intel macOS (x86_64) is not supported because GraalVM has
+        # discontinued updates for that platform.
+        # https://github.com/graalvm/graalvm-ce-builds/releases/tag/jdk-25.0.1
     env:
       USERNAME: seata
       PASSWORD: seata

@@ -432,18 +432,6 @@
             </properties>
         </profile>
         <profile>
-            <id>native-darwin-x86_64</id>
-            <activation>
-                <os>
-                    <name>mac os x</name>
-                    <arch>x86_64</arch>
-                </os>
-            </activation>
-            <properties>
-                <native.platform>darwin-amd64</native.platform>
-            </properties>
-        </profile>
-        <profile>
             <id>native-darwin-aarch64</id>
             <activation>
                 <os>
