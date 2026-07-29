@@ -23,11 +23,13 @@ SHELL := /usr/bin/env bash
 # matching the target name — make will always execute them regardless of file timestamps)
 .PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
 	package-only package \
-	package-namingserver-native-jar run-namingserver-native-jar \
-	run-test-native-spring-boot run-test-native \
+	install-namingserver-native-jar \
+	run-namingserver-native-jar \
 	test-native-namingserver \
 	run-merge-native-namingserver \
-	package-namingserver-native run-namingserver-native-mode-file package-run-namingserver-native-mode-file
+	install-namingserver-native \
+	package-namingserver-native \
+	run-namingserver-native
 
 help: ## Show help information
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-44s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -93,7 +95,7 @@ package-only: ## Package the project without running tests
 package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean package
 
-package-namingserver-native-jar: ## Build namingserver JAR for GraalVM native-image metadata collection
+install-namingserver-native-jar: spotless-apply ## Build namingserver JAR for GraalVM native-image metadata collection
 	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl namingserver -am -Prelease-seata-jar
 
 run-namingserver-native-jar: ## Run namingserver with GraalVM native-image agent to collect reflection/config metadata
@@ -106,7 +108,10 @@ run-merge-native-namingserver: ## Merge collected native-image metadata into the
 	EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER=true \
 	$(MVN) $(MAVEN_ARGS) clean test -Dtest=ExecuteMergeNativeImageMetadataTests#namingServer -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
 
-package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image, spotless-apply is automatically executed before building the native image
+install-namingserver-native: install-namingserver-native-jar ## Build namingserver GraalVM native image (requires install-namingserver-native-jar including its spotless-apply dependency)
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
+
+package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image (spotless-apply runs first as a direct prerequisite)
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
 run-namingserver-native: ## Run the namingserver native image binary directly
