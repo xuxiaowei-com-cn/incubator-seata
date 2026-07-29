@@ -10,7 +10,36 @@ on:
 
 jobs:
   call-remote:
+    name: call-remote
     uses: xuxiaowei-com-cn/incubator-seata/.github/workflows/native.yml@xuxiaowei/Seata-Namingserver-GraalVM
     with:
       repository: xuxiaowei-com-cn/incubator-seata
       ref: xuxiaowei/Seata-Namingserver-GraalVM
+
+  download-artifacts:
+    name: download-artifacts
+    needs: call-remote
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Download namingserver-native-Linux-ARM64"
+        uses: actions/download-artifact@v4
+        with:
+          name: namingserver-native-Linux-ARM64
+          path: .
+      - name: "Download namingserver-native-Linux-X64"
+        uses: actions/download-artifact@v4
+        with:
+          name: namingserver-native-Linux-X64
+          path: .
+      - name: "Download namingserver-native-Windows-X64"
+        uses: actions/download-artifact@v4
+        with:
+          name: namingserver-native-Windows-X64
+          path: .
+      - name: "Download namingserver-native-macOS-ARM64"
+        uses: actions/download-artifact@v4
+        with:
+          name: namingserver-native-macOS-ARM64
+          path: .
+      - name: "List downloaded artifacts"
+        run: find .
