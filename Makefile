@@ -32,7 +32,7 @@ SHELL := /usr/bin/env bash
 	run-namingserver-native
 
 help: ## Show help information
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-44s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-34s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 # Prefer using the system-installed `mvn`, fall back to the Maven Wrapper (`./mvnw`) if unavailable
 MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
@@ -111,7 +111,7 @@ run-merge-native-namingserver: ## Merge collected native-image metadata into the
 install-namingserver-native: install-namingserver-native-jar ## Build namingserver GraalVM native image (requires install-namingserver-native-jar including its spotless-apply dependency)
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
-package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image (spotless-apply runs first as a direct prerequisite)
+package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image (requires install-namingserver-native or install-namingserver-native-jar to be executed first; spotless-apply runs first as a direct prerequisite)
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
 
 run-namingserver-native: ## Run the namingserver native image binary directly
