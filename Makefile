@@ -23,8 +23,11 @@ SHELL := /usr/bin/env bash
 # matching the target name — make will always execute them regardless of file timestamps)
 .PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
 	package-only package \
+	install-server \
 	install-namingserver-native-jar \
 	run-namingserver-native-jar \
+	install-run-server-spring-boot \
+	run-server-spring-boot \
 	test-native-namingserver \
 	run-merge-native-namingserver \
 	install-namingserver-native \
@@ -95,11 +98,20 @@ package-only: ## Package the project without running tests
 package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean package
 
+install-server: spotless-apply ## Build and install the server module locally
+	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl server -am
+
 install-namingserver-native-jar: spotless-apply ## Build namingserver JAR for GraalVM native-image metadata collection
 	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl namingserver -am -Prelease-seata-jar
 
 run-namingserver-native-jar: ## Run namingserver with GraalVM native-image agent to collect reflection/config metadata
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./namingserver/target/seata-namingserver.jar --console.user.username=seata  --console.user.password=seata
+
+install-run-server-spring-boot: install-server ## Build, install, and run the server module via Spring Boot Maven plugin
+	$(MVN) $(MAVEN_ARGS) clean spring-boot:run -pl server -Prelease-seata-jar
+
+run-server-spring-boot: ## Run the server module via Spring Boot Maven plugin (without prior install)
+	$(MVN) $(MAVEN_ARGS) clean spring-boot:run -pl server -Prelease-seata-jar
 
 test-native-namingserver: ## Run namingserver GraalVM native-image compatibility tests (requires GraalVM with native-image)
 	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-namingserver -pl test-suite/test-native-namingserver
