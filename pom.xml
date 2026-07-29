@@ -402,6 +402,12 @@
             </modules>
         </profile>
         <profile>
+            <id>test-native-metadata-merge</id>
+            <modules>
+                <module>test-suite/test-native-metadata-merge</module>
+            </modules>
+        </profile>
+        <profile>
             <id>native-linux-amd64</id>
             <activation>
                 <os>

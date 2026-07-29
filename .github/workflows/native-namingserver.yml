@@ -33,6 +33,8 @@ on:
       - 'namingserver/src/main/**'
       - 'test-suite/test-native-namingserver/pom.xml'
       - 'test-suite/test-native-namingserver/src/**'
+      - 'test-suite/test-native-metadata-merge/pom.xml'
+      - 'test-suite/test-native-metadata-merge/src/**'
   workflow_call:
     inputs:
       repository:

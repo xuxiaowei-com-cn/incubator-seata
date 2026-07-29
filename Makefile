@@ -51,10 +51,10 @@ clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean
 
 spotless-check: ## Run Spotless code format check
-	$(MVN) $(MAVEN_ARGS) spotless:check
+	$(MVN) $(MAVEN_ARGS) spotless:check -Ptest-native-metadata-merge -Ptest-native-namingserver
 
 spotless-apply: ## Apply Spotless code formatting
-	$(MVN) $(MAVEN_ARGS) spotless:apply
+	$(MVN) $(MAVEN_ARGS) spotless:apply -Ptest-native-metadata-merge -Ptest-native-namingserver
 
 checkstyle: ## Run global Checkstyle code check
 	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false
@@ -102,8 +102,9 @@ run-namingserver-native-jar: ## Run namingserver with GraalVM native-image agent
 test-native-namingserver: ## Run namingserver GraalVM native-image compatibility tests (requires GraalVM with native-image)
 	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-namingserver -pl test-suite/test-native-namingserver
 
-run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory (required to regenerate native metadata, requires JDK 21+)
-	java script/native/MergeNativeImageConfig.java --target-dir namingserver/src/main/resources/META-INF/native-image/org.apache.seata/seata-namingserver
+run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory (required to regenerate native metadata)
+	EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER=true \
+	$(MVN) $(MAVEN_ARGS) clean test -Dtest=ExecuteMergeNativeImageMetadataTests#namingServer -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
 
 package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image, spotless-apply is automatically executed before building the native image
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile

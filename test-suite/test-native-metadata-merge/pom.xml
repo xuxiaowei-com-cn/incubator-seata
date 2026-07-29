@@ -24,8 +24,8 @@
 		<version>${revision}</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
-	<artifactId>seata-test-native-namingserver</artifactId>
-	<name>seata-test-native-namingserver ${project.version}</name>
+	<artifactId>seata-test-native-metadata-merge</artifactId>
+	<name>seata-test-native-metadata-merge ${project.version}</name>
 	<description/>
 	<url/>
 	<licenses>
@@ -45,12 +45,6 @@
 		<spring-boot-for-server.version>4.0.6</spring-boot-for-server.version>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.seata</groupId>
-			<artifactId>seata-common</artifactId>
-			<version>${revision}</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
