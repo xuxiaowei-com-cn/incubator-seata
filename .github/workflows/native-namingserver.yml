@@ -107,12 +107,17 @@ jobs:
             echo "ERROR: No SHA256 tool found (sha256sum or shasum required)"
             exit 1
           fi
+      - name: "Write git SHA"
+        shell: bash
+        run: |
+          echo "${{ github.sha }}" > namingserver/target/git-sha.txt
       - name: "Upload binaries"
         uses: actions/upload-artifact@v7.0.1
         with:
           name: namingserver-native-${{ runner.os }}-${{ runner.arch }}
           path: |
             namingserver/target/seata-*-*
+            namingserver/target/git-sha.txt
           if-no-files-found: error
       - name: "Verify native binary"
         shell: sh
