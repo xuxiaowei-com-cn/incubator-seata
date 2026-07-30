@@ -29,7 +29,8 @@ import java.util.Map;
  *   <li><b>type</b> — for reflection, JNI, serialization, and
  *       predefined-classes entries (optional: condition).</li>
  *   <li><b>glob</b> — for resource entries (optional: module).</li>
- *   <li><b>name</b> — for bundle entries, methods, and fields
+ *   <li><b>bundle</b> — for resource bundle entries.</li>
+ *   <li><b>name</b> — for method and field entries
  *       (optional: parameterTypes for methods).</li>
  * </ul>
  * Matching elements are deep-merged recursively; unmatched source
@@ -151,11 +152,12 @@ public class MergeNativeImageMetadata {
      *   <li>{@code type} — primary key for reflection, JNI,
      *       serialization, and predefined-classes entries.
      *       If {@code condition} is also present, it is included.</li>
-     *   <li>{@code glob} — primary key for resource entries.
+     *   <li>{@code glob} — primary key for resource includes/excludes.
      *       If {@code module} is also present, it is included.</li>
-     *   <li>{@code name} — primary key for bundle entries, methods,
-     *       and fields. If {@code parameterTypes} is also present
-     *       (for methods), it is included.</li>
+     *   <li>{@code bundle} — primary key for resource bundle entries.</li>
+     *   <li>{@code name} — primary key for method and field entries.
+     *       If {@code parameterTypes} is also present (for methods),
+     *       it is included.</li>
      * </ul>
      *
      * @param element an array element (expected to be a JSON object)
@@ -189,7 +191,11 @@ public class MergeNativeImageMetadata {
             }
             return sb.toString();
         }
-        // Bundle / method / field entries
+        // Bundle entries (resource bundles, e.g. {"bundle": "com.example.LocalStrings"})
+        if (element.has("bundle")) {
+            return "bundle:" + nodeText(element.get("bundle"));
+        }
+        // Method / field entries
         if (element.has("name")) {
             StringBuilder sb = new StringBuilder("name:");
             sb.append(nodeText(element.get("name")));
