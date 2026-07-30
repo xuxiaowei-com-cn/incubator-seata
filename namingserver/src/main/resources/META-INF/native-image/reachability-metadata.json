@@ -5622,6 +5622,52 @@
         "interfaces" : [ "org.springframework.boot.validation.beanvalidation.MethodValidationExcludeFilter" ]
       }
     }
+  }, {
+    "type" : "SC",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "ch.qos.logback.core.joran.conditional.Condition"
+  }, {
+    "type" : "ch.qos.logback.core.joran.conditional.PropertyWrapperForScripts",
+    "methods" : [ {
+      "name" : "setPropertyContainers",
+      "parameterTypes" : [ "ch.qos.logback.core.spi.PropertyContainer", "ch.qos.logback.core.spi.PropertyContainer" ]
+    } ]
+  }, {
+    "type" : "ch.qos.logback.core.spi.PropertyContainer"
+  }, {
+    "type" : "java.lang.AbstractStringBuilder"
+  }, {
+    "type" : "java.lang.Appendable"
+  }, {
+    "type" : "java.lang.AssertionError"
+  }, {
+    "type" : "java.lang.Cloneable"
+  }, {
+    "type" : "java.lang.Enum"
+  }, {
+    "type" : "java.lang.Error"
+  }, {
+    "type" : "java.lang.Exception"
+  }, {
+    "type" : "java.lang.Override"
+  }, {
+    "type" : "java.lang.RuntimeException"
+  }, {
+    "type" : "java.lang.StringBuffer"
+  }, {
+    "type" : "java.lang.StringBuilder"
+  }, {
+    "type" : "java.lang.System"
+  }, {
+    "type" : "java.lang.Throwable"
+  }, {
+    "type" : "java.util.Iterator"
+  }, {
+    "type" : "org.codehaus.janino.ScriptEvaluator"
   } ],
   "resources" : [ {
     "glob" : "META-INF/build-info.properties"
