@@ -107,6 +107,13 @@ jobs:
             echo "ERROR: No SHA256 tool found (sha256sum or shasum required)"
             exit 1
           fi
+      - name: "Analyze binary (file & ldd)"
+        if: runner.os == 'Linux'
+        run: |
+          echo "=== Checking native binary file type ==="
+          file namingserver/target/seata-*-*
+          echo "=== Checking native binary shared library dependencies ==="
+          ldd namingserver/target/seata-*-*
       - name: "Write git SHA"
         shell: bash
         run: |
