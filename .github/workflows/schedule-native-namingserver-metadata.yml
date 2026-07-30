@@ -50,6 +50,15 @@ jobs:
         with:
           repository: ${{ inputs.repository || env.repository }}
           ref: ${{ inputs.ref || env.ref }}
+      - name: "Print current git SHA"
+        id: git-sha
+        run: |
+          GIT_SHA=$(git rev-parse HEAD)
+          echo "GIT_SHA=${GIT_SHA}" >> "${GITHUB_ENV}"
+          echo "git-sha=${GIT_SHA}" >> "${GITHUB_OUTPUT}"
+          echo "Current git SHA: ${GIT_SHA}"
+          mkdir -p ./target
+          echo "${GIT_SHA}" > ./git-sha.txt
       - name: "Checkout schedule-native tools"
         uses: actions/checkout@v7.0.0
         with:
@@ -249,8 +258,10 @@ jobs:
       - name: "Upload ${{ matrix.module.name }} reachability-metadata.json"
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: ${{ matrix.module.name }}-${{ matrix.os }}-reachability-metadata
-          path: ./target/native-image-config/reachability-metadata.json
+          name: ${{ matrix.module.name }}-${{ matrix.os }}-${{ env.GIT_SHA }}-reachability-metadata
+          path: |
+            ./target/native-image-config/reachability-metadata.json
+            ./git-sha.txt
       - name: "Merge native-image config for ${{ matrix.module.name }}"
         shell: sh
         env:
@@ -284,8 +295,10 @@ jobs:
         if: steps.diff.outputs.has_diff == 'true'
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: ${{ matrix.module.name }}-${{ matrix.os }}-native-image-config-diff
-          path: ./target/native-image-config.diff
+          name: ${{ matrix.module.name }}-${{ matrix.os }}-${{ env.GIT_SHA }}-native-image-config-diff
+          path: |
+            ./target/native-image-config.diff
+            ./git-sha.txt
       - name: "Delete snapshots from the Maven local repository"
         shell: sh
         run: find ~/.m2/repository -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
