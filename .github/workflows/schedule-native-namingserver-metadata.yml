@@ -1,9 +1,9 @@
-name: Schedule Native Build Metadata
+name: Schedule Native Generate NamingServer Metadata
 
 on:
   push:
     paths:
-      - '.github/workflows/schedule-native-metadata.yml'
+      - '.github/workflows/schedule-native-namingserver-metadata.yml'
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
@@ -24,8 +24,8 @@ env:
   ref: xuxiaowei/Seata-Namingserver-GraalVM
 
 jobs:
-  build:
-    name: build
+  generate:
+    name: generate
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -253,9 +253,10 @@ jobs:
           path: ./target/native-image-config/reachability-metadata.json
       - name: "Merge native-image config for ${{ matrix.module.name }}"
         shell: sh
+        env:
+          EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER: true
         run: |
-          java script/native/MergeNativeImageConfig.java \
-            --target-dir ${{ matrix.module.name }}/src/main/resources/META-INF/native-image/org.apache.seata/seata-${{ matrix.module.name }}
+          ./mvnw test -Dtest=ExecuteMergeNativeImageMetadataTests#namingServer -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
       - name: "Apply spotless formatting for ${{ matrix.module.name }}"
         run: ./mvnw spotless:apply -pl ${{ matrix.module.name }}
       - name: "Show ${{ matrix.module.name }} native-image config diff"
