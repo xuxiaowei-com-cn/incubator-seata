@@ -419,47 +419,6 @@
                 </pluginManagement>
             </build>
         </profile>
-        <profile>
-            <id>native-static-musl</id>
-            <activation>
-                <os>
-                    <family>Linux</family>
-                </os>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.graalvm.buildtools</groupId>
-                            <artifactId>native-maven-plugin</artifactId>
-                            <configuration>
-                                <mainClass>org.apache.seata.namingserver.NamingserverApplication</mainClass>
-                                <classesDirectory>${project.build.outputDirectory}</classesDirectory>
-                                <imageName>${project.artifactId}-${project.version}-${native.platform}</imageName>
-                                <exclusions>
-                                    <exclusion>
-                                        <groupId>org.springframework.boot</groupId>
-                                        <artifactId>spring-boot-devtools</artifactId>
-                                    </exclusion>
-                                </exclusions>
-                                <buildArgs>
-                                    <arg>--static</arg>
-                                    <arg>--libc=musl</arg>
-                                </buildArgs>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <id>add-reachability-metadata</id>
-                                    <goals>
-                                        <goal>add-reachability-metadata</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
     </profiles>
 
 
