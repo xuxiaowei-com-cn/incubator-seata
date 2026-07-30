@@ -5,6 +5,7 @@ import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.ObjectNode;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -21,6 +22,19 @@ import java.util.Map;
  * canonical metadata file under
  * {@code src/main/resources/META-INF/native-image/} via
  * {@link #mergeObjectNodes(JsonNode, JsonNode)}.
+ *
+ * <h3>Array Merge Strategy</h3>
+ * Array elements are matched by natural identity keys (not by index):
+ * <ul>
+ *   <li><b>type</b> — for reflection, JNI, serialization, and
+ *       predefined-classes entries (optional: condition).</li>
+ *   <li><b>glob</b> — for resource entries (optional: module).</li>
+ *   <li><b>name</b> — for bundle entries, methods, and fields
+ *       (optional: parameterTypes for methods).</li>
+ * </ul>
+ * Matching elements are deep-merged recursively; unmatched source
+ * elements are appended to the target array. Elements without a
+ * recognizable key are always appended.
  */
 public class MergeNativeImageMetadata {
 
@@ -37,8 +51,10 @@ public class MergeNativeImageMetadata {
      * <ul>
      *   <li><b>Key missing in target</b> — copied from source as-is.</li>
      *   <li><b>Both values are objects</b> — merged recursively.</li>
-     *   <li><b>Both values are arrays</b> — elements at matching indices
-     *       are merged recursively; extra source elements are appended.</li>
+     *   <li><b>Both values are arrays</b> — elements are matched by
+     *       identity key (e.g. {@code type}, {@code glob}, {@code name}),
+     *       then merged recursively; unmatched source elements are
+     *       appended.</li>
      *   <li><b>Otherwise</b> — target value is kept unchanged (source
      *       value is ignored).</li>
      * </ul>
@@ -61,18 +77,142 @@ public class MergeNativeImageMetadata {
                 // Both are objects — merge recursively.
                 mergeObjectNodes(sourceValue, targetValue);
             } else if (sourceValue.isArray() && targetValue.isArray()) {
-                // Both are arrays — merge object elements by index,
-                // then append any extra source elements.
-                for (int i = 0; i < sourceValue.size() && i < targetValue.size(); i++) {
-                    mergeObjectNodes(sourceValue.get(i), targetValue.get(i));
-                }
-                // Append remaining source elements not present in target.
-                for (int i = targetValue.size(); i < sourceValue.size(); i++) {
-                    ((ArrayNode) targetValue).add(sourceValue.get(i));
-                }
+                // Both are arrays — merge by identity key, then append unmatched.
+                mergeArrayNodes(sourceValue, (ArrayNode) targetValue);
             }
             // Otherwise the target already has a value and the types
             // differ — keep the target value unchanged.
         }
+    }
+
+    /**
+     * Merges array elements from {@code sourceArray} into {@code targetArray}
+     * using key-based matching.
+     *
+     * <p>Each element in the target array is indexed by its identity key
+     * (see {@link #getElementKey(JsonNode)}). Source elements with a
+     * matching key are deep-merged into the corresponding target element;
+     * source elements without a match (or without a recognizable key) are
+     * appended to the target array.
+     *
+     * @param sourceArray the source array (from generated metadata)
+     * @param targetArray the target array (canonical, mutated in place)
+     */
+    private static void mergeArrayNodes(JsonNode sourceArray, ArrayNode targetArray) {
+        // Build key → index map for target elements (first occurrence wins).
+        Map<String, Integer> targetIndex = new LinkedHashMap<>();
+        for (int i = 0; i < targetArray.size(); i++) {
+            String key = getElementKey(targetArray.get(i));
+            if (key != null && !targetIndex.containsKey(key)) {
+                targetIndex.put(key, i);
+            }
+        }
+
+        // Process each source element: match by key or append.
+        for (JsonNode sourceElement : sourceArray) {
+            String sourceKey = getElementKey(sourceElement);
+            if (sourceKey != null && targetIndex.containsKey(sourceKey)) {
+                // Match found — deep-merge source into the matching target element.
+                int targetIdx = targetIndex.get(sourceKey);
+                mergeObjectNodes(sourceElement, targetArray.get(targetIdx));
+            } else if (!sourceElement.isObject()) {
+                // Scalar value (string, number, boolean) or nested array —
+                // append only if not already present to avoid duplication.
+                if (!containsNode(targetArray, sourceElement)) {
+                    targetArray.add(sourceElement);
+                }
+            } else {
+                // Object without a recognizable key — always append as new entry.
+                targetArray.add(sourceElement);
+            }
+        }
+    }
+
+    /**
+     * Checks whether {@code array} contains an element that is
+     * {@link JsonNode#equals(Object) equal} to {@code value}.
+     */
+    private static boolean containsNode(ArrayNode array, JsonNode value) {
+        for (JsonNode element : array) {
+            if (element.equals(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Extracts a natural identity key from an array element.
+     *
+     * <p>The key is built from fields commonly used to identify entries
+     * in GraalVM reachability metadata:
+     *
+     * <ul>
+     *   <li>{@code type} — primary key for reflection, JNI,
+     *       serialization, and predefined-classes entries.
+     *       If {@code condition} is also present, it is included.</li>
+     *   <li>{@code glob} — primary key for resource entries.
+     *       If {@code module} is also present, it is included.</li>
+     *   <li>{@code name} — primary key for bundle entries, methods,
+     *       and fields. If {@code parameterTypes} is also present
+     *       (for methods), it is included.</li>
+     * </ul>
+     *
+     * @param element an array element (expected to be a JSON object)
+     * @return the identity key string, or {@code null} if no
+     *         recognizable key fields are present
+     */
+    private static String getElementKey(JsonNode element) {
+        if (!element.isObject()) {
+            return null;
+        }
+        // Reflection / JNI / serialization / predefined-classes entries.
+        // The "type" field is normally a string but can also be a complex
+        // value for proxy metadata ({"proxy": [...]}) or lambda metadata
+        // ({"lambda": {...}}). Use toString() for non-textual values.
+        if (element.has("type")) {
+            StringBuilder sb = new StringBuilder("type:");
+            sb.append(nodeText(element.get("type")));
+            if (element.has("condition")) {
+                sb.append("|condition:");
+                sb.append(nodeText(element.get("condition")));
+            }
+            return sb.toString();
+        }
+        // Resource entries
+        if (element.has("glob")) {
+            StringBuilder sb = new StringBuilder("glob:");
+            sb.append(nodeText(element.get("glob")));
+            if (element.has("module")) {
+                sb.append("|module:");
+                sb.append(nodeText(element.get("module")));
+            }
+            return sb.toString();
+        }
+        // Bundle / method / field entries
+        if (element.has("name")) {
+            StringBuilder sb = new StringBuilder("name:");
+            sb.append(nodeText(element.get("name")));
+            if (element.has("parameterTypes")) {
+                sb.append("|params:");
+                sb.append(element.get("parameterTypes").toString());
+            }
+            return sb.toString();
+        }
+        return null;
+    }
+
+    /**
+     * Returns the text representation of a JsonNode.
+     *
+     * <p>For text nodes, returns the string value via {@link JsonNode#asString()}.
+     * For non-text nodes (objects, arrays), falls back to
+     * {@link JsonNode#toString()} to produce a stable key.
+     */
+    private static String nodeText(JsonNode node) {
+        if (node.isString()) {
+            return node.asString();
+        }
+        return node.toString();
     }
 }
