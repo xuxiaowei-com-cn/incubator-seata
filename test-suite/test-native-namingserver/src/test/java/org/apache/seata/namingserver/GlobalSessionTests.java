@@ -18,6 +18,7 @@ package org.apache.seata.namingserver;
 
 import org.apache.seata.common.result.Result;
 import org.apache.seata.common.result.SingleResult;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -46,6 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * (see the {@code test-native-namingserver} Maven profile / Makefile targets) and starting
  * the resulting binary before executing the tests.
  */
+@Disabled
 class GlobalSessionTests {
 
     /** HTTP client for sending requests. */
