@@ -48,10 +48,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 class DiscoveryTests {
 
-    /** HTTP client for sending requests. */
+    /**
+     * HTTP client for sending requests.
+     */
     RestTemplate restTemplate = new RestTemplate();
 
-    /** Namingserver discovery endpoint URL. */
+    /**
+     * Namingserver discovery endpoint URL.
+     */
     String url = "http://127.0.0.1:8081/api/v1/naming/discovery?vGroup={vGroup}&namespace={namespace}";
 
     /**

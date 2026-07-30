@@ -48,10 +48,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 class GlobalLockTests {
 
-    /** HTTP client for sending requests. */
+    /**
+     * HTTP client for sending requests.
+     */
     RestTemplate restTemplate = new RestTemplate();
 
-    /** Namingserver global lock query endpoint URL. */
+    /**
+     * Namingserver global lock query endpoint URL.
+     */
     String url =
             "http://127.0.0.1:8081/api/v1/console/globalLock/query?pageSize={pageSize}&pageNum={pageNum}&namespace={namespace}&cluster={cluster}&vgroup={vgroup}";
 

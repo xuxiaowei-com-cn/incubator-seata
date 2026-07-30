@@ -37,10 +37,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 class VersionTests {
 
-    /** HTTP client for sending requests. */
+    /**
+     * HTTP client for sending requests.
+     */
     RestTemplate restTemplate = new RestTemplate();
 
-    /** Namingserver version endpoint URL. */
+    /**
+     * Namingserver version endpoint URL.
+     */
     String url = "http://127.0.0.1:8081/version.json";
 
     /**

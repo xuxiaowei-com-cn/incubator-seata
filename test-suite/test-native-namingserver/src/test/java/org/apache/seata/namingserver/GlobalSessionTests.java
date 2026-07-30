@@ -18,7 +18,6 @@ package org.apache.seata.namingserver;
 
 import org.apache.seata.common.result.Result;
 import org.apache.seata.common.result.SingleResult;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -47,13 +46,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * (see the {@code test-native-namingserver} Maven profile / Makefile targets) and starting
  * the resulting binary before executing the tests.
  */
-@Disabled
 class GlobalSessionTests {
 
-    /** HTTP client for sending requests. */
+    /**
+     * HTTP client for sending requests.
+     */
     RestTemplate restTemplate = new RestTemplate();
 
-    /** Namingserver global session query endpoint URL. */
+    /**
+     * Namingserver global session query endpoint URL.
+     */
     String url =
             "http://127.0.0.1:8081/api/v1/console/globalSession/query?withBranch={withBranch}&pageSize={pageSize}&pageNum={pageNum}&namespace={namespace}&cluster={cluster}";
 

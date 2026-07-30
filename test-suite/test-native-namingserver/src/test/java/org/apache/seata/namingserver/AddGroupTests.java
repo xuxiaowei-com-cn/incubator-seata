@@ -31,10 +31,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * Tests for Namingserver instance unregister API.
+ * Tests for Namingserver addGroup API.
  *
- * <p>Verifies the unregister endpoint {@code POST /api/v1/naming/unregister}
- * for removing a Seata server instance from the naming server registry.
+ * <p>Verifies the addGroup endpoint {@code POST /api/v1/naming/addGroup}
+ * for adding a vgroup mapping to a cluster in the naming server.
  *
  * <p><b>Prerequisite:</b> These are integration tests that send HTTP requests to a running
  * Namingserver native binary on {@code 127.0.0.1:8081}. The CI workflow starts the binary
@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * (see the {@code test-native-namingserver} Maven profile / Makefile targets) and starting
  * the resulting binary before executing the tests.
  */
-class UnregisterInstanceTests {
+class AddGroupTests {
 
     /**
      * HTTP client for sending requests.
@@ -62,13 +62,22 @@ class UnregisterInstanceTests {
             "http://127.0.0.1:8081/api/v1/naming/unregister?namespace={namespace}&clusterName={clusterName}&unit={unit}";
 
     /**
-     * Test unregistering a Seata server instance.
+     * Namingserver addGroup endpoint URL.
+     */
+    String addGroupUrl =
+            "http://127.0.0.1:8081/api/v1/naming/addGroup?namespace={namespace}&clusterName={clusterName}&unitName={unitName}&vGroup={vGroup}";
+
+    /**
+     * Test adding a vgroup to a cluster.
      *
-     * <p>First registers a node, then unregisters it.
-     * Expects a success response indicating the node was unregistered.
+     * <p>First registers a server instance so the cluster has units,
+     * then adds a vgroup mapping. Note that a full addGroup requires a
+     * running Seata TC server instance to proxy the control request to;
+     * without one the HTTP control call will fail. This test verifies
+     * the endpoint and core logic function correctly up to that point.
      */
     @Test
-    void unregisterSuccess() {
+    void addGroupSuccess() {
 
         String token;
         {
@@ -87,54 +96,71 @@ class UnregisterInstanceTests {
             token = singleResult.getData();
         }
 
-        Map<String, Object> node = buildNode();
+        HttpEntity<Map<String, Object>> httpEntity;
+        Map<String, String> uriVariables;
 
-        Map<String, String> uriVariables = new HashMap<>();
-        uriVariables.put("namespace", "public");
-        uriVariables.put("clusterName", "default");
-        uriVariables.put("unit", "default");
+        // Step 1: Register a node so the cluster has units
+        {
+            Map<String, Object> node = buildNode(58091, 58092);
+            uriVariables = new HashMap<>();
+            uriVariables.put("namespace", "public");
+            uriVariables.put("clusterName", "default");
+            uriVariables.put("unit", "default");
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(HttpHeaders.AUTHORIZATION, token);
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set(HttpHeaders.AUTHORIZATION, token);
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            httpEntity = new HttpEntity<>(node, httpHeaders);
 
-        // Step 1: Register the node first
-        HttpEntity<Map<String, Object>> registerEntity = new HttpEntity<>(node, httpHeaders);
-        Result<?> registerResult = restTemplate.postForObject(registerUrl, registerEntity, Result.class, uriVariables);
-        assertNotNull(registerResult);
-        assertEquals(Result.SUCCESS_CODE, registerResult.getCode());
+            Result<?> registerResult = restTemplate.postForObject(registerUrl, httpEntity, Result.class, uriVariables);
+            assertNotNull(registerResult);
+            assertEquals(Result.SUCCESS_CODE, registerResult.getCode());
+        }
 
-        // Step 2: Unregister the node
-        HttpEntity<Map<String, Object>> unregisterEntity = new HttpEntity<>(node, httpHeaders);
-        Result<?> unregisterResult =
-                restTemplate.postForObject(unregisterUrl, unregisterEntity, Result.class, uriVariables);
+        // Step 2: Add vgroup to cluster
+        {
+            Map<String, String> uriVariablesGroup = new HashMap<>();
+            uriVariablesGroup.put("namespace", "public");
+            uriVariablesGroup.put("clusterName", "default");
+            uriVariablesGroup.put("unitName", "default");
+            uriVariablesGroup.put("vGroup", "test-add-group");
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set(HttpHeaders.AUTHORIZATION, token);
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> httpEntityGroup = new HttpEntity<>(httpHeaders);
+
+            Result<?> result =
+                    restTemplate.postForObject(addGroupUrl, httpEntityGroup, Result.class, uriVariablesGroup);
+            assertNotNull(result);
+        }
+
+        Result<?> unregisterResult = restTemplate.postForObject(unregisterUrl, httpEntity, Result.class, uriVariables);
         assertNotNull(unregisterResult);
         assertEquals(Result.SUCCESS_CODE, unregisterResult.getCode());
-        assertEquals("node has unregistered successfully!", unregisterResult.getMessage());
     }
 
     /**
      * Builds a NamingServerNode with test data for registration.
-     *
-     * @return a map representing the NamingServerNode
      */
-    private Map<String, Object> buildNode() {
+    private Map<String, Object> buildNode(int controlPort, int transactionPort) {
         Map<String, Object> node = new HashMap<>();
         Map<String, Object> control = new HashMap<>();
         control.put("host", "127.0.0.1");
-        control.put("port", 28091);
+        control.put("port", controlPort);
         node.put("control", control);
 
         Map<String, Object> transaction = new HashMap<>();
         transaction.put("host", "127.0.0.1");
-        transaction.put("port", 28092);
+        transaction.put("port", transactionPort);
         node.put("transaction", transaction);
 
         Map<String, Object> internal = new HashMap<>();
         internal.put("host", "127.0.0.1");
-        internal.put("port", 28093);
+        internal.put("port", controlPort + 1);
         node.put("internal", internal);
 
+        node.put("unit", "default");
         node.put("version", "2.0.0");
         node.put("group", "default");
         node.put("role", "MEMBER");

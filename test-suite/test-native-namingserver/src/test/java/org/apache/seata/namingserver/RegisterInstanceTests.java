@@ -31,10 +31,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * Tests for Namingserver instance unregister API.
+ * Tests for Namingserver instance register API.
  *
- * <p>Verifies the unregister endpoint {@code POST /api/v1/naming/unregister}
- * for removing a Seata server instance from the naming server registry.
+ * <p>Verifies the register endpoint {@code POST /api/v1/naming/register}
+ * for registering a Seata server instance in the naming server registry.
  *
  * <p><b>Prerequisite:</b> These are integration tests that send HTTP requests to a running
  * Namingserver native binary on {@code 127.0.0.1:8081}. The CI workflow starts the binary
@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * (see the {@code test-native-namingserver} Maven profile / Makefile targets) and starting
  * the resulting binary before executing the tests.
  */
-class UnregisterInstanceTests {
+class RegisterInstanceTests {
 
     /**
      * HTTP client for sending requests.
@@ -54,7 +54,6 @@ class UnregisterInstanceTests {
      */
     String registerUrl =
             "http://127.0.0.1:8081/api/v1/naming/register?namespace={namespace}&clusterName={clusterName}&unit={unit}";
-
     /**
      * Namingserver unregister endpoint URL.
      */
@@ -62,13 +61,12 @@ class UnregisterInstanceTests {
             "http://127.0.0.1:8081/api/v1/naming/unregister?namespace={namespace}&clusterName={clusterName}&unit={unit}";
 
     /**
-     * Test unregistering a Seata server instance.
+     * Test registering a Seata server instance.
      *
-     * <p>First registers a node, then unregisters it.
-     * Expects a success response indicating the node was unregistered.
+     * <p>Expects a success response indicating the node was registered.
      */
     @Test
-    void unregisterSuccess() {
+    void registerSuccess() {
 
         String token;
         {
@@ -87,30 +85,30 @@ class UnregisterInstanceTests {
             token = singleResult.getData();
         }
 
-        Map<String, Object> node = buildNode();
+        HttpEntity<Map<String, Object>> httpEntity;
+        Map<String, String> uriVariables;
+        {
+            Map<String, Object> node = buildNode();
 
-        Map<String, String> uriVariables = new HashMap<>();
-        uriVariables.put("namespace", "public");
-        uriVariables.put("clusterName", "default");
-        uriVariables.put("unit", "default");
+            uriVariables = new HashMap<>();
+            uriVariables.put("namespace", "public");
+            uriVariables.put("clusterName", "default");
+            uriVariables.put("unit", "default");
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(HttpHeaders.AUTHORIZATION, token);
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set(HttpHeaders.AUTHORIZATION, token);
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            httpEntity = new HttpEntity<>(node, httpHeaders);
 
-        // Step 1: Register the node first
-        HttpEntity<Map<String, Object>> registerEntity = new HttpEntity<>(node, httpHeaders);
-        Result<?> registerResult = restTemplate.postForObject(registerUrl, registerEntity, Result.class, uriVariables);
-        assertNotNull(registerResult);
-        assertEquals(Result.SUCCESS_CODE, registerResult.getCode());
+            Result<?> result = restTemplate.postForObject(registerUrl, httpEntity, Result.class, uriVariables);
+            assertNotNull(result);
+            assertEquals(Result.SUCCESS_CODE, result.getCode());
+            assertEquals("node has registered successfully!", result.getMessage());
+        }
 
-        // Step 2: Unregister the node
-        HttpEntity<Map<String, Object>> unregisterEntity = new HttpEntity<>(node, httpHeaders);
-        Result<?> unregisterResult =
-                restTemplate.postForObject(unregisterUrl, unregisterEntity, Result.class, uriVariables);
+        Result<?> unregisterResult = restTemplate.postForObject(unregisterUrl, httpEntity, Result.class, uriVariables);
         assertNotNull(unregisterResult);
         assertEquals(Result.SUCCESS_CODE, unregisterResult.getCode());
-        assertEquals("node has unregistered successfully!", unregisterResult.getMessage());
     }
 
     /**
@@ -122,17 +120,17 @@ class UnregisterInstanceTests {
         Map<String, Object> node = new HashMap<>();
         Map<String, Object> control = new HashMap<>();
         control.put("host", "127.0.0.1");
-        control.put("port", 28091);
+        control.put("port", 18091);
         node.put("control", control);
 
         Map<String, Object> transaction = new HashMap<>();
         transaction.put("host", "127.0.0.1");
-        transaction.put("port", 28092);
+        transaction.put("port", 18092);
         node.put("transaction", transaction);
 
         Map<String, Object> internal = new HashMap<>();
         internal.put("host", "127.0.0.1");
-        internal.put("port", 28093);
+        internal.put("port", 18093);
         node.put("internal", internal);
 
         node.put("version", "2.0.0");

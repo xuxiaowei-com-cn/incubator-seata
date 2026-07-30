@@ -44,10 +44,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class LoginTests {
 
-    /** HTTP client for sending login requests. */
+    /**
+     * HTTP client for sending login requests.
+     */
     RestTemplate restTemplate = new RestTemplate();
 
-    /** Namingserver login endpoint URL. */
+    /**
+     * Namingserver login endpoint URL.
+     */
     String url = "http://127.0.0.1:8081/api/v1/auth/login";
 
     /**

@@ -38,10 +38,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 class HealthTests {
 
-    /** HTTP client for sending requests. */
+    /**
+     * HTTP client for sending requests.
+     */
     RestTemplate restTemplate = new RestTemplate();
 
-    /** Namingserver health check endpoint URL. */
+    /**
+     * Namingserver health check endpoint URL.
+     */
     String url = "http://127.0.0.1:8081/naming/v1/health";
 
     /**

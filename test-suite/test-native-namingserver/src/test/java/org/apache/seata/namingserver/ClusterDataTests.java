@@ -48,10 +48,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 class ClusterDataTests {
 
-    /** HTTP client for sending requests. */
+    /**
+     * HTTP client for sending requests.
+     */
     RestTemplate restTemplate = new RestTemplate();
 
-    /** Namingserver cluster data query endpoint URL. */
+    /**
+     * Namingserver cluster data query endpoint URL.
+     */
     String url = "http://127.0.0.1:8081/api/v1/naming/clusterData?namespace={namespace}&clusterName={clusterName}";
 
     /**

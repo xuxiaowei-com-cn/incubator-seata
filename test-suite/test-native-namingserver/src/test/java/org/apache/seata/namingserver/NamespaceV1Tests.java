@@ -48,10 +48,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 class NamespaceV1Tests {
 
-    /** HTTP client for sending requests. */
+    /**
+     * HTTP client for sending requests.
+     */
     RestTemplate restTemplate = new RestTemplate();
 
-    /** Namingserver namespace v1 endpoint URL. */
+    /**
+     * Namingserver namespace v1 endpoint URL.
+     */
     String url = "http://127.0.0.1:8081/api/v1/naming/namespace";
 
     /**
