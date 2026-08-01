@@ -58,6 +58,15 @@ checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 license: ## Run license check
 	$(MVN) $(MAVEN_ARGS) clean -Dlicense.skip=false
 
+generate-license-all: ## Generate LICENSE-namingserver and LICENSE-server files
+	@./script/license/generate-license.sh all
+
+generate-license-namingserver: ## Generate LICENSE-namingserver files
+	@./script/license/generate-license.sh namingserver
+
+generate-license-server: ## Generate LICENSE-server files
+	@./script/license/generate-license.sh server
+
 test: ## Run unit tests
 	$(MVN) $(MAVEN_ARGS) clean test
 
