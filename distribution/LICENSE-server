@@ -226,6 +226,7 @@ Apache-2.0 licenses
     com.alipay.sofa.common:sofa-common-tools 1.0.12 Apache-2.0
     com.alipay.sofa:bolt 1.6.7 Apache-2.0
     com.alipay.sofa:hessian 4.0.3 Apache-2.0
+    com.alipay.sofa:jraft-core 1.3.14 Apache-2.0
     com.alipay.sofa:registry-client-all 6.3.0 Apache-2.0
     com.beust:jcommander 1.82 Apache-2.0
     com.bucket4j:bucket4j_jdk8-core 8.1.0 Apache-2.0
@@ -328,6 +329,8 @@ Apache-2.0 licenses
     joda-time:joda-time 2.3 Apache-2.0
     net.jodah:failsafe 2.3.3 Apache-2.0
     net.logstash.logback:logstash-logback-encoder 6.5 Apache-2.0
+    org.apache.ant:ant 1.10.12 Apache-2.0
+    org.apache.ant:ant-launcher 1.10.12 Apache-2.0
     org.apache.commons:commons-dbcp2 2.13.0 Apache-2.0
     org.apache.commons:commons-lang3 3.19.0 Apache-2.0
     org.apache.commons:commons-math 2.2 Apache-2.0
@@ -345,6 +348,8 @@ Apache-2.0 licenses
     org.apache.logging.log4j:log4j-api 2.25.4 Apache-2.0
     org.apache.logging.log4j:log4j-to-slf4j 2.25.4 Apache-2.0
     org.apache.yetus:audience-annotations 0.12.0 Apache-2.0
+    org.apache.zookeeper:zookeeper 3.7.2 Apache-2.0
+    org.apache.zookeeper:zookeeper-jute 3.7.2 Apache-2.0
     org.codehaus.jettison:jettison 1.5.4 Apache-2.0
     org.jctools:jctools-core 2.1.1 Apache-2.0
     org.jetbrains.kotlin:kotlin-stdlib 2.2.21 Apache-2.0
@@ -392,6 +397,7 @@ BSD-3-Clause licenses
     com.esotericsoftware:reflectasm 1.11.9 BSD-3-Clause see:licenses/reflectasm-BSD-3-Clause
     com.google.protobuf:protobuf-java 3.25.5 BSD-3-Clause see:licenses/protobuf-java-BSD-3-Clause
     com.google.protobuf:protobuf-java-util 3.11.0 BSD-3-Clause
+    com.thoughtworks.xstream:xstream 1.4.21 BSD-3-Clause see:licenses/xstream-BSD-3-Clause
     driver-dom 2.2.2 BSD-3-Clause see:licenses/driver-dom-BSD-3-Clause
     driver-dom/node_modules/style-unit 3.0.5 BSD-3-Clause
     driver-miniapp 0.1.5 BSD-3-Clause see:licenses/driver-miniapp-BSD-3-Clause
@@ -563,6 +569,7 @@ MIT licenses
     classnames 2.5.1 MIT see:licenses/classnames-MIT
     clsx 2.1.1 MIT see:licenses/clsx-MIT
     com.alibaba.nacos:nacos-client 2.0.4 MIT
+    com.github.andrewoma.dexx:dexx-collections 0.2 MIT see:licenses/dexx-collections-MIT
     combined-stream 1.0.8 MIT see:licenses/combined-stream-MIT
     component-event 0.2.1 MIT see:licenses/component-event-MIT
     convert-source-map 2.0.0 MIT see:licenses/convert-source-map-MIT

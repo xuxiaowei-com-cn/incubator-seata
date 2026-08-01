@@ -54,6 +54,20 @@ MODULE_CONFIG = {
 # Known license overrides for dependencies whose license cannot be
 # auto-resolved by license-eye.  Map: dependency_name -> license_spdx
 LICENSE_OVERRIDES = {
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml": "Apache-2.0",
+    "com.fasterxml.jackson.datatype:jackson-datatype-jsr310": "Apache-2.0",
+    "com.fasterxml.jackson.module:jackson-module-jsonSchema": "Apache-2.0",
+    "com.github.victools:jsonschema-generator": "Apache-2.0",
+    "com.github.victools:jsonschema-module-jackson": "Apache-2.0",
+    "com.github.victools:jsonschema-module-swagger-2": "Apache-2.0",
+    "org.antlr:antlr-runtime": "BSD",
+    "com.alipay.sofa:jraft-core": "Apache-2.0",
+    "com.github.andrewoma.dexx:dexx-collections": "MIT",
+    "com.thoughtworks.xstream:xstream": "BSD-3-Clause",
+    "org.apache.ant:ant": "Apache-2.0",
+    "org.apache.ant:ant-launcher": "Apache-2.0",
+    "org.apache.zookeeper:zookeeper": "Apache-2.0",
+    "org.apache.zookeeper:zookeeper-jute": "Apache-2.0",
 }
 
 # License normalization: various spellings → SPDX identifier
@@ -64,6 +78,7 @@ LICENSE_NORMALIZE = {
 LICENSE_ORDER = [
     "0BSD",
     "Apache-2.0",
+    "BSD",
     "BSD-2-Clause",
     "BSD-3-Clause",
     "CC0-1.0",
