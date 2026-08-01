@@ -72,11 +72,57 @@ LICENSE_OVERRIDES = {
 
 # License normalization: various spellings → SPDX identifier
 LICENSE_NORMALIZE = {
+    # Text variants
+    "Public Domain": "Public-Domain",
+
+    # ANTLR licenses (BSD)
+    "http://www.antlr.org/license.html": "BSD",
+    "https://www.antlr.org/license.html": "BSD",
+
+    # SPDX URL variants → SPDX identifier
+    "https://spdx.org/licenses/BSD-3-Clause.html": "BSD-3-Clause",
+    "https://spdx.org/licenses/MIT-0.html": "MIT-0",
+
+    # Apache License URL variants
+    "http://www.apache.org/licenses/LICENSE-1.1.txt": "Apache-1.1",
+    "http://www.apache.org/licenses/LICENSE-2.0.html": "Apache-2.0",
+    "https://www.apache.org/licenses/LICENSE-2.0.html": "Apache-2.0",
+
+    # CDDL URL variants
+    "http://www.opensource.org/licenses/cddl1.php": "CDDL-1.0",
+
+    # BSD URL variants
+    "https://opensource.org/licenses/BSD-2-Clause;description=BSD 2-Clause License": "BSD-2-Clause",
+
+    # PostgreSQL JDBC
+    "https://jdbc.postgresql.org/about/license.html": "BSD-2-Clause",
+
+    # logback dual license (EPL-2.0 / LGPL-2.1, take first for ASF convention)
+    "https://www.eclipse.org/legal/epl-v20.html, https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html": "EPL-2.0",
+
+    # Jersey dual license (CDDL / GPL, take first for ASF convention)
+    "http://glassfish.java.net/public/CDDL+GPL_1_1.html, http://glassfish.java.net/public/CDDL+GPL_1_1.html": "CDDL-1.0",
+    "https://glassfish.java.net/public/CDDL+GPL_1_1.html, https://glassfish.java.net/public/CDDL+GPL_1_1.html": "CDDL-1.0",
+
+    "https://github.com/redis/redis-authx-core/blob/master/LICENSE": "MIT",
+    "https://github.com/redis/jedis/blob/master/LICENSE": "MIT",
+
+    "https://github.com/stleary/JSON-java/blob/master/LICENSE": "Public-Domain",
+
+    # mxparser (BSD-3-Clause)
+    "https://raw.githubusercontent.com/x-stream/mxparser/master/LICENSE.txt": "BSD-3-Clause",
+
+    # JNA (LGPL-2.1)
+    "http://www.gnu.org/licenses/licenses.html": "LGPL-2.1",
+
+    # Reflections (WTFPL / BSD dual license, take first for ASF convention)
+    "http://www.wtfpl.net/, http://www.opensource.org/licenses/bsd-license.html": "WTFPL",
 }
 
 # License sections ordering (first = appears first in the file)
 LICENSE_ORDER = [
     "0BSD",
+    "Apache-1.1",
     "Apache-2.0",
     "BSD",
     "BSD-2-Clause",
@@ -91,10 +137,12 @@ LICENSE_ORDER = [
     "LGPL-2.1",
     "MIT",
     "MIT-0",
+    "MPL-1.1",
     "MPL-2.0",
     "Public-Domain",
     "SIL",
     "Unlicense",
+    "WTFPL",
 ]
 
 def read_apache_license_header() -> str:

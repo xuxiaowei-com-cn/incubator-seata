@@ -358,6 +358,8 @@ BSD licenses
 ========================================================================
 
     org.antlr:antlr-runtime 3.5.3 BSD
+    org.antlr:antlr4-runtime 4.13.1 BSD
+    org.antlr:ST4 4.3.4 BSD
 
 ========================================================================
 BSD-2-Clause licenses
@@ -388,6 +390,8 @@ BSD-3-Clause licenses
     dva-core/node_modules/warning 3.0.0 BSD-3-Clause see:licenses/warning-BSD-3-Clause
     dva/node_modules/hoist-non-react-statics 2.5.5 BSD-3-Clause see:licenses/hoist-non-react-statics-BSD-3-Clause
     hoist-non-react-statics 3.3.2 BSD-3-Clause see:licenses/hoist-non-react-statics-BSD-3-Clause
+    org.codehaus.janino:commons-compiler 3.1.12 BSD-3-Clause see:licenses/janino-BSD-3-Clause
+    org.codehaus.janino:janino 3.1.12 BSD-3-Clause see:licenses/janino-BSD-3-Clause
     rax 1.2.3 BSD-3-Clause see:licenses/rax-BSD-3-Clause
     rax-children 1.0.0 BSD-3-Clause
     rax-clone-element 1.0.0 BSD-3-Clause
@@ -421,6 +425,8 @@ CC-BY-4.0 licenses
 EPL-2.0 licenses
 ========================================================================
 
+    ch.qos.logback:logback-classic 1.5.32 EPL-2.0 see:licenses/EPL-2.0
+    ch.qos.logback:logback-core 1.5.32 EPL-2.0 see:licenses/EPL-2.0
     jakarta.annotation:jakarta.annotation-api 3.0.0 EPL-2.0 see:licenses/EPL-2.0
 
 ========================================================================
@@ -695,39 +701,13 @@ MIT licenses
     whatwg-url 5.0.0 MIT see:licenses/whatwg-url-MIT
 
 ========================================================================
+MIT-0 licenses
+========================================================================
+
+    org.reactivestreams:reactive-streams 1.0.4 MIT-0
+
+========================================================================
 SIL licenses
 ========================================================================
 
     bpmn-font 0.12.1 SIL see:licenses/bpmn-font-SIL
-
-========================================================================
-https://www.eclipse.org/legal/epl-v20.html, https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html licenses
-========================================================================
-
-    ch.qos.logback:logback-classic 1.5.32 https://www.eclipse.org/legal/epl-v20.html, https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
-    ch.qos.logback:logback-core 1.5.32 https://www.eclipse.org/legal/epl-v20.html, https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
-
-========================================================================
-http://www.antlr.org/license.html licenses
-========================================================================
-
-    org.antlr:ST4 4.3.4 http://www.antlr.org/license.html
-
-========================================================================
-https://www.antlr.org/license.html licenses
-========================================================================
-
-    org.antlr:antlr4-runtime 4.13.1 https://www.antlr.org/license.html
-
-========================================================================
-https://spdx.org/licenses/BSD-3-Clause.html licenses
-========================================================================
-
-    org.codehaus.janino:commons-compiler 3.1.12 https://spdx.org/licenses/BSD-3-Clause.html
-    org.codehaus.janino:janino 3.1.12 https://spdx.org/licenses/BSD-3-Clause.html
-
-========================================================================
-https://spdx.org/licenses/MIT-0.html licenses
-========================================================================
-
-    org.reactivestreams:reactive-streams 1.0.4 https://spdx.org/licenses/MIT-0.html

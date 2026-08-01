@@ -215,6 +215,12 @@ licenses.
     tslib 2.8.1 0BSD
 
 ========================================================================
+Apache-1.1 licenses
+========================================================================
+
+    com.caucho:hessian 4.0.63 Apache-1.1 see:licenses/Apache-1.1
+
+========================================================================
 Apache-2.0 licenses
 ========================================================================
 
@@ -266,6 +272,7 @@ Apache-2.0 licenses
     commons-pool:commons-pool 1.6 Apache-2.0
     de.javakaffee:kryo-serializers 0.45 Apache-2.0
     htm 3.1.1 Apache-2.0
+    io.dropwizard.metrics:metrics-core 4.2.22 Apache-2.0
     io.etcd:jetcd-common 0.5.0 Apache-2.0
     io.etcd:jetcd-core 0.5.0 Apache-2.0
     io.etcd:jetcd-resolver 0.5.0 Apache-2.0
@@ -357,6 +364,7 @@ Apache-2.0 licenses
     org.jetbrains:annotations 13.0 Apache-2.0
     org.jspecify:jspecify 1.0.0 Apache-2.0
     org.objenesis:objenesis 3.3 Apache-2.0
+    org.rocksdb:rocksdbjni 8.8.1 Apache-2.0
     org.springframework.boot:spring-boot 4.0.6 Apache-2.0
     org.springframework.boot:spring-boot-autoconfigure 4.0.6 Apache-2.0
     org.springframework.boot:spring-boot-starter 4.0.6 Apache-2.0
@@ -376,6 +384,8 @@ Apache-2.0 licenses
 BSD-2-Clause licenses
 ========================================================================
 
+    com.github.luben:zstd-jni 1.5.0-4 BSD-2-Clause see:licenses/zstd-jni-BSD-2-Clause
+    org.postgresql:postgresql 42.7.10 BSD-2-Clause see:licenses/postgresql-BSD-2-Clause
     webidl-conversions 3.0.1 BSD-2-Clause see:licenses/webidl-conversions-BSD-2-Clause
 
 ========================================================================
@@ -407,6 +417,8 @@ BSD-3-Clause licenses
     dva-core/node_modules/warning 3.0.0 BSD-3-Clause see:licenses/warning-BSD-3-Clause
     dva/node_modules/hoist-non-react-statics 2.5.5 BSD-3-Clause see:licenses/hoist-non-react-statics-BSD-3-Clause
     hoist-non-react-statics 3.3.2 BSD-3-Clause see:licenses/hoist-non-react-statics-BSD-3-Clause
+    org.codehaus.janino:commons-compiler 3.1.12 BSD-3-Clause see:licenses/janino-BSD-3-Clause
+    org.codehaus.janino:janino 3.1.12 BSD-3-Clause see:licenses/janino-BSD-3-Clause
     org.hamcrest:hamcrest 3.0 BSD-3-Clause see:licenses/hamcrest-BSD-3-Clause
     org.hamcrest:hamcrest-core 3.0 BSD-3-Clause see:licenses/hamcrest-BSD-3-Clause
     org.ow2.asm:asm 6.0 BSD-3-Clause see:licenses/asm-BSD-3-Clause
@@ -436,7 +448,11 @@ CC-BY-4.0 licenses
 CDDL-1.0 licenses
 ========================================================================
 
+    com.sun.jersey.contribs:jersey-apache-client4 1.19.1 CDDL-1.0 see:licenses/CDDL-1.0
+    com.sun.jersey:jersey-client 1.19.1 CDDL-1.0 see:licenses/CDDL-1.0
+    com.sun.jersey:jersey-core 1.19.1 CDDL-1.0 see:licenses/CDDL-1.0
     javax.servlet:javax.servlet-api 4.0.1 CDDL-1.0 see:licenses/CDDL-1.0
+    javax.ws.rs:jsr311-api 1.1.1 CDDL-1.0 see:licenses/CDDL-1.0
 
 ========================================================================
 EPL-1.0 licenses
@@ -448,6 +464,8 @@ EPL-1.0 licenses
 EPL-2.0 licenses
 ========================================================================
 
+    ch.qos.logback:logback-classic 1.5.32 EPL-2.0 see:licenses/EPL-2.0
+    ch.qos.logback:logback-core 1.5.32 EPL-2.0 see:licenses/EPL-2.0
     jakarta.annotation:jakarta.annotation-api 3.0.0 EPL-2.0 see:licenses/EPL-2.0
     jakarta.transaction:jakarta.transaction-api 2.0.1 EPL-2.0 see:licenses/EPL-2.0
 
@@ -684,6 +702,8 @@ MIT licenses
     react-router 5.3.4 MIT see:licenses/react-router-MIT
     react-router-dom 5.3.4 MIT see:licenses/react-router-dom-MIT
     react-router-redux 4.0.8 MIT see:licenses/react-router-redux-MIT
+    redis.clients.authentication:redis-authx-core 0.1.1-beta2 MIT
+    redis.clients:jedis 7.0.0 MIT see:licenses/jedis-MIT
     redux 5.0.1 MIT see:licenses/redux-MIT
     redux-saga 0.16.2 MIT see:licenses/redux-saga-MIT
     redux-thunk 3.1.0 MIT see:licenses/redux-thunk-MIT
@@ -718,49 +738,16 @@ MIT licenses
     whatwg-url 5.0.0 MIT see:licenses/whatwg-url-MIT
 
 ========================================================================
+Public-Domain licenses
+========================================================================
+
+    aopalliance:aopalliance 1.0 Public-Domain
+
+========================================================================
 SIL licenses
 ========================================================================
 
     bpmn-font 0.12.1 SIL see:licenses/bpmn-font-SIL
-
-========================================================================
-Public Domain licenses
-========================================================================
-
-    aopalliance:aopalliance 1.0 Public Domain
-
-========================================================================
-https://www.eclipse.org/legal/epl-v20.html, https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html licenses
-========================================================================
-
-    ch.qos.logback:logback-classic 1.5.32 https://www.eclipse.org/legal/epl-v20.html, https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
-    ch.qos.logback:logback-core 1.5.32 https://www.eclipse.org/legal/epl-v20.html, https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
-
-========================================================================
-http://www.apache.org/licenses/LICENSE-1.1.txt licenses
-========================================================================
-
-    com.caucho:hessian 4.0.63 http://www.apache.org/licenses/LICENSE-1.1.txt
-
-========================================================================
-https://opensource.org/licenses/BSD-2-Clause;description=BSD 2-Clause License licenses
-========================================================================
-
-    com.github.luben:zstd-jni 1.5.0-4 https://opensource.org/licenses/BSD-2-Clause;description=BSD 2-Clause License
-
-========================================================================
-http://glassfish.java.net/public/CDDL+GPL_1_1.html, http://glassfish.java.net/public/CDDL+GPL_1_1.html licenses
-========================================================================
-
-    com.sun.jersey.contribs:jersey-apache-client4 1.19.1 http://glassfish.java.net/public/CDDL+GPL_1_1.html, http://glassfish.java.net/public/CDDL+GPL_1_1.html
-    com.sun.jersey:jersey-client 1.19.1 http://glassfish.java.net/public/CDDL+GPL_1_1.html, http://glassfish.java.net/public/CDDL+GPL_1_1.html
-    com.sun.jersey:jersey-core 1.19.1 http://glassfish.java.net/public/CDDL+GPL_1_1.html, http://glassfish.java.net/public/CDDL+GPL_1_1.html
-
-========================================================================
-https://www.apache.org/licenses/LICENSE-2.0.html licenses
-========================================================================
-
-    io.dropwizard.metrics:metrics-core 4.2.22 https://www.apache.org/licenses/LICENSE-2.0.html
 
 ========================================================================
 https://raw.githubusercontent.com/x-stream/mxparser/master/LICENSE.txt licenses
@@ -769,23 +756,10 @@ https://raw.githubusercontent.com/x-stream/mxparser/master/LICENSE.txt licenses
     io.github.x-stream:mxparser 1.2.2 https://raw.githubusercontent.com/x-stream/mxparser/master/LICENSE.txt
 
 ========================================================================
-http://www.opensource.org/licenses/cddl1.php licenses
-========================================================================
-
-    javax.ws.rs:jsr311-api 1.1.1 http://www.opensource.org/licenses/cddl1.php
-
-========================================================================
 http://www.gnu.org/licenses/licenses.html licenses
 ========================================================================
 
     net.java.dev.jna:jna 5.5.0 http://www.gnu.org/licenses/licenses.html
-
-========================================================================
-https://spdx.org/licenses/BSD-3-Clause.html licenses
-========================================================================
-
-    org.codehaus.janino:commons-compiler 3.1.12 https://spdx.org/licenses/BSD-3-Clause.html
-    org.codehaus.janino:janino 3.1.12 https://spdx.org/licenses/BSD-3-Clause.html
 
 ========================================================================
 MPL-1.1 licenses
@@ -800,31 +774,7 @@ https://github.com/stleary/JSON-java/blob/master/LICENSE licenses
     org.json:json 20250517 https://github.com/stleary/JSON-java/blob/master/LICENSE
 
 ========================================================================
-https://jdbc.postgresql.org/about/license.html licenses
-========================================================================
-
-    org.postgresql:postgresql 42.7.10 https://jdbc.postgresql.org/about/license.html
-
-========================================================================
 http://www.wtfpl.net/, http://www.opensource.org/licenses/bsd-license.html licenses
 ========================================================================
 
     org.reflections:reflections 0.9.11 http://www.wtfpl.net/, http://www.opensource.org/licenses/bsd-license.html
-
-========================================================================
-http://www.apache.org/licenses/LICENSE-2.0.html licenses
-========================================================================
-
-    org.rocksdb:rocksdbjni 8.8.1 http://www.apache.org/licenses/LICENSE-2.0.html
-
-========================================================================
-https://github.com/redis/redis-authx-core/blob/master/LICENSE licenses
-========================================================================
-
-    redis.clients.authentication:redis-authx-core 0.1.1-beta2 https://github.com/redis/redis-authx-core/blob/master/LICENSE
-
-========================================================================
-https://github.com/redis/jedis/blob/master/LICENSE licenses
-========================================================================
-
-    redis.clients:jedis 7.0.0 https://github.com/redis/jedis/blob/master/LICENSE
