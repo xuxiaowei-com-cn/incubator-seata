@@ -60,17 +60,26 @@ checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 license: ## Run license check
 	$(MVN) $(MAVEN_ARGS) clean -Dlicense.skip=false
 
+# LICENSE_STRICT — when set to 1, unknown licenses cause the build to fail (exit 1)
+# instead of just printing a warning.
+#
+# Examples:
+#   make generate-license-namingserver LICENSE_STRICT=1
+#   make generate-license-all LICENSE_STRICT=1
+LICENSE_STRICT ?= 0
+LICENSE_STRICT_FLAG = $(if $(filter 1 true,$(LICENSE_STRICT)),--strict,)
+
 generate-license-all: install-only ## Generate LICENSE-namingserver, LICENSE-server and LICENSE files
-	@./script/license/generate-license.sh all
+	@./script/license/generate-license.sh all $(LICENSE_STRICT_FLAG)
 
 generate-license-namingserver: install-only ## Generate LICENSE-namingserver files
-	@./script/license/generate-license.sh namingserver
+	@./script/license/generate-license.sh namingserver $(LICENSE_STRICT_FLAG)
 
 generate-license-server: install-only ## Generate LICENSE-server files
-	@./script/license/generate-license.sh server
+	@./script/license/generate-license.sh server $(LICENSE_STRICT_FLAG)
 
 generate-license-distribution: install-only ## Generate distribution LICENSE file
-	@./script/license/generate-license.sh distribution
+	@./script/license/generate-license.sh distribution $(LICENSE_STRICT_FLAG)
 
 test: ## Run unit tests
 	$(MVN) $(MAVEN_ARGS) clean test

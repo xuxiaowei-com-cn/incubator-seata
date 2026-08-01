@@ -55,4 +55,4 @@ echo "Using license-eye: $(which license-eye 2>/dev/null || echo "$LICENSE_EYE")
 echo "Generating LICENSE files for: $MODULE"
 echo ""
 
-python3 script/license/generate-license.py "$MODULE"
+python3 script/license/generate-license.py "$@"

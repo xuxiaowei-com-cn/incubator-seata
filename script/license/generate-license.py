@@ -414,7 +414,8 @@ def format_dep_entry(dep_name: str, version: str, license_spdx: str,
 
 
 def generate_license_file(module: str, deps: list[tuple[str, str, str]],
-                        extra_entries: str | None = None) -> str:
+                        extra_entries: str | None = None,
+                        strict: bool = False) -> str:
     """
     Generate the full LICENSE file content.
     If extra_entries is provided, it is appended after the auto-generated
@@ -467,6 +468,9 @@ def generate_license_file(module: str, deps: list[tuple[str, str, str]],
         for dep_name, version in sorted(unknown_deps):
             print(f"    - {dep_name} {version}")
         print("  Please add overrides in LICENSE_OVERRIDES dictionary.\n")
+        if strict:
+            print("ERROR: Unknown licenses are not allowed in strict mode. Exiting.\n")
+            sys.exit(1)
 
     # Append extra entries (font files, dual-license entries, etc.)
     if extra_entries:
@@ -488,6 +492,11 @@ def main():
         choices=["namingserver", "server", "distribution", "all"],
         help="Which module to generate LICENSE for",
     )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Treat unknown licenses as errors (exit with non-zero code)",
+    )
     args = parser.parse_args()
 
     modules = ["namingserver", "server", "distribution"] if args.module == "all" else [args.module]
@@ -508,7 +517,7 @@ def main():
         print(f"  Resolved {len(deps)} dependencies")
 
         extra = DISTRIBUTION_EXTRA_ENTRIES if module == "distribution" else None
-        content = generate_license_file(module, deps, extra_entries=extra)
+        content = generate_license_file(module, deps, extra_entries=extra, strict=args.strict)
 
         config["output_file"].write_text(content, encoding="utf-8")
         print(f"  Written {config['output_file']} ({len(content)} bytes)")
