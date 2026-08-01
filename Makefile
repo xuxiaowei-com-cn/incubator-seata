@@ -25,7 +25,9 @@ help: ## Show help information
 MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
 MAVEN_ARGS ?= -T 4C -e -B -V
 
-.PHONY: clean checkstyle checkstyle-diff license test package-only package
+.PHONY: help clean checkstyle checkstyle-diff license \
+	generate-license-all generate-license-namingserver generate-license-server generate-license-distribution \
+	test install-only install package-only package
 
 clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean
@@ -58,20 +60,26 @@ checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 license: ## Run license check
 	$(MVN) $(MAVEN_ARGS) clean -Dlicense.skip=false
 
-generate-license-all: ## Generate LICENSE-namingserver, LICENSE-server and LICENSE files
+generate-license-all: install-only ## Generate LICENSE-namingserver, LICENSE-server and LICENSE files
 	@./script/license/generate-license.sh all
 
-generate-license-namingserver: ## Generate LICENSE-namingserver files
+generate-license-namingserver: install-only ## Generate LICENSE-namingserver files
 	@./script/license/generate-license.sh namingserver
 
-generate-license-server: ## Generate LICENSE-server files
+generate-license-server: install-only ## Generate LICENSE-server files
 	@./script/license/generate-license.sh server
 
-generate-license-distribution: ## Generate distribution LICENSE file
+generate-license-distribution: install-only ## Generate distribution LICENSE file
 	@./script/license/generate-license.sh distribution
 
 test: ## Run unit tests
 	$(MVN) $(MAVEN_ARGS) clean test
+
+install-only: ## Package the project without running tests
+	$(MVN) $(MAVEN_ARGS) clean install -DskipTests
+
+install: ## Package the project without running tests
+	$(MVN) $(MAVEN_ARGS) clean install
 
 package-only: ## Package the project without running tests
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests
