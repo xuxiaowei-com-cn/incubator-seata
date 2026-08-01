@@ -22,7 +22,7 @@
 # Ensures the correct working directory and Python environment.
 #
 # Usage:
-#   ./script/license/generate-license.sh [namingserver|server|all]
+#   ./script/license/generate-license.sh [namingserver|server|distribution|all]
 # ---------------------------------------------------------------------------
 
 set -euo pipefail

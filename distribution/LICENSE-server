@@ -417,6 +417,7 @@ BSD-3-Clause licenses
     dva-core/node_modules/warning 3.0.0 BSD-3-Clause see:licenses/warning-BSD-3-Clause
     dva/node_modules/hoist-non-react-statics 2.5.5 BSD-3-Clause see:licenses/hoist-non-react-statics-BSD-3-Clause
     hoist-non-react-statics 3.3.2 BSD-3-Clause see:licenses/hoist-non-react-statics-BSD-3-Clause
+    io.github.x-stream:mxparser 1.2.2 BSD-3-Clause
     org.codehaus.janino:commons-compiler 3.1.12 BSD-3-Clause see:licenses/janino-BSD-3-Clause
     org.codehaus.janino:janino 3.1.12 BSD-3-Clause see:licenses/janino-BSD-3-Clause
     org.hamcrest:hamcrest 3.0 BSD-3-Clause see:licenses/hamcrest-BSD-3-Clause
@@ -481,6 +482,12 @@ ISC licenses
     semver 6.3.1 ISC see:licenses/semver-ISC
     yallist 3.1.1 ISC see:licenses/yallist-ISC
     yaml 1.10.3 ISC see:licenses/yaml-ISC
+
+========================================================================
+LGPL-2.1 licenses
+========================================================================
+
+    net.java.dev.jna:jna 5.5.0 LGPL-2.1
 
 ========================================================================
 MIT licenses
@@ -738,10 +745,17 @@ MIT licenses
     whatwg-url 5.0.0 MIT see:licenses/whatwg-url-MIT
 
 ========================================================================
+MPL-1.1 licenses
+========================================================================
+
+    org.javassist:javassist 3.21.0-GA MPL-1.1
+
+========================================================================
 Public-Domain licenses
 ========================================================================
 
     aopalliance:aopalliance 1.0 Public-Domain
+    org.json:json 20250517 Public-Domain
 
 ========================================================================
 SIL licenses
@@ -750,31 +764,7 @@ SIL licenses
     bpmn-font 0.12.1 SIL see:licenses/bpmn-font-SIL
 
 ========================================================================
-https://raw.githubusercontent.com/x-stream/mxparser/master/LICENSE.txt licenses
+WTFPL licenses
 ========================================================================
 
-    io.github.x-stream:mxparser 1.2.2 https://raw.githubusercontent.com/x-stream/mxparser/master/LICENSE.txt
-
-========================================================================
-http://www.gnu.org/licenses/licenses.html licenses
-========================================================================
-
-    net.java.dev.jna:jna 5.5.0 http://www.gnu.org/licenses/licenses.html
-
-========================================================================
-MPL-1.1 licenses
-========================================================================
-
-    org.javassist:javassist 3.21.0-GA MPL-1.1
-
-========================================================================
-https://github.com/stleary/JSON-java/blob/master/LICENSE licenses
-========================================================================
-
-    org.json:json 20250517 https://github.com/stleary/JSON-java/blob/master/LICENSE
-
-========================================================================
-http://www.wtfpl.net/, http://www.opensource.org/licenses/bsd-license.html licenses
-========================================================================
-
-    org.reflections:reflections 0.9.11 http://www.wtfpl.net/, http://www.opensource.org/licenses/bsd-license.html
+    org.reflections:reflections 0.9.11 WTFPL

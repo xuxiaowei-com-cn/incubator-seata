@@ -49,7 +49,57 @@ MODULE_CONFIG = {
         "output_file": DIST_DIR / "LICENSE-server",
         "maven_module": "server",
     },
+    "distribution": {
+        "config_file": PROJECT_ROOT / ".licenserc-distribution.yaml",
+        "output_file": DIST_DIR / "LICENSE",
+        "maven_module": "distribution",
+    },
 }
+
+# Extra entries for distribution/LICENSE that license-eye cannot auto-resolve.
+# These are font files bundled with the console webapp, dual-licensed
+# dependencies, and other manually verified entries.
+DISTRIBUTION_EXTRA_ENTRIES = """
+========================================================================
+Apache-2.0 licenses (additional)
+========================================================================
+
+    The following font files are included in the Seata Console:
+    console/src/main/resources/static/console-fe/public/css/fonts/
+
+    roboto-regular.ttf Apache-2.0
+    roboto-regular.woff Apache-2.0
+    roboto-regular.woff2 Apache-2.0
+    roboto-bold.ttf Apache-2.0
+    roboto-bold.woff Apache-2.0
+    roboto-bold.woff2 Apache-2.0
+    (Google Roboto Font - https://fonts.google.com/specimen/Roboto)
+
+========================================================================
+MIT licenses (additional)
+========================================================================
+
+    The following font files are bundled with @alicloud/console-components (MIT):
+    console/src/main/resources/static/console-fe/public/css/fonts/
+
+    aliyun-console-font.eot MIT (bundled with @alicloud/console-components)
+    aliyun-console-font.ttf MIT (bundled with @alicloud/console-components)
+    aliyun-console-font.woff MIT (bundled with @alicloud/console-components)
+
+    The following icon font files are from iconfont.cn (Alibaba):
+    font_515771_emcns5054x3whfr.ttf MIT (iconfont.cn - https://www.iconfont.cn)
+    font_515771_emcns5054x3whfr.woff MIT (iconfont.cn - https://www.iconfont.cn)
+
+========================================================================
+CDDL+GPL-1.1 licenses
+========================================================================
+
+    javax.servlet:javax.servlet-api 4.0.1 CDDL+GPL-1.1 see:licenses/CDDL+GPL-1.1
+    org.glassfish:javax.json 1.0.4 CDDL+GPL-1.1 see:licenses/CDDL+GPL-1.1
+    com.sun.jersey.contribs:jersey-apache-client4 1.19.1 CDDL+GPL-1.1 see:licenses/CDDL+GPL-1.1
+    com.sun.jersey:jersey-client 1.19.1 CDDL+GPL-1.1 see:licenses/CDDL+GPL-1.1
+    com.sun.jersey:jersey-core 1.19.1 CDDL+GPL-1.1 see:licenses/CDDL+GPL-1.1
+"""
 
 # Known license overrides for dependencies whose license cannot be
 # auto-resolved by license-eye.  Map: dependency_name -> license_spdx
@@ -68,6 +118,11 @@ LICENSE_OVERRIDES = {
     "org.apache.ant:ant-launcher": "Apache-2.0",
     "org.apache.zookeeper:zookeeper": "Apache-2.0",
     "org.apache.zookeeper:zookeeper-jute": "Apache-2.0",
+    "io.github.x-stream:mxparser": "BSD-3-Clause",
+    "net.java.dev.jna:jna": "LGPL-2.1",
+    "org.json:json": "Public-Domain",
+    "org.reflections:reflections": "WTFPL",
+    "org.javassist:javassist": "MPL-1.1",
 }
 
 # License normalization: various spellings → SPDX identifier
@@ -342,9 +397,12 @@ def format_dep_entry(dep_name: str, version: str, license_spdx: str,
     return base
 
 
-def generate_license_file(module: str, deps: list[tuple[str, str, str]]) -> str:
+def generate_license_file(module: str, deps: list[tuple[str, str, str]],
+                        extra_entries: str | None = None) -> str:
     """
     Generate the full LICENSE file content.
+    If extra_entries is provided, it is appended after the auto-generated
+    dependency sections (used for font files, dual-license entries, etc.).
     """
     # Group dependencies by normalized license
     grouped: dict[str, list[tuple[str, str, str]]] = defaultdict(list)
@@ -394,6 +452,10 @@ def generate_license_file(module: str, deps: list[tuple[str, str, str]]) -> str:
             print(f"    - {dep_name} {version}")
         print("  Please add overrides in LICENSE_OVERRIDES dictionary.\n")
 
+    # Append extra entries (font files, dual-license entries, etc.)
+    if extra_entries:
+        lines.append(extra_entries)
+
     return "\n".join(lines) + "\n"
 
 
@@ -407,12 +469,12 @@ def main():
     )
     parser.add_argument(
         "module",
-        choices=["namingserver", "server", "all"],
+        choices=["namingserver", "server", "distribution", "all"],
         help="Which module to generate LICENSE for",
     )
     args = parser.parse_args()
 
-    modules = ["namingserver", "server"] if args.module == "all" else [args.module]
+    modules = ["namingserver", "server", "distribution"] if args.module == "all" else [args.module]
 
     for module in modules:
         config = MODULE_CONFIG[module]
@@ -429,7 +491,8 @@ def main():
         deps = resolve_dependencies(config["config_file"])
         print(f"  Resolved {len(deps)} dependencies")
 
-        content = generate_license_file(module, deps)
+        extra = DISTRIBUTION_EXTRA_ENTRIES if module == "distribution" else None
+        content = generate_license_file(module, deps, extra_entries=extra)
 
         config["output_file"].write_text(content, encoding="utf-8")
         print(f"  Written {config['output_file']} ({len(content)} bytes)")
