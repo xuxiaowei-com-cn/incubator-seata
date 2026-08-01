@@ -98,7 +98,7 @@ jobs:
         if: steps.cache-maven-repository.outputs.cache-hit != 'true'
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-${{ env.TODAY }}
+          key: ${{ runner.os }}-license-maven-${{ hashFiles('**/pom.xml') }}
       # step 8 check for uncommitted changes after maven build
       - name: Check for changes after Maven build
         run: |
