@@ -132,6 +132,7 @@ class ChangeGroupTests {
             Result<?> result =
                     restTemplate.postForObject(changeGroupUrl, httpEntityGroup, Result.class, uriVariablesGroup);
             assertNotNull(result);
+            assertEquals(Result.SUCCESS_CODE, result.getCode());
         }
 
         Result<?> unregisterResult = restTemplate.postForObject(unregisterUrl, httpEntity, Result.class, uriVariables);
