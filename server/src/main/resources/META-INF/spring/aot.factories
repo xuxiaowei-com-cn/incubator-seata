@@ -1,2 +1,3 @@
 org.springframework.aot.hint.RuntimeHintsRegistrar=\
-org.apache.seata.server.ApolloNativeRuntimeHints
+org.apache.seata.server.ApolloNativeRuntimeHints,\
+org.apache.seata.server.SeataServerRuntimeHints
