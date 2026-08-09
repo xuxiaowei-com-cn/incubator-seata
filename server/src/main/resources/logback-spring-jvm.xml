@@ -17,20 +17,24 @@
     limitations under the License.
 
 -->
-
 <!--
-    Default logback configuration for both JVM (direct java -jar) and
-    GraalVM native image.
+    JVM-only logback configuration with external conf directory support.
 
-    This file omits <if> conditional tags that require Janino runtime
-    compilation (not available in native image). All appender includes
-    are resolved from classpath resources.
+    This variant uses <if> conditional tags (requires Janino runtime
+    compilation) to load appender includes from either classpath resources
+    or an external conf directory based on LOG_BASH_DIR
+    (spring.config.additional-location).
 
     Distribution packaging (distribution/release-seata.xml):
-        For the JVM distribution, this file is NOT used. Instead,
-        logback-spring-jvm.xml is copied to conf/logback-spring.xml
-        so the launch script picks up the variant with <if> conditionals
-        and external conf directory support.
+        This file is copied to conf/logback-spring.xml in the JVM
+        distribution package, replacing the default logback-spring.xml.
+        The launch script (distribution/bin/seata-server.sh)
+        references it via:
+            -Dlogging.config=${BASEDIR}/conf/logback-spring.xml
+
+    This file is NOT used as the default classpath logback-spring.xml.
+    The default is the simplified variant without <if> tags, which works
+    in both direct java -jar and GraalVM native image.
 -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!-- Context listeners -->
@@ -53,15 +57,61 @@
     <springProperty name="KAFKA_APPENDER_ENABLED" source="logging.extend.kafka-appender.enabled" defaultValue="false"/>
     <springProperty name="METRIC_APPENDER_ENABLED" source="logging.extend.metric-appender.enabled" defaultValue="false"/>
 
-    <!-- console-appender -->
-    <include resource="logback/console-appender.xml"/>
+    <if condition='property("LOG_BASH_DIR").equals("")' >
+        <then>
+            <!-- console-appender -->
+            <include resource="logback/console-appender.xml"/>
 
-    <!-- file-appender -->
-    <include resource="logback/file-appender.xml"/>
+            <!-- file-appender -->
+            <include resource="logback/file-appender.xml"/>
 
-    <!-- logstash-appender: off by default, enable with -Dlogging.extend.logstash-appender.enabled=true -->
-    <!-- kafka-appender: off by default, enable with -Dlogging.extend.kafka-appender.enabled=true -->
-    <!-- metric-appender: off by default, enable with -Dlogging.extend.metric-appender.enabled=true -->
+            <!-- logstash-appender: off by default -->
+            <if condition='property("LOGSTASH_APPENDER_ENABLED").equals("true")'>
+                <then>
+                    <include resource="logback/logstash-appender.xml"/>
+                </then>
+            </if>
+
+            <!-- metric-appender: off by default -->
+            <if condition='property("METRIC_APPENDER_ENABLED").equals("true")'>
+                <then>
+                    <include resource="logback/metric-appender.xml"/>
+                </then>
+            </if>
+
+            <!-- kafka-appender: off by default -->
+            <if condition='property("KAFKA_APPENDER_ENABLED").equals("true")'>
+                <then>
+                    <include resource="logback/kafka-appender.xml"/>
+                </then>
+            </if>
+        </then>
+        <else>
+            <include file="${LOG_BASH_DIR}/logback/console-appender.xml"/>
+            <include file="${LOG_BASH_DIR}/logback/file-appender.xml"/>
+
+            <!-- logstash-appender: off by default -->
+            <if condition='property("LOGSTASH_APPENDER_ENABLED").equals("true")'>
+                <then>
+                    <include resource="logback/logstash-appender.xml"/>
+                </then>
+            </if>
+
+            <!-- metric-appender: off by default -->
+            <if condition='property("METRIC_APPENDER_ENABLED").equals("true")'>
+                <then>
+                    <include resource="logback/metric-appender.xml"/>
+                </then>
+            </if>
+
+            <!-- kafka-appender: off by default -->
+            <if condition='property("KAFKA_APPENDER_ENABLED").equals("true")'>
+                <then>
+                    <include resource="logback/kafka-appender.xml"/>
+                </then>
+            </if>
+        </else>
+    </if>
 
 
 
@@ -102,8 +152,26 @@
         <appender-ref ref="ASYNC_FILE_WARN"/>
         <appender-ref ref="ASYNC_FILE_ERROR"/>
 
-        <!-- logstash/kafka/metric appender-refs are off by default -->
-        <!-- uncomment and add LOGSTASH/KAFKA/METRIC appender-refs if enabled -->
+        <!-- logstash-appender: off by default -->
+        <if condition='property("LOGSTASH_APPENDER_ENABLED").equals("true")'>
+            <then>
+                <appender-ref ref="LOGSTASH"/>
+            </then>
+        </if>
+
+        <!-- kafka-appender: off by default -->
+        <if condition='property("KAFKA_APPENDER_ENABLED").equals("true")'>
+            <then>
+                <appender-ref ref="KAFKA"/>
+            </then>
+        </if>
+
+        <!-- metric-appender: off by default -->
+        <if condition='property("METRIC_APPENDER_ENABLED").equals("true")'>
+            <then>
+                <appender-ref ref="METRIC"/>
+            </then>
+        </if>
 
     </root>
     <logger name="org.apache.kafka" level="WARN" additivity="false">
