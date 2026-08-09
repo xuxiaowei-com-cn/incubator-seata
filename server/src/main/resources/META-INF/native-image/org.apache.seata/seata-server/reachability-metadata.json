@@ -2976,6 +2976,21 @@
     "type" : "org.apache.seata.core.protocol.detector.HttpDetector$2"
   }, {
     "type" : "org.apache.seata.core.rpc.netty.http.HttpDispatchHandler"
+  }, {
+    "type" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1873606",
+    "fields" : [ {
+      "name" : "GUICE$INVOKERS"
+    } ]
+  }, {
+    "type" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$232909",
+    "fields" : [ {
+      "name" : "GUICE$INVOKERS"
+    } ]
+  }, {
+    "type" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry$$FastClassByGuice$$3004448",
+    "fields" : [ {
+      "name" : "GUICE$INVOKERS"
+    } ]
   } ],
   "resources" : [ {
     "glob" : ""

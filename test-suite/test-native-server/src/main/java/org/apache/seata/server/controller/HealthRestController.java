@@ -26,5 +26,4 @@ public class HealthRestController {
     public String health() {
         return "ok";
     }
-
 }
