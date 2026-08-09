@@ -83,7 +83,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ runner.arch }}-maven-
       - name: "Install dependencies for ${{ matrix.module.name }} in ${{ matrix.os }}"
-        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module.name }},server install -DskipTests -am
+        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module.name }},server,spring/seata-spring-boot-starter install -DskipTests -am
       - name: "Package ${{ matrix.module.name }}"
         run: ./mvnw -T 2C -B -pl ${{ matrix.module.name }} package -DskipTests -Prelease-seata-jar
       - name: "List ${{ matrix.module.name }} jar"
