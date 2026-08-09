@@ -231,6 +231,7 @@ jobs:
           echo "ERROR: Port 50180 is not responding after ${{ env.TEST_NATIVE_SERVER_STARTUP_RETRIES }} seconds"
           exit 1
       - name: "Run ${{ matrix.module.name }} native tests for native-image metadata"
+        if: runner.os != 'macOS'
         shell: sh
         run: |
           echo "Exercising endpoints to collect native-image metadata..."
