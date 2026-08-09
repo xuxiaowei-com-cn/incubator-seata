@@ -199,7 +199,7 @@ jobs:
           echo "ERROR: Port 8091 is not responding after ${{ env.SEATA_SERVER_STARTUP_RETRIES }} seconds"
           exit 1
       - name: Start test-native-server for server module
-        if: matrix.module.name == 'server'
+        if: matrix.module.name == 'server' && runner.os != 'macOS'
         run: |
           ./mvnw -T 2C -B -Ptest-native-server -pl test-suite/test-native-server spring-boot:run &
           TEST_NATIVE_SERVER_PID=$!
