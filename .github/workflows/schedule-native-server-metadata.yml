@@ -204,7 +204,7 @@ jobs:
           ./mvnw -T 2C -B -Ptest-native-server -pl test-suite/test-native-server spring-boot:run &
           TEST_NATIVE_SERVER_PID=$!
           
-          sleep 3
+          sleep 30
           jcmd -l
           JAR_PATTERN="SeataTestNativeApplication"
           APP_PID=$(jcmd -l | grep "${JAR_PATTERN}" | grep -v jcmd | awk '{print $1}')
