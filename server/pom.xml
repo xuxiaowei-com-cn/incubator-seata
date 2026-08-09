@@ -666,6 +666,8 @@
                                     <arg>--initialize-at-build-time=com.alibaba.fastjson2.writer.ObjectWriterCreator</arg>
                                     <arg>--initialize-at-build-time=com.alibaba.fastjson2.writer.ObjectWriterCreator$LambdaInfo</arg>
                                     <arg>--initialize-at-build-time=com.alibaba.fastjson2.reader.ObjectReaderCreator$LambdaSetterInfo</arg>
+                                    <arg>--initialize-at-run-time=io.netty.channel.kqueue.Native</arg>
+                                    <arg>--initialize-at-run-time=io.netty.channel.kqueue.KQueueEventArray</arg>
                                 </buildArgs>
                                 <exclusions>
                                     <exclusion>
