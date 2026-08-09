@@ -35,7 +35,7 @@ jobs:
         os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26 ]
         module:
           - name: server
-            port: 8089
+            port: 8091
             readiness: /health
     env:
       USERNAME: seata
