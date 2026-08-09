@@ -102,8 +102,7 @@ class ExecuteMergeNativeImageMetadataTests {
         // Generated metadata from the build output directory
         String source = PROJECT_BASE + "/target/native-image-config/reachability-metadata.json";
         // Canonical metadata file in the server source tree
-        String target = PROJECT_BASE
-                + "/server/src/main/resources/META-INF/native-image/org.apache.seata/seata-server/reachability-metadata.json";
+        String target = PROJECT_BASE + "/server/src/main/resources/META-INF/native-image/reachability-metadata.json";
 
         JsonNode sourceNode = objectMapper.readTree(new File(source));
         JsonNode targetNode = objectMapper.readTree(new File(target));

@@ -54,7 +54,7 @@ spotless-check: ## Run Spotless code format check
 	$(MVN) $(MAVEN_ARGS) spotless:check
 
 spotless-apply: ## Apply Spotless code formatting
-	$(MVN) $(MAVEN_ARGS) spotless:apply -Ptest-native-server
+	$(MVN) $(MAVEN_ARGS) spotless:apply -Ptest-native-metadata-merge -Ptest-native-server
 
 checkstyle: ## Run global Checkstyle code check
 	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false
