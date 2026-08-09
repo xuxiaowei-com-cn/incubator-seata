@@ -50,6 +50,28 @@ jobs:
         with:
           repository: ${{ inputs.repository || env.repository }}
           ref: ${{ inputs.ref || env.ref }}
+      - name: "Start MySQL via Docker (Linux only)"
+        if: runner.os == 'Linux'
+        shell: sh
+        run: |
+          docker run -d --name mysql-test \
+            -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+            -e MYSQL_DATABASE=seata_test_native \
+            -p 3306:3306 \
+            mysql:8.0
+          echo "Waiting for MySQL to be ready..."
+          for i in $(seq 1 30); do
+            if docker exec mysql-test mysqladmin ping -h localhost --silent 2>/dev/null; then
+              echo "MySQL is ready"
+              docker logs mysql-test --tail 10
+              exit 0
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 2
+          done
+          echo "ERROR: MySQL failed to start after 60s"
+          docker logs mysql-test --tail 50
+          exit 1
       - name: "Print current git SHA"
         id: git-sha
         run: |
