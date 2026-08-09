@@ -317,12 +317,20 @@ jobs:
           path: |
             ./target/native-image-config/reachability-metadata.json
             ./git-sha.txt
-      - name: "Merge native-image config for ${{ matrix.module.name }}"
+      - name: "Merge native-image config for namingserver"
+        if: matrix.module.name == 'namingserver'
         shell: sh
         env:
           EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER: true
         run: |
           ./mvnw test -Dtest=ExecuteMergeNativeImageMetadataTests#namingServer -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
+      - name: "Merge native-image config for server"
+        if: matrix.module.name == 'server'
+        shell: sh
+        env:
+          EXECUTE_NATIVE_METADATA_MERGE_SERVER: true
+        run: |
+          ./mvnw test -Dtest=ExecuteMergeNativeImageMetadataTests#server -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
       - name: "Apply spotless formatting for ${{ matrix.module.name }}"
         run: ./mvnw spotless:apply -pl ${{ matrix.module.name }}
       - name: "Show ${{ matrix.module.name }} native-image config diff"

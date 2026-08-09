@@ -44,6 +44,7 @@ jobs:
       SHUTDOWN_TIMEOUT: 120
       SEATA_SERVER_STARTUP_RETRIES: 120
       METADATA_FILE_WAIT_TIMEOUT: 120
+      TEST_NATIVE_SERVER_STARTUP_RETRIES: 120
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
@@ -197,6 +198,38 @@ jobs:
           done
           echo "ERROR: Port 8091 is not responding after ${{ env.SEATA_SERVER_STARTUP_RETRIES }} seconds"
           exit 1
+      - name: Start test-native-server for server module
+        if: matrix.module.name == 'server'
+        run: |
+          ./mvnw -T 2C -B -Ptest-native-server -pl test-suite/test-native-server spring-boot:run &
+          TEST_NATIVE_SERVER_PID=$!
+          
+          sleep 30
+          jcmd -l
+          JAR_PATTERN="SeataTestNativeApplication"
+          APP_PID=$(jcmd -l | grep "${JAR_PATTERN}" | grep -v jcmd | awk '{print $1}')
+          if [ -z "${APP_PID}" ]; then
+            echo "ERROR: Could not find PID for ${JAR_PATTERN} via jcmd."
+            jcmd -l
+            exit 1
+          fi
+          echo "${APP_PID}" > ./target/test-native-server.pid
+          echo "Application started with PID: ${APP_PID}"
+          
+          echo "$TEST_NATIVE_SERVER_PID" > ./test-native-server.pid
+          echo "Seata server started with PID=$TEST_NATIVE_SERVER_PID"
+          i=1
+          while [ $i -le ${{ env.TEST_NATIVE_SERVER_STARTUP_RETRIES }} ]; do
+            if curl -sSf http://localhost:50180/health >/dev/null 2>&1; then
+              echo "Port 50180 is responding"
+              exit 0
+            fi
+            echo "Waiting for port 50180... ($i/${{ env.TEST_NATIVE_SERVER_STARTUP_RETRIES }})"
+            sleep 1
+            i=$((i + 1))
+          done
+          echo "ERROR: Port 50180 is not responding after ${{ env.TEST_NATIVE_SERVER_STARTUP_RETRIES }} seconds"
+          exit 1
       - name: "Run ${{ matrix.module.name }} native tests for native-image metadata"
         shell: sh
         run: |
@@ -284,12 +317,20 @@ jobs:
           path: |
             ./target/native-image-config/reachability-metadata.json
             ./git-sha.txt
-      - name: "Merge native-image config for ${{ matrix.module.name }}"
+      - name: "Merge native-image config for namingserver"
+        if: matrix.module.name == 'namingserver'
         shell: sh
         env:
           EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER: true
         run: |
           ./mvnw test -Dtest=ExecuteMergeNativeImageMetadataTests#namingServer -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
+      - name: "Merge native-image config for server"
+        if: matrix.module.name == 'server'
+        shell: sh
+        env:
+          EXECUTE_NATIVE_METADATA_MERGE_SERVER: true
+        run: |
+          ./mvnw test -Dtest=ExecuteMergeNativeImageMetadataTests#server -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
       - name: "Apply spotless formatting for ${{ matrix.module.name }}"
         run: ./mvnw spotless:apply -pl ${{ matrix.module.name }}
       - name: "Show ${{ matrix.module.name }} native-image config diff"
