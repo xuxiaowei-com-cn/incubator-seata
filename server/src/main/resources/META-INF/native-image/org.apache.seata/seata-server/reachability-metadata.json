@@ -1101,6 +1101,9 @@
     "methods" : [ {
       "name" : "<init>",
       "parameterTypes" : [ ]
+    }, {
+      "name" : "healthCheck",
+      "parameterTypes" : [ ]
     } ]
   }, {
     "type" : "org.apache.seata.server.controller.VGroupMappingController",
@@ -2946,6 +2949,33 @@
     "fields" : [ {
       "name" : "fd"
     } ]
+  }, {
+    "type" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1231617",
+    "fields" : [ {
+      "name" : "GUICE$INVOKERS"
+    } ]
+  }, {
+    "type" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$433796",
+    "fields" : [ {
+      "name" : "GUICE$INVOKERS"
+    } ]
+  }, {
+    "type" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry$$FastClassByGuice$$2982125",
+    "fields" : [ {
+      "name" : "GUICE$INVOKERS"
+    } ]
+  }, {
+    "type" : "io.netty.handler.codec.http.HttpObjectAggregator"
+  }, {
+    "type" : "io.netty.handler.codec.http.HttpServerCodec"
+  }, {
+    "type" : "io.netty.handler.codec.http.HttpServerUpgradeHandler"
+  }, {
+    "type" : "org.apache.seata.core.protocol.detector.HttpDetector$1"
+  }, {
+    "type" : "org.apache.seata.core.protocol.detector.HttpDetector$2"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.http.HttpDispatchHandler"
   } ],
   "resources" : [ {
     "glob" : ""
