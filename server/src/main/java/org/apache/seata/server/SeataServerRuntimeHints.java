@@ -52,7 +52,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class SeataServerRuntimeHints implements RuntimeHintsRegistrar {
 
-    private static final Logger log = LoggerFactory.getLogger(SeataServerRuntimeHints.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SeataServerRuntimeHints.class);
 
     /**
      * Pattern to discover all SPI descriptor files across the classpath.
@@ -70,7 +70,7 @@ public class SeataServerRuntimeHints implements RuntimeHintsRegistrar {
         int count = 0;
         count += registerFromPattern(hints, classLoader, SERVICES_PATTERN);
         count += registerFromPattern(hints, classLoader, SEATA_PATTERN);
-        log.info("Registered native reflection hints for {} Seata SPI implementation classes", count);
+        LOGGER.info("Registered native reflection hints for {} Seata SPI implementation classes", count);
     }
 
     private int registerFromPattern(RuntimeHints hints, ClassLoader classLoader, String locationPattern) {
@@ -82,7 +82,7 @@ public class SeataServerRuntimeHints implements RuntimeHintsRegistrar {
                 count += processServiceFile(hints, classLoader, resource);
             }
         } catch (IOException e) {
-            log.warn("Failed to scan SPI resources for pattern: {}", locationPattern, e);
+            LOGGER.warn("Failed to scan SPI resources for pattern: {}", locationPattern, e);
         }
         return count;
     }
@@ -107,7 +107,7 @@ public class SeataServerRuntimeHints implements RuntimeHintsRegistrar {
                 }
             }
         } catch (Exception e) {
-            log.debug("Failed to process SPI file: {}", resource.getFilename(), e);
+            LOGGER.debug("Failed to process SPI file: {}", resource.getFilename(), e);
         }
         return count;
     }
@@ -118,10 +118,10 @@ public class SeataServerRuntimeHints implements RuntimeHintsRegistrar {
             hints.reflection()
                     .registerType(
                             clazz, MemberCategory.INVOKE_DECLARED_CONSTRUCTORS, MemberCategory.INVOKE_PUBLIC_METHODS);
-            log.debug("Registered native reflection hints for SPI class: {}", className);
+            LOGGER.debug("Registered native reflection hints for SPI class: {}", className);
             return true;
         } catch (ClassNotFoundException | NoClassDefFoundError e) {
-            log.debug("SPI class not available on classpath, skipping: {}", className);
+            LOGGER.debug("SPI class not available on classpath, skipping: {}", className);
             return false;
         }
     }

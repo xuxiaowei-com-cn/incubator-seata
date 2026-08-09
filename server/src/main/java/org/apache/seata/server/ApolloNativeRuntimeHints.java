@@ -33,7 +33,7 @@ import org.springframework.aot.hint.RuntimeHintsRegistrar;
  */
 public class ApolloNativeRuntimeHints implements RuntimeHintsRegistrar {
 
-    private static final Logger log = LoggerFactory.getLogger(ApolloNativeRuntimeHints.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApolloNativeRuntimeHints.class);
 
     private static final String[] APOLLO_GUICE_CLASSES = {
         ConfigPropertySourceFactory.class.getName(),
@@ -55,7 +55,7 @@ public class ApolloNativeRuntimeHints implements RuntimeHintsRegistrar {
                                 MemberCategory.ACCESS_DECLARED_FIELDS);
             } catch (ClassNotFoundException e) {
                 // Skip classes not available on the classpath
-                log.error("Apollo Guice class not found on classpath: {}", className, e);
+                LOGGER.error("Apollo Guice class not found on classpath: {}", className, e);
             }
         }
     }
