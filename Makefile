@@ -23,11 +23,16 @@ SHELL := /usr/bin/env bash
 # matching the target name — make will always execute them regardless of file timestamps)
 .PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
 	package-only package \
-	package-server-native-metadata run-server-native-metadata \
+	package-server-native-metadata \
+	run-server-native-file-metadata \
+	run-server-native-nacos-metadata \
 	run-test-native-spring-boot run-test-native \
 	test-native-server \
 	run-merge-native-server \
-	package-server-native run-server-native-mode-file package-run-server-native-mode-file
+	package-server-native \
+	run-server-native-file-mode \
+	package-run-server-native-file-mode \
+	run-server-native-nacos-mode
 
 help: ## Show help information
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-44s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -42,6 +47,42 @@ MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
 MAVEN_ARGS ?= -T 4C -e -B -V
 
 NACOS_SERVER_ADDR ?= 127.0.0.1:8848
+NACOS_NAMESPACE ?=
+NACOS_GROUP ?= SEATA_GROUP1
+NACOS_DATAID ?= seataServer.properties
+NACOS_USERNAME ?=
+NACOS_PASSWORD ?=
+
+# Shared Nacos environment variables for config (nacos) + registry (nacos) + store (file) mode
+define NACOS_MODE_ENV
+SEATA_CONFIG_TYPE=nacos \
+SEATA_CONFIG_NACOS_SERVERADDR=$(NACOS_SERVER_ADDR) \
+SEATA_CONFIG_NACOS_NAMESPACE=$(NACOS_NAMESPACE) \
+SEATA_CONFIG_NACOS_GROUP=$(NACOS_GROUP) \
+SEATA_CONFIG_NACOS_CONTEXTPATH= \
+SEATA_CONFIG_NACOS_USERNAME=$(NACOS_USERNAME) \
+SEATA_CONFIG_NACOS_PASSWORD=$(NACOS_PASSWORD) \
+SEATA_CONFIG_NACOS_ACCESSKEY= \
+SEATA_CONFIG_NACOS_SECRETKEY= \
+SEATA_CONFIG_NACOS_RAMROLENAME= \
+SEATA_CONFIG_NACOS_DATAID=$(NACOS_DATAID) \
+SEATA_REGISTRY_TYPE=nacos \
+SEATA_REGISTRY_PREFERREDNETWORKS=30.240.* \
+SEATA_REGISTRY_IGNOREDINTERFACES=VMware.* \
+SEATA_REGISTRY_METADATA_WEIGHT=100 \
+SEATA_REGISTRY_NACOS_APPLICATION=seata-server \
+SEATA_REGISTRY_NACOS_SERVERADDR=$(NACOS_SERVER_ADDR) \
+SEATA_REGISTRY_NACOS_NAMESPACE=$(NACOS_NAMESPACE) \
+SEATA_REGISTRY_NACOS_GROUP=$(NACOS_GROUP) \
+SEATA_REGISTRY_NACOS_CLUSTER=default \
+SEATA_REGISTRY_NACOS_CONTEXTPATH= \
+SEATA_REGISTRY_NACOS_USERNAME=$(NACOS_USERNAME) \
+SEATA_REGISTRY_NACOS_PASSWORD=$(NACOS_PASSWORD) \
+SEATA_REGISTRY_NACOS_ACCESSKEY= \
+SEATA_REGISTRY_NACOS_SECRETKEY= \
+SEATA_REGISTRY_NACOS_RAMROLENAME= \
+SEATA_STORE_TYPE=file
+endef
 
 # Dynamically resolve the server version from the Maven project (e.g. 2.8.0-SNAPSHOT)
 SERVER_VERSION ?= $(shell $(MVN) help:evaluate -Dexpression=project.version -q -DforceStdout)
@@ -97,7 +138,14 @@ package-server-native-metadata: ## Build server JAR for GraalVM native-image met
 	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl server -am
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Prelease-seata-jar
 
-run-server-native-metadata: ## Run server with GraalVM native-image agent to collect reflection/config metadata
+run-server-native-file-metadata: ## Run server with GraalVM native-image agent to collect reflection/config metadata (config file mode, registry file mode, store file mode)
+	SEATA_CONFIG_TYPE=file \
+	SEATA_REGISTRY_TYPE=file \
+	SEATA_STORE_TYPE=file \
+	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
+
+run-server-native-nacos-metadata: ## Run server with GraalVM native-image agent to collect reflection/config metadata (config nacos mode, registry nacos mode, store file mode)
+	$(NACOS_MODE_ENV) \
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
 test-native-server: ## Run server GraalVM native-image compatibility tests (requires GraalVM with native-image)
@@ -109,8 +157,12 @@ run-merge-native-server: ## Merge collected native-image metadata into the serve
 package-server-native: spotless-apply ## Build server GraalVM native image, spotless-apply is automatically executed before building the native image
 	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server spring-boot:process-aot -Pnative native:compile
 
-run-server-native-mode-file: ## Run the server native image binary directly
+run-server-native-file-mode: ## Run the server native image binary directly
 	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
 
-package-run-server-native-mode-file: package-server-native ## Build native image and then run it
+package-run-server-native-file-mode: package-server-native ## Build native image and then run it
+	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+
+run-server-native-nacos-mode: ## Run the server native image binary directly
+	$(NACOS_MODE_ENV) \
 	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
