@@ -1,4 +1,4 @@
-name: Schedule Native Build (Server, Nacos)
+name: Schedule Native Metadata (Server, Nacos)
 
 on:
   push:

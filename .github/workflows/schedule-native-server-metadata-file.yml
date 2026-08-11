@@ -1,4 +1,4 @@
-name: Schedule Native Build (Server, File)
+name: Schedule Native Metadata (Server, File)
 
 on:
   push:

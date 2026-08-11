@@ -1,4 +1,4 @@
-name: Schedule Native Build (NamingServer)
+name: Schedule Native Metadata (NamingServer)
 
 on:
   push:
