@@ -23,6 +23,7 @@ import tools.jackson.databind.node.ObjectNode;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Utility for merging GraalVM native image reachability metadata JSON files.
@@ -190,7 +191,7 @@ public class MergeNativeImageMetadata {
         // ({"lambda": {...}}). Use toString() for non-textual values.
         if (element.has("type")) {
             StringBuilder sb = new StringBuilder("type:");
-            sb.append(nodeText(element.get("type")));
+            sb.append(normalizeType(nodeText(element.get("type"))));
             if (element.has("condition")) {
                 sb.append("|condition:");
                 sb.append(nodeText(element.get("condition")));
@@ -236,5 +237,34 @@ public class MergeNativeImageMetadata {
             return node.asString();
         }
         return node.toString();
+    }
+
+    /**
+     * Pattern matching Guice-generated {@code FastClass} type names with a
+     * variable numeric hash suffix, e.g.
+     * {@code com.example.MyClass$$FastClassByGuice$$1231617}.
+     *
+     * <p>The numeric component is a hash derived from the base class method
+     * signatures; it can change between builds. Stripping it during key
+     * computation prevents duplicate entries from accumulating in the
+     * canonical metadata file.
+     */
+    private static final Pattern FAST_CLASS_BY_GUICE_SUFFIX = Pattern.compile("\\$\\$FastClassByGuice\\$\\$\\d+$");
+
+    /**
+     * Normalizes a reflection type name for stable identity-key matching by
+     * stripping the variable numeric suffix from Guice FastClass names.
+     *
+     * <p>Example:
+     * {@code com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1231617}
+     * → {@code com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$}
+     *
+     * <p>Type names that do not match the pattern are returned unchanged.
+     *
+     * @param typeValue the raw type name from a metadata entry
+     * @return the normalized type name for key matching
+     */
+    static String normalizeType(String typeValue) {
+        return FAST_CLASS_BY_GUICE_SUFFIX.matcher(typeValue).replaceAll("\\$\\$FastClassByGuice\\$\\$");
     }
 }

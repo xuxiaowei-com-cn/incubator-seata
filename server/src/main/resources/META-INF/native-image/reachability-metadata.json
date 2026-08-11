@@ -3047,21 +3047,6 @@
       "name" : "fd"
     } ]
   }, {
-    "type" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1231617",
-    "fields" : [ {
-      "name" : "GUICE$INVOKERS"
-    } ]
-  }, {
-    "type" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$433796",
-    "fields" : [ {
-      "name" : "GUICE$INVOKERS"
-    } ]
-  }, {
-    "type" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry$$FastClassByGuice$$2982125",
-    "fields" : [ {
-      "name" : "GUICE$INVOKERS"
-    } ]
-  }, {
     "type" : "io.netty.handler.codec.http.HttpObjectAggregator"
   }, {
     "type" : "io.netty.handler.codec.http.HttpServerCodec"
@@ -3073,21 +3058,6 @@
     "type" : "org.apache.seata.core.protocol.detector.HttpDetector$2"
   }, {
     "type" : "org.apache.seata.core.rpc.netty.http.HttpDispatchHandler"
-  }, {
-    "type" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1873606",
-    "fields" : [ {
-      "name" : "GUICE$INVOKERS"
-    } ]
-  }, {
-    "type" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$232909",
-    "fields" : [ {
-      "name" : "GUICE$INVOKERS"
-    } ]
-  }, {
-    "type" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry$$FastClassByGuice$$3004448",
-    "fields" : [ {
-      "name" : "GUICE$INVOKERS"
-    } ]
   }, {
     "type" : "android.app.Application"
   }, {
@@ -3659,21 +3629,6 @@
     "methods" : [ {
       "name" : "<init>",
       "parameterTypes" : [ ]
-    } ]
-  }, {
-    "type" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1216447",
-    "fields" : [ {
-      "name" : "GUICE$INVOKERS"
-    } ]
-  }, {
-    "type" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$368824",
-    "fields" : [ {
-      "name" : "GUICE$INVOKERS"
-    } ]
-  }, {
-    "type" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry$$FastClassByGuice$$2609401",
-    "fields" : [ {
-      "name" : "GUICE$INVOKERS"
     } ]
   }, {
     "type" : "org.apache.seata.server.NacosPayloadRegistryInitializer",
