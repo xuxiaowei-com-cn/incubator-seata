@@ -313,17 +313,19 @@ jobs:
           # Step 1: Graceful shutdown via Spring Boot Actuator shutdown endpoint.
           # This triggers a proper Spring context close with shutdown hooks,
           # ensuring native-image-agent writes reachability-metadata.json.
-          echo "Sending shutdown request to http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown..."
-          curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown"
+          if [ "${{ matrix.module.name }}" = 'namingserver' ]; then
+            echo "Sending shutdown request to http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown..."
+            curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown"
 
-          # Step 2: Wait for the application port to become unreachable.
-          # This confirms the HTTP server has stopped accepting connections.
-          SHUTDOWN_ELAPSED=0
-          while curl -sSf "http://127.0.0.1:${{ matrix.module.port }}${{ matrix.module.readiness }}" >/dev/null 2>&1 && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
-            sleep 1
-            SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
-            echo "  Still waiting for port to close... ${SHUTDOWN_ELAPSED}s elapsed."
-          done
+            # Step 2: Wait for the application port to become unreachable.
+            # This confirms the HTTP server has stopped accepting connections.
+            SHUTDOWN_ELAPSED=0
+            while curl -sSf "http://127.0.0.1:${{ matrix.module.port }}${{ matrix.module.readiness }}" >/dev/null 2>&1 && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
+              sleep 1
+              SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
+              echo "  Still waiting for port to close... ${SHUTDOWN_ELAPSED}s elapsed."
+            done
+          fi
           
           # Step 3: Always send SIGTERM as a safety net to trigger JVM shutdown
           # hooks, so the native-image-agent can write reachability-metadata.json.
