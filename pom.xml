@@ -402,6 +402,12 @@
             </modules>
         </profile>
         <profile>
+            <id>test-native-namingserver</id>
+            <modules>
+                <module>test-suite/test-native-namingserver</module>
+            </modules>
+        </profile>
+        <profile>
             <id>test-native-metadata-merge</id>
             <modules>
                 <module>test-suite/test-native-metadata-merge</module>

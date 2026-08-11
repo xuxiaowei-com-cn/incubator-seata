@@ -23,19 +23,17 @@ SHELL := /usr/bin/env bash
 # matching the target name — make will always execute them regardless of file timestamps)
 .PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
 	package-only package \
-	package-server-native-metadata \
-	run-server-native-file-metadata \
-	run-server-native-nacos-metadata \
-	run-test-native-spring-boot run-test-native \
-	test-native-server \
-	run-merge-native-server \
-	package-server-native \
-	run-server-native-file-mode \
-	package-run-server-native-file-mode \
-	run-server-native-nacos-mode
+	install-server-jar install-namingserver-jar \
+	install-run-namingserver-native-jar run-namingserver-native-jar \
+	install-run-server-jar run-server-jar \
+	install-run-server-jar-registry-seata run-server-jar-registry-seata \
+	test-native-namingserver \
+	run-merge-native-namingserver \
+	install-namingserver-native package-namingserver-native \
+	run-namingserver-native
 
 help: ## Show help information
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-44s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-34s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 # Prefer using the system-installed `mvn`, fall back to the Maven Wrapper (`./mvnw`) if unavailable
 MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
@@ -47,44 +45,8 @@ MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
 MAVEN_ARGS ?= -T 4C -e -B -V
 
 NACOS_SERVER_ADDR ?= 127.0.0.1:8848
-NACOS_NAMESPACE ?=
-NACOS_GROUP ?= SEATA_GROUP1
-NACOS_DATAID ?= seataServer.properties
-NACOS_USERNAME ?=
-NACOS_PASSWORD ?=
 
-# Shared Nacos environment variables for config (nacos) + registry (nacos) + store (file) mode
-define NACOS_MODE_ENV
-SEATA_CONFIG_TYPE=nacos \
-SEATA_CONFIG_NACOS_SERVERADDR=$(NACOS_SERVER_ADDR) \
-SEATA_CONFIG_NACOS_NAMESPACE=$(NACOS_NAMESPACE) \
-SEATA_CONFIG_NACOS_GROUP=$(NACOS_GROUP) \
-SEATA_CONFIG_NACOS_CONTEXTPATH= \
-SEATA_CONFIG_NACOS_USERNAME=$(NACOS_USERNAME) \
-SEATA_CONFIG_NACOS_PASSWORD=$(NACOS_PASSWORD) \
-SEATA_CONFIG_NACOS_ACCESSKEY= \
-SEATA_CONFIG_NACOS_SECRETKEY= \
-SEATA_CONFIG_NACOS_RAMROLENAME= \
-SEATA_CONFIG_NACOS_DATAID=$(NACOS_DATAID) \
-SEATA_REGISTRY_TYPE=nacos \
-SEATA_REGISTRY_PREFERREDNETWORKS=30.240.* \
-SEATA_REGISTRY_IGNOREDINTERFACES=VMware.* \
-SEATA_REGISTRY_METADATA_WEIGHT=100 \
-SEATA_REGISTRY_NACOS_APPLICATION=seata-server \
-SEATA_REGISTRY_NACOS_SERVERADDR=$(NACOS_SERVER_ADDR) \
-SEATA_REGISTRY_NACOS_NAMESPACE=$(NACOS_NAMESPACE) \
-SEATA_REGISTRY_NACOS_GROUP=$(NACOS_GROUP) \
-SEATA_REGISTRY_NACOS_CLUSTER=default \
-SEATA_REGISTRY_NACOS_CONTEXTPATH= \
-SEATA_REGISTRY_NACOS_USERNAME=$(NACOS_USERNAME) \
-SEATA_REGISTRY_NACOS_PASSWORD=$(NACOS_PASSWORD) \
-SEATA_REGISTRY_NACOS_ACCESSKEY= \
-SEATA_REGISTRY_NACOS_SECRETKEY= \
-SEATA_REGISTRY_NACOS_RAMROLENAME= \
-SEATA_STORE_TYPE=file
-endef
-
-# Dynamically resolve the server version from the Maven project (e.g. 2.8.0-SNAPSHOT)
+# Dynamically resolve the namingserver version from the Maven project (e.g. 2.8.0-SNAPSHOT)
 SERVER_VERSION ?= $(shell $(MVN) help:evaluate -Dexpression=project.version -q -DforceStdout)
 NATIVE_PLATFORM=$(shell $(MVN) help:evaluate -Dexpression=native.platform -q -DforceStdout)
 
@@ -92,13 +54,13 @@ clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean
 
 spotless-check: ## Run Spotless code format check
-	$(MVN) $(MAVEN_ARGS) spotless:check
+	$(MVN) $(MAVEN_ARGS) spotless:check -Ptest-native-metadata-merge -Ptest-native-namingserver
 
 spotless-apply: ## Apply Spotless code formatting
-	$(MVN) $(MAVEN_ARGS) spotless:apply -Ptest-native-metadata-merge -Ptest-native-server
+	$(MVN) $(MAVEN_ARGS) spotless:apply -Ptest-native-metadata-merge -Ptest-native-namingserver
 
 checkstyle: ## Run global Checkstyle code check
-	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false
+	$(MVN) $(MAVEN_ARGS) checkstyle:check -Dcheckstyle.skip=false
 
 checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 	BASE_REF="$${GITHUB_BASE_REF:-2.x}"; \
@@ -120,10 +82,10 @@ checkstyle-diff: ## Run Checkstyle code check only on changed .java files
 		echo "No changed .java files detected, skip checkstyle."; \
 		exit 0; \
 	fi; \
-	$(MVN) $(MAVEN_ARGS) clean checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
+	$(MVN) $(MAVEN_ARGS) checkstyle:check -Dcheckstyle.skip=false -Dcheckstyle.includes="$${CHECKSTYLE_INCLUDES}"
 
 license: ## Run license check
-	$(MVN) $(MAVEN_ARGS) clean -Dlicense.skip=false
+	$(MVN) $(MAVEN_ARGS) verify -Dlicense.skip=false -DskipTests
 
 test: ## Run unit tests
 	$(MVN) $(MAVEN_ARGS) clean test
@@ -134,35 +96,65 @@ package-only: ## Package the project without running tests
 package: ## Package the project
 	$(MVN) $(MAVEN_ARGS) clean package
 
-package-server-native-metadata: ## Build server JAR for GraalVM native-image metadata collection
-	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl server -am
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server -Prelease-seata-jar
+install-server-jar: spotless-apply ## Build and install the server JAR locally
+	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl server -am -Prelease-seata-jar
 
-run-server-native-file-metadata: ## Run server with GraalVM native-image agent to collect reflection/config metadata (config file mode, registry file mode, store file mode)
-	SEATA_CONFIG_TYPE=file \
-	SEATA_REGISTRY_TYPE=file \
-	SEATA_STORE_TYPE=file \
-	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
+install-namingserver-jar: spotless-apply ## Build namingserver JAR for GraalVM native-image metadata collection
+	$(MVN) $(MAVEN_ARGS) clean install -DskipTests -pl namingserver -am -Prelease-seata-jar
 
-run-server-native-nacos-metadata: ## Run server with GraalVM native-image agent to collect reflection/config metadata (config nacos mode, registry nacos mode, store file mode)
-	$(NACOS_MODE_ENV) \
-	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
+install-run-namingserver-native-jar: install-namingserver-jar ## Build, install, and run namingserver with GraalVM native-image agent
+	@$(MAKE) --no-print-directory run-namingserver-native-jar
 
-test-native-server: ## Run server GraalVM native-image compatibility tests (requires GraalVM with native-image)
-	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-server -pl test-suite/test-native-server
+run-namingserver-native-jar: ## Run namingserver with GraalVM native-image agent (without prior build/install)
+	@echo "=== Workload steps (run in separate terminals) ==="
+	@echo "1. Start server in seata registry mode connecting to namingserver:"
+	@echo "     make install-run-server-jar-registry-seata"
+	@echo "     or"
+	@echo "     make run-server-jar-registry-seata"
+	@echo "2. Run the native namingserver test suite:"
+	@echo "     make test-native-namingserver"
+	@echo "3. After tests pass, stop this namingserver (Ctrl+C) so the agent flushes metadata,"
+	@echo "   then merge the collected metadata:"
+	@echo "     make run-merge-native-namingserver"
+	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./namingserver/target/seata-namingserver.jar --console.user.username=seata  --console.user.password=seata
 
-run-merge-native-server: ## Merge collected native-image metadata into the server resource directory (required to regenerate native metadata, requires JDK 21+)
-	java script/native/MergeNativeImageConfig.java --target-dir server/src/main/resources/META-INF/native-image/org.apache.seata/seata-server
+install-run-server-jar: install-server-jar ## Build, install, and run the server JAR
+	@$(MAKE) --no-print-directory run-server-jar
 
-package-server-native: spotless-apply ## Build server GraalVM native image, spotless-apply is automatically executed before building the native image
-	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl server spring-boot:process-aot -Pnative native:compile
+run-server-jar: ## Run the server JAR (without prior build/install)
+	java -jar server/target/seata-server.jar
 
-run-server-native-file-mode: ## Run the server native image binary directly
-	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+install-run-server-jar-registry-seata: install-server-jar ## Build, install, and run the server JAR, in seata registry mode connecting to namingserver
+	@$(MAKE) --no-print-directory run-server-jar-registry-seata
 
-package-run-server-native-file-mode: package-server-native ## Build native image and then run it
-	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+run-server-jar-registry-seata: ## Run the server JAR (without prior build/install), in seata registry mode connecting to namingserver
+	SEATA_REGISTRY_TYPE=seata \
+	SEATA_REGISTRY_SEATA_SERVER_ADDR=127.0.0.1:8081 \
+	SEATA_REGISTRY_SEATA_USERNAME=seata \
+	SEATA_REGISTRY_SEATA_PASSWORD=seata \
+	java -jar server/target/seata-server.jar
 
-run-server-native-nacos-mode: ## Run the server native image binary directly
-	$(NACOS_MODE_ENV) \
-	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+test-native-namingserver: ## Run namingserver GraalVM native-image compatibility tests (requires GraalVM with native-image)
+	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-namingserver -pl test-suite/test-native-namingserver
+
+run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory (required to regenerate native metadata)
+	EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER=true \
+	$(MVN) $(MAVEN_ARGS) clean test -Dtest=ExecuteMergeNativeImageMetadataTests#namingServer -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
+
+install-namingserver-native: install-namingserver-jar ## Build namingserver GraalVM native image (requires install-namingserver-jar including its spotless-apply dependency)
+	@$(MAKE) --no-print-directory package-namingserver-native
+
+package-namingserver-native: spotless-apply ## Build namingserver GraalVM native image (requires install-namingserver-native or install-namingserver-jar to be executed first; spotless-apply runs first as a direct prerequisite)
+	$(MVN) $(MAVEN_ARGS) clean package -DskipTests -pl namingserver spring-boot:process-aot -Pnative native:compile
+
+run-namingserver-native: ## Run the namingserver native image binary directly
+	@echo "=== Workload steps (run in separate terminals) ==="
+	@echo "1. Start server in seata registry mode connecting to namingserver:"
+	@echo "     make install-run-server-jar-registry-seata"
+	@echo "     or"
+	@echo "     make run-server-jar-registry-seata"
+	@echo "2. Run the native namingserver test suite:"
+	@echo "     make test-native-namingserver"
+	CONSOLE_USER_USERNAME=seata \
+	CONSOLE_USER_PASSWORD=seata \
+	./namingserver/target/seata-namingserver-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
