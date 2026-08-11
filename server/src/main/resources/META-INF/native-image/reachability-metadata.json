@@ -531,6 +531,12 @@
     }, {
       "name" : "ofBuffer",
       "parameterTypes" : [ "java.nio.Buffer" ]
+    }, {
+      "name" : "ofAddress",
+      "parameterTypes" : [ "long" ]
+    }, {
+      "name" : "reinterpret",
+      "parameterTypes" : [ "long" ]
     } ]
   }, {
     "type" : "java.lang.invoke.MethodHandles",
@@ -3636,6 +3642,62 @@
       "name" : "<init>",
       "parameterTypes" : [ ]
     } ]
+  }, {
+    "type" : "com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.NativeLibraryUtil",
+    "methods" : [ {
+      "name" : "loadLibrary",
+      "parameterTypes" : [ "java.lang.String", "boolean" ]
+    } ]
+  }, {
+    "type" : "java.lang.foreign.AddressLayout",
+    "methods" : [ {
+      "name" : "byteSize",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "java.lang.foreign.FunctionDescriptor",
+    "methods" : [ {
+      "name" : "of",
+      "parameterTypes" : [ "java.lang.foreign.MemoryLayout", "java.lang.foreign.MemoryLayout[]" ]
+    }, {
+      "name" : "ofVoid",
+      "parameterTypes" : [ "java.lang.foreign.MemoryLayout[]" ]
+    } ]
+  }, {
+    "type" : "java.lang.foreign.Linker",
+    "methods" : [ {
+      "name" : "defaultLookup",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "downcallHandle",
+      "parameterTypes" : [ "java.lang.foreign.MemorySegment", "java.lang.foreign.FunctionDescriptor", "java.lang.foreign.Linker$Option[]" ]
+    }, {
+      "name" : "nativeLinker",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "java.lang.foreign.Linker$Option"
+  }, {
+    "type" : "java.lang.foreign.Linker$Option[]"
+  }, {
+    "type" : "java.lang.foreign.MemoryLayout"
+  }, {
+    "type" : "java.lang.foreign.MemoryLayout[]"
+  }, {
+    "type" : "java.lang.foreign.SymbolLookup",
+    "methods" : [ {
+      "name" : "findOrThrow",
+      "parameterTypes" : [ "java.lang.String" ]
+    } ]
+  }, {
+    "type" : "java.lang.foreign.ValueLayout",
+    "fields" : [ {
+      "name" : "ADDRESS"
+    }, {
+      "name" : "JAVA_LONG"
+    } ]
+  }, {
+    "type" : "java.lang.foreign.ValueLayout$OfLong"
   } ],
   "resources" : [ {
     "glob" : ""
@@ -4156,5 +4218,18 @@
     "glob" : "nacos-version.txt"
   }, {
     "glob" : "spas.properties"
-  } ]
+  }, {
+    "glob" : "META-INF/native/libcom_alibaba_nacos_shaded_io_grpc_netty_shaded_netty_transport_native_epoll.so"
+  }, {
+    "glob" : "META-INF/native/libcom_alibaba_nacos_shaded_io_grpc_netty_shaded_netty_transport_native_epoll_x86_64.so"
+  } ],
+  "foreign" : {
+    "downcalls" : [ {
+      "returnType" : "jlong",
+      "parameterTypes" : [ "jlong" ]
+    }, {
+      "returnType" : "void",
+      "parameterTypes" : [ "jlong" ]
+    } ]
+  }
 }
