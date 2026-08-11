@@ -27,6 +27,8 @@ SHELL := /usr/bin/env bash
 	install-namingserver-jar \
 	install-run-namingserver-native-jar \
 	run-namingserver-native-jar \
+	install-run-server-native-jar \
+	run-server-native-jar \
 	install-run-server-jar \
 	run-server-jar \
 	install-run-server-jar-registry-seata \
@@ -123,6 +125,22 @@ run-namingserver-native-jar: ## Run namingserver with GraalVM native-image agent
 	@echo "   then merge the collected metadata:"
 	@echo "     make run-merge-native-namingserver"
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./namingserver/target/seata-namingserver.jar --console.user.username=seata  --console.user.password=seata
+
+install-run-server-native-jar: install-server-jar ## Build, install, and run server with GraalVM native-image agent
+	@$(MAKE) --no-print-directory run-server-native-jar
+
+run-server-native-jar: ## Run server with GraalVM native-image agent (without prior build/install)
+	@echo "=== Workload steps (run in separate terminals) ==="
+	@echo "1. Start server in seata registry mode connecting to server:"
+	@echo "     make install-run-server-jar-registry-seata"
+	@echo "     or"
+	@echo "     make run-server-jar-registry-seata"
+	@echo "2. Run the native server test suite:"
+	@echo "     make test-native-server"
+	@echo "3. After tests pass, stop this server (Ctrl+C) so the agent flushes metadata,"
+	@echo "   then merge the collected metadata:"
+	@echo "     make run-merge-native-server"
+	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
 install-run-server-jar: install-server-jar ## Build, install, and run the server JAR
 	@$(MAKE) --no-print-directory run-server-jar
