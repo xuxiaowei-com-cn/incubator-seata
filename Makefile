@@ -218,6 +218,10 @@ run-merge-native-namingserver: ## Merge collected native-image metadata into the
 	EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER=true \
 	$(MVN) $(MAVEN_ARGS) clean test -Dtest=ExecuteMergeNativeImageMetadataTests#namingServer -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
 
+run-merge-native-server: ## Merge collected native-image metadata into the server resource directory (required to regenerate native metadata)
+	EXECUTE_NATIVE_METADATA_MERGE_SERVER=true \
+	$(MVN) $(MAVEN_ARGS) clean test -Dtest=ExecuteMergeNativeImageMetadataTests#server -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
+
 install-namingserver-native: install-namingserver-jar ## Build namingserver GraalVM native image (requires install-namingserver-jar including its spotless-apply dependency)
 	@$(MAKE) --no-print-directory package-namingserver-native
 

@@ -139,9 +139,18 @@ public class MergeNativeImageMetadata {
                 if (!containsNode(targetArray, sourceElement)) {
                     targetArray.add(sourceElement);
                 }
-            } else {
-                // Object without a recognizable key — always append as new entry.
+            } else if (sourceKey != null) {
+                // Object with a key not yet in target — append and register
+                // the key so subsequent source elements with the same key
+                // merge into this one instead of being appended as duplicates.
                 targetArray.add(sourceElement);
+                targetIndex.put(sourceKey, targetArray.size() - 1);
+            } else {
+                // Object without a recognizable key — append only if not
+                // already present to avoid duplication.
+                if (!containsNode(targetArray, sourceElement)) {
+                    targetArray.add(sourceElement);
+                }
             }
         }
     }
