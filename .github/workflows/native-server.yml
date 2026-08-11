@@ -272,6 +272,7 @@ jobs:
         # test-native-server requires seata-spring-boot-starter
         run: ./mvnw -T 4C clean -B -pl server,spring/seata-spring-boot-starter install -DskipTests -am
       - name: "Compile native image"
+        shell: sh
         run: |
           ./mvnw -T 2C clean -B -pl server package -DskipTests -Pnative spring-boot:process-aot native:compile
           rm -rf server/target/*.jar
