@@ -272,14 +272,15 @@ jobs:
         # test-native-server requires seata-spring-boot-starter
         run: ./mvnw -T 4C clean -B -pl server,spring/seata-spring-boot-starter install -DskipTests -am
       - name: "Compile native image"
-        run: ./mvnw -T 2C clean -B -pl server package -DskipTests -Pnative spring-boot:process-aot native:compile
+        run: |
+          ./mvnw -T 2C clean -B -pl server package -DskipTests -Pnative spring-boot:process-aot native:compile
+          rm -rf server/target/*.jar
       - name: "Upload binaries"
         uses: actions/upload-artifact@v7.0.1
         with:
           name: server-native-${{ runner.os }}-${{ runner.arch }}
           path: |
             server/target/seata-*-*
-            !server/target/*.jar
           if-no-files-found: error
       - name: "Verify native binary"
         shell: sh
@@ -288,7 +289,6 @@ jobs:
           SEATA_REGISTRY_TYPE: file
           SEATA_STORE_TYPE: file
         run: |
-          rm -rf ./server/target/*.jar
           ./server/target/seata-server-* &
           NATIVE_PID=$!
           echo "$NATIVE_PID" > ./seata-native-server.pid
