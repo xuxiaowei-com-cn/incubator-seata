@@ -3660,6 +3660,27 @@
       "name" : "<init>",
       "parameterTypes" : [ ]
     } ]
+  }, {
+    "type" : "com.ctrip.framework.apollo.spring.config.ConfigPropertySourceFactory$$FastClassByGuice$$1216447",
+    "fields" : [ {
+      "name" : "GUICE$INVOKERS"
+    } ]
+  }, {
+    "type" : "com.ctrip.framework.apollo.spring.property.PlaceholderHelper$$FastClassByGuice$$368824",
+    "fields" : [ {
+      "name" : "GUICE$INVOKERS"
+    } ]
+  }, {
+    "type" : "com.ctrip.framework.apollo.spring.property.SpringValueRegistry$$FastClassByGuice$$2609401",
+    "fields" : [ {
+      "name" : "GUICE$INVOKERS"
+    } ]
+  }, {
+    "type" : "org.apache.seata.server.NacosPayloadRegistryInitializer",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
   } ],
   "resources" : [ {
     "glob" : ""
