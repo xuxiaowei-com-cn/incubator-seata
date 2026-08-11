@@ -174,6 +174,11 @@ jobs:
           SEATA_REGISTRY_NACOS_RAMROLENAME: ""
           SEATA_STORE_TYPE: file
         run: |
+          if [ "${{ runner.os }}" != 'Linux' ]; then
+            export SEATA_REGISTRY_TYPE=file
+            export SEATA_CONFIG_TYPE=file
+          fi
+          
           SEATA_SECURITY_IGNORE_URLS=$(sed -n 's/.*urls:[ \t]*//p' ${{ matrix.module.name }}/src/main/resources/application.yml)
           echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
           SEATA_SECURITY_IGNORE_URLS="/actuator/shutdown,${SEATA_SECURITY_IGNORE_URLS}"
