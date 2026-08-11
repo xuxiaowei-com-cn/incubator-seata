@@ -23,13 +23,19 @@ SHELL := /usr/bin/env bash
 # matching the target name — make will always execute them regardless of file timestamps)
 .PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
 	package-only package \
-	install-server-jar install-namingserver-jar \
-	install-run-namingserver-native-jar run-namingserver-native-jar \
-	install-run-server-jar run-server-jar \
-	install-run-server-jar-registry-seata run-server-jar-registry-seata \
+	install-server-jar \
+	install-namingserver-jar \
+	install-run-namingserver-native-jar \
+	run-namingserver-native-jar \
+	install-run-server-jar \
+	run-server-jar \
+	install-run-server-jar-registry-seata \
+	run-server-jar-registry-seata \
 	test-native-namingserver \
+	test-native-server \
 	run-merge-native-namingserver \
-	install-namingserver-native package-namingserver-native \
+	install-namingserver-native \
+	package-namingserver-native \
 	run-namingserver-native
 
 help: ## Show help information
@@ -136,6 +142,9 @@ run-server-jar-registry-seata: ## Run the server JAR (without prior build/instal
 
 test-native-namingserver: ## Run namingserver GraalVM native-image compatibility tests (requires GraalVM with native-image)
 	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-namingserver -pl test-suite/test-native-namingserver
+
+test-native-server:
+	$(MVN) $(MAVEN_ARGS) clean test -Ptest-native-server -pl test-suite/test-native-server
 
 run-merge-native-namingserver: ## Merge collected native-image metadata into the namingserver resource directory (required to regenerate native metadata)
 	EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER=true \
