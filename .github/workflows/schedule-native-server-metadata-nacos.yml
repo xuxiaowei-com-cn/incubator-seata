@@ -90,7 +90,7 @@ jobs:
           echo "Waiting for Nacos to be ready..."
           for i in $(seq 1 30); do
             if curl -sSf http://localhost:8080/v3/console/server/state >/dev/null 2>&1; then
-              echo "Port 50180 is responding"
+              echo "Port 8080 is responding"
               exit 0
             fi
             echo "Waiting for Nacos... ($i/30)"
@@ -145,6 +145,34 @@ jobs:
           CONSOLE_USER_PASSWORD: ${{ env.PASSWORD }}
           MANAGEMENT_ENDPOINT_SHUTDOWN_ACCESS: unrestricted
           MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+
+          SEATA_CONFIG_TYPE: nacos
+          SEATA_CONFIG_NACOS_SERVERADDR: "127.0.0.1:8848"
+          SEATA_CONFIG_NACOS_NAMESPACE: ""
+          SEATA_CONFIG_NACOS_GROUP: SEATA_GROUP
+          SEATA_CONFIG_NACOS_CONTEXTPATH: ""
+          SEATA_CONFIG_NACOS_USERNAME: ""
+          SEATA_CONFIG_NACOS_PASSWORD: ""
+          SEATA_CONFIG_NACOS_ACCESSKEY: ""
+          SEATA_CONFIG_NACOS_SECRETKEY: ""
+          SEATA_CONFIG_NACOS_RAMROLENAME: ""
+          SEATA_CONFIG_NACOS_DATAID: seataServer.properties
+          SEATA_REGISTRY_TYPE: nacos
+          SEATA_REGISTRY_PREFERREDNETWORKS: "30.240.*"
+          SEATA_REGISTRY_IGNOREDINTERFACES: VMware.*
+          SEATA_REGISTRY_METADATA_WEIGHT: "100"
+          SEATA_REGISTRY_NACOS_APPLICATION: seata-server
+          SEATA_REGISTRY_NACOS_SERVERADDR: "127.0.0.1:8848"
+          SEATA_REGISTRY_NACOS_NAMESPACE: ""
+          SEATA_REGISTRY_NACOS_GROUP: "SEATA_GROUP"
+          SEATA_REGISTRY_NACOS_CLUSTER: default
+          SEATA_REGISTRY_NACOS_CONTEXTPATH: ""
+          SEATA_REGISTRY_NACOS_USERNAME: ""
+          SEATA_REGISTRY_NACOS_PASSWORD: ""
+          SEATA_REGISTRY_NACOS_ACCESSKEY: ""
+          SEATA_REGISTRY_NACOS_SECRETKEY: ""
+          SEATA_REGISTRY_NACOS_RAMROLENAME: ""
+          SEATA_STORE_TYPE: file
         run: |
           SEATA_SECURITY_IGNORE_URLS=$(sed -n 's/.*urls:[ \t]*//p' ${{ matrix.module.name }}/src/main/resources/application.yml)
           echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
