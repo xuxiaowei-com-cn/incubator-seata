@@ -54,7 +54,7 @@ clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean
 
 spotless-check: ## Run Spotless code format check
-	$(MVN) $(MAVEN_ARGS) spotless:check -Ptest-native-metadata-merge -Ptest-native-namingserver
+	$(MVN) $(MAVEN_ARGS) spotless:check -Ptest-native-metadata-merge -Ptest-native-namingserver -Ptest-native-server
 
 spotless-apply: ## Apply Spotless code formatting
 	$(MVN) $(MAVEN_ARGS) spotless:apply -Ptest-native-metadata-merge -Ptest-native-namingserver
