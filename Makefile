@@ -22,8 +22,8 @@ SHELL := /usr/bin/env bash
 # Declare all phony targets (targets that are not actual files, i.e. they don't produce a file
 # matching the target name — make will always execute them regardless of file timestamps)
 .PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
-  generate-license-all generate-license-namingserver generate-license-server generate-license-distribution \
-	package-only package \
+	generate-license-all generate-license-namingserver generate-license-server generate-license-distribution \
+	install-only install package-only package \
 	install-server-jar install-namingserver-jar \
 	install-run-namingserver-native-jar run-namingserver-native-jar \
 	install-run-server-jar run-server-jar \
