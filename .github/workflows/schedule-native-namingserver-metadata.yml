@@ -1,4 +1,4 @@
-name: Schedule Native Generate NamingServer Metadata
+name: Native NamingServer Metadata
 
 on:
   push:
