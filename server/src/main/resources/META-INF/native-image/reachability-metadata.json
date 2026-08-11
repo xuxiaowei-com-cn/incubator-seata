@@ -4222,6 +4222,8 @@
     "glob" : "META-INF/native/libcom_alibaba_nacos_shaded_io_grpc_netty_shaded_netty_transport_native_epoll.so"
   }, {
     "glob" : "META-INF/native/libcom_alibaba_nacos_shaded_io_grpc_netty_shaded_netty_transport_native_epoll_x86_64.so"
+  }, {
+    "glob" : "META-INF/native/libcom_alibaba_nacos_shaded_io_grpc_netty_shaded_netty_transport_native_epoll_aarch_64.so"
   } ],
   "foreign" : {
     "downcalls" : [ {
