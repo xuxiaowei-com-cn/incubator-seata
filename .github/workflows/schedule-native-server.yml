@@ -1,0 +1,45 @@
+name: Schedule Native Build (Server)
+
+on:
+  push:
+    paths:
+      - '.github/workflows/schedule-native-server.yml'
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  call-remote-server:
+    name: call-remote-server
+    uses: xuxiaowei-com-cn/incubator-seata/.github/workflows/native-server.yml@xuxiaowei/Seata-Server-GraalVM
+    with:
+      repository: xuxiaowei-com-cn/incubator-seata
+      ref: xuxiaowei/Seata-Server-GraalVM
+
+  download-artifacts-server:
+    name: download-artifacts-server
+    needs: call-remote-server
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Download server-native-Linux-ARM64"
+        uses: actions/download-artifact@v4
+        with:
+          name: server-native-Linux-ARM64
+          path: .
+      - name: "Download server-native-Linux-X64"
+        uses: actions/download-artifact@v4
+        with:
+          name: server-native-Linux-X64
+          path: .
+      - name: "Download server-native-Windows-X64"
+        uses: actions/download-artifact@v4
+        with:
+          name: server-native-Windows-X64
+          path: .
+      - name: "Download server-native-macOS-ARM64"
+        uses: actions/download-artifact@v4
+        with:
+          name: server-native-macOS-ARM64
+          path: .
+      - name: "List downloaded artifacts"
+        run: find .

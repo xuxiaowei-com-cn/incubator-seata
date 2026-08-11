@@ -1,4 +1,4 @@
-name: Schedule Native Build
+name: Schedule Native Build (NamingServer)
 
 on:
   push:
@@ -9,16 +9,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  call-remote:
-    name: call-remote
+  call-remote-namingserver:
+    name: call-remote-namingserver
     uses: apache/incubator-seata/.github/workflows/native-namingserver.yml@2.x
     with:
       repository: apache/incubator-seata
       ref: 2.x
 
-  download-artifacts:
-    name: download-artifacts
-    needs: call-remote
+  download-artifacts-namingserver:
+    name: download-artifacts-namingserver
+    needs: call-remote-namingserver
     runs-on: ubuntu-24.04
     steps:
       - name: "Download namingserver-native-Linux-ARM64"

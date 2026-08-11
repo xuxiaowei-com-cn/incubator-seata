@@ -14,7 +14,14 @@
 
 ## 工作原理
 
-四个 GitHub Actions 工作流按每日计划（UTC `0 0 * * *`）自动执行：
+五个 GitHub Actions 工作流按每日计划（UTC `0 0 * * *`）自动执行：
+
+### `schedule-native-server.yml`
+
+触发 [xuxiaowei-com-cn/incubator-seata](https://github.com/xuxiaowei-com-cn/incubator-seata)
+（`xuxiaowei/Seata-Server-GraalVM` 分支）中的上游 `native-server.yml` 工作流，
+执行完整的 GraalVM 原生镜像构建，并下载构建产物（Linux ARM64、Linux X64、Windows X64、
+macOS ARM64）。
 
 ### `schedule-native-namingserver.yml`
 
@@ -95,6 +102,7 @@
 incubator-seata-schedule-native/
 ├── .github/workflows/
 │   ├── schedule-native-namingserver.yml              # 触发上游 namingserver 原生构建
+│   ├── schedule-native-server.yml                    # 触发上游 server 原生构建
 │   ├── schedule-native-namingserver-metadata.yml     # 收集 namingserver 元数据
 │   ├── schedule-native-server-metadata-file.yml      # 收集 server 元数据（文件 注册/配置/储存）
 │   └── schedule-native-server-metadata-nacos.yml     # 收集 server 元数据（Nacos 注册/配置）
@@ -121,6 +129,7 @@ incubator-seata-schedule-native/
 
 | Workflow                                | 默认仓库                           | 默认分支                         |
 |-----------------------------------------|------------------------------------|----------------------------------|
+| `schedule-native-server`                | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 | `schedule-native-namingserver`          | `apache/incubator-seata`           | `2.x`                            |
 | `schedule-native-namingserver-metadata` | `apache/incubator-seata`           | `2.x`                            |
 | `schedule-native-server-metadata-file`  | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |

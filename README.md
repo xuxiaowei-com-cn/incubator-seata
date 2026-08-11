@@ -17,7 +17,14 @@ builds the main Seata repository during workflow runs.
 
 ## How It Works
 
-Four GitHub Actions workflows run on a daily schedule (`0 0 * * *` UTC):
+Five GitHub Actions workflows run on a daily schedule (`0 0 * * *` UTC):
+
+### `schedule-native-server.yml`
+
+Triggers the upstream `native-server.yml` workflow in
+[xuxiaowei-com-cn/incubator-seata](https://github.com/xuxiaowei-com-cn/incubator-seata)
+(`xuxiaowei/Seata-Server-GraalVM` branch) to perform a full GraalVM native image build,
+then downloads the built artifacts (Linux ARM64, Linux X64, Windows X64, macOS ARM64).
 
 ### `schedule-native-namingserver.yml`
 
@@ -100,6 +107,7 @@ Metadata is collected on four platforms to account for OS/architecture differenc
 incubator-seata-schedule-native/
 ├── .github/workflows/
 │   ├── schedule-native-namingserver.yml              # Triggers upstream namingserver native build
+│   ├── schedule-native-server.yml                    # Triggers upstream server native build
 │   ├── schedule-native-namingserver-metadata.yml     # Collects namingserver metadata
 │   ├── schedule-native-server-metadata-file.yml      # Collects server metadata (file registry/config/store)
 │   └── schedule-native-server-metadata-nacos.yml     # Collects server metadata (Nacos registry/config)
@@ -125,12 +133,13 @@ The workflows run daily at midnight UTC. You can also trigger them manually via 
 
 Default repositories and branches used by each workflow:
 
-| Workflow                                | Default Repository                   | Default Branch                    |
-|-----------------------------------------|--------------------------------------|-----------------------------------|
-| `schedule-native-namingserver`          | `apache/incubator-seata`             | `2.x`                             |
-| `schedule-native-namingserver-metadata` | `apache/incubator-seata`             | `2.x`                             |
-| `schedule-native-server-metadata-file`  | `xuxiaowei-com-cn/incubator-seata`   | `xuxiaowei/Seata-Server-GraalVM`  |
-| `schedule-native-server-metadata-nacos` | `xuxiaowei-com-cn/incubator-seata`   | `xuxiaowei/Seata-Server-GraalVM`  |
+| Workflow                                | Default Repository                 | Default Branch                   |
+|-----------------------------------------|------------------------------------|----------------------------------|
+| `schedule-native-server`                | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
+| `schedule-native-namingserver`          | `apache/incubator-seata`           | `2.x`                            |
+| `schedule-native-namingserver-metadata` | `apache/incubator-seata`           | `2.x`                            |
+| `schedule-native-server-metadata-file`  | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
+| `schedule-native-server-metadata-nacos` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 
 Override via workflow dispatch inputs:
 
