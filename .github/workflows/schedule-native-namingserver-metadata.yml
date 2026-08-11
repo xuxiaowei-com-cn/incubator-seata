@@ -20,8 +20,8 @@ on:
         default: ''
 
 env:
-  repository: xuxiaowei-com-cn/incubator-seata
-  ref: xuxiaowei/Seata-Namingserver-GraalVM
+  repository: apache/incubator-seata
+  ref: 2.x
 
 jobs:
   generate:

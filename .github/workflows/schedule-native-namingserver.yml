@@ -11,10 +11,10 @@ on:
 jobs:
   call-remote:
     name: call-remote
-    uses: xuxiaowei-com-cn/incubator-seata/.github/workflows/native-namingserver.yml@xuxiaowei/Seata-Namingserver-GraalVM
+    uses: apache/incubator-seata/.github/workflows/native-namingserver.yml@2.x
     with:
-      repository: xuxiaowei-com-cn/incubator-seata
-      ref: xuxiaowei/Seata-Namingserver-GraalVM
+      repository: apache/incubator-seata
+      ref: 2.x
 
   download-artifacts:
     name: download-artifacts
