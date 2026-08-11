@@ -44,9 +44,12 @@
 |--------------|-----------------------|
 | Ubuntu 24.04 | x86_64                |
 | Ubuntu 24.04 | ARM64                 |
-| macOS 26     | Intel (x86_64)        |
 | macOS 26     | Apple Silicon (ARM64) |
 
+> **注意：** macOS Intel (x86_64) 不被支持，因为 GraalVM 
+> 已停止对该平台的更新。
+> 参见 [GraalVM CE JDK 25.0.1 发行说明](https://github.com/graalvm/graalvm-ce-builds/releases/tag/jdk-25.0.1)。
+>
 > **注意：** Windows 已被排除，因为它不支持 native-image-agent 写元数据
 > 所需的优雅 JVM 关闭信号（actuator shutdown + SIGTERM + kill -0）。
 

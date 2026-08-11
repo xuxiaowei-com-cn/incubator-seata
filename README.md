@@ -49,9 +49,12 @@ Metadata is collected on four platforms to account for OS/architecture differenc
 |--------------|-----------------------|
 | Ubuntu 24.04 | x86_64                |
 | Ubuntu 24.04 | ARM64                 |
-| macOS 26     | Intel (x86_64)        |
 | macOS 26     | Apple Silicon (ARM64) |
 
+> **Note:** macOS Intel (x86_64) is not supported because GraalVM has
+> discontinued updates for that platform.
+> See [GraalVM CE JDK 25.0.1 release notes](https://github.com/graalvm/graalvm-ce-builds/releases/tag/jdk-25.0.1).
+>
 > **Note:** Windows is excluded because it cannot support the graceful JVM
 > shutdown signals (actuator shutdown + SIGTERM + kill -0) required for the
 > native-image-agent to properly write metadata.
