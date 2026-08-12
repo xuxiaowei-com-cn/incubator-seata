@@ -283,7 +283,10 @@ jobs:
             ${{ runner.os }}-${{ runner.arch }}-maven-
       - name: "Install dependencies"
         # test-native-server requires seata-spring-boot-starter
-        run: ./mvnw -T 4C clean -B -pl server,spring/seata-spring-boot-starter install -DskipTests -am
+        shell: sh
+        run: |
+          ./mvnw -T 4C clean -B -pl server,spring/seata-spring-boot-starter install -DskipTests -am
+          rm -rf server/target/*.jar
       - name: "Adjust retry timeout for Windows"
         if: runner.os == 'Windows'
         run: echo "MAX_RETRIES=180" >> $GITHUB_ENV
