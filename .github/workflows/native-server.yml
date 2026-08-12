@@ -258,22 +258,41 @@ jobs:
       - name: "Install dependencies"
         # test-native-server requires seata-spring-boot-starter
         run: ./mvnw -T 4C clean -B -pl server,spring/seata-spring-boot-starter install -DskipTests -am
-      - name: "Download binaries"
+      - name: "Wait for build job"
         shell: sh
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          ARTIFACT_NAME="server-native-${{ runner.os }}-${{ runner.arch }}"
           for i in $(seq 1 ${{ env.MAX_RETRIES }}); do
-            if gh run download "${{ github.run_id }}" \
-                --name "$ARTIFACT_NAME" \
-                --dir server/target/ 2>/dev/null; then
-              echo "Artifact '$ARTIFACT_NAME' downloaded successfully"
-              exit 0
+            RESULT=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
+              --jq ".jobs[] | select(.name | startswith(\"build & test (file)\") and endswith(\"(${{ matrix.os }})\")) | \"\(.status) \(.conclusion)\"")
+            if [ -z "$RESULT" ]; then
+              echo "Build job for ${{ matrix.os }} not found yet... ($i/${{ env.MAX_RETRIES }})"
+              sleep ${{ env.SLEEP_SECONDS }}
+              continue
             fi
-            echo "Artifact '$ARTIFACT_NAME' not ready yet, waiting... ($i/${{ env.MAX_RETRIES }})"
+            STATUS="${RESULT%% *}"
+            CONCLUSION="${RESULT##* }"
+            case "${STATUS}|${CONCLUSION}" in
+              "completed|success")
+                echo "Build job for ${{ matrix.os }} completed successfully"
+                exit 0
+                ;;
+              "completed|failure"|"completed|cancelled"|"completed|skipped")
+                echo "ERROR: Build job for ${{ matrix.os }} finished with status=${STATUS} conclusion=${CONCLUSION}"
+                exit 1
+                ;;
+            esac
+            echo "Build job for ${{ matrix.os }} status=${STATUS}... ($i/${{ env.MAX_RETRIES }})"
             sleep ${{ env.SLEEP_SECONDS }}
           done
-          echo "ERROR: Artifact '$ARTIFACT_NAME' not found after $(( ${{ env.MAX_RETRIES }} * ${{ env.SLEEP_SECONDS }} )) seconds"
+          echo "ERROR: Build job for ${{ matrix.os }} did not complete in $(( ${{ env.MAX_RETRIES }} * ${{ env.SLEEP_SECONDS }} )) seconds"
           exit 1
+      - name: "Download binaries"
+        uses: actions/download-artifact@v7.0.0
+        with:
+          name: server-native-${{ runner.os }}-${{ runner.arch }}
+          path: server/target/
       - name: "Verify native binary"
         shell: sh
         env:
