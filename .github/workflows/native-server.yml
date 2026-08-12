@@ -203,9 +203,10 @@ jobs:
 
   nacos:
     name: test (nacos)
-    needs:
-      - build
     runs-on: ${{ matrix.os }}
+    env:
+      MAX_RETRIES: 60
+      SLEEP_SECONDS: 30
     strategy:
       fail-fast: false
       matrix:
@@ -258,10 +259,21 @@ jobs:
         # test-native-server requires seata-spring-boot-starter
         run: ./mvnw -T 4C clean -B -pl server,spring/seata-spring-boot-starter install -DskipTests -am
       - name: "Download binaries"
-        uses: actions/download-artifact@v7.0.0
-        with:
-          name: server-native-${{ runner.os }}-${{ runner.arch }}
-          path: server/target/
+        shell: sh
+        run: |
+          ARTIFACT_NAME="server-native-${{ runner.os }}-${{ runner.arch }}"
+          for i in $(seq 1 ${{ env.MAX_RETRIES }}); do
+            if gh run download "${{ github.run_id }}" \
+                --name "$ARTIFACT_NAME" \
+                --dir server/target/ 2>/dev/null; then
+              echo "Artifact '$ARTIFACT_NAME' downloaded successfully"
+              exit 0
+            fi
+            echo "Artifact '$ARTIFACT_NAME' not ready yet, waiting... ($i/${{ env.MAX_RETRIES }})"
+            sleep ${{ env.SLEEP_SECONDS }}
+          done
+          echo "ERROR: Artifact '$ARTIFACT_NAME' not found after $(( ${{ env.MAX_RETRIES }} * ${{ env.SLEEP_SECONDS }} )) seconds"
+          exit 1
       - name: "Verify native binary"
         shell: sh
         env:
