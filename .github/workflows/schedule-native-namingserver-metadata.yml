@@ -33,11 +33,10 @@ jobs:
         # windows-latest: excluded because kill/shutdown signals are not available on Windows,
         # preventing graceful termination (actuator shutdown + kill -0 + kill -9) of the JVM process
         os: [ ubuntu-24.04, ubuntu-24.04-arm, macos-26 ]
-        module:
-          - name: namingserver
-            port: 8081
-            readiness: /naming/v1/health
     env:
+      MODULE_NAME: namingserver
+      MODULE_PORT: 8081
+      MODULE_READINESS: /naming/v1/health
       USERNAME: seata
       PASSWORD: seata
       STARTUP_TIMEOUT: 120
@@ -105,14 +104,14 @@ jobs:
           key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-${{ runner.arch }}-maven-
-      - name: "Install dependencies for ${{ matrix.module.name }} in ${{ matrix.os }}"
-        run: ./mvnw -T 4C clean -B -pl ${{ matrix.module.name }},server,spring/seata-spring-boot-starter install -DskipTests -am
-      - name: "Package ${{ matrix.module.name }}"
-        run: ./mvnw -T 2C -B -pl ${{ matrix.module.name }} package -DskipTests -Prelease-seata-jar
-      - name: "List ${{ matrix.module.name }} jar"
+      - name: "Install dependencies for ${{ env.MODULE_NAME }} in ${{ matrix.os }}"
+        run: ./mvnw -T 4C clean -B -pl ${{ env.MODULE_NAME }},server,spring/seata-spring-boot-starter install -DskipTests -am
+      - name: "Package ${{ env.MODULE_NAME }}"
+        run: ./mvnw -T 2C -B -pl ${{ env.MODULE_NAME }} package -DskipTests -Prelease-seata-jar
+      - name: "List ${{ env.MODULE_NAME }} jar"
         shell: sh
-        run: ls -lh ${{ matrix.module.name }}/target/seata-${{ matrix.module.name }}.jar
-      - name: "Start ${{ matrix.module.name }} in background with native-image-agent"
+        run: ls -lh ${{ env.MODULE_NAME }}/target/seata-${{ env.MODULE_NAME }}.jar
+      - name: "Start ${{ env.MODULE_NAME }} in background with native-image-agent"
         shell: sh
         env:
           CONSOLE_USER_USERNAME: ${{ env.USERNAME }}
@@ -120,21 +119,21 @@ jobs:
           MANAGEMENT_ENDPOINT_SHUTDOWN_ACCESS: unrestricted
           MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
         run: |
-          SEATA_SECURITY_IGNORE_URLS=$(sed -n 's/.*urls:[ \t]*//p' ${{ matrix.module.name }}/src/main/resources/application.yml)
+          SEATA_SECURITY_IGNORE_URLS=$(sed -n 's/.*urls:[ \t]*//p' ${{ env.MODULE_NAME }}/src/main/resources/application.yml)
           echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
           SEATA_SECURITY_IGNORE_URLS="/actuator/shutdown,${SEATA_SECURITY_IGNORE_URLS}"
           echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
           export SEATA_SECURITY_IGNORE_URLS="$SEATA_SECURITY_IGNORE_URLS"
-          echo "Starting ${{ matrix.module.name }} in background on port ${{ matrix.module.port }}..."
+          echo "Starting ${{ env.MODULE_NAME }} in background on port ${{ env.MODULE_PORT }}..."
           java -agentlib:native-image-agent=config-output-dir=./target/native-image-config \
-            -jar ./${{ matrix.module.name }}/target/seata-${{ matrix.module.name }}.jar &
+            -jar ./${{ env.MODULE_NAME }}/target/seata-${{ env.MODULE_NAME }}.jar &
 
           # Wait for JVM to start, then resolve the real OS PID via jcmd.
           # jcmd always reports the real OS PID on every platform (Linux, macOS, Windows),
           # unlike $! which is unreliable on Windows (MSYS2/Git Bash maps PIDs internally).
           sleep 3
           jcmd -l
-          JAR_PATTERN="seata-${{ matrix.module.name }}.jar"
+          JAR_PATTERN="seata-${{ env.MODULE_NAME }}.jar"
           APP_PID=$(jcmd -l | grep "${JAR_PATTERN}" | grep -v jcmd | awk '{print $1}')
           if [ -z "${APP_PID}" ]; then
             echo "ERROR: Could not find PID for ${JAR_PATTERN} via jcmd."
@@ -143,13 +142,13 @@ jobs:
           fi
           echo "${APP_PID}" > ./target/app.pid
           echo "Application started with PID: ${APP_PID}"
-      - name: "Wait for ${{ matrix.module.name }} to be ready"
+      - name: "Wait for ${{ env.MODULE_NAME }} to be ready"
         shell: sh
         run: |
-          echo "Waiting for application to be ready on port ${{ matrix.module.port }}..."
+          echo "Waiting for application to be ready on port ${{ env.MODULE_PORT }}..."
           ELAPSED=0
           while [ ${ELAPSED} -lt ${{ env.STARTUP_TIMEOUT }} ]; do
-            if curl -sSf http://localhost:${{ matrix.module.port }}${{ matrix.module.readiness }} >/dev/null 2>&1; then
+            if curl -sSf http://localhost:${{ env.MODULE_PORT }}${{ env.MODULE_READINESS }} >/dev/null 2>&1; then
               echo "Application is ready after ${ELAPSED}s!"
               exit 0
             fi
@@ -160,8 +159,7 @@ jobs:
 
           echo "ERROR: Application did not become ready within ${{ env.STARTUP_TIMEOUT }}s."
           exit 1
-      - name: "Start Seata server for ${{ matrix.module.name }} in ${{ matrix.os }}"
-        if: matrix.module.name == 'namingserver'
+      - name: "Start Seata server for ${{ env.MODULE_NAME }} in ${{ matrix.os }}"
         env:
           SEATA_REGISTRY_TYPE: seata
           SEATA_REGISTRY_SEATA_SERVER_ADDR: 127.0.0.1:8081
@@ -174,7 +172,7 @@ jobs:
           
           sleep 3
           jcmd -l
-          JAR_PATTERN="seata-${{ matrix.module.name }}.jar"
+          JAR_PATTERN="seata-${{ env.MODULE_NAME }}.jar"
           APP_PID=$(jcmd -l | grep "${JAR_PATTERN}" | grep -v jcmd | awk '{print $1}')
           if [ -z "${APP_PID}" ]; then
             echo "ERROR: Could not find PID for ${JAR_PATTERN} via jcmd."
@@ -198,44 +196,12 @@ jobs:
           done
           echo "ERROR: Port 8091 is not responding after ${{ env.SEATA_SERVER_STARTUP_RETRIES }} seconds"
           exit 1
-      - name: Start test-native-server for server module
-        if: matrix.module.name == 'server'
-        run: |
-          ./mvnw -T 2C -B -Ptest-native-server -pl test-suite/test-native-server spring-boot:run &
-          TEST_NATIVE_SERVER_PID=$!
-          
-          sleep 30
-          jcmd -l
-          JAR_PATTERN="SeataTestNativeApplication"
-          APP_PID=$(jcmd -l | grep "${JAR_PATTERN}" | grep -v jcmd | awk '{print $1}')
-          if [ -z "${APP_PID}" ]; then
-            echo "ERROR: Could not find PID for ${JAR_PATTERN} via jcmd."
-            jcmd -l
-            exit 1
-          fi
-          echo "${APP_PID}" > ./target/test-native-server.pid
-          echo "Application started with PID: ${APP_PID}"
-          
-          echo "$TEST_NATIVE_SERVER_PID" > ./test-native-server.pid
-          echo "Seata server started with PID=$TEST_NATIVE_SERVER_PID"
-          i=1
-          while [ $i -le ${{ env.TEST_NATIVE_SERVER_STARTUP_RETRIES }} ]; do
-            if curl -sSf http://localhost:50180/health >/dev/null 2>&1; then
-              echo "Port 50180 is responding"
-              exit 0
-            fi
-            echo "Waiting for port 50180... ($i/${{ env.TEST_NATIVE_SERVER_STARTUP_RETRIES }})"
-            sleep 1
-            i=$((i + 1))
-          done
-          echo "ERROR: Port 50180 is not responding after ${{ env.TEST_NATIVE_SERVER_STARTUP_RETRIES }} seconds"
-          exit 1
-      - name: "Run ${{ matrix.module.name }} native tests for native-image metadata"
+      - name: "Run ${{ env.MODULE_NAME }} native tests for native-image metadata"
         shell: sh
         run: |
           echo "Exercising endpoints to collect native-image metadata..."
-          ./mvnw -T 2C -B test -Ptest-native-${{ matrix.module.name }} -pl test-suite/test-native-${{ matrix.module.name }}
-      - name: "Stop ${{ matrix.module.name }}"
+          ./mvnw -T 2C -B test -Ptest-native-${{ env.MODULE_NAME }} -pl test-suite/test-native-${{ env.MODULE_NAME }}
+      - name: "Stop ${{ env.MODULE_NAME }}"
         shell: sh
         run: |
           PID_FILE="./target/app.pid"
@@ -253,13 +219,13 @@ jobs:
           # Step 1: Graceful shutdown via Spring Boot Actuator shutdown endpoint.
           # This triggers a proper Spring context close with shutdown hooks,
           # ensuring native-image-agent writes reachability-metadata.json.
-          echo "Sending shutdown request to http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown..."
-          curl -sS -X POST "http://127.0.0.1:${{ matrix.module.port }}/actuator/shutdown"
+          echo "Sending shutdown request to http://127.0.0.1:${{ env.MODULE_PORT }}/actuator/shutdown..."
+          curl -sS -X POST "http://127.0.0.1:${{ env.MODULE_PORT }}/actuator/shutdown"
 
           # Step 2: Wait for the application port to become unreachable.
           # This confirms the HTTP server has stopped accepting connections.
           SHUTDOWN_ELAPSED=0
-          while curl -sSf "http://127.0.0.1:${{ matrix.module.port }}${{ matrix.module.readiness }}" >/dev/null 2>&1 && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
+          while curl -sSf "http://127.0.0.1:${{ env.MODULE_PORT }}${{ env.MODULE_READINESS }}" >/dev/null 2>&1 && [ ${SHUTDOWN_ELAPSED} -lt ${{ env.SHUTDOWN_TIMEOUT }} ]; do
             sleep 1
             SHUTDOWN_ELAPSED=$((SHUTDOWN_ELAPSED + 1))
             echo "  Still waiting for port to close... ${SHUTDOWN_ELAPSED}s elapsed."
@@ -290,7 +256,7 @@ jobs:
 
           wait ${APP_PID} 2>/dev/null || true
           echo "Application stopped."
-      - name: "Wait for reachability-metadata.json for ${{ matrix.module.name }}"
+      - name: "Wait for reachability-metadata.json for ${{ env.MODULE_NAME }}"
         shell: sh
         run: |
           jcmd -l
@@ -310,30 +276,22 @@ jobs:
             echo "The native-image-agent did not collect metadata on this platform."
             exit 1
           fi
-      - name: "Upload ${{ matrix.module.name }} reachability-metadata.json"
+      - name: "Upload ${{ env.MODULE_NAME }} reachability-metadata.json"
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: ${{ matrix.module.name }}-${{ matrix.os }}-${{ env.GIT_SHA }}-reachability-metadata
+          name: ${{ env.MODULE_NAME }}-${{ matrix.os }}-${{ env.GIT_SHA }}-reachability-metadata
           path: |
             ./target/native-image-config/reachability-metadata.json
             ./git-sha.txt
       - name: "Merge native-image config for namingserver"
-        if: matrix.module.name == 'namingserver'
         shell: sh
         env:
           EXECUTE_NATIVE_METADATA_MERGE_NAMINGSERVER: true
         run: |
           ./mvnw test -Dtest=ExecuteMergeNativeImageMetadataTests#namingServer -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
-      - name: "Merge native-image config for server"
-        if: matrix.module.name == 'server'
-        shell: sh
-        env:
-          EXECUTE_NATIVE_METADATA_MERGE_SERVER: true
-        run: |
-          ./mvnw test -Dtest=ExecuteMergeNativeImageMetadataTests#server -pl test-suite/test-native-metadata-merge -Ptest-native-metadata-merge
-      - name: "Apply spotless formatting for ${{ matrix.module.name }}"
-        run: ./mvnw spotless:apply -pl ${{ matrix.module.name }}
-      - name: "Show ${{ matrix.module.name }} native-image config diff"
+      - name: "Apply spotless formatting for ${{ env.MODULE_NAME }}"
+        run: ./mvnw spotless:apply -pl ${{ env.MODULE_NAME }}
+      - name: "Show ${{ env.MODULE_NAME }} native-image config diff"
         id: diff
         shell: sh
         run: |
@@ -343,7 +301,7 @@ jobs:
           else
             echo "has_diff=false" >> "${GITHUB_OUTPUT}"
           fi
-      - name: "Send ${{ matrix.module.name }} native-image config diff to WeChat Work"
+      - name: "Send ${{ env.MODULE_NAME }} native-image config diff to WeChat Work"
         if: steps.diff.outputs.has_diff == 'true' && env.WECHAT_WEBHOOK_URL != ''
         env:
           WECHAT_WEBHOOK_URL: ${{ secrets.WECHAT_WEBHOOK_URL }}
@@ -352,13 +310,13 @@ jobs:
           python3 schedule-native-tools/script/send_wechat_work.py \
             ${{ secrets.WECHAT_WEBHOOK_URL }} \
             ./target/native-image-config.diff \
-            "${{ matrix.module.name }}" \
+            "${{ env.MODULE_NAME }}" \
             "${{ matrix.os }}"
-      - name: "Upload ${{ matrix.module.name }} native-image config diff"
+      - name: "Upload ${{ env.MODULE_NAME }} native-image config diff"
         if: steps.diff.outputs.has_diff == 'true'
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: ${{ matrix.module.name }}-${{ matrix.os }}-${{ env.GIT_SHA }}-native-image-config-diff
+          name: ${{ env.MODULE_NAME }}-${{ matrix.os }}-${{ env.GIT_SHA }}-native-image-config-diff
           path: |
             ./target/native-image-config.diff
             ./git-sha.txt
