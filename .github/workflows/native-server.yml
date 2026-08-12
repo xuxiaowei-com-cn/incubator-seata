@@ -203,6 +203,8 @@ jobs:
 
   nacos:
     name: test (nacos)
+    needs:
+      - build
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
