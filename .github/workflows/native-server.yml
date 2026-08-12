@@ -296,6 +296,9 @@ jobs:
         with:
           name: server-native-${{ runner.os }}-${{ runner.arch }}
           path: server/target/
+      - name: "Fix binary permissions"
+        shell: sh
+        run: chmod +x ./server/target/seata-server-*
       - name: "Verify native binary"
         shell: sh
         env:
