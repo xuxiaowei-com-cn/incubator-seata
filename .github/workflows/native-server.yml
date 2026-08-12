@@ -212,7 +212,7 @@ concurrency:
 
 jobs:
   build:
-    name: build
+    name: build & test (file)
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -369,3 +369,125 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
+
+  nacos:
+    name: test (nacos)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Mac、Windows 没有 Docker，无法创建 Nacos 容器，跳过 macos-26, windows-latest
+        os: [ ubuntu-24.04, ubuntu-24.04-arm ]
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v7.0.0
+        with:
+          repository: ${{ inputs.repository || github.repository }}
+          ref: ${{ inputs.ref || github.ref }}
+      - name: "Start MySQL via Docker (Linux only)"
+        if: runner.os == 'Linux'
+        shell: sh
+        run: |
+          docker run -d --name mysql-test \
+            -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+            -e MYSQL_DATABASE=seata_test_native \
+            -p 3306:3306 \
+            mysql:8.0
+          echo "Waiting for MySQL to be ready..."
+          for i in $(seq 1 30); do
+            if docker exec mysql-test mysqladmin ping -h localhost --silent 2>/dev/null; then
+              echo "MySQL is ready"
+              docker logs mysql-test --tail 10
+              exit 0
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 2
+          done
+          echo "ERROR: MySQL failed to start after 60s"
+          docker logs mysql-test --tail 50
+          exit 1
+      - name: "Set up Java JDK"
+        uses: actions/setup-java@v5.5.0
+        with:
+          distribution: 'graalvm'
+          java-version: 25
+      - name: "Print maven version"
+        run: ./mvnw -version
+      - name: "Restore local maven repository cache"
+        uses: actions/cache/restore@v6.1.0
+        id: cache-maven-repository
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-${{ runner.arch }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-maven-
+      - name: "Install dependencies"
+        # test-native-server requires seata-spring-boot-starter
+        run: ./mvnw -T 4C clean -B -pl server,spring/seata-spring-boot-starter install -DskipTests -am
+      - name: "Download binaries"
+        uses: actions/download-artifact@v7.0.0
+        with:
+          name: server-native-${{ runner.os }}-${{ runner.arch }}
+          path: server/target/
+      - name: "Verify native binary"
+        shell: sh
+        env:
+          SEATA_CONFIG_TYPE: nacos
+          SEATA_CONFIG_NACOS_SERVERADDR: "127.0.0.1:8848"
+          SEATA_CONFIG_NACOS_NAMESPACE: ""
+          SEATA_CONFIG_NACOS_GROUP: SEATA_GROUP
+          SEATA_CONFIG_NACOS_CONTEXTPATH: ""
+          SEATA_CONFIG_NACOS_USERNAME: ""
+          SEATA_CONFIG_NACOS_PASSWORD: ""
+          SEATA_CONFIG_NACOS_ACCESSKEY: ""
+          SEATA_CONFIG_NACOS_SECRETKEY: ""
+          SEATA_CONFIG_NACOS_RAMROLENAME: ""
+          SEATA_CONFIG_NACOS_DATAID: seataServer.properties
+          SEATA_REGISTRY_TYPE: nacos
+          SEATA_REGISTRY_PREFERREDNETWORKS: "30.240.*"
+          SEATA_REGISTRY_IGNOREDINTERFACES: VMware.*
+          SEATA_REGISTRY_METADATA_WEIGHT: "100"
+          SEATA_REGISTRY_NACOS_APPLICATION: seata-server
+          SEATA_REGISTRY_NACOS_SERVERADDR: "127.0.0.1:8848"
+          SEATA_REGISTRY_NACOS_NAMESPACE: ""
+          SEATA_REGISTRY_NACOS_GROUP: "SEATA_GROUP"
+          SEATA_REGISTRY_NACOS_CLUSTER: default
+          SEATA_REGISTRY_NACOS_CONTEXTPATH: ""
+          SEATA_REGISTRY_NACOS_USERNAME: ""
+          SEATA_REGISTRY_NACOS_PASSWORD: ""
+          SEATA_REGISTRY_NACOS_ACCESSKEY: ""
+          SEATA_REGISTRY_NACOS_SECRETKEY: ""
+          SEATA_REGISTRY_NACOS_RAMROLENAME: ""
+          SEATA_STORE_TYPE: file
+        run: |
+          ./server/target/seata-server-* &
+          NATIVE_PID=$!
+          echo "$NATIVE_PID" > ./seata-native-server.pid
+          echo "Native binary started with PID=$NATIVE_PID"
+          sleep 10
+          if kill -0 $NATIVE_PID 2>/dev/null; then
+            echo "Native binary is running normally (PID=$NATIVE_PID)"
+          else
+            echo "ERROR: Native binary failed to start or crashed (PID=$NATIVE_PID)"
+            exit 1
+          fi
+      - name: "Check port 8091 for server in ${{ matrix.os }}"
+        shell: sh
+        env:
+          MAX_RETRIES: 6
+          SLEEP_SECONDS: 5
+        run: |
+          NATIVE_PID=$(cat ./seata-native-server.pid)
+          echo "NATIVE_PID=$NATIVE_PID"
+          i=1
+          while [ $i -le $MAX_RETRIES ]; do
+            if curl -sSf http://localhost:8091/health >/dev/null 2>&1; then
+              echo "Port 8091 is responding"
+              exit 0
+            fi
+            echo "Waiting for port 8091... ($i/$MAX_RETRIES)"
+            sleep $SLEEP_SECONDS
+            i=$((i + 1))
+          done
+          echo "ERROR: Port 8091 is not responding after $((MAX_RETRIES * SLEEP_SECONDS)) seconds"
+          exit 1
