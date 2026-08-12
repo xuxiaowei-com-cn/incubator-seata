@@ -240,6 +240,32 @@ jobs:
           echo "ERROR: MySQL failed to start after 60s"
           docker logs mysql-test --tail 50
           exit 1
+      - name: "Start Nacos via Docker (Linux only)"
+        if: runner.os == 'Linux'
+        shell: sh
+        run: |
+          docker run -d --name nacos-test \
+            -p 8080:8080 \
+            -p 8848:8848 \
+            -p 9848-9849:9848-9849 \
+            -p 7848:7848 \
+            -e NACOS_AUTH_TOKEN=VGhpc0lzTXlDdXN0b21TZWNyZXRLZXkwMTIzNDU2Nzg= \
+            -e NACOS_AUTH_IDENTITY_KEY=identity.key \
+            -e NACOS_AUTH_IDENTITY_VALUE=identity.value \
+            -e MODE=standalone \
+            nacos/nacos-server:v3.2.3
+          echo "Waiting for Nacos to be ready..."
+          for i in $(seq 1 30); do
+            if curl -sSf http://localhost:8080/v3/console/server/state >/dev/null 2>&1; then
+              echo "Port 8080 is responding"
+              exit 0
+            fi
+            echo "Waiting for Nacos... ($i/30)"
+            sleep 2
+          done
+          echo "ERROR: Nacos failed to start after 60s"
+          docker logs nacos-test --tail 50
+          exit 1
       - name: "Set up Java JDK"
         uses: actions/setup-java@v5.5.0
         with:
