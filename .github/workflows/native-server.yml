@@ -90,7 +90,6 @@ jobs:
           distribution: 'graalvm'
           java-version: 25
       - name: "Print maven version"
-        shell: sh
         run: ./mvnw -version
       - name: "Restore local maven repository cache"
         uses: actions/cache/restore@v6.1.0
@@ -251,12 +250,12 @@ jobs:
           path: nacos
       - name: "Build Nacos"
         working-directory: nacos
-        run: ./mvnw install -pl bootstrap -DskipTests -am
+        run: ./mvnw install -B -pl bootstrap -DskipTests -am
       - name: "Start Nacos"
         shell: sh
         working-directory: nacos
         run: |
-          nohup ./mvnw spring-boot:run -pl bootstrap -Prelease-nacos \
+          nohup ./mvnw -B spring-boot:run -pl bootstrap -Prelease-nacos \
             -Dspring-boot.run.jvmArguments="--add-opens java.base/java.util=ALL-UNNAMED -Dnacos.standalone=true -Dnacos.core.auth.server.identity.key=identity.key -Dnacos.core.auth.server.identity.value=identity.value -Dnacos.core.auth.plugin.nacos.token.secret.key=VGhpc0lzTXlDdXN0b21TZWNyZXRLZXkwMTIzNDU2Nzg=" &
           echo "Waiting for Nacos to be ready..."
           for i in $(seq 1 30); do
