@@ -100,7 +100,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ runner.arch }}-maven-
       - name: "Install dependencies"
-        shell: sh
         # test-native-server requires seata-spring-boot-starter
         run: ./mvnw -T 4C clean -B -pl server,spring/seata-spring-boot-starter install -DskipTests -am
       - name: "Compile native image"
@@ -155,7 +154,6 @@ jobs:
           exit 1
       - name: "Start test-native-server app for server in ${{ matrix.os }}"
         if: runner.os == 'Linux'
-        shell: sh
         env:
           MAX_RETRIES: 12
           SLEEP_SECONDS: 5
@@ -175,7 +173,6 @@ jobs:
           exit 1
       - name: "Run native tests for server in ${{ matrix.os }}"
         if: runner.os == 'Linux'
-        shell: sh
         run: ./mvnw -e -T 2C -Ptest-native-server -pl test-suite/test-native-server clean test
       - name: "Capture test reports on failure"
         if: failure() && runner.os == 'Linux'
