@@ -253,7 +253,7 @@ jobs:
         working-directory: nacos
         run: |
           nohup ./mvnw -B spring-boot:run -pl bootstrap -Prelease-nacos \
-            -Dspring-boot.run.jvmArguments="--add-opens java.base/java.util=ALL-UNNAMED -Dnacos.standalone=true -Dnacos.core.auth.server.identity.key=identity.key -Dnacos.core.auth.server.identity.value=identity.value -Dnacos.core.auth.plugin.nacos.token.secret.key=VGhpc0lzTXlDdXN0b21TZWNyZXRLZXkwMTIzNDU2Nzg=" &
+            -Dspring-boot.run.jvmArguments="--add-opens java.base/java.util=ALL-UNNAMED -Dnacos.standalone=true -Dnacos.core.auth.server.identity.key=identity.key -Dnacos.core.auth.server.identity.value=identity.value -Dnacos.core.auth.plugin.nacos.token.secret.key=VGhpc0lzTXlDdXN0b21TZWNyZXRLZXkwMTIzNDU2Nzg= -Dnacos.core.auth.enabled=false" &
           echo "Waiting for Nacos to be ready..."
           for i in $(seq 1 30); do
             if curl -sSf http://localhost:8080/v3/console/server/state >/dev/null 2>&1; then
