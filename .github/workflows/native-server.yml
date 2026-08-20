@@ -251,12 +251,12 @@ jobs:
           path: nacos
       - name: "Build Nacos"
         working-directory: nacos
-        run: mvn install -pl bootstrap -DskipTests -am
+        run: ./mvnw install -pl bootstrap -DskipTests -am
       - name: "Start Nacos"
         shell: sh
         working-directory: nacos
         run: |
-          nohup mvn spring-boot:run -pl bootstrap -Prelease-nacos \
+          nohup ./mvnw spring-boot:run -pl bootstrap -Prelease-nacos \
             -Dspring-boot.run.jvmArguments="--add-opens java.base/java.util=ALL-UNNAMED -Dnacos.standalone=true -Dnacos.core.auth.server.identity.key=identity.key -Dnacos.core.auth.server.identity.value=identity.value -Dnacos.core.auth.plugin.nacos.token.secret.key=VGhpc0lzTXlDdXN0b21TZWNyZXRLZXkwMTIzNDU2Nzg=" &
           echo "Waiting for Nacos to be ready..."
           for i in $(seq 1 30); do
