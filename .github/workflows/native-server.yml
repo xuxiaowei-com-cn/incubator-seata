@@ -248,6 +248,7 @@ jobs:
         with:
           repository: alibaba/nacos
           ref: 3.2.3
+          path: nacos
       - name: "Build Nacos"
         working-directory: nacos
         run: mvn install -pl bootstrap -DskipTests -am
