@@ -109,6 +109,9 @@ jobs:
 
       - name: "Start NamingServer"
         shell: sh
+        env:
+          CONSOLE_USER_USERNAME: ${{ env.USERNAME }}
+          CONSOLE_USER_PASSWORD: ${{ env.PASSWORD }}
         run: |
           ./mvnw -T 2C -B -pl namingserver spring-boot:run -Prelease-seata-jar &
           
