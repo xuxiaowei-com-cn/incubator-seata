@@ -3951,6 +3951,12 @@
       "name" : "<init>",
       "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
     } ]
+  }, {
+    "type" : "apple.security.AppleProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
   } ],
   "resources" : [ {
     "glob" : ""
@@ -4496,6 +4502,9 @@
   }, {
     "module" : "java.base",
     "glob" : "sun/net/idn/uidna.spp"
+  }, {
+    "module" : "java.base",
+    "glob" : "jdk/internal/icu/impl/data/icudt76b/nfc.nrm"
   } ],
   "foreign" : {
     "downcalls" : [ {
