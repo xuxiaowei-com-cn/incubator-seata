@@ -167,10 +167,6 @@ jobs:
           SEATA_REGISTRY_SEATA_TOKENVALIDITYINMILLISECONDS: 1740000
 
         run: |
-          if [ "${{ runner.os }}" != 'Linux' ]; then
-            export SEATA_REGISTRY_TYPE=file
-            export SEATA_CONFIG_TYPE=file
-          fi
           
           SEATA_SECURITY_IGNORE_URLS=$(sed -n 's/.*urls:[ \t]*//p' ${{ env.MODULE_NAME }}/src/main/resources/application.yml)
           echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
