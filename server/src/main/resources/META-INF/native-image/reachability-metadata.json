@@ -800,7 +800,11 @@
       "parameterTypes" : [ ]
     } ]
   }, {
-    "type" : "org.apache.seata.discovery.registry.namingserver.NamingserverRegistryProvider"
+    "type" : "org.apache.seata.discovery.registry.namingserver.NamingserverRegistryProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
   }, {
     "type" : "org.apache.seata.discovery.registry.redis.RedisRegistryProvider"
   }, {
@@ -3722,6 +3726,231 @@
     } ]
   }, {
     "type" : "java.lang.foreign.ValueLayout$OfLong"
+  }, {
+    "type" : "com.alibaba.fastjson.JSONArray"
+  }, {
+    "type" : "com.alibaba.fastjson.JSONObject"
+  }, {
+    "type" : "com.alibaba.fastjson2.util.TypeUtils$Cache"
+  }, {
+    "type" : "com.sun.crypto.provider.AESCipher$General",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "com.sun.crypto.provider.ARCFOURCipher",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "com.sun.crypto.provider.ChaCha20Cipher$ChaCha20Poly1305",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "com.sun.crypto.provider.DESCipher",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "com.sun.crypto.provider.DESedeCipher",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "com.sun.crypto.provider.GaloisCounterMode$AESGCM",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "io.seata.common.json.JsonCodec"
+  }, {
+    "type" : "io.seata.common.json.JsonSerializer"
+  }, {
+    "type" : "java.security.AlgorithmParametersSpi"
+  }, {
+    "type" : "java.security.KeyStoreSpi"
+  }, {
+    "type" : "java.sql.Time"
+  }, {
+    "type" : "java.util.Collections$UnmodifiableCollection"
+  }, {
+    "type" : "java.util.Collections$UnmodifiableMap"
+  }, {
+    "type" : "java.util.Deque"
+  }, {
+    "type" : "org.apache.seata.common.json.JsonUtilCodec",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.common.json.impl.Fastjson2JsonSerializer"
+  }, {
+    "type" : "org.apache.seata.common.json.impl.FastjsonJsonSerializer"
+  }, {
+    "type" : "org.apache.seata.common.json.impl.GsonJsonSerializer"
+  }, {
+    "type" : "org.apache.seata.common.json.impl.JacksonJsonSerializer",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.common.metadata.ClusterRole"
+  }, {
+    "type" : "org.apache.seata.common.metadata.Instance",
+    "methods" : [ {
+      "name" : "getClusterName",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getControl",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getInternal",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getMetadata",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getNamespace",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getRole",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getTerm",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getTimestamp",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getTransaction",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getUnit",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getVersion",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getWeight",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "isHealthy",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.common.metadata.Node$Endpoint",
+    "methods" : [ {
+      "name" : "getHost",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getPort",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "sun.security.pkcs12.PKCS12KeyStore",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "sun.security.pkcs12.PKCS12KeyStore$DualFormatPKCS12",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "sun.security.provider.X509Factory",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "sun.security.rsa.RSAKeyFactory$Legacy",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "sun.security.ssl.SSLContextImpl$TLSContext",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "sun.security.ssl.TrustManagerFactoryImpl$PKIXFactory",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.AuthorityInfoAccessExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.AuthorityKeyIdentifierExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.BasicConstraintsExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.CRLDistributionPointsExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.CertificatePoliciesExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.ExtendedKeyUsageExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.KeyUsageExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.NetscapeCertTypeExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.PrivateKeyUsageExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
+  }, {
+    "type" : "sun.security.x509.SubjectKeyIdentifierExtension",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Boolean", "java.lang.Object" ]
+    } ]
   } ],
   "resources" : [ {
     "glob" : ""
@@ -4248,6 +4477,25 @@
     "glob" : "META-INF/native/libcom_alibaba_nacos_shaded_io_grpc_netty_shaded_netty_transport_native_epoll_x86_64.so"
   }, {
     "glob" : "META-INF/native/libcom_alibaba_nacos_shaded_io_grpc_netty_shaded_netty_transport_native_epoll_aarch_64.so"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.common.json.JsonCodec"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.common.json.JsonSerializer"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.common.json.JsonCodec"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.common.json.JsonSerializer"
+  }, {
+    "glob" : "fastjson.properties"
+  }, {
+    "module" : "java.base",
+    "glob" : "jdk/internal/icu/impl/data/icudt76b/nfkc.nrm"
+  }, {
+    "module" : "java.base",
+    "glob" : "jdk/internal/icu/impl/data/icudt76b/uprops.icu"
+  }, {
+    "module" : "java.base",
+    "glob" : "sun/net/idn/uidna.spp"
   } ],
   "foreign" : {
     "downcalls" : [ {
