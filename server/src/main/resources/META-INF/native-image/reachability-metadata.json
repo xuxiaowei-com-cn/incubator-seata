@@ -1552,6 +1552,30 @@
     "methods" : [ {
       "name" : "<init>",
       "parameterTypes" : [ ]
+    }, {
+      "name" : "setCluster",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setHeartbeatPeriod",
+      "parameterTypes" : [ "int" ]
+    }, {
+      "name" : "setMetadataMaxAgeMs",
+      "parameterTypes" : [ "java.lang.Long" ]
+    }, {
+      "name" : "setNamespace",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setPassword",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setServerAddr",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setTokenValidityInMilliseconds",
+      "parameterTypes" : [ "java.lang.Long" ]
+    }, {
+      "name" : "setUsername",
+      "parameterTypes" : [ "java.lang.String" ]
     } ]
   }, {
     "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryProperties",
