@@ -208,12 +208,6 @@ subcomponents is subject to the terms and conditions of the following
 licenses.
 
 ========================================================================
-0BSD licenses
-========================================================================
-
-    tslib 2.6.2 0BSD see:licenses/tslib-OBSD
-
-========================================================================
 Apache-1.1 licenses
 ========================================================================
 
@@ -975,3 +969,8 @@ Indiana University Extreme! Lab Software License
 ========================================================================
 
     io.github.x-stream:mxparser 1.2.2 Indiana University Extreme! Lab Software License see:licenses/mxparser-IUELSL
+========================================================================
+0BSD licenses
+========================================================================
+
+    tslib 2.6.2 0BSD see:licenses/tslib-OBSD
