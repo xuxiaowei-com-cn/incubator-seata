@@ -109,29 +109,26 @@ jobs:
       # step 9 generate LICENSE files for distribution
       - name: Generate LICENSE files
         run: ./script/license/generate-license.sh all
-      # step 10 save per-file diff to file
+      # step 10 save diff to file
       - name: Save license diff to file
-        run: |
-          git diff -- distribution/LICENSE > license-diff-LICENSE.diff
-          git diff -- distribution/LICENSE-namingserver > license-diff-LICENSE-namingserver.diff
-          git diff -- distribution/LICENSE-server > license-diff-LICENSE-server.diff
-      # step 11 upload diffs as artifact
+        run: git diff > license-diff.diff
+      # step 11 upload diff as artifact
       - name: Upload license diff
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: license-diff
-          path: license-diff-*.diff
+          path: license-diff.diff
       # step 12 check for license file changes and fail if present
       - name: Check for license file changes
         run: |
-          if grep -q . license-diff-LICENSE.diff license-diff-LICENSE-namingserver.diff license-diff-LICENSE-server.diff; then
+          if [ -s license-diff.diff ]; then
             echo "License file changes detected:"
-            cat license-diff-LICENSE.diff license-diff-LICENSE-namingserver.diff license-diff-LICENSE-server.diff
+            cat license-diff.diff
             echo ""
             echo "::error::License files are out of date."
             echo "Please run './script/license/generate-license.sh all' locally and commit the changes."
-            echo "You can also download the license-diff artifact from this CI run's artifacts, then apply it with: git apply license-diff-*.diff"
+            echo "You can also download the license-diff artifact from this CI run's artifacts, then apply it with: git apply license-diff.diff"
             exit 1
           else
             echo "No license file changes detected. All good!"
