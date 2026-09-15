@@ -14,7 +14,7 @@
 
 ## 工作原理
 
-七个 GitHub Actions 工作流按每日计划（UTC `0 0 * * *`）自动执行：
+八个 GitHub Actions 工作流按每日计划（UTC `0 0 * * *`）自动执行：
 
 ### `schedule-native-server.yml`
 
@@ -113,6 +113,35 @@ macOS ARM64）。
 > **注意：** 在非 Linux 运行器上，MySQL（Docker）与 MySQL JDBC 驱动不可用，
 > 因此 server 会回退到 `store.mode=file`，仅收集基础元数据。
 
+### `schedule-native-server-metadata-modes.yml`
+
+收集 [apache/incubator-seata#8162](https://github.com/apache/incubator-seata/pull/8162)
+中所跟踪的 Config / Registry / Store 模式下 **server** 模块的原生镜像元数据。
+每种模式在两种 Linux 架构上各运行一个矩阵任务：
+
+| 模式              | Seata 配置             | 依赖                                              |
+|-------------------|------------------------|---------------------------------------------------|
+| `config-consul`   | `config.type=consul`   | Consul 1.22（KV 键 `seata.properties`）            |
+| `config-etcd3`    | `config.type=etcd3`    | etcd 3.5（键 `seata.properties`）                  |
+| `config-zk`       | `config.type=zk`       | ZooKeeper 3.9（节点 `/seata/seata.properties`）    |
+| `registry-consul` | `registry.type=consul` | Consul 1.22                                       |
+| `registry-eureka` | `registry.type=eureka` | Eureka 4.1（仅 amd64 镜像，仅 x86_64 运行器）      |
+| `registry-etcd3`  | `registry.type=etcd3`  | etcd 3.5                                          |
+| `registry-redis`  | `registry.type=redis`  | Redis 7.2                                         |
+| `registry-zk`     | `registry.type=zk`     | ZooKeeper 3.9                                     |
+| `store-redis`     | `store.mode=redis`     | Redis 7.2（会话/锁存储，`lua` 脚本）               |
+
+每个模式模块会启动自身依赖，在配置中心需要数据时进行初始化（Consul KV 与 etcd
+会被写入，ZooKeeper 节点由 server 自动创建），导出该模式的 Seata 配置，
+然后执行常规的 agent → 测试 → 合并 → 差异通知流程。
+
+模式逻辑位于 [`script/modes/`](script/modes)：每个模式一个 `<mode>.sh`，
+实现 `start`（启动依赖）、`seed`（写入配置中心数据）与 `env`（Seata 配置项），
+因此新增一种模式只需新增脚本和一条矩阵配置。所有依赖镜像均为多架构，
+可在两种 Linux 运行器上运行（`registry-eureka` 例外：其镜像仅有 amd64，
+因此已在 ARM64 运行器上排除）；macOS 无法运行这些依赖，因此 server 保持
+`file` 配置/注册/存储，仅收集基础元数据。
+
 ### 支持的平台
 
 在不同操作系统/架构上分别收集元数据：
@@ -141,9 +170,14 @@ incubator-seata-schedule-native/
 │   ├── schedule-native-server-metadata-file.yml      # 收集 server 元数据（文件 注册/配置/储存）
 │   ├── schedule-native-server-metadata-nacos.yml     # 收集 server 元数据（Nacos 注册/配置）
 │   ├── schedule-native-server-metadata-seata.yml     # 收集 server 元数据（Seata 注册中心）
-│   └── schedule-native-server-metadata-mysql.yml     # 收集 server 元数据（MySQL 存储）
+│   ├── schedule-native-server-metadata-mysql.yml     # 收集 server 元数据（MySQL 存储）
+│   └── schedule-native-server-metadata-modes.yml     # 收集 server 元数据（Consul/etcd3/ZooKeeper/Redis 模式）
 ├── script/
-│   └── send_wechat_work.py                           # 企业微信差异通知脚本
+│   ├── send_wechat_work.py                           # 企业微信差异通知脚本
+│   └── modes/                                        # 各模式的依赖准备与 Seata 配置
+│       ├── common.sh                                 # 公共容器启动/等待助手
+│       ├── config-consul.sh / config-etcd3.sh / config-zk.sh
+│       └── registry-consul.sh / registry-eureka.sh / registry-etcd3.sh / registry-redis.sh / registry-zk.sh / store-redis.sh
 └── .gitignore
 ```
 
@@ -172,6 +206,7 @@ incubator-seata-schedule-native/
 | `schedule-native-server-metadata-nacos` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 | `schedule-native-server-metadata-seata` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 | `schedule-native-server-metadata-mysql` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
+| `schedule-native-server-metadata-modes` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 
 可通过 workflow dispatch 输入参数覆盖：
 

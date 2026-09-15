@@ -17,7 +17,7 @@ builds the main Seata repository during workflow runs.
 
 ## How It Works
 
-Seven GitHub Actions workflows run on a daily schedule (`0 0 * * *` UTC):
+Eight GitHub Actions workflows run on a daily schedule (`0 0 * * *` UTC):
 
 ### `schedule-native-server.yml`
 
@@ -118,6 +118,36 @@ This is the mode that records JDBC driver, SQL mapper and connection pool reflec
 > **Note:** On non-Linux runners, MySQL (Docker) and the MySQL JDBC driver are not available,
 > so the server falls back to `store.mode=file` and only baseline metadata is collected.
 
+### `schedule-native-server-metadata-modes.yml`
+
+Collects native-image metadata for the **server** module in the Config / Registry / Store modes
+tracked in [apache/incubator-seata#8162](https://github.com/apache/incubator-seata/pull/8162).
+One matrix job runs per mode on both Linux architectures:
+
+| Mode              | Seata settings         | Dependency                                         |
+|-------------------|------------------------|----------------------------------------------------|
+| `config-consul`   | `config.type=consul`   | Consul 1.22 (KV entry `seata.properties`)          |
+| `config-etcd3`    | `config.type=etcd3`    | etcd 3.5 (key `seata.properties`)                  |
+| `config-zk`       | `config.type=zk`       | ZooKeeper 3.9 (node `/seata/seata.properties`)     |
+| `registry-consul` | `registry.type=consul` | Consul 1.22                                        |
+| `registry-eureka` | `registry.type=eureka` | Eureka 4.1 (amd64 image, x86_64 runner only)       |
+| `registry-etcd3`  | `registry.type=etcd3`  | etcd 3.5                                           |
+| `registry-redis`  | `registry.type=redis`  | Redis 7.2                                          |
+| `registry-zk`     | `registry.type=zk`     | ZooKeeper 3.9                                      |
+| `store-redis`     | `store.mode=redis`     | Redis 7.2 (session/lock store, `lua` scripts)      |
+
+Each mode starts its dependency, seeds the config center when the mode needs data
+(Consul KV and etcd are seeded, ZooKeeper is created by the server itself), exports the
+Seata settings of the mode and then runs the usual agent → tests → merge → diff flow.
+
+The mode logic lives in [`script/modes/`](script/modes) — one `<mode>.sh` per mode
+implementing `start` (dependency), `seed` (config center data) and `env` (Seata settings),
+so a new mode only needs a script plus a matrix entry. All dependency images are multi-arch
+and therefore run on both Linux runners, except `registry-eureka` whose image is
+`amd64` only and is therefore excluded from the ARM64 runner. On macOS the dependencies
+cannot run, so the server keeps its `file` config/registry/store and only baseline
+metadata is collected.
+
 ### Supported Platforms
 
 Metadata is collected on four platforms to account for OS/architecture differences:
@@ -147,9 +177,14 @@ incubator-seata-schedule-native/
 │   ├── schedule-native-server-metadata-file.yml      # Collects server metadata (file registry/config/store)
 │   ├── schedule-native-server-metadata-nacos.yml     # Collects server metadata (Nacos registry/config)
 │   ├── schedule-native-server-metadata-seata.yml     # Collects server metadata (Seata registry)
-│   └── schedule-native-server-metadata-mysql.yml     # Collects server metadata (MySQL store)
+│   ├── schedule-native-server-metadata-mysql.yml     # Collects server metadata (MySQL store)
+│   └── schedule-native-server-metadata-modes.yml     # Collects server metadata (Consul/etcd3/ZooKeeper/Redis modes)
 ├── script/
-│   └── send_wechat_work.py                           # WeChat Work diff notification sender
+│   ├── send_wechat_work.py                           # WeChat Work diff notification sender
+│   └── modes/                                        # Per-mode dependency setup + Seata settings
+│       ├── common.sh                                 # Shared container start/wait helper
+│       ├── config-consul.sh / config-etcd3.sh / config-zk.sh
+│       └── registry-consul.sh / registry-eureka.sh / registry-etcd3.sh / registry-redis.sh / registry-zk.sh / store-redis.sh
 └── .gitignore
 ```
 
@@ -179,6 +214,7 @@ Default repositories and branches used by each workflow:
 | `schedule-native-server-metadata-nacos` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 | `schedule-native-server-metadata-seata` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 | `schedule-native-server-metadata-mysql` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
+| `schedule-native-server-metadata-modes` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 
 Override via workflow dispatch inputs:
 
