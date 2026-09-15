@@ -1777,6 +1777,24 @@
     "methods" : [ {
       "name" : "<init>",
       "parameterTypes" : [ ]
+    }, {
+      "name" : "setDatasource",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setDbType",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setDriverClassName",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setPassword",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setUrl",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setUser",
+      "parameterTypes" : [ "java.lang.String" ]
     } ]
   }, {
     "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreFileProperties",
