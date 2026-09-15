@@ -1,0 +1,5 @@
+{
+  "reflection" : [ {
+    "type" : "org.apache.seata.discovery.registry.redis.RedisRegistryProvider"
+  } ]
+}

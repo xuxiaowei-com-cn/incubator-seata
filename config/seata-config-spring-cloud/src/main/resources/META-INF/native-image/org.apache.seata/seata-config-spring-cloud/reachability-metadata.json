@@ -1,0 +1,5 @@
+{
+  "reflection" : [ {
+    "type" : "org.apache.seata.config.springcloud.SpringCloudConfigurationProvider"
+  } ]
+}

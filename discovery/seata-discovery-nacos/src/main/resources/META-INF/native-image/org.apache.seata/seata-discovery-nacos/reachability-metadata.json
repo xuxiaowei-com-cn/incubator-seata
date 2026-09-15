@@ -1,0 +1,9 @@
+{
+  "reflection" : [ {
+    "type" : "org.apache.seata.discovery.registry.nacos.NacosRegistryProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  } ]
+}

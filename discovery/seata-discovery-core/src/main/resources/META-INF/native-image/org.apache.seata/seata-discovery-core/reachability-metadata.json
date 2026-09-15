@@ -1,0 +1,14 @@
+{
+  "reflection" : [ {
+    "type" : "org.apache.seata.discovery.registry.FileRegistryProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  } ],
+  "resources" : [ {
+    "glob" : "META-INF/seata/org.apache.seata.discovery.registry.RegistryProvider"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.discovery.registry.RegistryProvider"
+  } ]
+}
