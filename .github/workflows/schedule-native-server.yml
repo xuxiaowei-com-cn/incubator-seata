@@ -1,4 +1,4 @@
-name: Schedule Native Build (Server)
+name: Native Build (Server)
 
 on:
   push:
