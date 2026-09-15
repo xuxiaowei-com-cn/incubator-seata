@@ -17,7 +17,7 @@ builds the main Seata repository during workflow runs.
 
 ## How It Works
 
-Five GitHub Actions workflows run on a daily schedule (`0 0 * * *` UTC):
+Seven GitHub Actions workflows run on a daily schedule (`0 0 * * *` UTC):
 
 ### `schedule-native-server.yml`
 
@@ -83,6 +83,41 @@ registry and config from `xuxiaowei-com-cn/incubator-seata@xuxiaowei/Seata-Serve
 > **Note:** On non-Linux runners, falls back to `file` registry and config since
 > Nacos (Docker) is not available.
 
+### `schedule-native-server-metadata-seata.yml`
+
+Collects native-image metadata for the **server** module using the **Seata**
+(Raft-based) registry from `xuxiaowei-com-cn/incubator-seata@xuxiaowei/Seata-Server-GraalVM`:
+
+1. **Start NamingServer** — Starts the namingserver module so the server has a registry to register with
+2. **Checkout & Build** — Checks out and compiles the server module
+3. **Run with agent** — Starts the server JAR with the Seata registry, file config/store and native-image-agent
+4. **Start test-native-server** — Starts a companion test server for exercising endpoints (Linux only)
+5. **Exercise endpoints** — Runs native tests to collect metadata (Linux only)
+6. **Graceful shutdown** — Actuator shutdown + SIGTERM for clean metadata collection
+7. **Merge & Diff** — Merges configs and sends diffs to WeChat Work
+
+### `schedule-native-server-metadata-mysql.yml`
+
+Collects native-image metadata for the **server** module running with **MySQL** as the
+session/lock store (`store.mode=db`, Druid + `com.mysql.cj.jdbc.Driver`) from
+`xuxiaowei-com-cn/incubator-seata@xuxiaowei/Seata-Server-GraalVM`.
+This is the mode that records JDBC driver, SQL mapper and connection pool reflection:
+
+1. **Start MySQL** — Starts a MySQL 8.0 Docker container with the `seata` database (Linux only)
+2. **Initialize schema** — Imports `script/server/db/mysql.sql` (global/branch/lock/distributed-lock/vgroup
+   tables) into the `seata` database and creates `seata_test_native` for the test server
+3. **Checkout & Build** — Checks out and compiles the server module
+4. **Provide the JDBC driver** — Copies `com.mysql:mysql-connector-j` into `server/target/jdbc`, the
+   directory Seata resolves the MySQL driver from
+5. **Run with agent** — Starts the server JAR with `store.mode=db` and native-image-agent
+6. **Start test-native-server** — Starts a companion test server for exercising endpoints (Linux only)
+7. **Exercise endpoints** — Runs native tests to collect metadata (Linux only)
+8. **Graceful shutdown** — Actuator shutdown + SIGTERM for clean metadata collection
+9. **Merge & Diff** — Merges configs and sends diffs to WeChat Work
+
+> **Note:** On non-Linux runners, MySQL (Docker) and the MySQL JDBC driver are not available,
+> so the server falls back to `store.mode=file` and only baseline metadata is collected.
+
 ### Supported Platforms
 
 Metadata is collected on four platforms to account for OS/architecture differences:
@@ -110,7 +145,9 @@ incubator-seata-schedule-native/
 │   ├── schedule-native-server.yml                    # Triggers upstream server native build
 │   ├── schedule-native-namingserver-metadata.yml     # Collects namingserver metadata
 │   ├── schedule-native-server-metadata-file.yml      # Collects server metadata (file registry/config/store)
-│   └── schedule-native-server-metadata-nacos.yml     # Collects server metadata (Nacos registry/config)
+│   ├── schedule-native-server-metadata-nacos.yml     # Collects server metadata (Nacos registry/config)
+│   ├── schedule-native-server-metadata-seata.yml     # Collects server metadata (Seata registry)
+│   └── schedule-native-server-metadata-mysql.yml     # Collects server metadata (MySQL store)
 ├── script/
 │   └── send_wechat_work.py                           # WeChat Work diff notification sender
 └── .gitignore
@@ -140,6 +177,8 @@ Default repositories and branches used by each workflow:
 | `schedule-native-namingserver-metadata` | `apache/incubator-seata`           | `2.x`                            |
 | `schedule-native-server-metadata-file`  | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 | `schedule-native-server-metadata-nacos` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
+| `schedule-native-server-metadata-seata` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
+| `schedule-native-server-metadata-mysql` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 
 Override via workflow dispatch inputs:
 

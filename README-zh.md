@@ -14,7 +14,7 @@
 
 ## 工作原理
 
-五个 GitHub Actions 工作流按每日计划（UTC `0 0 * * *`）自动执行：
+七个 GitHub Actions 工作流按每日计划（UTC `0 0 * * *`）自动执行：
 
 ### `schedule-native-server.yml`
 
@@ -79,6 +79,40 @@ macOS ARM64）。
 > **注意：** 在非 Linux 运行器上，由于 Nacos（Docker）不可用，会回退到
 > `file` 注册和配置模式。
 
+### `schedule-native-server-metadata-seata.yml`
+
+从 `xuxiaowei-com-cn/incubator-seata@xuxiaowei/Seata-Server-GraalVM` 收集
+**server** 模块的原生镜像元数据（使用 **Seata**（基于 Raft）注册中心）：
+
+1. **启动 NamingServer** — 启动 namingserver 模块，作为 server 的注册中心
+2. **检出与构建** — 检出并编译 server 模块
+3. **带代理运行** — 使用 Seata 注册中心、文件配置/存储启动 server JAR 并挂载 native-image-agent
+4. **启动 test-native-server** — 启动配套测试服务器以触发端点（仅 Linux）
+5. **触发端点** — 运行原生测试收集元数据（仅 Linux）
+6. **优雅关闭** — Actuator shutdown + SIGTERM 确保元数据正确写出
+7. **合并与差异** — 合并配置并将差异发送到企业微信
+
+### `schedule-native-server-metadata-mysql.yml`
+
+从 `xuxiaowei-com-cn/incubator-seata@xuxiaowei/Seata-Server-GraalVM` 收集
+**server** 模块以 **MySQL** 作为会话/锁存储（`store.mode=db`，Druid + `com.mysql.cj.jdbc.Driver`）
+运行时的原生镜像元数据。该模式用于采集 JDBC 驱动、SQL 映射器和连接池的反射元数据：
+
+1. **启动 MySQL** — 启动 MySQL 8.0 Docker 容器并创建 `seata` 数据库（仅 Linux）
+2. **初始化数据库** — 将 `script/server/db/mysql.sql`（global/branch/lock/distributed-lock/vgroup
+   表）导入 `seata` 数据库，并创建测试服务器所需的 `seata_test_native` 数据库
+3. **检出与构建** — 检出并编译 server 模块
+4. **提供 JDBC 驱动** — 将 `com.mysql:mysql-connector-j` 复制到 `server/target/jdbc`，
+   这是 Seata 解析 MySQL 驱动所查找的目录
+5. **带代理运行** — 使用 `store.mode=db` 启动 server JAR 并挂载 native-image-agent
+6. **启动 test-native-server** — 启动配套测试服务器以触发端点（仅 Linux）
+7. **触发端点** — 运行原生测试收集元数据（仅 Linux）
+8. **优雅关闭** — Actuator shutdown + SIGTERM 确保元数据正确写出
+9. **合并与差异** — 合并配置并将差异发送到企业微信
+
+> **注意：** 在非 Linux 运行器上，MySQL（Docker）与 MySQL JDBC 驱动不可用，
+> 因此 server 会回退到 `store.mode=file`，仅收集基础元数据。
+
 ### 支持的平台
 
 在不同操作系统/架构上分别收集元数据：
@@ -105,7 +139,9 @@ incubator-seata-schedule-native/
 │   ├── schedule-native-server.yml                    # 触发上游 server 原生构建
 │   ├── schedule-native-namingserver-metadata.yml     # 收集 namingserver 元数据
 │   ├── schedule-native-server-metadata-file.yml      # 收集 server 元数据（文件 注册/配置/储存）
-│   └── schedule-native-server-metadata-nacos.yml     # 收集 server 元数据（Nacos 注册/配置）
+│   ├── schedule-native-server-metadata-nacos.yml     # 收集 server 元数据（Nacos 注册/配置）
+│   ├── schedule-native-server-metadata-seata.yml     # 收集 server 元数据（Seata 注册中心）
+│   └── schedule-native-server-metadata-mysql.yml     # 收集 server 元数据（MySQL 存储）
 ├── script/
 │   └── send_wechat_work.py                           # 企业微信差异通知脚本
 └── .gitignore
@@ -134,6 +170,8 @@ incubator-seata-schedule-native/
 | `schedule-native-namingserver-metadata` | `apache/incubator-seata`           | `2.x`                            |
 | `schedule-native-server-metadata-file`  | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 | `schedule-native-server-metadata-nacos` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
+| `schedule-native-server-metadata-seata` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
+| `schedule-native-server-metadata-mysql` | `xuxiaowei-com-cn/incubator-seata` | `xuxiaowei/Seata-Server-GraalVM` |
 
 可通过 workflow dispatch 输入参数覆盖：
 

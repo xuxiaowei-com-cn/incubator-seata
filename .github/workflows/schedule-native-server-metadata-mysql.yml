@@ -1,9 +1,9 @@
-name: Schedule Native Metadata (Server, Seata)
+name: Schedule Native Metadata (Server, MySQL)
 
 on:
   push:
     paths:
-      - '.github/workflows/schedule-native-server-metadata-seata.yml'
+      - '.github/workflows/schedule-native-server-metadata-mysql.yml'
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
@@ -44,6 +44,12 @@ jobs:
       SEATA_SERVER_STARTUP_RETRIES: 120
       METADATA_FILE_WAIT_TIMEOUT: 120
       TEST_NATIVE_SERVER_STARTUP_RETRIES: 120
+      # MySQL database used by the Seata server when store.mode=db
+      STORE_DB_NAME: seata
+      # MySQL database used by the test-native-server module
+      TEST_DB_NAME: seata_test_native
+      # MySQL driver version; must ship com.mysql.cj.jdbc.Driver
+      MYSQL_DRIVER_VERSION: 8.0.33
     steps:
       - name: "Checkout"
         uses: actions/checkout@v7.0.0
@@ -56,7 +62,7 @@ jobs:
         run: |
           docker run -d --name mysql-test \
             -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
-            -e MYSQL_DATABASE=seata_test_native \
+            -e MYSQL_DATABASE=${{ env.STORE_DB_NAME }} \
             -p 3306:3306 \
             mysql:8.0
           echo "Waiting for MySQL to be ready..."
@@ -72,6 +78,45 @@ jobs:
           echo "ERROR: MySQL failed to start after 60s"
           docker logs mysql-test --tail 50
           exit 1
+      - name: "Initialize the ${{ env.STORE_DB_NAME }} schema in MySQL (Linux only)"
+        if: runner.os == 'Linux'
+        shell: sh
+        run: |
+          SCHEMA_FILE="script/server/db/mysql.sql"
+          if [ ! -f "${SCHEMA_FILE}" ]; then
+            echo "ERROR: ${SCHEMA_FILE} not found in the checked out repository."
+            exit 1
+          fi
+
+          # The database is created by the container entrypoint (MYSQL_DATABASE), which can
+          # still be running slightly after the server answers mysqladmin ping.
+          echo "Waiting for the ${STORE_DB_NAME} database..."
+          DB_READY=0
+          i=1
+          while [ $i -le 60 ]; do
+            if docker exec mysql-test mysql -uroot -e "USE ${STORE_DB_NAME};" >/dev/null 2>&1; then
+              DB_READY=1
+              echo "${STORE_DB_NAME} database is available after ${i}s."
+              break
+            fi
+            sleep 1
+            i=$((i + 1))
+          done
+          if [ ${DB_READY} -ne 1 ]; then
+            echo "ERROR: ${STORE_DB_NAME} database was not created within 60s."
+            docker logs mysql-test --tail 50
+            exit 1
+          fi
+
+          echo "Creating database ${TEST_DB_NAME} for the test-native-server module..."
+          docker exec mysql-test mysql -uroot \
+            -e "CREATE DATABASE IF NOT EXISTS ${TEST_DB_NAME};"
+
+          echo "Importing ${SCHEMA_FILE} into database ${STORE_DB_NAME}..."
+          docker exec -i mysql-test mysql -uroot "${STORE_DB_NAME}" < "${SCHEMA_FILE}"
+
+          echo "Tables in database ${STORE_DB_NAME}:"
+          docker exec mysql-test mysql -uroot -e "SHOW TABLES;" "${STORE_DB_NAME}"
       - name: "Print current git SHA"
         id: git-sha
         run: |
@@ -105,43 +150,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ runner.arch }}-maven-
       - name: "Install dependencies for ${{ env.MODULE_NAME }} in ${{ matrix.os }}"
-        run: ./mvnw -T 4C clean -B -pl ${{ env.MODULE_NAME }},server,namingserver,spring/seata-spring-boot-starter install -DskipTests -am
-
-      - name: "Start NamingServer"
-        shell: sh
-        env:
-          CONSOLE_USER_USERNAME: ${{ env.USERNAME }}
-          CONSOLE_USER_PASSWORD: ${{ env.PASSWORD }}
-        run: |
-          ./mvnw -T 2C -B -pl namingserver spring-boot:run -Prelease-seata-jar &
-          
-          sleep 30
-          jcmd -l
-          JAR_PATTERN="NamingserverApplication"
-          APP_PID=$(jcmd -l | grep "${JAR_PATTERN}" | grep -v jcmd | awk '{print $1}')
-          if [ -z "${APP_PID}" ]; then
-            echo "ERROR: Could not find PID for ${JAR_PATTERN} via jcmd."
-            jcmd -l
-            exit 1
-          fi
-
-          echo "Waiting for NamingServer to be ready..."
-          for i in $(seq 1 30); do
-            if curl -sSf http://localhost:8081/naming/v1/health >/dev/null 2>&1; then
-              echo "Port 8081 is responding"
-              exit 0
-            fi
-            echo "Waiting for NamingServer... ($i/30)"
-            sleep 2
-          done
-          echo "ERROR: NamingServer failed to start after 60s"
-          exit 1
-
+        run: ./mvnw -T 4C clean -B -pl ${{ env.MODULE_NAME }},server,spring/seata-spring-boot-starter install -DskipTests -am
       - name: "Package ${{ env.MODULE_NAME }}"
         run: ./mvnw -T 2C -B -pl ${{ env.MODULE_NAME }} package -DskipTests -Prelease-seata-jar
       - name: "List ${{ env.MODULE_NAME }} jar"
         shell: sh
         run: ls -lh ${{ env.MODULE_NAME }}/target/seata-${{ env.MODULE_NAME }}.jar
+      - name: "Provide the MySQL JDBC driver for store.mode=db (Linux only)"
+        if: runner.os == 'Linux'
+        shell: sh
+        run: |
+          # Seata resolves the MySQL driver from a 'jdbc' directory next to the classpath
+          # entry, i.e. '${{ env.MODULE_NAME }}/target/jdbc' for a jar started with 'java -jar'.
+          # See org.apache.seata.core.store.db.AbstractDataSourceProvider#createMysqlDriverClassLoaders
+          ./mvnw -B -q -pl ${{ env.MODULE_NAME }} dependency:copy \
+            -Dartifact=com.mysql:mysql-connector-j:${{ env.MYSQL_DRIVER_VERSION }} \
+            -DoutputDirectory=./${{ env.MODULE_NAME }}/target/jdbc
+          ls -lh ./${{ env.MODULE_NAME }}/target/jdbc
       - name: "Start ${{ env.MODULE_NAME }} in background with native-image-agent"
         shell: sh
         env:
@@ -151,29 +176,28 @@ jobs:
           MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
 
           SEATA_CONFIG_TYPE: file
-          SEATA_REGISTRY_TYPE: seata
-          SEATA_REGISTRY_PREFERREDNETWORKS: "30.240.*"
-          SEATA_REGISTRY_IGNOREDINTERFACES: VMware.*
-          SEATA_REGISTRY_METADATA_WEIGHT: "100"
-          SEATA_STORE_MODE: file
-
-          SEATA_REGISTRY_SEATA_SERVERADDR: 127.0.0.1:8081
-          SEATA_REGISTRY_SEATA_CLUSTER: default
-          SEATA_REGISTRY_SEATA_NAMESPACE: public
-          SEATA_REGISTRY_SEATA_HEARTBEATPERIOD: 5000
-          SEATA_REGISTRY_SEATA_METADATAMAXAGEMS: 30000
-          SEATA_REGISTRY_SEATA_USERNAME: seata
-          SEATA_REGISTRY_SEATA_PASSWORD: seata
-          SEATA_REGISTRY_SEATA_TOKENVALIDITYINMILLISECONDS: 1740000
-
+          SEATA_REGISTRY_TYPE: file
+          # store.mode=db exercises the JDBC / MySQL driver reachability metadata
+          SEATA_STORE_MODE: db
+          SEATA_STORE_DB_DATASOURCE: druid
+          SEATA_STORE_DB_DBTYPE: mysql
+          SEATA_STORE_DB_DRIVERCLASSNAME: com.mysql.cj.jdbc.Driver
+          SEATA_STORE_DB_URL: "jdbc:mysql://127.0.0.1:3306/${{ env.STORE_DB_NAME }}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&rewriteBatchedStatements=true"
+          SEATA_STORE_DB_USER: root
+          SEATA_STORE_DB_PASSWORD: ""
         run: |
-          
+          if [ "${{ runner.os }}" != 'Linux' ]; then
+            # MySQL (Docker) and the MySQL JDBC driver are only available on Linux runners,
+            # so fall back to the file store to still collect baseline metadata.
+            export SEATA_STORE_MODE=file
+          fi
+
           SEATA_SECURITY_IGNORE_URLS=$(sed -n 's/.*urls:[ \t]*//p' ${{ env.MODULE_NAME }}/src/main/resources/application.yml)
           echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
           SEATA_SECURITY_IGNORE_URLS="/actuator/shutdown,${SEATA_SECURITY_IGNORE_URLS}"
           echo "SEATA_SECURITY_IGNORE_URLS=$SEATA_SECURITY_IGNORE_URLS"
           export SEATA_SECURITY_IGNORE_URLS="$SEATA_SECURITY_IGNORE_URLS"
-          echo "Starting ${{ env.MODULE_NAME }} in background on port ${{ env.MODULE_PORT }}..."
+          echo "Starting ${{ env.MODULE_NAME }} in background on port ${{ env.MODULE_PORT }} with store.mode=${SEATA_STORE_MODE}..."
           java -agentlib:native-image-agent=config-output-dir=./target/native-image-config \
             -jar ./${{ env.MODULE_NAME }}/target/seata-${{ env.MODULE_NAME }}.jar &
 
@@ -313,7 +337,7 @@ jobs:
       - name: "Upload ${{ env.MODULE_NAME }} reachability-metadata.json"
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: ${{ env.MODULE_NAME }}-${{ matrix.os }}-${{ env.GIT_SHA }}-reachability-metadata
+          name: ${{ env.MODULE_NAME }}-mysql-${{ matrix.os }}-${{ env.GIT_SHA }}-reachability-metadata
           path: |
             ./target/native-image-config/reachability-metadata.json
             ./git-sha.txt
@@ -350,7 +374,7 @@ jobs:
         if: steps.diff.outputs.has_diff == 'true'
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: ${{ env.MODULE_NAME }}-${{ matrix.os }}-${{ env.GIT_SHA }}-native-image-config-diff
+          name: ${{ env.MODULE_NAME }}-mysql-${{ matrix.os }}-${{ env.GIT_SHA }}-native-image-config-diff
           path: |
             ./target/native-image-config.diff
             ./git-sha.txt

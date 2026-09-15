@@ -171,7 +171,7 @@ jobs:
           SEATA_REGISTRY_NACOS_ACCESSKEY: ""
           SEATA_REGISTRY_NACOS_SECRETKEY: ""
           SEATA_REGISTRY_NACOS_RAMROLENAME: ""
-          SEATA_STORE_TYPE: file
+          SEATA_STORE_MODE: file
         run: |
           if [ "${{ runner.os }}" != 'Linux' ]; then
             export SEATA_REGISTRY_TYPE=file
