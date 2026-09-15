@@ -1,0 +1,21 @@
+{
+  "resources" : {
+    "includes" : [ {
+      "pattern" : "META-INF/seata/org.apache.seata.config.ExtConfigurationProvider"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.config.file.FileConfig"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.config.ExtConfigurationProvider"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.config.file.FileConfig"
+    }, {
+      "pattern" : "META-INF/seata/io.seata.config.ConfigurationProvider"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.config.ConfigurationProvider"
+    }, {
+      "pattern" : "META-INF/services/io.seata.config.ConfigurationProvider"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.config.ConfigurationProvider"
+    } ]
+  }
+}

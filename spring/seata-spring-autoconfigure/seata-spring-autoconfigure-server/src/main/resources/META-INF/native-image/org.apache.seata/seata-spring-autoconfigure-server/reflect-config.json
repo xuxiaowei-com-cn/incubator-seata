@@ -1,0 +1,281 @@
+[ {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.SeataServerEnvironmentPostProcessor",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.http.RestControllerBeanPostProcessor",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.MetricsProperties",
+  "fields" : [ {
+    "name" : "enabled"
+  }, {
+    "name" : "exporterList"
+  }, {
+    "name" : "exporterPrometheusPort"
+  }, {
+    "name" : "registryType"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerProperties",
+  "fields" : [ {
+    "name" : "applicationDataLimit"
+  }, {
+    "name" : "applicationDataLimitCheck"
+  }, {
+    "name" : "enableCheckAuth"
+  }, {
+    "name" : "enableParallelHandleBranch"
+  }, {
+    "name" : "enableParallelRequestHandle"
+  }, {
+    "name" : "maxCommitRetryTimeout"
+  }, {
+    "name" : "maxRollbackRetryTimeout"
+  }, {
+    "name" : "retryDeadThreshold"
+  }, {
+    "name" : "rollbackRetryTimeoutUnlockEnable"
+  }, {
+    "name" : "xaerNotaRetryTimeout"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setServicePort",
+    "parameterTypes" : [ "java.lang.Integer" ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerRateLimitProperties",
+  "fields" : [ {
+    "name" : "bucketTokenMaxNum"
+  }, {
+    "name" : "bucketTokenNumPerSecond"
+  }, {
+    "name" : "enable"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerRecoveryProperties",
+  "fields" : [ {
+    "name" : "asyncCommittingRetryPeriod"
+  }, {
+    "name" : "committingRetryPeriod"
+  }, {
+    "name" : "rollbackingRetryPeriod"
+  }, {
+    "name" : "timeoutRetryPeriod"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerUndoProperties",
+  "fields" : [ {
+    "name" : "logDeletePeriod"
+  }, {
+    "name" : "logSaveDays"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.filter.ServerHttpFilterXssProperties",
+  "fields" : [ {
+    "name" : "keywords"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftProperties",
+  "fields" : [ {
+    "name" : "group"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLClientProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLServerProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.session.SessionProperties",
+  "fields" : [ {
+    "name" : "enableBranchAsyncRemove"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.DbcpProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.DruidProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ],
+  "fields" : [ {
+    "name" : "keepAlive"
+  }, {
+    "name" : "minEvictableIdleTimeMillis"
+  }, {
+    "name" : "testOnBorrow"
+  }, {
+    "name" : "testWhileIdle"
+  }, {
+    "name" : "timeBetweenEvictionRunsMillis"
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.HikariProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreDBProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setDatasource",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setDbType",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setDriverClassName",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setPassword",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setUrl",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setUser",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ],
+  "fields" : [ {
+    "name" : "branchTable"
+  }, {
+    "name" : "distributedLockTable"
+  }, {
+    "name" : "globalTable"
+  }, {
+    "name" : "lockTable"
+  }, {
+    "name" : "maxConn"
+  }, {
+    "name" : "maxWait"
+  }, {
+    "name" : "minConn"
+  }, {
+    "name" : "queryLimit"
+  }, {
+    "name" : "vgroupTable"
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreFileProperties",
+  "fields" : [ {
+    "name" : "dir"
+  }, {
+    "name" : "fileWriteBufferCacheSize"
+  }, {
+    "name" : "flushDiskMode"
+  }, {
+    "name" : "maxBranchSessionSize"
+  }, {
+    "name" : "maxGlobalSessionSize"
+  }, {
+    "name" : "sessionReloadReadSize"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setMode",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ],
+  "fields" : [ {
+    "name" : "publicKey"
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties$Lock",
+  "fields" : [ {
+    "name" : "mode"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties$Session",
+  "fields" : [ {
+    "name" : "mode"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties$Sentinel",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties$Single",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+} ]

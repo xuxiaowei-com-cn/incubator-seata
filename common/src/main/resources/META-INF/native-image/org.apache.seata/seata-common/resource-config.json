@@ -1,0 +1,11 @@
+{
+  "resources" : {
+    "includes" : [ {
+      "pattern" : "org/apache/seata/common/loader/LoadLevel.class"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.common.json.JsonCodec"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.common.json.JsonCodec"
+    } ]
+  }
+}

@@ -1,0 +1,7 @@
+[ {
+  "name" : "org.apache.seata.discovery.registry.namingserver.NamingserverRegistryProvider",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+} ]

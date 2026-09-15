@@ -1,0 +1,13 @@
+{
+  "resources" : {
+    "includes" : [ {
+      "pattern" : "META-INF/seata/org.apache.seata.metrics.exporter.Exporter"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.metrics.registry.Registry"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.metrics.exporter.Exporter"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.metrics.registry.Registry"
+    } ]
+  }
+}

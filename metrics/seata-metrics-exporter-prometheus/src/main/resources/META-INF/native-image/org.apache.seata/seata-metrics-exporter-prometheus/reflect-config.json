@@ -1,0 +1,7 @@
+[ {
+  "name" : "org.apache.seata.metrics.exporter.prometheus.PrometheusExporter",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+} ]

@@ -1,0 +1,11 @@
+[ {
+  "name" : "io.seata.core.context.ContextCore"
+}, {
+  "name" : "io.seata.core.serializer.Serializer"
+}, {
+  "name" : "io.seata.discovery.registry.RegistryProvider"
+}, {
+  "name" : "io.seata.core.store.db.sql.lock.LockStoreSql"
+}, {
+  "name" : "io.seata.core.store.db.sql.log.LogStoreSqls"
+} ]

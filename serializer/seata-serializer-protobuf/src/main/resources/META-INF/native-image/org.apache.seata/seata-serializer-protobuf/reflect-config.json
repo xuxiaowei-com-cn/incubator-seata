@@ -1,0 +1,5 @@
+[ {
+  "name" : "org.apache.seata.serializer.protobuf.GrpcSerializer"
+}, {
+  "name" : "org.apache.seata.serializer.protobuf.ProtobufSerializer"
+} ]

@@ -1,0 +1,7 @@
+[ {
+  "name" : "org.apache.seata.common.thread.VirtualThreadPoolProvider",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+} ]

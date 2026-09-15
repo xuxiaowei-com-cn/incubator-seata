@@ -1,0 +1,47 @@
+{
+  "resources" : {
+    "includes" : [ {
+      "pattern" : "META-INF/seata/org.apache.seata.core.context.ContextCore"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.rpc.RegisterCheckAuthHandler"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.rpc.hook.RpcHook"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.serializer.Serializer"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.context.ContextCore"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.rpc.RegisterCheckAuthHandler"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.rpc.hook.RpcHook"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.serializer.Serializer"
+    }, {
+      "pattern" : "org/apache/seata/core/rpc/netty/http/filter/HttpRequestFilter.class"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.store.DistributedLocker"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.store.db.DataSourceProvider"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.store.db.sql.distributed.lock.DistributedLockSql"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.store.db.sql.lock.LockStoreSql"
+    }, {
+      "pattern" : "META-INF/seata/org.apache.seata.core.store.db.sql.log.LogStoreSqls"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.store.DistributedLocker"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.store.db.DataSourceProvider"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.store.db.sql.distributed.lock.DistributedLockSql"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.store.db.sql.lock.LockStoreSql"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.core.store.db.sql.log.LogStoreSqls"
+    } ]
+  }
+}

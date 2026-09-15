@@ -1,0 +1,9 @@
+{
+  "resources" : {
+    "includes" : [ {
+      "pattern" : "META-INF/seata/org.apache.seata.common.json.JsonSerializer"
+    }, {
+      "pattern" : "META-INF/services/org.apache.seata.common.json.JsonSerializer"
+    } ]
+  }
+}

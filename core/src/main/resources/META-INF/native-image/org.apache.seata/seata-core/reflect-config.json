@@ -1,0 +1,107 @@
+[ {
+  "name" : "io.seata.core.rpc.RegisterCheckAuthHandler"
+}, {
+  "name" : "io.seata.core.rpc.hook.RpcHook"
+}, {
+  "name" : "io.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+}, {
+  "name" : "org.apache.seata.core.context.FastThreadLocalContextCore",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.core.context.ThreadLocalContextCore"
+}, {
+  "name" : "org.apache.seata.core.rpc.hook.StatusRpcHook",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.AbstractNettyRemotingServer$ServerHandler"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.MultiProtocolDecoder"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.NettyServerBootstrap$1"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.ProtocolDetectHandler"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.v2.ProtocolDecoderV2"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.v2.ProtocolEncoderV2"
+}, {
+  "name" : "org.apache.seata.core.protocol.detector.HttpDetector$1"
+}, {
+  "name" : "org.apache.seata.core.protocol.detector.HttpDetector$2"
+}, {
+  "name" : "org.apache.seata.core.rpc.netty.http.HttpDispatchHandler"
+}, {
+  "name" : "io.seata.core.store.DistributedLocker"
+}, {
+  "name" : "io.seata.core.store.db.DataSourceProvider"
+}, {
+  "name" : "io.seata.core.store.db.sql.distributed.lock.DistributedLockSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.distributed.lock.BaseDistributedLockSql",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.distributed.lock.BaseDistributedLockSqlServer"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.DmLockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.H2LockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.KingbaseLockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.MariadbLockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.MysqlLockStoreSql",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.OceanbaseLockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.OracleLockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.OscarLockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.PolarDBXLockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.PostgresqlLockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.lock.SqlServerLockStoreSql"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.DmLogStoreSqls"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.H2LogStoreSqls"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.KingbaseLogStoreSqls"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.MariadbLogStoreSqls"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.MysqlLogStoreSqls",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.OceanbaseLogStoreSqls"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.OracleLogStoreSqls"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.OscarLogStoreSqls"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.PolarDBXLogStoreSqls"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.PostgresqlLogStoreSqls"
+}, {
+  "name" : "org.apache.seata.core.store.db.sql.log.SqlServerLogStoreSqls"
+} ]

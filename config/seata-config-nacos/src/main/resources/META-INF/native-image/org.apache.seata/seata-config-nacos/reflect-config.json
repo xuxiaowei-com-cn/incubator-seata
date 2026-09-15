@@ -1,0 +1,7 @@
+[ {
+  "name" : "org.apache.seata.config.nacos.NacosConfigurationProvider",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+} ]

@@ -1,0 +1,345 @@
+[ {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.SeataCoreAutoConfiguration",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "springApplicationContextProvider",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.SeataCoreEnvironmentPostProcessor",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.loader.SeataPropertiesLoader",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.LogProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.ShutdownProperties",
+  "fields" : [ {
+    "name" : "wait"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.ThreadFactoryProperties",
+  "fields" : [ {
+    "name" : "bossThreadPrefix"
+  }, {
+    "name" : "bossThreadSize"
+  }, {
+    "name" : "shareBossWorker"
+  }, {
+    "name" : "workerThreadPrefix"
+  }, {
+    "name" : "workerThreadSize"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.TransportProperties",
+  "fields" : [ {
+    "name" : "compressor"
+  }, {
+    "name" : "enableClientBatchSendRequest"
+  }, {
+    "name" : "enableTcServerBatchSendResponse"
+  }, {
+    "name" : "heartbeat"
+  }, {
+    "name" : "httpPoolKeepAliveTime"
+  }, {
+    "name" : "keepAliveTime"
+  }, {
+    "name" : "maxHttpPoolSize"
+  }, {
+    "name" : "maxHttpTaskQueueSize"
+  }, {
+    "name" : "maxServerPoolSize"
+  }, {
+    "name" : "maxTaskQueueSize"
+  }, {
+    "name" : "minHttpPoolSize"
+  }, {
+    "name" : "minServerPoolSize"
+  }, {
+    "name" : "rpcRmRequestTimeout"
+  }, {
+    "name" : "rpcTcRequestTimeout"
+  }, {
+    "name" : "rpcTmRequestTimeout"
+  }, {
+    "name" : "serialization"
+  }, {
+    "name" : "serverChannelMaxIdleTimeSeconds"
+  }, {
+    "name" : "serverSocketResvBufSize"
+  }, {
+    "name" : "serverSocketSendBufSize"
+  }, {
+    "name" : "soBackLogSize"
+  }, {
+    "name" : "threadpool"
+  }, {
+    "name" : "writeBufferHighWaterMark"
+  }, {
+    "name" : "writeBufferLowWaterMark"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigApolloProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigConsulProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigCustomProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigEtcd3Properties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigFileProperties",
+  "fields" : [ {
+    "name" : "name"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigNacosProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setAccessKey",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setContextPath",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setDataId",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setGroup",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setNamespace",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setPassword",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setRamRoleName",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setSecretKey",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setServerAddr",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setUsername",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setType",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigZooKeeperProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryConsulProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryCustomProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryEtcd3Properties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryEurekaProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryMetadataProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNacosProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setAccessKey",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setApplication",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setCluster",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setContextPath",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setGroup",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setNamespace",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setPassword",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setRamRoleName",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setSecretKey",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setServerAddr",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setUsername",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ],
+  "fields" : [ {
+    "name" : "slbPattern"
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNamingServerProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setCluster",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setHeartbeatPeriod",
+    "parameterTypes" : [ "int" ]
+  }, {
+    "name" : "setMetadataMaxAgeMs",
+    "parameterTypes" : [ "java.lang.Long" ]
+  }, {
+    "name" : "setNamespace",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setPassword",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setServerAddr",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setTokenValidityInMilliseconds",
+    "parameterTypes" : [ "java.lang.Long" ]
+  }, {
+    "name" : "setUsername",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryProperties",
+  "fields" : [ {
+    "name" : "ignoredInterfaces"
+  }, {
+    "name" : "preferredNetworks"
+  } ],
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  }, {
+    "name" : "setType",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setIgnoredInterfaces",
+    "parameterTypes" : [ "java.lang.String" ]
+  }, {
+    "name" : "setPreferredNetworks",
+    "parameterTypes" : [ "java.lang.String" ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryRaftProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryRedisProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistrySofaProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryZooKeeperProperties",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.provider.SpringApplicationContextProvider"
+}, {
+  "name" : "org.apache.seata.spring.boot.autoconfigure.provider.SpringBootConfigurationProvider",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ ]
+  } ]
+} ]

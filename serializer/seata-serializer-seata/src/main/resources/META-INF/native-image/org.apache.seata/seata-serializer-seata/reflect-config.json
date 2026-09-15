@@ -1,0 +1,7 @@
+[ {
+  "name" : "org.apache.seata.serializer.seata.SeataSerializer",
+  "methods" : [ {
+    "name" : "<init>",
+    "parameterTypes" : [ "java.lang.Byte" ]
+  } ]
+} ]

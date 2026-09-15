@@ -1,0 +1,55 @@
+{
+  "resources" : {
+    "includes" : [ {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/SeataCoreAutoConfiguration.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/LogProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/ShutdownProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/ThreadFactoryProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/TransportProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigApolloProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigConsulProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigCustomProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigEtcd3Properties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigFileProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigNacosProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigZooKeeperProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryConsulProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryCustomProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryEtcd3Properties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryEurekaProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryMetadataProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryNacosProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryNamingServerProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryRaftProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryRedisProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistrySofaProperties.class"
+    }, {
+      "pattern" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryZooKeeperProperties.class"
+    } ]
+  }
+}
