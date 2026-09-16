@@ -116,7 +116,7 @@ public class MergeNativeImageMetadata {
      * @param sourceArray the source array (from generated metadata)
      * @param targetArray the target array (canonical, mutated in place)
      */
-    static void mergeArrayNodes(JsonNode sourceArray, ArrayNode targetArray) {
+    private static void mergeArrayNodes(JsonNode sourceArray, ArrayNode targetArray) {
         // Build key → index map for target elements (first occurrence wins).
         Map<String, Integer> targetIndex = new LinkedHashMap<>();
         for (int i = 0; i < targetArray.size(); i++) {
@@ -211,17 +211,6 @@ public class MergeNativeImageMetadata {
         if (element.has("glob")) {
             StringBuilder sb = new StringBuilder("glob:");
             sb.append(nodeText(element.get("glob")));
-            if (element.has("module")) {
-                sb.append("|module:");
-                sb.append(nodeText(element.get("module")));
-            }
-            return sb.toString();
-        }
-        // Legacy resource-config entries (for example the entries of
-        // {"resources": {"includes": [{"pattern": "..."}]}}).
-        if (element.has("pattern")) {
-            StringBuilder sb = new StringBuilder("pattern:");
-            sb.append(nodeText(element.get("pattern")));
             if (element.has("module")) {
                 sb.append("|module:");
                 sb.append(nodeText(element.get("module")));
