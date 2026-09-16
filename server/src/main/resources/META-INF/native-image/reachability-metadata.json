@@ -4393,6 +4393,36 @@
     "type" : "sun.management.MemoryPoolImpl"
   }, {
     "type" : "sun.management.RuntimeImpl"
+  }, {
+    "type" : "com.alibaba.druid.stat.JdbcSqlStat"
+  }, {
+    "type" : "com.mysql.cj.exceptions.CJException",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.String" ]
+    } ]
+  }, {
+    "type" : "com.sun.crypto.provider.RSACipher",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "java.security.interfaces.RSAPrivateKey"
+  }, {
+    "type" : "java.security.interfaces.RSAPublicKey"
+  }, {
+    "type" : "java.sql.SQLException"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.v1.ProtocolDecoderV1"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.v1.ProtocolEncoderV1"
+  }, {
+    "type" : "sun.security.provider.SHA2$SHA256",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
   } ],
   "resources" : [ {
     "glob" : ""
@@ -4982,6 +5012,16 @@
     "glob" : "jdk/jfr/internal/query/view.ini"
   }, {
     "bundle" : "com.mysql.cj.LocalizedErrorMessages"
+  }, {
+    "glob" : "com/mysql/cj/LocalizedErrorMessages_zh.properties"
+  }, {
+    "glob" : "com/mysql/cj/LocalizedErrorMessages_zh_CN.properties"
+  }, {
+    "glob" : "com/mysql/cj/LocalizedErrorMessages_zh_Hans.properties"
+  }, {
+    "glob" : "com/mysql/cj/LocalizedErrorMessages_zh_Hans_CN.properties"
+  }, {
+    "glob" : "com/mysql/cj/TlsSettings.properties"
   } ],
   "foreign" : {
     "downcalls" : [ {

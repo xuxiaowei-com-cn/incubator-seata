@@ -25,27 +25,23 @@ SHELL := /usr/bin/env bash
 	package-only package \
 	install-server-jar \
 	install-namingserver-jar \
-	install-run-namingserver-native-jar \
-	run-namingserver-native-jar \
-	install-run-server-native-file-jar \
-	run-server-native-file-jar \
-	install-run-server-jar \
-	run-server-jar \
+	install-run-namingserver-native-jar run-namingserver-native-jar \
+	install-run-server-native-file-jar run-server-native-file-jar \
+	install-run-server-native-mysql-jar run-server-native-mysql-jar \
+	install-run-server-jar run-server-jar \
 	install-run-server-jar-registry-seata \
 	run-server-jar-registry-seata \
 	test-native-namingserver \
 	test-native-server \
-	run-merge-native-namingserver \
-	install-namingserver-native \
-	package-namingserver-native \
-	run-namingserver-native \
-	install-server-native \
-	package-server-native \
+	run-merge-native-namingserver run-merge-native-server \
+	install-namingserver-native package-namingserver-native run-namingserver-native \
+	install-server-native package-server-native \
 	run-server-native-file \
-	run-server-native-nacos
+	run-server-native-nacos \
+	run-server-native-mysql
 
 help: ## Show help information
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-34s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-38s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 # Prefer using the system-installed `mvn`, fall back to the Maven Wrapper (`./mvnw`) if unavailable
 MVN ?= $(shell command -v mvn >/dev/null 2>&1 && echo "mvn" || echo "./mvnw")
@@ -62,6 +58,14 @@ NACOS_GROUP ?= SEATA_GROUP
 NACOS_DATAID ?= seataServer.properties
 NACOS_USERNAME ?=
 NACOS_PASSWORD ?=
+
+# MySQL store settings for run-server-native-mysql-jar / run-server-native-mysql (override on
+# the command line, e.g.
+# `make run-server-native-mysql-jar SEATA_DB_NAME=seata_dev SEATA_DB_PASSWORD=secret`)
+SEATA_DB_NAME ?= seata
+SEATA_DB_URL ?= jdbc:mysql://127.0.0.1:3306/$(SEATA_DB_NAME)?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&rewriteBatchedStatements=true
+SEATA_DB_USER ?= root
+SEATA_DB_PASSWORD ?=
 
 # Shared Nacos environment variables for config (nacos) + registry (nacos) + store (file) mode
 define NACOS_MODE_ENV
@@ -174,6 +178,9 @@ run-namingserver-native-jar: ## Run namingserver with GraalVM native-image agent
 install-run-server-native-file-jar: install-server-jar ## Build, install, and run server with GraalVM native-image agent
 	@$(MAKE) --no-print-directory run-server-native-file-jar
 
+install-run-server-native-mysql-jar: install-server-jar ## Build, install, and run server with GraalVM native-image agent
+	@$(MAKE) --no-print-directory run-server-native-mysql-jar
+
 run-server-native-file-jar: ## Run server with GraalVM native-image agent (without prior build/install)
 	@echo "=== Workload steps (run in separate terminals) ==="
 	@echo "1. Start server in seata registry mode connecting to server:"
@@ -189,6 +196,34 @@ run-server-native-file-jar: ## Run server with GraalVM native-image agent (witho
 	SEATA_REGISTRY_TYPE=file \
 	SEATA_STORE_MODE=file \
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
+
+run-server-native-mysql-jar: ## Run server with GraalVM native-image agent (without prior build/install)
+	@echo "=== Store: db (mysql), database=$(SEATA_DB_NAME), user=$(SEATA_DB_USER) ==="
+	@echo "    JDBC URL: $(SEATA_DB_URL)"
+	@echo "    The MySQL driver must be present in ./server/target/lib/jdbc/"
+	@echo "=== Workload steps (run in separate terminals) ==="
+	@echo "1. Start server in seata registry mode connecting to server:"
+	@echo "     make install-run-server-jar-registry-seata"
+	@echo "     or"
+	@echo "     make run-server-jar-registry-seata"
+	@echo "2. Run the native server test suite:"
+	@echo "     make test-native-server"
+	@echo "3. After tests pass, stop this server (Ctrl+C) so the agent flushes metadata,"
+	@echo "   then merge the collected metadata:"
+	@echo "     make run-merge-native-server"
+	SEATA_CONFIG_TYPE=file \
+	SEATA_REGISTRY_TYPE=file \
+	SEATA_STORE_MODE=db \
+	SEATA_STORE_DB_DATASOURCE=druid \
+	SEATA_STORE_DB_DBTYPE=mysql \
+	SEATA_STORE_DB_DRIVERCLASSNAME=com.mysql.cj.jdbc.Driver \
+	SEATA_STORE_DB_URL="$(SEATA_DB_URL)" \
+	SEATA_STORE_DB_USER="$(SEATA_DB_USER)" \
+	SEATA_STORE_DB_PASSWORD="$(SEATA_DB_PASSWORD)" \
+	${GRAALVM_HOME}/bin/java \
+	-agentlib:native-image-agent=config-output-dir=./target/native-image-config \
+	-Dloader.path=./server/target/lib \
+	-jar ./server/target/seata-server.jar
 
 install-run-server-native-nacos-jar: install-server-jar ## Build, install, and run server with GraalVM native-image agent
 	@$(MAKE) --no-print-directory run-server-native-nacos-jar
@@ -273,4 +308,30 @@ run-server-native-nacos: ## Run the server native image binary directly
 	@echo "2. Run the native server test suite:"
 	@echo "     make test-native-server"
 	$(NACOS_MODE_ENV) \
+	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+
+run-server-native-mysql: ## Run the server native image binary directly (store mode db, MySQL)
+	@echo "=== Store: db (mysql), database=$(SEATA_DB_NAME), user=$(SEATA_DB_USER) ==="
+	@echo "    JDBC URL: $(SEATA_DB_URL)"
+	@echo "    The MySQL driver (mysql:mysql-connector-java:8.0.27) is linked into the native"
+	@echo "    image by the 'native' profile in server/pom.xml; rebuild it with:"
+	@echo "     make package-server-native"
+	@echo "    Note: -Dloader.path (used by run-server-native-mysql-jar) has no effect on a"
+	@echo "    native image, a GraalVM binary cannot load a driver from an external folder."
+	@echo "=== Workload steps (run in separate terminals) ==="
+	@echo "1. Start server in seata registry mode connecting to server:"
+	@echo "     make install-run-server-jar-registry-seata"
+	@echo "     or"
+	@echo "     make run-server-jar-registry-seata"
+	@echo "2. Run the native server test suite:"
+	@echo "     make test-native-server"
+	SEATA_CONFIG_TYPE=file \
+	SEATA_REGISTRY_TYPE=file \
+	SEATA_STORE_MODE=db \
+	SEATA_STORE_DB_DATASOURCE=druid \
+	SEATA_STORE_DB_DBTYPE=mysql \
+	SEATA_STORE_DB_DRIVERCLASSNAME=com.mysql.cj.jdbc.Driver \
+	SEATA_STORE_DB_URL="$(SEATA_DB_URL)" \
+	SEATA_STORE_DB_USER="$(SEATA_DB_USER)" \
+	SEATA_STORE_DB_PASSWORD="$(SEATA_DB_PASSWORD)" \
 	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)

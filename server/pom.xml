@@ -569,6 +569,22 @@
 
         <profile>
             <id>native</id>
+            <properties>
+                <!-- The jar distribution ships the MySQL driver in lib/jdbc (see copy-mysql below),
+                     but a GraalVM native image cannot load a driver from an external folder at
+                     runtime. The driver therefore has to be on the native-image build classpath so
+                     that com.mysql.cj.jdbc.Driver ends up inside the binary. This overrides the
+                     test scope of the mysql-connector-java dependency declared above. -->
+                <mysql8.jdbc.version>8.0.27</mysql8.jdbc.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>${mysql8.jdbc.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
             <build>
                 <pluginManagement>
                     <plugins>
