@@ -91,7 +91,7 @@ SEATA_REGISTRY_NACOS_PASSWORD=$(NACOS_PASSWORD) \
 SEATA_REGISTRY_NACOS_ACCESSKEY= \
 SEATA_REGISTRY_NACOS_SECRETKEY= \
 SEATA_REGISTRY_NACOS_RAMROLENAME= \
-SEATA_STORE_TYPE=file
+SEATA_STORE_MODE=file
 endef
 
 # Dynamically resolve the namingserver/server version from the Maven project (e.g. 2.8.0-SNAPSHOT)
@@ -182,7 +182,7 @@ run-server-native-file-jar: ## Run server with GraalVM native-image agent (witho
 	@echo "     make run-merge-native-server"
 	SEATA_CONFIG_TYPE=file \
 	SEATA_REGISTRY_TYPE=file \
-	SEATA_STORE_TYPE=file \
+	SEATA_STORE_MODE=file \
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
 install-run-server-native-nacos-jar: install-server-jar ## Build, install, and run server with GraalVM native-image agent
@@ -256,7 +256,7 @@ run-server-native-file: ## Run the server native image binary directly
 	@echo "     make test-native-server"
 	SEATA_CONFIG_TYPE=file \
 	SEATA_REGISTRY_TYPE=file \
-	SEATA_STORE_TYPE=file \
+	SEATA_STORE_MODE=file \
 	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
 
 run-server-native-nacos: ## Run the server native image binary directly
