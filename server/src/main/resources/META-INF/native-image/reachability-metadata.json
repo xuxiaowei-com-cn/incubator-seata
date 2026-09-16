@@ -339,6 +339,28 @@
   }, {
     "type" : "io.netty.util.internal.shaded.org.jctools.queues.atomic.MpmcAtomicArrayQueueProducerIndexField"
   }, {
+    "type" : "io.seata.common.thread.ThreadPoolProvider"
+  }, {
+    "type" : "io.seata.config.ExtConfigurationProvider"
+  }, {
+    "type" : "io.seata.config.file.FileConfig"
+  }, {
+    "type" : "io.seata.core.context.ContextCore"
+  }, {
+    "type" : "io.seata.core.rpc.RegisterCheckAuthHandler"
+  }, {
+    "type" : "io.seata.core.rpc.hook.RpcHook"
+  }, {
+    "type" : "io.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+  }, {
+    "type" : "io.seata.core.serializer.Serializer"
+  }, {
+    "type" : "io.seata.discovery.registry.RegistryProvider"
+  }, {
+    "type" : "io.seata.metrics.exporter.Exporter"
+  }, {
+    "type" : "io.seata.metrics.registry.Registry"
+  }, {
     "type" : "io.seata.server.coordinator.AbstractCore"
   }, {
     "type" : "io.seata.server.limit.ratelimit.RateLimiter"
@@ -684,6 +706,162 @@
     "type" : "org.apache.logging.log4j.util.SystemPropertiesPropertySource"
   }, {
     "type" : "org.apache.logging.slf4j.SLF4JProvider"
+  }, {
+    "type" : "org.apache.seata.common.loader.LoadLevel"
+  }, {
+    "type" : "org.apache.seata.common.loader.Scope"
+  }, {
+    "type" : "org.apache.seata.common.store.LockMode",
+    "methods" : [ {
+      "name" : "getName",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.common.store.SessionMode",
+    "methods" : [ {
+      "name" : "getName",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.common.thread.PlatformThreadPoolProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.common.thread.VirtualThreadPoolProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.config.Configuration",
+    "methods" : [ {
+      "name" : "addConfigListener",
+      "parameterTypes" : [ "java.lang.String", "org.apache.seata.config.ConfigurationChangeListener" ]
+    }, {
+      "name" : "getBoolean",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "getBoolean",
+      "parameterTypes" : [ "java.lang.String", "boolean" ]
+    }, {
+      "name" : "getConfig",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "getConfig",
+      "parameterTypes" : [ "java.lang.String", "java.lang.String" ]
+    }, {
+      "name" : "getInt",
+      "parameterTypes" : [ "java.lang.String", "int" ]
+    }, {
+      "name" : "getLatestConfig",
+      "parameterTypes" : [ "java.lang.String", "java.lang.String", "long" ]
+    }, {
+      "name" : "getLong",
+      "parameterTypes" : [ "java.lang.String", "long" ]
+    }, {
+      "name" : "getShort",
+      "parameterTypes" : [ "java.lang.String", "short" ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.config.file.SimpleFileConfig",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.config.file.YamlFileConfig"
+  }, {
+    "type" : "org.apache.seata.core.context.FastThreadLocalContextCore",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.core.context.ThreadLocalContextCore"
+  }, {
+    "type" : "org.apache.seata.core.rpc.hook.StatusRpcHook",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.AbstractNettyRemotingServer$ServerHandler"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.MultiProtocolDecoder"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.NettyServerBootstrap$1"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.ProtocolDetectHandler"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.v2.ProtocolDecoderV2"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.v2.ProtocolEncoderV2"
+  }, {
+    "type" : "org.apache.seata.discovery.registry.FileRegistryProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.discovery.registry.consul.ConsulRegistryProvider"
+  }, {
+    "type" : "org.apache.seata.discovery.registry.custom.CustomRegistryProvider"
+  }, {
+    "type" : "org.apache.seata.discovery.registry.etcd3.EtcdRegistryProvider"
+  }, {
+    "type" : "org.apache.seata.discovery.registry.eureka.EurekaRegistryProvider"
+  }, {
+    "type" : "org.apache.seata.discovery.registry.nacos.NacosRegistryProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.discovery.registry.namingserver.NamingserverRegistryProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.discovery.registry.redis.RedisRegistryProvider"
+  }, {
+    "type" : "org.apache.seata.discovery.registry.sofa.SofaRegistryProvider"
+  }, {
+    "type" : "org.apache.seata.discovery.registry.zk.ZookeeperRegistryProvider"
+  }, {
+    "type" : "org.apache.seata.metrics.exporter.prometheus.PrometheusExporter",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.metrics.registry.compact.CompactRegistry",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.serializer.fastjson2.Fastjson2Serializer"
+  }, {
+    "type" : "org.apache.seata.serializer.fory.ForySerializer"
+  }, {
+    "type" : "org.apache.seata.serializer.hessian.HessianSerializer"
+  }, {
+    "type" : "org.apache.seata.serializer.kryo.KryoSerializer"
+  }, {
+    "type" : "org.apache.seata.serializer.protobuf.GrpcSerializer"
+  }, {
+    "type" : "org.apache.seata.serializer.protobuf.ProtobufSerializer"
+  }, {
+    "type" : "org.apache.seata.serializer.seata.SeataSerializer",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ "java.lang.Byte" ]
+    } ]
   }, {
     "type" : "org.apache.seata.server.ParameterParser",
     "fields" : [ {
@@ -1131,6 +1309,630 @@
     "methods" : [ {
       "name" : "<init>",
       "parameterTypes" : [ "org.apache.seata.core.rpc.RemotingServer" ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.SeataCoreAutoConfiguration",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "springApplicationContextProvider",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.SeataCoreEnvironmentPostProcessor",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.SeataServerEnvironmentPostProcessor",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.http.RestControllerBeanPostProcessor",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.loader.SeataPropertiesLoader",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.LogProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.ShutdownProperties",
+    "fields" : [ {
+      "name" : "wait"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.ThreadFactoryProperties",
+    "fields" : [ {
+      "name" : "bossThreadPrefix"
+    }, {
+      "name" : "bossThreadSize"
+    }, {
+      "name" : "shareBossWorker"
+    }, {
+      "name" : "workerThreadPrefix"
+    }, {
+      "name" : "workerThreadSize"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.TransportProperties",
+    "fields" : [ {
+      "name" : "compressor"
+    }, {
+      "name" : "enableClientBatchSendRequest"
+    }, {
+      "name" : "enableTcServerBatchSendResponse"
+    }, {
+      "name" : "heartbeat"
+    }, {
+      "name" : "httpPoolKeepAliveTime"
+    }, {
+      "name" : "keepAliveTime"
+    }, {
+      "name" : "maxHttpPoolSize"
+    }, {
+      "name" : "maxHttpTaskQueueSize"
+    }, {
+      "name" : "maxServerPoolSize"
+    }, {
+      "name" : "maxTaskQueueSize"
+    }, {
+      "name" : "minHttpPoolSize"
+    }, {
+      "name" : "minServerPoolSize"
+    }, {
+      "name" : "rpcRmRequestTimeout"
+    }, {
+      "name" : "rpcTcRequestTimeout"
+    }, {
+      "name" : "rpcTmRequestTimeout"
+    }, {
+      "name" : "serialization"
+    }, {
+      "name" : "serverChannelMaxIdleTimeSeconds"
+    }, {
+      "name" : "serverSocketResvBufSize"
+    }, {
+      "name" : "serverSocketSendBufSize"
+    }, {
+      "name" : "soBackLogSize"
+    }, {
+      "name" : "threadpool"
+    }, {
+      "name" : "writeBufferHighWaterMark"
+    }, {
+      "name" : "writeBufferLowWaterMark"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigApolloProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigConsulProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigCustomProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigEtcd3Properties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigFileProperties",
+    "fields" : [ {
+      "name" : "name"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigNacosProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "setAccessKey",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setContextPath",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setDataId",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setGroup",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setNamespace",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setPassword",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setRamRoleName",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setSecretKey",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setServerAddr",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setUsername",
+      "parameterTypes" : [ "java.lang.String" ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "setType",
+      "parameterTypes" : [ "java.lang.String" ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.config.ConfigZooKeeperProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryConsulProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryCustomProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryEtcd3Properties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryEurekaProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryMetadataProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNacosProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "setAccessKey",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setApplication",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setCluster",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setContextPath",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setGroup",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setNamespace",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setPassword",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setRamRoleName",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setSecretKey",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setServerAddr",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setUsername",
+      "parameterTypes" : [ "java.lang.String" ]
+    } ],
+    "fields" : [ {
+      "name" : "slbPattern"
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryNamingServerProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "setCluster",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setHeartbeatPeriod",
+      "parameterTypes" : [ "int" ]
+    }, {
+      "name" : "setMetadataMaxAgeMs",
+      "parameterTypes" : [ "java.lang.Long" ]
+    }, {
+      "name" : "setNamespace",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setPassword",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setServerAddr",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setTokenValidityInMilliseconds",
+      "parameterTypes" : [ "java.lang.Long" ]
+    }, {
+      "name" : "setUsername",
+      "parameterTypes" : [ "java.lang.String" ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryProperties",
+    "fields" : [ {
+      "name" : "ignoredInterfaces"
+    }, {
+      "name" : "preferredNetworks"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "setType",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setIgnoredInterfaces",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setPreferredNetworks",
+      "parameterTypes" : [ "java.lang.String" ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryRaftProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryRedisProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistrySofaProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.registry.RegistryZooKeeperProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.MetricsProperties",
+    "fields" : [ {
+      "name" : "enabled"
+    }, {
+      "name" : "exporterList"
+    }, {
+      "name" : "exporterPrometheusPort"
+    }, {
+      "name" : "registryType"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerProperties",
+    "fields" : [ {
+      "name" : "applicationDataLimit"
+    }, {
+      "name" : "applicationDataLimitCheck"
+    }, {
+      "name" : "enableCheckAuth"
+    }, {
+      "name" : "enableParallelHandleBranch"
+    }, {
+      "name" : "enableParallelRequestHandle"
+    }, {
+      "name" : "maxCommitRetryTimeout"
+    }, {
+      "name" : "maxRollbackRetryTimeout"
+    }, {
+      "name" : "retryDeadThreshold"
+    }, {
+      "name" : "rollbackRetryTimeoutUnlockEnable"
+    }, {
+      "name" : "xaerNotaRetryTimeout"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "setServicePort",
+      "parameterTypes" : [ "java.lang.Integer" ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerRateLimitProperties",
+    "fields" : [ {
+      "name" : "bucketTokenMaxNum"
+    }, {
+      "name" : "bucketTokenNumPerSecond"
+    }, {
+      "name" : "enable"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerRecoveryProperties",
+    "fields" : [ {
+      "name" : "asyncCommittingRetryPeriod"
+    }, {
+      "name" : "committingRetryPeriod"
+    }, {
+      "name" : "rollbackingRetryPeriod"
+    }, {
+      "name" : "timeoutRetryPeriod"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.ServerUndoProperties",
+    "fields" : [ {
+      "name" : "logDeletePeriod"
+    }, {
+      "name" : "logSaveDays"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.filter.ServerHttpFilterXssProperties",
+    "fields" : [ {
+      "name" : "keywords"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftProperties",
+    "fields" : [ {
+      "name" : "group"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLClientProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.raft.ServerRaftSSLServerProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.session.SessionProperties",
+    "fields" : [ {
+      "name" : "enableBranchAsyncRemove"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.DbcpProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.DruidProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ],
+    "fields" : [ {
+      "name" : "keepAlive"
+    }, {
+      "name" : "minEvictableIdleTimeMillis"
+    }, {
+      "name" : "testOnBorrow"
+    }, {
+      "name" : "testWhileIdle"
+    }, {
+      "name" : "timeBetweenEvictionRunsMillis"
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.HikariProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreDBProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "setDatasource",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setDbType",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setDriverClassName",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setPassword",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setUrl",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "setUser",
+      "parameterTypes" : [ "java.lang.String" ]
+    } ],
+    "fields" : [ {
+      "name" : "branchTable"
+    }, {
+      "name" : "distributedLockTable"
+    }, {
+      "name" : "globalTable"
+    }, {
+      "name" : "lockTable"
+    }, {
+      "name" : "maxConn"
+    }, {
+      "name" : "maxWait"
+    }, {
+      "name" : "minConn"
+    }, {
+      "name" : "queryLimit"
+    }, {
+      "name" : "vgroupTable"
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreFileProperties",
+    "fields" : [ {
+      "name" : "dir"
+    }, {
+      "name" : "fileWriteBufferCacheSize"
+    }, {
+      "name" : "flushDiskMode"
+    }, {
+      "name" : "maxBranchSessionSize"
+    }, {
+      "name" : "maxGlobalSessionSize"
+    }, {
+      "name" : "sessionReloadReadSize"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "setMode",
+      "parameterTypes" : [ "java.lang.String" ]
+    } ],
+    "fields" : [ {
+      "name" : "publicKey"
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties$Lock",
+    "fields" : [ {
+      "name" : "mode"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreProperties$Session",
+    "fields" : [ {
+      "name" : "mode"
+    } ],
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties$Sentinel",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.properties.server.store.StoreRedisProperties$Single",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.provider.SpringApplicationContextProvider"
+  }, {
+    "type" : "org.apache.seata.spring.boot.autoconfigure.provider.SpringBootConfigurationProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
     } ]
   }, {
     "type" : "org.aspectj.weaver.Advice"
@@ -2369,6 +3171,12 @@
   }, {
     "type" : "io.netty.handler.codec.http.HttpServerUpgradeHandler"
   }, {
+    "type" : "org.apache.seata.core.protocol.detector.HttpDetector$1"
+  }, {
+    "type" : "org.apache.seata.core.protocol.detector.HttpDetector$2"
+  }, {
+    "type" : "org.apache.seata.core.rpc.netty.http.HttpDispatchHandler"
+  }, {
     "type" : "android.app.Application"
   }, {
     "type" : "ch.qos.logback.classic.Logger"
@@ -2877,6 +3685,8 @@
   }, {
     "type" : "io.prometheus.client.Striped64"
   }, {
+    "type" : "io.seata.config.ConfigurationProvider"
+  }, {
     "type" : "java.lang.Enum"
   }, {
     "type" : "java.lang.StringBuilder"
@@ -2910,6 +3720,22 @@
     "type" : "javax.naming.directory.InitialDirContext"
   }, {
     "type" : "libcore.io.Memory"
+  }, {
+    "type" : "org.apache.seata.config.apollo.ApolloConfigurationProvider"
+  }, {
+    "type" : "org.apache.seata.config.consul.ConsulConfigurationProvider"
+  }, {
+    "type" : "org.apache.seata.config.etcd3.EtcdConfigurationProvider"
+  }, {
+    "type" : "org.apache.seata.config.nacos.NacosConfigurationProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.config.springcloud.SpringCloudConfigurationProvider"
+  }, {
+    "type" : "org.apache.seata.config.zk.ZookeeperConfigurationProvider"
   }, {
     "type" : "org.robolectric.Robolectric"
   }, {
@@ -3027,6 +3853,10 @@
       "parameterTypes" : [ ]
     } ]
   }, {
+    "type" : "io.seata.common.json.JsonCodec"
+  }, {
+    "type" : "io.seata.common.json.JsonSerializer"
+  }, {
     "type" : "java.security.AlgorithmParametersSpi"
   }, {
     "type" : "java.security.KeyStoreSpi"
@@ -3038,6 +3868,77 @@
     "type" : "java.util.Collections$UnmodifiableMap"
   }, {
     "type" : "java.util.Deque"
+  }, {
+    "type" : "org.apache.seata.common.json.JsonUtilCodec",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.common.json.impl.Fastjson2JsonSerializer"
+  }, {
+    "type" : "org.apache.seata.common.json.impl.FastjsonJsonSerializer"
+  }, {
+    "type" : "org.apache.seata.common.json.impl.GsonJsonSerializer"
+  }, {
+    "type" : "org.apache.seata.common.json.impl.JacksonJsonSerializer",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.common.metadata.ClusterRole"
+  }, {
+    "type" : "org.apache.seata.common.metadata.Instance",
+    "methods" : [ {
+      "name" : "getClusterName",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getControl",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getInternal",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getMetadata",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getNamespace",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getRole",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getTerm",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getTimestamp",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getTransaction",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getUnit",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getVersion",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getWeight",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "isHealthy",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.common.metadata.Node$Endpoint",
+    "methods" : [ {
+      "name" : "getHost",
+      "parameterTypes" : [ ]
+    }, {
+      "name" : "getPort",
+      "parameterTypes" : [ ]
+    } ]
   }, {
     "type" : "sun.security.pkcs12.PKCS12KeyStore",
     "methods" : [ {
@@ -3243,6 +4144,16 @@
   }, {
     "type" : "float[]"
   }, {
+    "type" : "io.seata.core.store.DistributedLocker"
+  }, {
+    "type" : "io.seata.core.store.db.DataSourceProvider"
+  }, {
+    "type" : "io.seata.core.store.db.sql.distributed.lock.DistributedLockSql"
+  }, {
+    "type" : "io.seata.core.store.db.sql.lock.LockStoreSql"
+  }, {
+    "type" : "io.seata.core.store.db.sql.log.LogStoreSqls"
+  }, {
     "type" : "java.lang.Character",
     "fields" : [ {
       "name" : "TYPE"
@@ -3327,6 +4238,66 @@
     "type" : "jdk.management.jfr.RecordingInfo"
   }, {
     "type" : "jdk.management.jfr.SettingDescriptorInfo"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.distributed.lock.BaseDistributedLockSql",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.distributed.lock.BaseDistributedLockSqlServer"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.DmLockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.H2LockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.KingbaseLockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.MariadbLockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.MysqlLockStoreSql",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.OceanbaseLockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.OracleLockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.OscarLockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.PolarDBXLockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.PostgresqlLockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.lock.SqlServerLockStoreSql"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.DmLogStoreSqls"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.H2LogStoreSqls"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.KingbaseLogStoreSqls"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.MariadbLogStoreSqls"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.MysqlLogStoreSqls",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.OceanbaseLogStoreSqls"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.OracleLogStoreSqls"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.OscarLogStoreSqls"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.PolarDBXLogStoreSqls"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.PostgresqlLogStoreSqls"
+  }, {
+    "type" : "org.apache.seata.core.store.db.sql.log.SqlServerLogStoreSqls"
   }, {
     "type" : "org.apache.seata.server.console.impl.db.BranchSessionDBServiceImpl"
   }, {
@@ -3428,6 +4399,28 @@
   }, {
     "glob" : "META-INF/build-info.properties"
   }, {
+    "glob" : "META-INF/seata/org.apache.seata.common.thread.ThreadPoolProvider"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.config.ExtConfigurationProvider"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.config.file.FileConfig"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.context.ContextCore"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.rpc.RegisterCheckAuthHandler"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.rpc.hook.RpcHook"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.serializer.Serializer"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.discovery.registry.RegistryProvider"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.metrics.exporter.Exporter"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.metrics.registry.Registry"
+  }, {
     "glob" : "META-INF/seata/org.apache.seata.server.coordinator.AbstractCore"
   }, {
     "glob" : "META-INF/seata/org.apache.seata.server.limit.ratelimit.RateLimiter"
@@ -3453,6 +4446,28 @@
     "glob" : "META-INF/services/org.apache.commons.logging.LogFactory"
   }, {
     "glob" : "META-INF/services/org.apache.logging.log4j.util.PropertySource"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.common.thread.ThreadPoolProvider"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.config.ExtConfigurationProvider"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.config.file.FileConfig"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.context.ContextCore"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.rpc.RegisterCheckAuthHandler"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.rpc.hook.RpcHook"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.rpc.netty.http.filter.HttpRequestFilter"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.serializer.Serializer"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.discovery.registry.RegistryProvider"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.metrics.exporter.Exporter"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.metrics.registry.Registry"
   }, {
     "glob" : "META-INF/services/org.apache.seata.server.coordinator.AbstractCore"
   }, {
@@ -3550,6 +4565,10 @@
   }, {
     "glob" : "org/apache/seata"
   }, {
+    "glob" : "org/apache/seata/common/loader/LoadLevel.class"
+  }, {
+    "glob" : "org/apache/seata/core/rpc/netty/http/filter/HttpRequestFilter.class"
+  }, {
     "glob" : "org/apache/seata/server/Server.class"
   }, {
     "glob" : "org/apache/seata/server/ServerRunner.class"
@@ -3603,6 +4622,102 @@
     "glob" : "org/apache/seata/server/filter/RaftRequestFilter.class"
   }, {
     "glob" : "org/apache/seata/server/instance/AbstractSeataInstanceStrategy.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/SeataCoreAutoConfiguration.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/http/RestControllerBeanPostProcessor.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/LogProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/ShutdownProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/ThreadFactoryProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/TransportProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigApolloProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigConsulProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigCustomProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigEtcd3Properties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigFileProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigNacosProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/config/ConfigZooKeeperProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryConsulProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryCustomProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryEtcd3Properties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryEurekaProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryMetadataProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryNacosProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryNamingServerProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryRaftProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryRedisProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistrySofaProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/registry/RegistryZooKeeperProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/MetricsProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerRateLimitProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerRecoveryProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/ServerUndoProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/filter/ServerHttpFilterXssProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftSSLClientProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftSSLProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/raft/ServerRaftSSLServerProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/session/SessionProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/DbcpProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/DruidProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/HikariProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreDBProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreFileProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties$Lock.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties$Session.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties$Sentinel.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties$Single.class"
+  }, {
+    "glob" : "org/apache/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties.class"
   }, {
     "glob" : "org/springframework/aot/hint/annotation/Reflective.class"
   }, {
@@ -3755,6 +4870,10 @@
   }, {
     "glob" : "META-INF/native/libnetty_transport_native_epoll_x86_64.so"
   }, {
+    "glob" : "META-INF/seata/io.seata.config.ConfigurationProvider"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.config.ConfigurationProvider"
+  }, {
     "glob" : "META-INF/services/com.alibaba.nacos.api.config.filter.IConfigFilter"
   }, {
     "glob" : "META-INF/services/com.alibaba.nacos.api.remote.Payload"
@@ -3767,7 +4886,11 @@
   }, {
     "glob" : "META-INF/services/com.alibaba.nacos.shaded.io.grpc.NameResolverProvider"
   }, {
+    "glob" : "META-INF/services/io.seata.config.ConfigurationProvider"
+  }, {
     "glob" : "META-INF/services/java.net.spi.InetAddressResolverProvider"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.config.ConfigurationProvider"
   }, {
     "glob" : "com/alibaba/nacos/api/config/remote/request"
   }, {
@@ -3797,6 +4920,14 @@
   }, {
     "glob" : "META-INF/native/libcom_alibaba_nacos_shaded_io_grpc_netty_shaded_netty_transport_native_epoll_aarch_64.so"
   }, {
+    "glob" : "META-INF/seata/org.apache.seata.common.json.JsonCodec"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.common.json.JsonSerializer"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.common.json.JsonCodec"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.common.json.JsonSerializer"
+  }, {
     "glob" : "fastjson.properties"
   }, {
     "module" : "java.base",
@@ -3813,9 +4944,29 @@
   }, {
     "glob" : "META-INF/druid-driver.properties"
   }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.store.DistributedLocker"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.store.db.DataSourceProvider"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.store.db.sql.distributed.lock.DistributedLockSql"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.store.db.sql.lock.LockStoreSql"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.core.store.db.sql.log.LogStoreSqls"
+  }, {
     "glob" : "META-INF/services/com.alibaba.druid.filter.Filter"
   }, {
     "glob" : "META-INF/services/java.util.spi.ResourceBundleControlProvider"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.store.DistributedLocker"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.store.db.DataSourceProvider"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.store.db.sql.distributed.lock.DistributedLockSql"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.store.db.sql.lock.LockStoreSql"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.core.store.db.sql.log.LogStoreSqls"
   }, {
     "glob" : "com/mysql/cj/LocalizedErrorMessages.properties"
   }, {
