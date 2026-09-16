@@ -21,7 +21,7 @@ SHELL := /usr/bin/env bash
 
 # Declare all phony targets (targets that are not actual files, i.e. they don't produce a file
 # matching the target name — make will always execute them regardless of file timestamps)
-.PHONY: help clean spotless-check spotless-apply checkstyle checkstyle-diff license test \
+.PHONY: help clean clean-local-snapshot spotless-check spotless-apply checkstyle checkstyle-diff license test \
 	package-only package \
 	install-server-jar \
 	install-namingserver-jar \
@@ -100,6 +100,11 @@ NATIVE_PLATFORM ?= $(shell $(MVN) help:evaluate -Dexpression=native.platform -q 
 
 clean: ## Clean the project
 	$(MVN) $(MAVEN_ARGS) clean
+
+clean-local-snapshot: ## Remove all *-SNAPSHOT directories from the local Maven repository
+	LOCAL_REPO="$$($(MVN) help:evaluate -Dexpression=settings.localRepository -q -DforceStdout)"; \
+	echo "Local Maven repository: $${LOCAL_REPO}"; \
+	find "$${LOCAL_REPO}" -type d -name '*-SNAPSHOT' -print -exec rm -r {} +
 
 spotless-check: ## Run Spotless code format check
 	$(MVN) $(MAVEN_ARGS) spotless:check -Ptest-native-metadata-merge -Ptest-native-namingserver -Ptest-native-server
