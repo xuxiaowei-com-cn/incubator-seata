@@ -1,5 +1,0 @@
-[ {
-  "name" : "io.seata.metrics.exporter.Exporter"
-}, {
-  "name" : "io.seata.metrics.registry.Registry"
-} ]

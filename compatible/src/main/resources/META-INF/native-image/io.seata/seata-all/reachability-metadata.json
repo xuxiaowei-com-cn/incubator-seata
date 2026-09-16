@@ -1,0 +1,13 @@
+{
+  "reflection" : [ {
+    "type" : "io.seata.core.context.ContextCore"
+  }, {
+    "type" : "io.seata.core.serializer.Serializer"
+  }, {
+    "type" : "io.seata.discovery.registry.RegistryProvider"
+  }, {
+    "type" : "io.seata.core.store.db.sql.lock.LockStoreSql"
+  }, {
+    "type" : "io.seata.core.store.db.sql.log.LogStoreSqls"
+  } ]
+}

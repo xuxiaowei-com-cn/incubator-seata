@@ -1,0 +1,7 @@
+{
+  "reflection" : [ {
+    "type" : "org.apache.seata.serializer.protobuf.GrpcSerializer"
+  }, {
+    "type" : "org.apache.seata.serializer.protobuf.ProtobufSerializer"
+  } ]
+}

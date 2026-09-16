@@ -1,0 +1,64 @@
+{
+  "reflection" : [ {
+    "type" : "io.seata.config.ExtConfigurationProvider"
+  }, {
+    "type" : "io.seata.config.file.FileConfig"
+  }, {
+    "type" : "org.apache.seata.config.Configuration",
+    "methods" : [ {
+      "name" : "addConfigListener",
+      "parameterTypes" : [ "java.lang.String", "org.apache.seata.config.ConfigurationChangeListener" ]
+    }, {
+      "name" : "getBoolean",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "getBoolean",
+      "parameterTypes" : [ "java.lang.String", "boolean" ]
+    }, {
+      "name" : "getConfig",
+      "parameterTypes" : [ "java.lang.String" ]
+    }, {
+      "name" : "getConfig",
+      "parameterTypes" : [ "java.lang.String", "java.lang.String" ]
+    }, {
+      "name" : "getInt",
+      "parameterTypes" : [ "java.lang.String", "int" ]
+    }, {
+      "name" : "getLatestConfig",
+      "parameterTypes" : [ "java.lang.String", "java.lang.String", "long" ]
+    }, {
+      "name" : "getLong",
+      "parameterTypes" : [ "java.lang.String", "long" ]
+    }, {
+      "name" : "getShort",
+      "parameterTypes" : [ "java.lang.String", "short" ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.config.file.SimpleFileConfig",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  }, {
+    "type" : "org.apache.seata.config.file.YamlFileConfig"
+  }, {
+    "type" : "io.seata.config.ConfigurationProvider"
+  } ],
+  "resources" : [ {
+    "glob" : "META-INF/seata/org.apache.seata.config.ExtConfigurationProvider"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.config.file.FileConfig"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.config.ExtConfigurationProvider"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.config.file.FileConfig"
+  }, {
+    "glob" : "META-INF/seata/io.seata.config.ConfigurationProvider"
+  }, {
+    "glob" : "META-INF/seata/org.apache.seata.config.ConfigurationProvider"
+  }, {
+    "glob" : "META-INF/services/io.seata.config.ConfigurationProvider"
+  }, {
+    "glob" : "META-INF/services/org.apache.seata.config.ConfigurationProvider"
+  } ]
+}

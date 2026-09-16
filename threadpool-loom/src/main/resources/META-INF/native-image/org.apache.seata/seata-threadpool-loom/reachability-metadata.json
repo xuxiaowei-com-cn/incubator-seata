@@ -1,0 +1,9 @@
+{
+  "reflection" : [ {
+    "type" : "org.apache.seata.common.thread.VirtualThreadPoolProvider",
+    "methods" : [ {
+      "name" : "<init>",
+      "parameterTypes" : [ ]
+    } ]
+  } ]
+}

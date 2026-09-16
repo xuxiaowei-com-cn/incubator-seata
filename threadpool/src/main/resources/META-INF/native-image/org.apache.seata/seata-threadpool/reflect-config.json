@@ -1,9 +1,0 @@
-[ {
-  "name" : "io.seata.common.thread.ThreadPoolProvider"
-}, {
-  "name" : "org.apache.seata.common.thread.PlatformThreadPoolProvider",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-} ]

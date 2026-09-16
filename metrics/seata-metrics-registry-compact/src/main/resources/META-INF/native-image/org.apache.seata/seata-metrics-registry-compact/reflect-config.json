@@ -1,7 +1,0 @@
-[ {
-  "name" : "org.apache.seata.metrics.registry.compact.CompactRegistry",
-  "methods" : [ {
-    "name" : "<init>",
-    "parameterTypes" : [ ]
-  } ]
-} ]
