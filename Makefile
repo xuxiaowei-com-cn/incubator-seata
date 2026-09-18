@@ -28,9 +28,9 @@ SHELL := /usr/bin/env bash
 	install-run-namingserver-native-jar run-namingserver-native-jar \
 	install-run-server-native-file-jar run-server-native-file-jar \
 	install-run-server-native-mysql-jar run-server-native-mysql-jar \
+	install-run-server-native-postgresql-jar run-server-native-postgresql-jar \
 	install-run-server-jar run-server-jar \
-	install-run-server-jar-registry-seata \
-	run-server-jar-registry-seata \
+	install-run-server-jar-registry-seata run-server-jar-registry-seata \
 	test-native-namingserver \
 	test-native-server \
 	run-merge-native-namingserver run-merge-native-server \
@@ -38,7 +38,8 @@ SHELL := /usr/bin/env bash
 	install-server-native package-server-native \
 	run-server-native-file \
 	run-server-native-nacos \
-	run-server-native-mysql
+	run-server-native-mysql \
+	run-server-native-postgresql
 
 help: ## Show help information
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-38s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -61,11 +62,19 @@ NACOS_PASSWORD ?=
 
 # MySQL store settings for run-server-native-mysql-jar / run-server-native-mysql (override on
 # the command line, e.g.
-# `make run-server-native-mysql-jar SEATA_DB_NAME=seata_dev SEATA_DB_PASSWORD=secret`)
-SEATA_DB_NAME ?= seata
-SEATA_DB_URL ?= jdbc:mysql://127.0.0.1:3306/$(SEATA_DB_NAME)?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&rewriteBatchedStatements=true
-SEATA_DB_USER ?= root
-SEATA_DB_PASSWORD ?=
+# `make run-server-native-mysql-jar SEATA_MYSQL_DB_NAME=seata_dev SEATA_MYSQL_DB_PASSWORD=secret`)
+SEATA_MYSQL_DB_NAME ?= seata
+SEATA_MYSQL_DB_URL ?= jdbc:mysql://127.0.0.1:3306/$(SEATA_MYSQL_DB_NAME)?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&rewriteBatchedStatements=true
+SEATA_MYSQL_DB_USER ?= root
+SEATA_MYSQL_DB_PASSWORD ?=
+
+# PostgreSQL store settings for run-server-native-postgresql-jar / run-server-native-postgresql
+# (override on the command line, e.g.
+# `make run-server-native-postgresql-jar SEATA_PG_DB_NAME=seata_dev SEATA_PG_DB_PASSWORD=secret`)
+SEATA_PG_DB_NAME ?= seata
+SEATA_PG_DB_URL ?= jdbc:postgresql://127.0.0.1:5432/$(SEATA_PG_DB_NAME)
+SEATA_PG_DB_USER ?= postgres
+SEATA_PG_DB_PASSWORD ?= postgres
 
 # Shared Nacos environment variables for config (nacos) + registry (nacos) + store (file) mode
 define NACOS_MODE_ENV
@@ -181,6 +190,9 @@ install-run-server-native-file-jar: install-server-jar ## Build, install, and ru
 install-run-server-native-mysql-jar: install-server-jar ## Build, install, and run server with GraalVM native-image agent
 	@$(MAKE) --no-print-directory run-server-native-mysql-jar
 
+install-run-server-native-postgresql-jar: install-server-jar ## Build, install, and run server with GraalVM native-image agent
+	@$(MAKE) --no-print-directory run-server-native-postgresql-jar
+
 run-server-native-file-jar: ## Run server with GraalVM native-image agent (without prior build/install)
 	@echo "=== Workload steps (run in separate terminals) ==="
 	@echo "1. Start server in seata registry mode connecting to server:"
@@ -198,8 +210,8 @@ run-server-native-file-jar: ## Run server with GraalVM native-image agent (witho
 	${GRAALVM_HOME}/bin/java -agentlib:native-image-agent=config-output-dir=./target/native-image-config -jar ./server/target/seata-server.jar
 
 run-server-native-mysql-jar: ## Run server with GraalVM native-image agent (without prior build/install)
-	@echo "=== Store: db (mysql), database=$(SEATA_DB_NAME), user=$(SEATA_DB_USER) ==="
-	@echo "    JDBC URL: $(SEATA_DB_URL)"
+	@echo "=== Store: db (mysql), database=$(SEATA_MYSQL_DB_NAME), user=$(SEATA_MYSQL_DB_USER) ==="
+	@echo "    JDBC URL: $(SEATA_MYSQL_DB_URL)"
 	@echo "    The MySQL driver must be present in ./server/target/lib/jdbc/"
 	@echo "=== Workload steps (run in separate terminals) ==="
 	@echo "1. Start server in seata registry mode connecting to server:"
@@ -217,9 +229,39 @@ run-server-native-mysql-jar: ## Run server with GraalVM native-image agent (with
 	SEATA_STORE_DB_DATASOURCE=druid \
 	SEATA_STORE_DB_DBTYPE=mysql \
 	SEATA_STORE_DB_DRIVERCLASSNAME=com.mysql.cj.jdbc.Driver \
-	SEATA_STORE_DB_URL="$(SEATA_DB_URL)" \
-	SEATA_STORE_DB_USER="$(SEATA_DB_USER)" \
-	SEATA_STORE_DB_PASSWORD="$(SEATA_DB_PASSWORD)" \
+	SEATA_STORE_DB_URL="$(SEATA_MYSQL_DB_URL)" \
+	SEATA_STORE_DB_USER="$(SEATA_MYSQL_DB_USER)" \
+	SEATA_STORE_DB_PASSWORD="$(SEATA_MYSQL_DB_PASSWORD)" \
+	${GRAALVM_HOME}/bin/java \
+	-agentlib:native-image-agent=config-output-dir=./target/native-image-config \
+	-Dloader.path=./server/target/lib \
+	-jar ./server/target/seata-server.jar
+
+run-server-native-postgresql-jar: ## Run server with GraalVM native-image agent (without prior build/install)
+	@echo "=== Store: db (postgresql), database=$(SEATA_PG_DB_NAME), user=$(SEATA_PG_DB_USER) ==="
+	@echo "    JDBC URL: $(SEATA_PG_DB_URL)"
+	@echo "    The PostgreSQL driver is a compile-scope dependency of server/pom.xml, so it is"
+	@echo "    packaged in ./server/target/seata-server.jar and in ./server/target/lib; the"
+	@echo "    -Dloader.path below makes it visible to the GraalVM native-image agent as well."
+	@echo "=== Workload steps (run in separate terminals) ==="
+	@echo "1. Start server in seata registry mode connecting to server:"
+	@echo "     make install-run-server-jar-registry-seata"
+	@echo "     or"
+	@echo "     make run-server-jar-registry-seata"
+	@echo "2. Run the native server test suite:"
+	@echo "     make test-native-server"
+	@echo "3. After tests pass, stop this server (Ctrl+C) so the agent flushes metadata,"
+	@echo "   then merge the collected metadata:"
+	@echo "     make run-merge-native-server"
+	SEATA_CONFIG_TYPE=file \
+	SEATA_REGISTRY_TYPE=file \
+	SEATA_STORE_MODE=db \
+	SEATA_STORE_DB_DATASOURCE=druid \
+	SEATA_STORE_DB_DBTYPE=postgresql \
+	SEATA_STORE_DB_DRIVERCLASSNAME=org.postgresql.Driver \
+	SEATA_STORE_DB_URL="$(SEATA_PG_DB_URL)" \
+	SEATA_STORE_DB_USER="$(SEATA_PG_DB_USER)" \
+	SEATA_STORE_DB_PASSWORD="$(SEATA_PG_DB_PASSWORD)" \
 	${GRAALVM_HOME}/bin/java \
 	-agentlib:native-image-agent=config-output-dir=./target/native-image-config \
 	-Dloader.path=./server/target/lib \
@@ -311,8 +353,8 @@ run-server-native-nacos: ## Run the server native image binary directly
 	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
 
 run-server-native-mysql: ## Run the server native image binary directly (store mode db, MySQL)
-	@echo "=== Store: db (mysql), database=$(SEATA_DB_NAME), user=$(SEATA_DB_USER) ==="
-	@echo "    JDBC URL: $(SEATA_DB_URL)"
+	@echo "=== Store: db (mysql), database=$(SEATA_MYSQL_DB_NAME), user=$(SEATA_MYSQL_DB_USER) ==="
+	@echo "    JDBC URL: $(SEATA_MYSQL_DB_URL)"
 	@echo "    The MySQL driver (mysql:mysql-connector-java:8.0.27) is linked into the native"
 	@echo "    image by the 'native' profile in server/pom.xml; rebuild it with:"
 	@echo "     make package-server-native"
@@ -331,7 +373,34 @@ run-server-native-mysql: ## Run the server native image binary directly (store m
 	SEATA_STORE_DB_DATASOURCE=druid \
 	SEATA_STORE_DB_DBTYPE=mysql \
 	SEATA_STORE_DB_DRIVERCLASSNAME=com.mysql.cj.jdbc.Driver \
-	SEATA_STORE_DB_URL="$(SEATA_DB_URL)" \
-	SEATA_STORE_DB_USER="$(SEATA_DB_USER)" \
-	SEATA_STORE_DB_PASSWORD="$(SEATA_DB_PASSWORD)" \
+	SEATA_STORE_DB_URL="$(SEATA_MYSQL_DB_URL)" \
+	SEATA_STORE_DB_USER="$(SEATA_MYSQL_DB_USER)" \
+	SEATA_STORE_DB_PASSWORD="$(SEATA_MYSQL_DB_PASSWORD)" \
+	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
+
+run-server-native-postgresql: ## Run the server native image binary directly (store mode db, PostgreSQL)
+	@echo "=== Store: db (postgresql), database=$(SEATA_PG_DB_NAME), user=$(SEATA_PG_DB_USER) ==="
+	@echo "    JDBC URL: $(SEATA_PG_DB_URL)"
+	@echo "    The PostgreSQL driver (org.postgresql:postgresql) is a compile-scope dependency of"
+	@echo "    server/pom.xml, so it is on the native-image build classpath and linked into the"
+	@echo "    binary; rebuild it with:"
+	@echo "     make package-server-native"
+	@echo "    Note: -Dloader.path (used by run-server-native-postgresql-jar) has no effect on a"
+	@echo "    native image, a GraalVM binary cannot load a driver from an external folder."
+	@echo "=== Workload steps (run in separate terminals) ==="
+	@echo "1. Start server in seata registry mode connecting to server:"
+	@echo "     make install-run-server-jar-registry-seata"
+	@echo "     or"
+	@echo "     make run-server-jar-registry-seata"
+	@echo "2. Run the native server test suite:"
+	@echo "     make test-native-server"
+	SEATA_CONFIG_TYPE=file \
+	SEATA_REGISTRY_TYPE=file \
+	SEATA_STORE_MODE=db \
+	SEATA_STORE_DB_DATASOURCE=druid \
+	SEATA_STORE_DB_DBTYPE=postgresql \
+	SEATA_STORE_DB_DRIVERCLASSNAME=org.postgresql.Driver \
+	SEATA_STORE_DB_URL="$(SEATA_PG_DB_URL)" \
+	SEATA_STORE_DB_USER="$(SEATA_PG_DB_USER)" \
+	SEATA_STORE_DB_PASSWORD="$(SEATA_PG_DB_PASSWORD)" \
 	./server/target/seata-server-$(SERVER_VERSION)-$(NATIVE_PLATFORM)
